@@ -1,6 +1,7 @@
 *.class
 
-# Package Files #
-*.jar
-*.war
-*.ear
+ADAgioProject/ADAgio.jar 
+ADAgioProject/bin
+ADAgioProject/.metadata
+ADAgioProject/junit
+ 
