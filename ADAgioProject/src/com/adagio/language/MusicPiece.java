@@ -25,7 +25,7 @@ public class MusicPiece implements IModel {
 		}
 		
 		//Hacer esto para cada bloque
-		composition += ("\\relative" + data.getRelative()); 
+		composition += ("\\relative " + data.getRelative()); 
 		composition += "{\n";
 		composition += data.getNotes();
 		composition += "}\n";
