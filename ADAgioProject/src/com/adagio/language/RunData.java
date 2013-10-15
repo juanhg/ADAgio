@@ -1,7 +1,5 @@
 package com.adagio.language;
 
-import java.util.ArrayList;
-import java.util.Vector;
 
 /**
  * Storages the knowledge to create the Lilypond's file

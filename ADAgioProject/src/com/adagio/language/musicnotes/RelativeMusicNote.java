@@ -1,9 +1,9 @@
-package com.adagio.language.sentences.musicnotes;
+package com.adagio.language.musicnotes;
 
 import org.modelcc.IModel;
 import org.modelcc.Optional;
 
-import com.adagio.language.sentences.musicnotes.alterations.OctaveAlteration;
+import com.adagio.language.musicnotes.ovtavealterations.OctaveAlteration;
 
 public class RelativeMusicNote extends MusicNote implements IModel {
 	

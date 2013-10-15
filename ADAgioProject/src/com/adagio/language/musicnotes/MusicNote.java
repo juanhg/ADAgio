@@ -1,4 +1,4 @@
-package com.adagio.language.sentences.musicnotes;
+package com.adagio.language.musicnotes;
 import org.modelcc.*;
 
 public abstract class MusicNote implements IModel {

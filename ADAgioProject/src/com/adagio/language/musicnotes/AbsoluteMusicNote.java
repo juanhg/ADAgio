@@ -1,9 +1,10 @@
-package com.adagio.language.sentences.musicnotes;
+package com.adagio.language.musicnotes;
 
 import org.modelcc.Constraint;
+import org.modelcc.IModel;
 import org.modelcc.types.SignedIntegerModel;
 
-public class AbsoluteMusicNote {
+public class AbsoluteMusicNote extends MusicNote implements IModel {
 	  
 	SignedIntegerModel octave;
 	@Constraint
@@ -15,5 +16,10 @@ public class AbsoluteMusicNote {
     }
   
 	MusicNoteName noteName;
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

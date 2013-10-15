@@ -32,6 +32,7 @@ public class ADAgioCLI {
 			ignore.add(new RegExpPatternRecognizer("( |\n|\t|\r)+"));
 
 			// Generate a parser from the model.
+			@SuppressWarnings("unchecked")
 			Parser<MusicPiece> parser = ParserFactory.create(model,ignore);
 
 			// Parse an input string.

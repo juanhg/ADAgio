@@ -1,6 +1,6 @@
 package com.adagio.language.sentences;
 import com.adagio.language.*;
-import com.adagio.language.sentences.musicnotes.MusicNote;
+import com.adagio.language.musicnotes.MusicNote;
 
 import org.modelcc.*;
 

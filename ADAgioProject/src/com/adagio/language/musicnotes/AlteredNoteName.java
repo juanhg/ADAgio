@@ -1,8 +1,8 @@
-package com.adagio.language.sentences.musicnotes;
+package com.adagio.language.musicnotes;
 
 import org.modelcc.IModel;
 
-import com.adagio.language.sentences.musicnotes.alterations.Alteration;
+import com.adagio.language.musicnotes.notealterations.Alteration;
 
 public class AlteredNoteName extends MusicNoteName implements IModel {
 

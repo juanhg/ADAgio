@@ -1,9 +1,9 @@
-package com.adagio.language.sentences.musicnotes.alterations;
+package com.adagio.language.musicnotes.notealterations;
 
 import org.modelcc.Pattern;
 
 @Pattern(regExp="bb")
-public class DoubleFlat extends Alteration {
+public class DoubleFlatAlteration extends Alteration {
 
 	@Override
 	public String toString() {

@@ -1,4 +1,4 @@
-package com.adagio.language.sentences.musicnotes.alterations;
+package com.adagio.language.musicnotes.ovtavealterations;
 
 import org.modelcc.IModel;
 

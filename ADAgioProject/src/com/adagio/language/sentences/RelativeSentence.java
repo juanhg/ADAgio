@@ -1,9 +1,8 @@
 package com.adagio.language.sentences;
 import com.adagio.language.*;
-import com.adagio.language.sentences.musicnotes.RelativeMusicNote;
-
+import com.adagio.language.musicnotes.RelativeMusicNote;
 import org.modelcc.*;
-import org.modelcc.types.QuotedStringModel;
+
 
 @Prefix("(?i)relative")
 public class RelativeSentence extends Sentence implements IModel {
