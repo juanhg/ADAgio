@@ -15,4 +15,13 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 		return value.toLowerCase();
 	}
 
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+	
+
 }

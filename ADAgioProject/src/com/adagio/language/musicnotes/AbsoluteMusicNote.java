@@ -2,11 +2,12 @@ package com.adagio.language.musicnotes;
 
 import org.modelcc.Constraint;
 import org.modelcc.IModel;
-import org.modelcc.types.SignedIntegerModel;
+import org.modelcc.types.IntegerModel;
 
 public class AbsoluteMusicNote extends MusicNote implements IModel {
 	  
-	SignedIntegerModel octave;
+	IntegerModel octave;
+	
 	@Constraint
     public boolean check() {
       if (octave.intValue() >=-5 && octave.intValue() <=5) {
@@ -15,11 +16,35 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
       return false;
     }
   
-	MusicNoteName noteName;
+	MusicNoteName musicNoteName;
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		String result = musicNoteName.toString();
+		int intOctave = octave.intValue();
+		int absOctave = Math.abs(intOctave);
+		
+		for(int i = 0; i < absOctave; i++){
+			if(intOctave > 0){
+				result += "'";
+			}
+			else{
+				result += ",";
+			}
+		}
+		return result;
 	}
+	public IntegerModel getOctave() {
+		return octave;
+	}
+	public void setOctave(IntegerModel octave) {
+		this.octave = octave;
+	}
+	public MusicNoteName getMusicNoteName() {
+		return musicNoteName;
+	}
+	public void setMusicNoteName(MusicNoteName noteName) {
+		this.musicNoteName = noteName;
+	}
+	
 	
 }

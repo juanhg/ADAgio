@@ -7,24 +7,24 @@ import com.adagio.language.musicnotes.ovtavealterations.OctaveAlteration;
 
 public class RelativeMusicNote extends MusicNote implements IModel {
 	
-	public MusicNoteName noteName;
+	public MusicNoteName musicNoteName;
 	@Optional
 	public OctaveAlteration octave;
 	
 	@Override
 	public String toString() {
 		if(octave != null){
-			return noteName.toString() + octave.toString();
+			return musicNoteName.toString() + octave.toString();
 		}
-		return noteName.toString();
+		return musicNoteName.toString();
 	}
 
-	public MusicNoteName getNoteName() {
-		return noteName;
+	public MusicNoteName getMusicNoteName() {
+		return musicNoteName;
 	}
 
-	public void setNoteName(MusicNoteName noteName) {
-		this.noteName = noteName;
+	public void setMusicNoteName(MusicNoteName noteName) {
+		this.musicNoteName = noteName;
 	}
 
 	public OctaveAlteration getOctave() {
@@ -34,5 +34,7 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 	public void setOctave(OctaveAlteration octave) {
 		this.octave = octave;
 	}
+	
+	
 
 }

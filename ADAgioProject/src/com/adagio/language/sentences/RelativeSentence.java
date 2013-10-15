@@ -10,7 +10,7 @@ public class RelativeSentence extends Sentence implements IModel {
 	RelativeMusicNote val;
 	
 	   public boolean check() {
-		     if (val.getNoteName().toString() == "c"){
+		     if (val.getMusicNoteName().toString() == "c"){
 		    	 return true;
 		     }
 		     return false;

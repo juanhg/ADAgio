@@ -15,4 +15,15 @@ public class DownOctaveAlteration extends OctaveAlteration implements IModel {
 		return value;
 	}
 
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+	
+	
+	
+
 }

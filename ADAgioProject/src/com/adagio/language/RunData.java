@@ -20,7 +20,7 @@ public class RunData {
 	public RunData(){
 		
 		notes = "";
-		relative = "c'";
+		relative = null;
 	}
 
 
