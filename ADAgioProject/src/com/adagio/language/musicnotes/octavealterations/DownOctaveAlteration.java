@@ -1,4 +1,4 @@
-package com.adagio.language.musicnotes.ovtavealterations;
+package com.adagio.language.musicnotes.octavealterations;
 
 import org.modelcc.IModel;
 import org.modelcc.Pattern;
@@ -21,6 +21,11 @@ public class DownOctaveAlteration extends OctaveAlteration implements IModel {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	@Override
+	public int toInt() {
+		return -value.length();
 	}
 	
 	

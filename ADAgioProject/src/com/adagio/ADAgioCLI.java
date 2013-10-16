@@ -20,8 +20,9 @@ public class ADAgioCLI {
 
 	public static void main(String [] args){
 		try {
-			//TODO Modify to read the input argument
-			String fileName = "D:\\ETSIIT\\PFC\\entrada.adg";
+	
+			String inFileName = args[0];
+			String outFileName = inFileName.replace(".adg", ".ly");
 			ModelReader reader = new JavaModelReader(MusicPiece.class);
 
 			// Read the language model.
@@ -36,13 +37,12 @@ public class ADAgioCLI {
 			Parser<MusicPiece> parser = ParserFactory.create(model,ignore);
 
 			// Parse an input string.
-			MusicPiece result = parser.parse(new BufferedReader(new FileReader(fileName)));
+			MusicPiece result = parser.parse(new BufferedReader(new FileReader(inFileName)));
 
 			// Print output.
 			System.out.print(result.toString());
 			
-			//TODO Modify to change the extension of input argument, and create the output
-			PrintWriter out = (new PrintWriter("D:\\ETSIIT\\PFC\\salida.ly"));
+			PrintWriter out = (new PrintWriter(outFileName));
 			out.print(result);
 			out.close();
 			

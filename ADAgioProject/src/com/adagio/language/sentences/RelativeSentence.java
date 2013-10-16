@@ -8,9 +8,10 @@ import org.modelcc.*;
 public class RelativeSentence extends Sentence implements IModel {
 
 	RelativeMusicNote val;
-	
+	@Constraint
 	   public boolean check() {
-		     if (val.getMusicNoteName().toString() == "c"){
+		    RunData data = new RunData();
+		     if (val.getMusicNoteName().toString(data).equals("c")){
 		    	 return true;
 		     }
 		     return false;
@@ -18,7 +19,9 @@ public class RelativeSentence extends Sentence implements IModel {
 	
 	@Override
 	public void run(RunData data) {
-		data.setRelative(val.toString());
+		//Clean the relative value. It produces interferences with the new one.
+		data.setRelative(null);
+		data.setRelative(val.toString(data));
 	}
 
 }

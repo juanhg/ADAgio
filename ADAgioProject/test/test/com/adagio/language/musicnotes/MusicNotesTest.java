@@ -10,9 +10,9 @@ import com.adagio.language.musicnotes.notealterations.Alteration;
 import com.adagio.language.musicnotes.notealterations.DoubleFlatAlteration;
 import com.adagio.language.musicnotes.notealterations.DoubleSharpAlteration;
 import com.adagio.language.musicnotes.notealterations.SharpAlteration;
-import com.adagio.language.musicnotes.ovtavealterations.DownOctaveAlteration;
-import com.adagio.language.musicnotes.ovtavealterations.OctaveAlteration;
-import com.adagio.language.musicnotes.ovtavealterations.UpOctaveAlteration;
+import com.adagio.language.musicnotes.octavealterations.DownOctaveAlteration;
+import com.adagio.language.musicnotes.octavealterations.OctaveAlteration;
+import com.adagio.language.musicnotes.octavealterations.UpOctaveAlteration;
 
 import static org.junit.Assert.*;
 import static org.modelcc.test.ModelAssert.*;

@@ -2,6 +2,7 @@ package com.adagio.language.musicnotes;
 
 import org.modelcc.IModel;
 
+import com.adagio.language.RunData;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 
 public class AlteredNoteName extends MusicNoteName implements IModel {
@@ -10,8 +11,8 @@ public class AlteredNoteName extends MusicNoteName implements IModel {
 	Alteration alteration;
 	
 	@Override
-	public String toString() {
-		return basicNoteName.toString() + alteration.toString();
+	public String toString(RunData data) {
+		return basicNoteName.toString(data) + alteration.toString();
 	}
 
 	public BasicNoteName getBasicNoteName() {

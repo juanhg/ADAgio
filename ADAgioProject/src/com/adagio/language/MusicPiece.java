@@ -19,16 +19,13 @@ public class MusicPiece implements IModel {
 	public String toString(){
 		String composition = "";
 		RunData data = new RunData();
-			
+		
 		for(Sentence current: sentences){
 			current.run(data);
 		}
 		
-		//Hacer esto para cada bloque
-		if(data.getRelative() != null){
-			composition += ("\\relative " + data.getRelative());
-		}
 		composition += "{\n";
+		composition += ("\\clef " + data.getClef() + "\n");
 		composition += data.getNotes();
 		composition += "}\n";
 		return composition;

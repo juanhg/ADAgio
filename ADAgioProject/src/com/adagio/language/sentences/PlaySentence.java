@@ -13,7 +13,7 @@ public class PlaySentence extends Sentence implements IModel {
 	public void run(RunData data) {
 		
 		for(MusicNote current: notes){
-			data.notes += current.toString();
+			data.notes += current.toString(data);
 			data.notes += " ";
 		}
 		data.notes += "\n";

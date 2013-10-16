@@ -4,6 +4,8 @@ import org.modelcc.Constraint;
 import org.modelcc.IModel;
 import org.modelcc.types.IntegerModel;
 
+import com.adagio.language.RunData;
+
 public class AbsoluteMusicNote extends MusicNote implements IModel {
 	  
 	IntegerModel octave;
@@ -18,12 +20,11 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
   
 	MusicNoteName musicNoteName;
 	@Override
-	public String toString() {
-		String result = musicNoteName.toString();
+	public String toString(RunData data) {
+		String result = musicNoteName.toString(data);
 		int intOctave = octave.intValue();
-		int absOctave = Math.abs(intOctave);
 		
-		for(int i = 0; i < absOctave; i++){
+		for(int i = 0; i < Math.abs(intOctave); i++){
 			if(intOctave > 0){
 				result += "'";
 			}
@@ -31,6 +32,7 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 				result += ",";
 			}
 		}
+		
 		return result;
 	}
 	public IntegerModel getOctave() {

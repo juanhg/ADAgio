@@ -3,7 +3,8 @@ package com.adagio.language.musicnotes;
 import org.modelcc.IModel;
 import org.modelcc.Optional;
 
-import com.adagio.language.musicnotes.ovtavealterations.OctaveAlteration;
+import com.adagio.language.RunData;
+import com.adagio.language.musicnotes.octavealterations.OctaveAlteration;
 
 public class RelativeMusicNote extends MusicNote implements IModel {
 	
@@ -12,11 +13,29 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 	public OctaveAlteration octave;
 	
 	@Override
-	public String toString() {
-		if(octave != null){
-			return musicNoteName.toString() + octave.toString();
+	public String toString(RunData data) {
+		
+		int nAlterations = 0; 
+		String result = "";
+		result += musicNoteName.toString(data);
+		
+		if(data.relative != null){
+			nAlterations += data.octaveFromRelative();
 		}
-		return musicNoteName.toString();
+		
+		if(octave != null){
+			nAlterations += octave.toInt();
+		}
+		
+		for(int i = 0; i < Math.abs(nAlterations); i++){
+			if(nAlterations > 0){
+				result += "'";
+			}
+			else{
+				result += ",";
+			}
+		}
+		return result;
 	}
 
 	public MusicNoteName getMusicNoteName() {
