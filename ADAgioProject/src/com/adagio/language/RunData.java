@@ -1,5 +1,7 @@
 package com.adagio.language;
 
+import com.adagio.language.musicnotes.MusicNoteName;
+
 
 /**
  * Storages the knowledge to create the Lilypond's file
@@ -19,7 +21,8 @@ public class RunData {
 	public String notes;
 	
 	// Mode relative
-	public String relative;
+	public String relativeNote;
+	public int relativeOctave;
 	
 	// Clefe (bass,treble...)
 	public String clef;
@@ -28,9 +31,10 @@ public class RunData {
 	 * Class constructor
 	 */
 	public RunData(){
-		
+				
 		notes = "";
-		relative = null;
+		relativeNote = "C";
+		relativeOctave = 2;
 		clef = "treble";
 	}
 
@@ -45,13 +49,23 @@ public class RunData {
 	}
 
 
-	public String getRelative() {
-		return relative;
+	public String getRelativeNote() {
+		return relativeNote;
 	}
 
 
-	public void setRelative(String relative) {
-		this.relative = relative;
+	public void setRelativeNote(String relativeNote) {
+		this.relativeNote = relativeNote;
+	}
+
+
+	public int getRelativeOctave() {
+		return relativeOctave;
+	}
+
+
+	public void setRelativeOctave(int relativeOctave) {
+		this.relativeOctave = relativeOctave;
 	}
 
 
@@ -77,6 +91,9 @@ public class RunData {
 		int result2 = 0;
 		int data1 = 0;
 		int data2 = 0;
+		
+		note1.toUpperCase();
+		note2.toUpperCase();
 		
 		if(note1.equals("A")){
 			data1 = A;
@@ -145,22 +162,63 @@ public class RunData {
 		return result;
 	}
 	
+	public int alterationFromReference(MusicNoteName note){
+		
+		boolean up = false;
+		boolean down = false;
+			
+		String rNoteName = this.relativeNote.toUpperCase();
+		int octave = this.relativeOctave;
+		int distance = this.noteDistance(rNoteName, note.toString(this).toUpperCase());
+		
+		
+		if(distance == 3 && (rNoteName.equals("A") || rNoteName.equals("B")|| rNoteName.equals("C"))){
+			up = true;
+		}
+		else if(distance == 2 && (rNoteName.equals("A") || rNoteName.equals("B"))){
+			up = true;
+		}
+		else if(distance == 1 && (rNoteName.equals("B"))){
+			up = true;
+		}
+		else if(distance == -3 && (rNoteName.equals("C") || rNoteName.equals("D") || rNoteName.equals("E"))){
+			down = true;
+		}
+		else if(distance == -2 && (rNoteName.equals("C") || rNoteName.equals("D"))){
+			down = true;
+		}
+		else if(distance == -1 && (rNoteName.equals("C"))){
+			down = true;
+		}
+		
+		if(up){ octave++;}
+		else if(down){ octave--;}
+		
+		return octave;
+	}
+	
+	public void updateRelative(String lilyNote){
+		
+		String name = lilyNote.substring(0, 1);
+		int octave = 0;
+		
+		for(int i = 0; i < lilyNote.length(); i++){
+			if(lilyNote.charAt(i) == '\''){
+				octave++;
+			}
+			else if(lilyNote.charAt(i) == ','){
+				octave--;
+			}
+		}
+		
+		this.relativeNote = name.toUpperCase();
+		this.relativeOctave = octave;
+	}
 	/*
 	 * Obtain the change in octave introduced by the RELATIVE sentence
 	 * @return Int value in the range [-5,5]
 	 */
 	public int octaveFromRelative(){
-		if(this.relative == "c"){ return 0;}
-		else if(this.relative.equals("c'")){ return 1;}
-		else if(this.relative.equals("c''")){ return 2;}
-		else if(this.relative.equals("c'''")){ return 3;}
-		else if(this.relative.equals("c''''")){ return 4;}
-		else if(this.relative.equals("c'''''")){ return 5;}
-		else if(this.relative.equals("c,")){ return -1;}
-		else if(this.relative.equals("c,,")){ return -2;}
-		else if(this.relative.equals("c,,,")){ return -3;}
-		else if(this.relative.equals("c,,,,")){ return -4;}
-		else if(this.relative.equals("c,,,,,")){ return -5;}
-		return 0;
+		return this.relativeOctave;
 	}
 }

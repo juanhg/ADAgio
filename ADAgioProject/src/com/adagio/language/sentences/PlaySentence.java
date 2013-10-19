@@ -11,10 +11,14 @@ public class PlaySentence extends Sentence implements IModel {
 	
 	@Override
 	public void run(RunData data) {
+		String aux = "";
 		
 		for(MusicNote current: notes){
-			data.notes += current.toString(data);
+			aux = current.toString(data);
+			data.notes += aux;
 			data.notes += " ";
+			
+			data.updateRelative(aux);
 		}
 		data.notes += "\n";
 	}

@@ -29,12 +29,12 @@ public class SentencesTest {
 	
 	@Test
 	public void relativeSetencesValidTest() {
-	    assertAmbiguityFree(parser,"RELATIVE C");
-	    assertAmbiguityFree(parser,"RELATIVE C'");
-	    assertAmbiguityFree(parser,"RELaTiVE C''");
-	    assertAmbiguityFree(parser,"relative C'''");
-	    assertAmbiguityFree(parser,"relative C,");
-	    assertAmbiguityFree(parser,"relative C,,,,");
+	    assertAmbiguityFree(parser,"RELATIVE 0C");
+	    assertAmbiguityFree(parser,"RELATIVE 1C");
+	    assertAmbiguityFree(parser,"RELaTiVE 2C");
+	    assertAmbiguityFree(parser,"relative 3C");
+	    assertAmbiguityFree(parser,"relative -2C");
+	    assertAmbiguityFree(parser,"relative -4C");
 	}
 	
 	@Test

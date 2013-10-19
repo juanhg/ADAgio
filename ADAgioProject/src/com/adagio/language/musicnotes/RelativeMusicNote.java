@@ -19,9 +19,7 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 		String result = "";
 		result += musicNoteName.toString(data);
 		
-		if(data.relative != null){
-			nAlterations += data.octaveFromRelative();
-		}
+		nAlterations += data.alterationFromReference(musicNoteName);
 		
 		if(octave != null){
 			nAlterations += octave.toInt();

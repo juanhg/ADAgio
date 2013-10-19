@@ -35,6 +35,35 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 		
 		return result;
 	}
+	
+
+	static public String toString(String noteName, int octave){
+		String result = noteName;
+		
+		for(int i = 0; i < Math.abs(octave); i++){
+			if(octave > 0){
+				result += "'";
+			}
+			else{
+				result += ",";
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Obtain the absolute note's form in ADAgio syntax
+	 * @param data
+	 * @return A String that contains the absolute form o the note
+	 */
+	public String toAbsolute(RunData data){
+		String result = this.octave.toString(); 
+		result += musicNoteName.toString(data);
+		
+		return result;
+	}
+	
 	public IntegerModel getOctave() {
 		return octave;
 	}
