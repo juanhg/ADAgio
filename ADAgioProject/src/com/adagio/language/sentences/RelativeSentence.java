@@ -8,20 +8,11 @@ import org.modelcc.*;
 @Prefix("(?i)relative")
 public class RelativeSentence extends Sentence implements IModel {
 
-	AbsoluteMusicNote val;
-	/*@Constraint
-	   public boolean check() {
-		    RunData data = new RunData();
-		     if (val.getMusicNoteName().toString(data).equals("C")){
-		    	 return true;
-		     }
-		     return false;
-		    }*/
+	AbsoluteMusicNote value;
 	
 	@Override
 	public void run(RunData data) {
-		data.setRelativeNote(val.getMusicNoteName().toString(data).toUpperCase());
-		data.setRelativeOctave(val.getOctave().intValue());
+		data.setRelative(this.value);
 	}
 
 }

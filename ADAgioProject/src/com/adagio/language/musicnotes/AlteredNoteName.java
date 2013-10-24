@@ -10,11 +10,6 @@ public class AlteredNoteName extends MusicNoteName implements IModel {
 	BasicNoteName basicNoteName;
 	Alteration alteration;
 	
-	@Override
-	public String toString(RunData data) {
-		return basicNoteName.toString(data) + alteration.toString();
-	}
-
 	public BasicNoteName getBasicNoteName() {
 		return basicNoteName;
 	}
@@ -29,6 +24,12 @@ public class AlteredNoteName extends MusicNoteName implements IModel {
 
 	public void setAlteration(Alteration alteration) {
 		this.alteration = alteration;
+	}
+
+	@Override
+	public BasicNoteName getBaseNoteName() {
+		// TODO Auto-generated method stub
+		return this.basicNoteName;
 	}
 	
 	

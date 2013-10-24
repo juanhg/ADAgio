@@ -8,11 +8,6 @@ public class DoubleFlatAlteration extends Alteration {
 
 	@Value
 	String value;
-	
-	@Override
-	public String toString() {
-		return "eses";
-	}
 
 	public String getValue() {
 		return value;

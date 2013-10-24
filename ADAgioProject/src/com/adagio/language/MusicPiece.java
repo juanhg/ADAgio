@@ -15,20 +15,15 @@ public class MusicPiece implements IModel {
 	 * our language and Lilypond.
 	 * @return A String in Lilypond's format
 	 */
-	@Override 
-	public String toString(){
-		String composition = "";
-		RunData data = new RunData();
-		
-		for(Sentence current: sentences){
-			current.run(data);
-		}
-		
-		composition += "{\n";
-		composition += ("\\clef " + data.getClef() + "\n");
-		composition += data.getNotes();
-		composition += "}\n";
-		return composition;
+
+	public Sentence[] getSentences() {
+		return sentences;
 	}
+
+	public void setSentences(Sentence[] sentences) {
+		this.sentences = sentences;
+	}
+	
+	
 	
 }

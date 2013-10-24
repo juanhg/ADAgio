@@ -1,5 +1,6 @@
 package com.adagio.language.sentences;
 import com.adagio.language.*;
+import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.MusicNote;
 
 import org.modelcc.*;
@@ -11,16 +12,13 @@ public class PlaySentence extends Sentence implements IModel {
 	
 	@Override
 	public void run(RunData data) {
-		String aux = "";
+		AbsoluteMusicNote aMusicNote = new AbsoluteMusicNote();
 		
 		for(MusicNote current: notes){
-			aux = current.toString(data);
-			data.notes += aux;
-			data.notes += " ";
-			
-			data.updateRelative(aux);
+			aMusicNote = current.toAbsoluteMusicNote(data);
+			data.bars.add(aMusicNote);
+			data.setRelative(aMusicNote);
 		}
-		data.notes += "\n";
 	}
 
 }

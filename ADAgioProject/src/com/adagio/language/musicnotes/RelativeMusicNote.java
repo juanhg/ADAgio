@@ -12,29 +12,6 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 	@Optional
 	public OctaveAlteration octave;
 	
-	@Override
-	public String toString(RunData data) {
-		
-		int nAlterations = 0; 
-		String result = "";
-		result += musicNoteName.toString(data);
-		
-		nAlterations += data.alterationFromReference(musicNoteName);
-		
-		if(octave != null){
-			nAlterations += octave.toInt();
-		}
-		
-		for(int i = 0; i < Math.abs(nAlterations); i++){
-			if(nAlterations > 0){
-				result += "'";
-			}
-			else{
-				result += ",";
-			}
-		}
-		return result;
-	}
 
 	public MusicNoteName getMusicNoteName() {
 		return musicNoteName;
@@ -50,6 +27,24 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 
 	public void setOctave(OctaveAlteration octave) {
 		this.octave = octave;
+	}
+
+	@Override
+	public AbsoluteMusicNote toAbsoluteMusicNote(RunData data) {
+		int nAlterations = 0;
+		AbsoluteMusicNote result = new AbsoluteMusicNote();
+		nAlterations += data.alterationFromReference(musicNoteName);
+		if(octave != null){
+			nAlterations += octave.toInt();
+		}
+		result.setMusicNoteName(musicNoteName);
+		result.setOctave(nAlterations);
+		return result;
+	}
+
+	@Override
+	public String getBasicNoteNameString() {
+		return this.getMusicNoteName().getBaseNoteName().getValue();
 	}
 	
 	

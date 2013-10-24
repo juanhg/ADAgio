@@ -10,11 +10,6 @@ public class UpOctaveAlteration extends OctaveAlteration implements IModel {
 	@Value
 	String value;
 		
-	@Override
-	public String toString() {
-		return value;
-	}
-
 	public String getValue() {
 		return value;
 	}

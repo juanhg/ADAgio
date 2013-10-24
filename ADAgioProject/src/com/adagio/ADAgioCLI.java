@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.adagio.io.lilypond.LilyPondMusicPieceWriter;
 import com.adagio.language.*;
 
 import org.modelcc.io.ModelReader;
@@ -38,12 +39,9 @@ public class ADAgioCLI {
 
 			// Parse an input string.
 			MusicPiece result = parser.parse(new BufferedReader(new FileReader(inFileName)));
-
-			// Print output.
-			System.out.print(result.toString());
 			
 			PrintWriter out = (new PrintWriter(outFileName));
-			out.print(result);
+			LilyPondMusicPieceWriter.writeMusicPiece(result,out);
 			out.close();
 			
 			

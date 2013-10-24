@@ -4,5 +4,12 @@ import org.modelcc.*;
 import com.adagio.language.RunData;
 
 public abstract class MusicNote implements IModel {
-	public abstract String toString(RunData data);
+	
+	/**
+	 * Obtain the note's absoluteMusicNote form 
+	 * @param data
+	 * @return A AbsolutMusicNote that contains the equivalent of the absolute or relative note.
+	 */
+	public abstract AbsoluteMusicNote toAbsoluteMusicNote(RunData data);
+	public abstract String getBasicNoteNameString();
 }

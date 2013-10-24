@@ -8,11 +8,6 @@ public class SharpAlteration extends Alteration {
 
 	@Value
 	String value;
-	
-	@Override
-	public String toString() {
-		return "is";
-	}
 
 	public String getValue() {
 		return value;

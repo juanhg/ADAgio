@@ -8,11 +8,6 @@ public class DoubleSharpAlteration extends Alteration {
 
 	@Value
 	String value;
-	
-	@Override
-	public String toString() {
-		return "isis";
-	}
 
 	public String getValue() {
 		return value;

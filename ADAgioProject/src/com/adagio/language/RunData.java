@@ -1,5 +1,9 @@
 package com.adagio.language;
 
+import java.util.Vector;
+
+import com.adagio.language.musicnotes.AbsoluteMusicNote;
+import com.adagio.language.musicnotes.MusicNote;
 import com.adagio.language.musicnotes.MusicNoteName;
 
 
@@ -16,13 +20,11 @@ public class RunData {
 	private static final int E = 4;
 	private static final int F = 5;
 	private static final int G = 6;
+
+	public Vector<AbsoluteMusicNote> bars;
 	
-	// Notes that will be played
-	public String notes;
-	
-	// Mode relative
-	public String relativeNote;
-	public int relativeOctave;
+	// Mode relative	
+	AbsoluteMusicNote relative;
 	
 	// Clefe (bass,treble...)
 	public String clef;
@@ -31,43 +33,11 @@ public class RunData {
 	 * Class constructor
 	 */
 	public RunData(){
-				
-		notes = "";
-		relativeNote = "C";
-		relativeOctave = 2;
+			
+		bars = new Vector<AbsoluteMusicNote>();
+		relative = new AbsoluteMusicNote(2, "C");
 		clef = "treble";
 	}
-
-
-	public String getNotes() {
-		return notes;
-	}
-
-
-	public void setNotes(String notes) {
-		this.notes = notes;
-	}
-
-
-	public String getRelativeNote() {
-		return relativeNote;
-	}
-
-
-	public void setRelativeNote(String relativeNote) {
-		this.relativeNote = relativeNote;
-	}
-
-
-	public int getRelativeOctave() {
-		return relativeOctave;
-	}
-
-
-	public void setRelativeOctave(int relativeOctave) {
-		this.relativeOctave = relativeOctave;
-	}
-
 
 	public String getClef() {
 		return clef;
@@ -77,6 +47,27 @@ public class RunData {
 	public void setClef(String clef) {
 		this.clef = clef;
 	}
+
+	
+	public Vector<AbsoluteMusicNote> getBars() {
+		return bars;
+	}
+
+
+	public void setBars(Vector<AbsoluteMusicNote> bars) {
+		this.bars = bars;
+	}
+
+
+	public AbsoluteMusicNote getRelative() {
+		return relative;
+	}
+
+
+	public void setRelative(AbsoluteMusicNote relative) {
+		this.relative = relative;
+	}
+
 
 	/**
 	 * Calculate the shortest distance between two notes
@@ -167,9 +158,10 @@ public class RunData {
 		boolean up = false;
 		boolean down = false;
 			
-		String rNoteName = this.relativeNote.toUpperCase();
-		int octave = this.relativeOctave;
-		int distance = this.noteDistance(rNoteName, note.toString(this).toUpperCase());
+		String rNoteName = this.getRelative().getBasicNoteNameString();
+		int octave = this.getRelative().getOctave().intValue();
+		
+		int distance = this.noteDistance(rNoteName, note.getBaseNoteName().getValue());
 		
 		
 		if(distance == 3 && (rNoteName.equals("A") || rNoteName.equals("B")|| rNoteName.equals("C"))){
@@ -197,28 +189,5 @@ public class RunData {
 		return octave;
 	}
 	
-	public void updateRelative(String lilyNote){
-		
-		String name = lilyNote.substring(0, 1);
-		int octave = 0;
-		
-		for(int i = 0; i < lilyNote.length(); i++){
-			if(lilyNote.charAt(i) == '\''){
-				octave++;
-			}
-			else if(lilyNote.charAt(i) == ','){
-				octave--;
-			}
-		}
-		
-		this.relativeNote = name.toUpperCase();
-		this.relativeOctave = octave;
-	}
-	/*
-	 * Obtain the change in octave introduced by the RELATIVE sentence
-	 * @return Int value in the range [-5,5]
-	 */
-	public int octaveFromRelative(){
-		return this.relativeOctave;
-	}
+
 }
