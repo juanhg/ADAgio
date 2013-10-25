@@ -1,10 +1,15 @@
 package com.adagio.language;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
-import com.adagio.language.musicnotes.MusicNote;
 import com.adagio.language.musicnotes.MusicNoteName;
+import com.adagio.language.chords.Chord;
+import com.adagio.language.chords.ChordIdentifier;
+import com.adagio.language.chords.intervals.Interval;
 
 
 /**
@@ -21,43 +26,76 @@ public class RunData {
 	private static final int F = 5;
 	private static final int G = 6;
 
-	public Vector<AbsoluteMusicNote> bars;
+	public Vector<AbsoluteMusicNote> notesBar;
+	public Vector<Chord> chordsBar;
 	
 	// Mode relative	
 	AbsoluteMusicNote relative;
 	
 	// Clefe (bass,treble...)
 	public String clef;
+	
+	// Data Base of chords defined
+	Map<ChordIdentifier,List<Interval>> chordsDB;
 		
 	/**
 	 * Class constructor
 	 */
 	public RunData(){
 			
-		bars = new Vector<AbsoluteMusicNote>();
+		notesBar = new Vector<AbsoluteMusicNote>();
+		chordsBar = new Vector<Chord>();
 		relative = new AbsoluteMusicNote(2, "C");
 		clef = "treble";
+		
+		chordsDB = new HashMap<ChordIdentifier,List<Interval>>();
 	}
+
+	
+	
+	public Vector<AbsoluteMusicNote> getNotesBar() {
+		return notesBar;
+	}
+
+
+
+	public void setNotesBar(Vector<AbsoluteMusicNote> notesBar) {
+		this.notesBar = notesBar;
+	}
+
+
+
+	public Vector<Chord> getChordsBar() {
+		return chordsBar;
+	}
+
+
+
+	public void setChordsBar(Vector<Chord> chordsBar) {
+		this.chordsBar = chordsBar;
+	}
+
+
+
+	public Map<ChordIdentifier, List<Interval>> getChordsDB() {
+		return chordsDB;
+	}
+
+
+
+	public void setChordsDB(Map<ChordIdentifier, List<Interval>> chordsDB) {
+		this.chordsDB = chordsDB;
+	}
+
+
 
 	public String getClef() {
 		return clef;
 	}
 
-
 	public void setClef(String clef) {
 		this.clef = clef;
 	}
-
-	
-	public Vector<AbsoluteMusicNote> getBars() {
-		return bars;
-	}
-
-
-	public void setBars(Vector<AbsoluteMusicNote> bars) {
-		this.bars = bars;
-	}
-
 
 	public AbsoluteMusicNote getRelative() {
 		return relative;

@@ -4,7 +4,6 @@ import org.modelcc.IModel;
 import org.modelcc.Pattern;
 import org.modelcc.Value;
 
-import com.adagio.language.RunData;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 
 @Pattern(regExp="A|B|C|D|E|F|G")

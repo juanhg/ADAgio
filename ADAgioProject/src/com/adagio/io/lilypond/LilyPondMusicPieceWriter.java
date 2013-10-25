@@ -1,14 +1,10 @@
 package com.adagio.io.lilypond;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
 
 import com.adagio.io.MusicPieceWriter;
 import com.adagio.language.MusicPiece;
 import com.adagio.language.RunData;
-import com.adagio.language.Sentence;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 
@@ -19,9 +15,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		String composition = "";
 		RunData data = new RunData();
 		
-		for(Sentence current: m.getSentences()){
-			current.run(data);
-		}
+		m.run(data);
 		
 		composition = this.translate(data);
 		System.out.print(composition);
@@ -39,8 +33,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		
 		composition += "{\n";
 		composition += ("\\clef " + data.getClef() + "\n");
-		for(int i = 0; i < data.bars.size(); i++){
-			composition += this.translateAbsoluteMusicNote(data.bars.elementAt(i)) + " ";
+		for(int i = 0; i < data.notesBar.size(); i++){
+			composition += this.translateAbsoluteMusicNote(data.notesBar.elementAt(i)) + " ";
 		}
 		composition += "\n}\n";
 		return composition;
