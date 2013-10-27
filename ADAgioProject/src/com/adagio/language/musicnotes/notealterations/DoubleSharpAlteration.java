@@ -9,6 +9,14 @@ public class DoubleSharpAlteration extends Alteration {
 	@Value
 	String value;
 
+	public DoubleSharpAlteration(){}
+	
+	public DoubleSharpAlteration(boolean initValue){
+		if(initValue == true){
+			value = "x";
+		}
+	}
+	
 	public String getValue() {
 		return value;
 	}
@@ -17,6 +25,8 @@ public class DoubleSharpAlteration extends Alteration {
 		this.value = value;
 	}
 	
-	
+	public static String getPatern() {
+		return "x";
+	}
 
 }

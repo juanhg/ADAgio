@@ -1,12 +1,23 @@
 package com.adagio.language.musicnotes;
 
 import org.modelcc.IModel;
+import org.modelcc.Priority;
+
 import com.adagio.language.musicnotes.notealterations.Alteration;
 
+
+@Priority(value = 1)
 public class AlteredNoteName extends MusicNoteName implements IModel {
 
 	BasicNoteName basicNoteName;
 	Alteration alteration;
+	
+	public AlteredNoteName(){}
+	
+	public AlteredNoteName(BasicNoteName bName, Alteration alteration){
+		this.basicNoteName = bName;
+		this.alteration = alteration;
+	}
 	
 	public BasicNoteName getBasicNoteName() {
 		return basicNoteName;
@@ -28,6 +39,14 @@ public class AlteredNoteName extends MusicNoteName implements IModel {
 	public BasicNoteName getBaseNoteName() {
 		// TODO Auto-generated method stub
 		return this.basicNoteName;
+	}
+
+	@Override
+	public MusicNoteName clone() {
+		AlteredNoteName aNoteName = new AlteredNoteName();
+		aNoteName.setAlteration(this.alteration);
+		aNoteName.setBasicNoteName((BasicNoteName)this.basicNoteName.clone());
+		return aNoteName;
 	}
 	
 	

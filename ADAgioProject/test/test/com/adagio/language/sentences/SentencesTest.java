@@ -9,6 +9,7 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
+import com.adagio.language.RunData;
 import com.adagio.language.musicnotes.MusicNote;
 import com.adagio.language.sentences.RelativeSentence;
 
@@ -19,10 +20,12 @@ public class SentencesTest {
 
 	  Model model;
 	  Parser<MusicNote> parser;
+	  RunData data;
 
 	  @SuppressWarnings("unchecked")
 	@Before
 	  public void setUp() throws Exception {
+		data = new RunData();
 	    model = JavaModelReader.read(RelativeSentence.class);
 	    parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
 	  }
@@ -45,5 +48,4 @@ public class SentencesTest {
 		assertInvalid(parser,"RELATIVE B'''");
 		assertInvalid(parser,"RELATIVE c,");
 	}
-
 }

@@ -9,8 +9,20 @@ public class FlatAlteration extends Alteration {
 	@Value
 	String value;
 	
+	public FlatAlteration(){}
+	
+	public FlatAlteration(boolean initValue){
+		if(initValue == true){
+			this.value = "b";
+		}
+	}
+	
 	@Override
 	public String getValue() {
 		return value;
+	}
+	
+	public static String getPatern() {
+		return "b";
 	}
 }

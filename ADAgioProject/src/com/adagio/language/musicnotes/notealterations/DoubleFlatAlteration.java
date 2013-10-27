@@ -9,11 +9,23 @@ public class DoubleFlatAlteration extends Alteration {
 	@Value
 	String value;
 
+	public DoubleFlatAlteration(){}
+	
+	public DoubleFlatAlteration(boolean initValue){
+		if(initValue == true){
+			value = "bb";
+		}
+	}
+	
 	public String getValue() {
 		return value;
 	}
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	public static String getPatern() {
+		return "bb";
 	}
 }

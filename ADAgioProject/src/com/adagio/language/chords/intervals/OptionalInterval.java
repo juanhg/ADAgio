@@ -7,4 +7,12 @@ import org.modelcc.Suffix;
 @Suffix("\\)")
 public class OptionalInterval extends Interval implements IModel {
 
+	public OptionalInterval(String quality, int number) {
+		super(quality, number);
+	}
+	
+	public OptionalInterval() {
+		super();
+	}
+
 }

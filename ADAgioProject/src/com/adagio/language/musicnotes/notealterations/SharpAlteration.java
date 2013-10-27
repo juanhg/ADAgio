@@ -8,6 +8,15 @@ public class SharpAlteration extends Alteration {
 
 	@Value
 	String value;
+	
+	public SharpAlteration(){
+	}
+	
+	public SharpAlteration(boolean initValue){
+		if(initValue == true){
+			this.value = "#";
+		}
+	}
 
 	public String getValue() {
 		return value;
@@ -15,6 +24,10 @@ public class SharpAlteration extends Alteration {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+	
+	public static String getPatern() {
+		return "#";
 	}
 	
 	

@@ -19,11 +19,14 @@ public class PlayNotesSentence extends Sentence implements IModel {
 	@Override
 	public void run(RunData data) {
 		AbsoluteMusicNote aMusicNote = new AbsoluteMusicNote();
+		AbsoluteMusicNote relative = data.getRelative();
 		
 		for(MusicNote current: notes){
 			aMusicNote = current.toAbsoluteMusicNote(data);
 			data.notesBar.add(aMusicNote);
 			data.setRelative(aMusicNote);
 		}
+		
+		data.setRelative(relative);
 	}
 }

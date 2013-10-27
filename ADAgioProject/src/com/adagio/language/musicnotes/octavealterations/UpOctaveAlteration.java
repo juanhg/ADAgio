@@ -22,7 +22,4 @@ public class UpOctaveAlteration extends OctaveAlteration implements IModel {
 	public int toInt() {
 		return value.length();
 	}
-	
-	
-
 }

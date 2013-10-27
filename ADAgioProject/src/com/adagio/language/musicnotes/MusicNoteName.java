@@ -7,4 +7,5 @@ public abstract class MusicNoteName implements IModel {
 
 	public abstract BasicNoteName getBaseNoteName();
 	public abstract Alteration getAlteration();
+	public abstract MusicNoteName clone();
 }

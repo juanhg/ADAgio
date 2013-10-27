@@ -8,6 +8,14 @@ import org.modelcc.Value;
 public class IntervalQuality implements IModel {
 	@Value
 	String value;
+	
+	public IntervalQuality(String value){
+		this.value = value;
+	}
+	
+	public IntervalQuality(){
+		
+	}
 
 	public String getValue() {
 		return value;

@@ -1,6 +1,7 @@
 package com.adagio.language.sentences;
 import com.adagio.language.*;
 import com.adagio.language.chords.Chord;
+import com.adagio.language.musicnotes.AbsoluteMusicNote;
 
 import org.modelcc.*;
 
@@ -11,11 +12,26 @@ public class PlaySentence extends Sentence implements IModel {
 	
 	@Override
 	public void run(RunData data) {
-		//AbsoluteMusicNote aMusicNote = new AbsoluteMusicNote();
+		
+		AbsoluteMusicNote aNote;
+		Chord auxChord;
+		AbsoluteMusicNote relative = data.getRelative();
 		
 		for(Chord current: chords){
-			data.getChordsBar().add(current);
+			if(data.isDefined(current)){
+				aNote =  current.getNote().toAbsoluteMusicNote(data);
+				data.setRelative(aNote);
+				
+				auxChord = new Chord(aNote, current.getIdentifier(), current.getBassNote());
+				data.getChordsBar().add(auxChord);
+			}
+			else{
+				System.err.println("Error 1: The chord identifier \"" + current.getIdentifier().getValue() + "\" is not defined");
+				System.exit(1);
+			}
 		}
+		
+		data.setRelative(relative);
 	}
 
 }
