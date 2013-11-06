@@ -1,8 +1,8 @@
 package com.adagio.language;
 import org.modelcc.*;
 
-import com.adagio.language.Statement.Statement;
 import com.adagio.language.definitions.Definition;
+import com.adagio.language.statements.Statement;
 
 /**
  * Main Class. This Class constructs the lilypond code.

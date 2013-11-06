@@ -10,8 +10,8 @@ import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
 import com.adagio.language.RunData;
-import com.adagio.language.Statement.PlayStatement;
 import com.adagio.language.musicnotes.MusicNote;
+import com.adagio.language.statements.PlayStatement;
 
 public class PlayStatementTest {
 

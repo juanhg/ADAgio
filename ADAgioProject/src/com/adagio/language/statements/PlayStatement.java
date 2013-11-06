@@ -1,4 +1,4 @@
-package com.adagio.language.Statement;
+package com.adagio.language.statements;
 import com.adagio.language.*;
 import com.adagio.language.chords.Chord;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;

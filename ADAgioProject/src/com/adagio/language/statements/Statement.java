@@ -1,4 +1,4 @@
-package com.adagio.language.Statement;
+package com.adagio.language.statements;
 
 import org.modelcc.IModel;
 
