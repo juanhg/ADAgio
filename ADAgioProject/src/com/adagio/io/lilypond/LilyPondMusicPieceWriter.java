@@ -1,6 +1,7 @@
 package com.adagio.io.lilypond;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.adagio.io.MusicPieceWriter;
@@ -59,16 +60,43 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 	/*
 	 * Receives a chord with an absolute-fundamental-note and translates it 
 	 * using its definition in "data".
+	 * Note: Need that the bassNote as a AbsoluteMusicNote
 	 */
 	private String translateChord(Chord chord, RunData data){
 		String composition = "";
 		List<Interval> intervals = data.getChordsDB().get(chord.getIdentifier());
-		AbsoluteMusicNote aNote;
+		List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
+		AbsoluteMusicNote bassNote = (AbsoluteMusicNote) chord.getBassNote();
+		
+	    //Recollects the notes result to apply the interval to the fundamental note
+		for(int i = 0; i < intervals.size();i++){
+			aNotes.add(intervals.get(i).Apply(chord.getNote(), data));		
+		}
+		
+		if (bassNote != null) {
+			// If the bass note is higher than any other, reduces its octave
+			for (int i = 0; i < aNotes.size(); i++) {
+				if (bassNote.isHigher(aNotes.get(i))) {
+					bassNote.setOctave(bassNote.getOctave().intValue() - 1);
+				}
+			}
+
+			// If bassNote NoteName is equal than any in the interval, this last
+			// is removed.
+			for (int i = 0; i < aNotes.size(); i++) {
+				if (bassNote.getMusicNoteName().equals(
+						aNotes.get(i).getMusicNoteName())) {
+					aNotes.remove(i);
+				}
+			}
+			
+			aNotes.add(bassNote);
+		}
+		
 		
 		composition += "<";
-		for(int i = 0; i < intervals.size();i++){
-			aNote = intervals.get(i).Apply(chord.getNote(), data);
-			composition += this.translateAbsoluteMusicNote(aNote);
+		for(int i = 0; i < aNotes.size(); i++){
+			composition += this.translateAbsoluteMusicNote(aNotes.get(i));
 			
 			if(i != intervals.size()-1){
 				composition += " ";

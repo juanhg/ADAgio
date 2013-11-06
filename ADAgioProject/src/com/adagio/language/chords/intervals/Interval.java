@@ -131,7 +131,8 @@ public class Interval implements IModel {
 	 * Applies the interval to the note
 	 * @param note
 	 * @param data
-	 * @return And absolute note with the result of apply the interval to the note
+	 * @return And absolute note with the result of apply the interval to the note. Always is 
+	 * higher than the fundamental one
 	 */
 	public AbsoluteMusicNote Apply(MusicNote note, RunData data){
 		

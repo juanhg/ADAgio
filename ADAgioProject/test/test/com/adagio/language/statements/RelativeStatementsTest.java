@@ -10,16 +10,15 @@ import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
 import com.adagio.language.RunData;
-import com.adagio.language.musicnotes.MusicNote;
 import com.adagio.language.statements.RelativeStatement;
 
 import static org.modelcc.test.ModelAssert.*;
 
 
-public class StatementsTest {
+public class RelativeStatementsTest {
 
 	  Model model;
-	  Parser<MusicNote> parser;
+	  Parser<RelativeStatement> parser;
 	  RunData data;
 
 	  @SuppressWarnings("unchecked")

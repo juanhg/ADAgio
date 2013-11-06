@@ -17,7 +17,8 @@ public class PlayStatement extends Statement implements IModel {
 	 */
 	public void run(RunData data) {
 		
-		AbsoluteMusicNote aNote;
+		AbsoluteMusicNote aNote = null;
+		AbsoluteMusicNote bassNote = null;
 		Chord auxChord;
 		
 		for(Chord current: chords){
@@ -25,7 +26,13 @@ public class PlayStatement extends Statement implements IModel {
 				aNote =  current.getNote().toAbsoluteMusicNote(data);
 				data.setRelative(aNote);
 				
-				auxChord = new Chord(aNote, current.getIdentifier(), current.getBassNote());
+				// We add the bassNote as an absoluteMusicNote
+				if(current.getBassNote() != null){
+					bassNote = current.getBassNote().toAbsoluteMusicNote(data);
+				}
+				
+				auxChord = new Chord(aNote, current.getIdentifier(), bassNote);		
+				bassNote = null;
 				data.getChordsBar().add(auxChord);
 			}
 			else{

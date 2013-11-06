@@ -48,6 +48,18 @@ public class AlteredNoteName extends MusicNoteName implements IModel {
 		aNoteName.setBasicNoteName((BasicNoteName)this.basicNoteName.clone());
 		return aNoteName;
 	}
+
+	@Override
+	public boolean equals(MusicNoteName name) {
+		if (this.getClass().equals(name.getClass())) {
+			if (this.getBaseNoteName().equals(name.getBaseNoteName())
+					&& this.alteration.getValue().equals(
+							name.getAlteration().getValue())) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	
 

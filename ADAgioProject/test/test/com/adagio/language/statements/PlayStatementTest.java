@@ -10,13 +10,12 @@ import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
 import com.adagio.language.RunData;
-import com.adagio.language.musicnotes.MusicNote;
 import com.adagio.language.statements.PlayStatement;
 
 public class PlayStatementTest {
 
 	  Model model;
-	  Parser<MusicNote> parser;
+	  Parser<PlayStatement> parser;
 	  RunData data;
 
 	  @SuppressWarnings("unchecked")

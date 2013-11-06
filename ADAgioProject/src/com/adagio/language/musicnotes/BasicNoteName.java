@@ -160,7 +160,7 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 	 * @param note2 Next note
 	 * @return Int value in the range [-3,3]
 	 */
-	public int noteDistance(BasicNoteName note2){
+	public int shortestDistance(BasicNoteName note2){
 				
 		int result = 0;
 		int result1 = 0;
@@ -192,5 +192,41 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 		}
 		
 		return result;
+	}
+
+	/**
+	 * Distance between two notes in the scale C-D-E-F-G-A-B (same octave)
+	 * @param name
+	 * @return Integer with positive or negative distance
+	 */
+	int distance(BasicNoteName name){
+		int data1 = 0;
+		int data2 = 0;
+				
+		data1 = nameToInt(this);
+		data2 = nameToInt(name);
+		
+		if(data1 == A || data1 == B){
+			data1 +=5;
+		}
+		else{
+			data1 -= 2;
+		}
+		
+		if(data2 == A || data2 == B){
+			data2 += 5;
+		}
+		else{
+			data2 -= 2;
+		}
+		return data2-data1;
+	}
+
+	@Override
+	public boolean equals(MusicNoteName name) {
+		if(this.getClass().equals(name.getClass())){
+			return this.value.equals(name.getBaseNoteName().value);
+		}
+		return false;
 	}
 }

@@ -12,12 +12,11 @@ import org.modelcc.parser.ParserFactory;
 
 import com.adagio.language.RunData;
 import com.adagio.language.definitions.ChordDefinition;
-import com.adagio.language.musicnotes.MusicNote;
 
 public class ChordDefinitionsTest {
 	
 	  Model model;
-	  Parser<MusicNote> parser;
+	  Parser<ChordDefinition> parser;
 	  RunData data;
 
 	  @SuppressWarnings("unchecked")

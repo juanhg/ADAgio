@@ -125,7 +125,7 @@ public class RunData {
 		String rNoteName = this.getRelative().getBasicNoteNameString();
 		int octave = this.getRelative().getOctave().intValue();
 		
-		int distance = this.getRelative().getMusicNoteName().getBaseNoteName().noteDistance(note.getBaseNoteName());
+		int distance = this.getRelative().getMusicNoteName().getBaseNoteName().shortestDistance(note.getBaseNoteName());
 		
 		if(distance == 3 && (rNoteName.equals("A") || rNoteName.equals("B")|| rNoteName.equals("C"))){
 			up = true;

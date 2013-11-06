@@ -98,6 +98,31 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 		return this.getMusicNoteName().getBaseNoteName().getValue();
 	}
 	
+	/**
+	 * Checks if the actual AbsoluteMusicNote is Higher int the stave
+	 * @param note AbsoluteMusicNote to compare with
+	 * @return true if is higher. False in other way.
+	 */
+	public boolean isHigher(AbsoluteMusicNote note){
+		boolean higher = false;
+		int distance = 0;
+		
+		if(this.getOctave().intValue() > note.getOctave().intValue()){
+			return true;
+		}
+		else if(this.getOctave().intValue() == note.getOctave().intValue()){	
+			distance = this.getMusicNoteName().getBaseNoteName().distance(note.getMusicNoteName().getBaseNoteName());
+			if(distance >= 0){
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		return higher;
+	}
+	
+	
 	@Override
 	public AbsoluteMusicNote toAbsoluteMusicNote(RunData data) {
 		return this;
