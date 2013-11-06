@@ -1,4 +1,4 @@
-package com.adagio.language.sentences;
+package com.adagio.language.Statement;
 
 import org.modelcc.IModel;
 import org.modelcc.Prefix;
@@ -13,7 +13,7 @@ import com.adagio.language.musicnotes.MusicNote;
  */
 
 @Prefix("(?i)PLAYNOTES")
-public class PlayNotesSentence extends Sentence implements IModel {
+public class PlayNotesStatement extends Statement implements IModel {
 	MusicNote [] notes;
 	
 	@Override

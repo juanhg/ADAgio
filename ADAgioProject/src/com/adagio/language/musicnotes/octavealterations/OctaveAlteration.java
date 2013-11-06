@@ -1,6 +1,5 @@
 package com.adagio.language.musicnotes.octavealterations;
 
-import java.util.regex.Pattern;
 import org.modelcc.IModel;
 
 public abstract class OctaveAlteration implements IModel {

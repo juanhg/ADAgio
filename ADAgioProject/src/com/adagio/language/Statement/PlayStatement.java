@@ -1,4 +1,4 @@
-package com.adagio.language.sentences;
+package com.adagio.language.Statement;
 import com.adagio.language.*;
 import com.adagio.language.chords.Chord;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
@@ -6,7 +6,7 @@ import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import org.modelcc.*;
 
 @Prefix("(?i)play")
-public class PlaySentence extends Sentence implements IModel {
+public class PlayStatement extends Statement implements IModel {
 
 	Chord [] chords;
 	

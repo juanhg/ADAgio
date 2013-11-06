@@ -1,4 +1,4 @@
-package test.com.adagio.language.sentences;
+package test.com.adagio.language.statements;
 
 import static org.modelcc.test.ModelAssert.assertAmbiguityFree;
 
@@ -10,10 +10,10 @@ import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
 import com.adagio.language.RunData;
+import com.adagio.language.Statement.PlayStatement;
 import com.adagio.language.musicnotes.MusicNote;
-import com.adagio.language.sentences.PlaySentence;
 
-public class PlaySentenceTest {
+public class PlayStatementTest {
 
 	  Model model;
 	  Parser<MusicNote> parser;
@@ -23,7 +23,7 @@ public class PlaySentenceTest {
 	@Before
 	  public void setUp() throws Exception {
 		data = new RunData();
-	    model = JavaModelReader.read(PlaySentence.class);
+	    model = JavaModelReader.read(PlayStatement.class);
 	    parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
 	  }
 	

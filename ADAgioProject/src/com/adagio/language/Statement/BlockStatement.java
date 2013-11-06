@@ -1,18 +1,18 @@
-package com.adagio.language.sentences;
+package com.adagio.language.Statement;
 import com.adagio.language.*;
 
 import org.modelcc.*;
 
 @Prefix("\\{")
 @Suffix("\\}")
-public class BlockSentence extends Sentence implements IModel {
+public class BlockStatement extends Statement implements IModel {
 
 	@Minimum(0)
-	Sentence [] sentences;
+	Statement [] statements;
 	
 	@Override
 	public void run(RunData data) {
-		for(Sentence current: sentences){
+		for(Statement current: statements){
 			current.run(data);
 		}
 	}

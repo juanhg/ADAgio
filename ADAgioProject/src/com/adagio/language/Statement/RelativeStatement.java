@@ -1,4 +1,4 @@
-package com.adagio.language.sentences;
+package com.adagio.language.Statement;
 import com.adagio.language.*;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 
@@ -6,7 +6,7 @@ import org.modelcc.*;
 
 
 @Prefix("(?i)relative")
-public class RelativeSentence extends Sentence implements IModel {
+public class RelativeStatement extends Statement implements IModel {
 
 	AbsoluteMusicNote value;
 	
