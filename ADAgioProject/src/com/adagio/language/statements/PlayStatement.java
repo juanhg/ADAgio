@@ -11,11 +11,14 @@ public class PlayStatement extends Statement implements IModel {
 	Chord [] chords;
 	
 	@Override
+	/**
+	 * Takes chords, transforms the fundamental note in AbsoluteNote, and stores them
+	 * in the attribute "chords". Each absolute-fundamental-note updates the Relative note.
+	 */
 	public void run(RunData data) {
 		
 		AbsoluteMusicNote aNote;
 		Chord auxChord;
-		AbsoluteMusicNote relative = data.getRelative();
 		
 		for(Chord current: chords){
 			if(data.isDefined(current)){
@@ -30,8 +33,6 @@ public class PlayStatement extends Statement implements IModel {
 				System.exit(1);
 			}
 		}
-		
-		data.setRelative(relative);
 	}
 
 }

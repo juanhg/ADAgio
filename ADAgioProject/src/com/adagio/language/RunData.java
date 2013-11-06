@@ -19,7 +19,7 @@ import com.adagio.language.chords.intervals.Interval;
  * @author Wungo
  */
 public class RunData {
-	
+
 	private static final int A = 0;
 	private static final int B = 1;
 	private static final int C = 2;
@@ -68,6 +68,9 @@ public class RunData {
 	// Clefe (bass,treble...)
 	public String clef;
 	
+	// Time (4/4, 6/8,...)
+	public Time time;
+	
 	// Data Base of chords defined
 	Map<ChordIdentifier,List<Interval>> chordsDB;
 		
@@ -80,7 +83,7 @@ public class RunData {
 		chordsBar = new Vector<Chord>();
 		relative = new AbsoluteMusicNote(2, "C");
 		clef = "treble";
-		
+		time = new Time(4,4);
 		chordsDB = new HashMap<ChordIdentifier,List<Interval>>();
 	}
 
@@ -141,15 +144,29 @@ public class RunData {
 	public void setClef(String clef) {
 		this.clef = clef;
 	}
+	
+	
+
+	public Time getTime() {
+		return time;
+	}
+
+
+
+	public void setTime(Time time) {
+		this.time = time;
+	}
+
+
 
 	public AbsoluteMusicNote getRelative() {
 		return relative;
 	}
-
-
+	
 	public void setRelative(AbsoluteMusicNote relative) {
 		this.relative = relative;
 	}
+	
 
 
 	/**
@@ -158,63 +175,17 @@ public class RunData {
 	 * @param note2 Next note
 	 * @return Int value in the range [-3,3]
 	 */
-	public int noteDistance(String note1, String note2){
-		
-		//TODO MODIFICAR PARA QUE HAGA USO DE nameToInt;
-		
+	public int noteDistance(BasicNoteName note1, BasicNoteName note2){
+				
 		int result = 0;
 		int result1 = 0;
 		int result2 = 0;
 		int data1 = 0;
 		int data2 = 0;
+				
+		data1 = this.nameToInt(note1);
+		data2 = this.nameToInt(note2);
 		
-		note1.toUpperCase();
-		note2.toUpperCase();
-		
-		if(note1.equals("A")){
-			data1 = A;
-		}
-		else if(note1.equals("B")){
-			data1 = B;
-		}
-		else if(note1.equals("C")){
-			data1 = C;
-		}
-		else if(note1.equals("D")){
-			data1 = D;
-		}
-		else if(note1.equals("E")){
-			data1 = E;
-		}
-		else if(note1.equals("F")){
-			data1 = F;
-		}
-		else if(note1.equals("G")){
-			data1 = G;
-		}
-		
-		if(note2.equals("A")){
-			data2 = A;
-		}
-		else if(note2.equals("B")){
-			data2 = B;
-		}
-		else if(note2.equals("C")){
-			data2 = C;
-		}
-		else if(note2.equals("D")){
-			data2 = D;
-		}
-		else if(note2.equals("E")){
-			data2 = E;
-		}
-		else if(note2.equals("F")){
-			data2 = F;
-		}
-		else if(note2.equals("G")){
-			data2 = G;
-		}
-	
 		result1 = Math.abs(data1 - data2);
 		result2 = Math.abs(7 - result1)%7;
 		
@@ -311,7 +282,7 @@ public class RunData {
 		String rNoteName = this.getRelative().getBasicNoteNameString();
 		int octave = this.getRelative().getOctave().intValue();
 		
-		int distance = this.noteDistance(rNoteName, note.getBaseNoteName().getValue());
+		int distance = this.noteDistance(this.getRelative().getMusicNoteName().getBaseNoteName(), note.getBaseNoteName());
 		
 		
 		if(distance == 3 && (rNoteName.equals("A") || rNoteName.equals("B")|| rNoteName.equals("C"))){

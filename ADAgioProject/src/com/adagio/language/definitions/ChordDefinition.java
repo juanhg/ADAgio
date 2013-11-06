@@ -11,6 +11,7 @@ import org.modelcc.Suffix;
 import com.adagio.language.RunData;
 import com.adagio.language.chords.ChordIdentifier;
 import com.adagio.language.chords.intervals.Interval;
+import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.notealterations.DoubleFlatAlteration;
 import com.adagio.language.musicnotes.notealterations.DoubleSharpAlteration;
 import com.adagio.language.musicnotes.notealterations.FlatAlteration;
@@ -27,21 +28,24 @@ public class ChordDefinition extends Definition implements IModel {
 	boolean allowedIdentifier(){
 		boolean allowed = true;
 		
-		if(identifier.getValue().equals(FlatAlteration.getPatern()) || identifier.getValue().substring(0, 1).equals(FlatAlteration.getPatern())){
+		if(this.beginWithAlteration()){
+			// Nunca llegará a ser informado. El patrón de ChorIdentifier no permite estos casos.
+			// Modificar el patrón de ChordIdentifier genera conflictos que no se pueden resolver con priority.
+			// TODO Solucionar esto
+			
+			System.err.println("Error 2: \"" + identifier.getValue() +"\" --> The identifier can't begin with an Alteration");
 			allowed = false;
+			//System.exit(2);
 		}
-		else if (identifier.getValue().equals(DoubleFlatAlteration.getPatern())){
+		else if(this.beginWithNumber()){
+			System.err.println("Error 3: \"" + identifier.getValue() +"\" --> The identifier can't begin with a number");
 			allowed = false;
+			//System.exit(3);
 		}
-		else if (identifier.getValue().equals(SharpAlteration.getPatern())){
+		else if(this.beginWithBasicNoteName()){
+			System.err.println("Error 4: \"" + identifier.getValue() +"\" --> The identifier can't begin with a BasicNoteName");
 			allowed = false;
-		}
-		else if (identifier.getValue().equals(DoubleSharpAlteration.getPatern())){
-			allowed = false;
-		}
-		if(!allowed){
-			System.err.println("Error 2: \"" + identifier.getValue() +"\" Can't be used in chord definition");
-			System.exit(2);
+			//System.exit(3);
 		}
 		return allowed;
 	}
@@ -56,6 +60,65 @@ public class ChordDefinition extends Definition implements IModel {
 			auxInterval.add(intervals[i]);
 		}
 		data.getChordsDB().put(identifier, auxInterval);
+	}
+	
+	private boolean beginWithNumber(){
+		if(identifier.getValue().substring(0, 1).equals("0")){
+			return true;
+		}
+		else if(identifier.getValue().substring(0, 1).equals("1")){
+			return true;
+		}
+		else if(identifier.getValue().substring(0, 1).equals("2")){
+			return true;
+		}
+		else if(identifier.getValue().substring(0, 1).equals("3")){
+			return true;
+		}
+		else if(identifier.getValue().substring(0, 1).equals("4")){
+			return true;
+		}
+		else if(identifier.getValue().substring(0, 1).equals("5")){
+			return true;
+		}
+		else if(identifier.getValue().substring(0, 1).equals("6")){
+			return true;
+		}
+		else if(identifier.getValue().substring(0, 1).equals("7")){
+			return true;
+		}
+		else if(identifier.getValue().substring(0, 1).equals("0")){
+			return true;
+		}
+		else if(identifier.getValue().substring(0, 1).equals("0")){
+			return true;
+		}
+		return false;
+	}
+	
+	boolean beginWithAlteration(){
+		if(identifier.getValue().substring(0, 1).equals(FlatAlteration.getPatern())){
+			return true;
+		}
+		else if (identifier.getValue().substring(0, 1).equals(DoubleFlatAlteration.getPatern())){
+			return true;
+		}
+		else if (identifier.getValue().substring(0, 1).equals(SharpAlteration.getPatern())){
+			return true;
+		}
+		else if (identifier.getValue().substring(0, 1).equals(DoubleSharpAlteration.getPatern())){
+			return true;
+		}
+		return false;
+	}
+	
+	boolean beginWithBasicNoteName(){
+		for(int i = 0; i < BasicNoteName.getPattern().size(); i++){
+			if(identifier.getValue().substring(0,1).equals(BasicNoteName.getPattern().elementAt(i))){
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
