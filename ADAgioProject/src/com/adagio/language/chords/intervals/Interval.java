@@ -1,5 +1,8 @@
 package com.adagio.language.chords.intervals;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.modelcc.IModel;
 import org.modelcc.types.IntegerModel;
 
@@ -15,9 +18,39 @@ import com.adagio.language.musicnotes.notealterations.FlatAlteration;
 import com.adagio.language.musicnotes.notealterations.SharpAlteration;
 
 public class Interval implements IModel {
+	
 	IntervalQuality quality;
 	IntegerModel number;
 	
+	/**
+	 * Map<NumberOfInterval, Semitones>
+	 */
+	 private static final Map<Integer, Integer> mayorIntervals = new HashMap<Integer, Integer>();
+	    static {
+	        mayorIntervals.put(2, 2);
+	        mayorIntervals.put(3, 4);
+	        mayorIntervals.put(6, 9);
+	        mayorIntervals.put(7, 11);
+	        mayorIntervals.put(9, 14);
+	        //Error (?)
+	        mayorIntervals.put(10, 16);
+	        mayorIntervals.put(13, 21);
+	        mayorIntervals.put(14, 24);
+	    }
+	 
+	 /**
+	   * Map<NumberOfInterval, Semitones>
+	   */    
+	private static final Map<Integer,Integer> perfectIntervals = new HashMap<Integer,Integer>();
+		static {
+			perfectIntervals.put(1,0);
+			perfectIntervals.put(4,5);
+			perfectIntervals.put(5,7);
+			//Error (?)
+			perfectIntervals.put(8,12);
+			perfectIntervals.put(11,17);
+			perfectIntervals.put(12,19);
+		}
 	
 	
 	public Interval(String quality, int number){
@@ -38,12 +71,12 @@ public class Interval implements IModel {
 		int count = 0;
 		boolean mayor = false;
 		
-		if(RunData.getMayorintervals().containsKey(number.intValue())){
-			count = RunData.getMayorintervals().get(number.intValue());
+		if(getMayorintervals().containsKey(number.intValue())){
+			count = getMayorintervals().get(number.intValue());
 			mayor = true;
 		}
 		else{
-			count = RunData.getPerfectintervals().get(number.intValue());
+			count = getPerfectintervals().get(number.intValue());
 		}
 		
 		if(quality.getValue().equals("m")){
@@ -82,7 +115,7 @@ public class Interval implements IModel {
 	 */
 	public int octaveAlterations(MusicNoteName noteName, RunData data){
 		int increment = 0;
-		int noteIntValue = data.nameToInt(noteName.getBaseNoteName());
+		int noteIntValue =  BasicNoteName.nameToInt(noteName.getBaseNoteName());
 		
 		for(int i = 0; i < this.number.intValue()-1; i++){
 			noteIntValue = (noteIntValue + 1) % 7;
@@ -117,8 +150,8 @@ public class Interval implements IModel {
 		octave += this.octaveAlterations(aNote.getMusicNoteName(), data);
 		
 		// Generating the new noteName
-		aux = (data.nameToInt(bName) + number.intValue());
-		bName.setValue((data.intToName((aux-1)%7).getValue()));
+		aux = (BasicNoteName.nameToInt(bName) + number.intValue());
+		bName.setValue(( BasicNoteName.intToName((aux-1)%7).getValue()));
 		noteName.getBaseNoteName().setValue(bName.getValue());
 		//bName.setValue((data.intToName((aux-1)%7).getValue()));
 		
@@ -163,4 +196,15 @@ public class Interval implements IModel {
 		}
 		return result;
 	}
+	
+	public static Map<Integer, Integer> getMayorintervals() {
+		return mayorIntervals;
+	}
+
+
+
+	public static Map<Integer, Integer> getPerfectintervals() {
+		return perfectIntervals;
+	}
+
 }
