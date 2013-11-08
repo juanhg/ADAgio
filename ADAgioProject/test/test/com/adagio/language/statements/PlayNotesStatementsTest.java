@@ -12,7 +12,7 @@ import org.modelcc.parser.ParserFactory;
 import com.adagio.language.RunData;
 import com.adagio.language.statements.PlayStatement;
 
-public class PlayStatementTest {
+public class PlayNotesStatementsTest {
 
 	  Model model;
 	  Parser<PlayStatement> parser;

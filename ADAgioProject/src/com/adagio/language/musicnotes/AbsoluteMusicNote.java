@@ -20,16 +20,26 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	
 	MusicNoteName musicNoteName;
 	
+	//------CONSTRUCTORS------//
+	public AbsoluteMusicNote(){}
 	
-	public AbsoluteMusicNote(IntegerModel octave, MusicNoteName noteName){
-		this.octave = octave;
-		this.musicNoteName = noteName;
+	public AbsoluteMusicNote(AbsoluteMusicNote aNote){
+		this.octave = new IntegerModel(aNote.octave.intValue());
+		this.musicNoteName = aNote.getMusicNoteName().clone();
 	}
+
+	public AbsoluteMusicNote(IntegerModel octave, MusicNoteName musicNoteName) {
+		super();
+		this.octave = octave;
+		this.musicNoteName = musicNoteName;
+	}
+
 	
 	public AbsoluteMusicNote(int octave, String noteName){
 		this.setOctave(octave);
 		this.setMusicNoteName(noteName);
 	}
+	//------------------------//
 	
 	public AbsoluteMusicNote clone(){
 		AbsoluteMusicNote aMusicNote = new AbsoluteMusicNote();
@@ -37,36 +47,7 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 		aMusicNote.setOctave(this.octave);
 		return aMusicNote;
 	}
-	
-	public AbsoluteMusicNote(){}
-	
-	static public String toString(String noteName, int octave){
-		String result = noteName;
 		
-		for(int i = 0; i < Math.abs(octave); i++){
-			if(octave > 0){
-				result += "'";
-			}
-			else{
-				result += ",";
-			}
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * Obtain the absolute note's form in ADAgio syntax
-	 * @param data
-	 * @return A String that contains the absolute form o the note
-	 */
-	/*public String toAbsolute(RunData data){
-		String result = this.octave.toString(); 
-		result += musicNoteName.toString(data);
-		
-		return result;
-	}*/
-	
 	public IntegerModel getOctave() {
 		return octave;
 	}
@@ -126,6 +107,19 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	@Override
 	public AbsoluteMusicNote toAbsoluteMusicNote(RunData data) {
 		return this;
+	}
+	
+	public boolean equals (AbsoluteMusicNote aNote){
+	
+		if(this.getClass().equals(aNote.getClass())){
+			if(this.getOctave().intValue() == aNote.getOctave().intValue() 
+				&&	this.getMusicNoteName().equals(aNote.getMusicNoteName()))
+			{
+				return true;
+			}
+				
+		}
+		return false;
 	}
 	
 	
