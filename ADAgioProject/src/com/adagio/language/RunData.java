@@ -166,7 +166,7 @@ public class RunData {
 		Alteration alteration2 = name2.getAlteration();
 		
 		while(note1 != note2){
-			semitones += (BasicNoteName.intToName(note1)).semitonestoNextNote();
+			semitones += (BasicNoteName.intToName(note1)).semitonesToNextNote();
 			note1 = (note1 +1)%7;
 		}
 		

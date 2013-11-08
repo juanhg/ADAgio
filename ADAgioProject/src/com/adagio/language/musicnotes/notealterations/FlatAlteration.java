@@ -25,4 +25,9 @@ public class FlatAlteration extends Alteration {
 	public static String getPatern() {
 		return "b";
 	}
+
+	@Override
+	public String toString() {
+		return this.value;
+	}
 }

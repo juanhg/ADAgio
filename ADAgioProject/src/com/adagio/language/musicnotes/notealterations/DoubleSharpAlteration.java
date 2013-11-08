@@ -29,4 +29,9 @@ public class DoubleSharpAlteration extends Alteration {
 		return "x";
 	}
 
+	@Override
+	public String toString() {
+		return this.value;
+	}
+
 }

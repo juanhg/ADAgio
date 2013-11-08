@@ -46,6 +46,11 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 	public String getBasicNoteNameString() {
 		return this.getMusicNoteName().getBaseNoteName().getValue();
 	}
+
+	@Override
+	public String toString() {
+		return this.getMusicNoteName().toString() + this.getOctave().toString();
+	}
 	
 	
 

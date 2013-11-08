@@ -10,4 +10,6 @@ public abstract class OctaveAlteration implements IModel {
 	 * @return An integer value. Positive to increase. Negative to decrease.
 	 */
 	public abstract int toInt();
+	
+	public abstract String toString();
 }

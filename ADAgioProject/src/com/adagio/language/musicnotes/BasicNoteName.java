@@ -72,6 +72,8 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 		return bName;
 	}
 
+	
+	
 	public static Vector<String> getPattern() {
 		return pattern;
 	}
@@ -144,7 +146,7 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 	/*
 	 * Calculate the number of semitones between a note and the next
 	 */
-	public int semitonestoNextNote(){
+	public int semitonesToNextNote(){
 		if(this.getValue().equals("E") || this.getValue().equals("B")){
 			return 1;
 		}
@@ -152,6 +154,39 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 			return 2;
 		}
 			
+	}
+	
+	public int semitonesToPreviousNote(){
+		if(this.getValue().equals("C") || this.getValue().equals("F")){
+			return 1;
+		}
+		else{
+			return 2;
+		}
+	}
+	
+	/**
+	 * Calculate the immediate superior note Name
+	 * @return The next BasicNoteName
+	 */
+	public BasicNoteName next(){
+		int intValue = nameToInt(this.getBaseNoteName());
+		intValue++;
+		intValue = intValue%7;
+		return intToName(intValue);
+	}
+	
+	/**
+	 * Calculate the immediate inferior note Name
+	 * @return The next BasicNoteName
+	 */
+	public BasicNoteName previous(){
+		int intValue = nameToInt(this.getBaseNoteName());
+		intValue--;
+		if(intValue < 0){
+			intValue = 7 + intValue;
+		}
+		return intToName(intValue);
 	}
 	
 	/**
@@ -228,5 +263,10 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 			return this.value.equals(name.getBaseNoteName().value);
 		}
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		return this.value;
 	}
 }

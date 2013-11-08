@@ -121,6 +121,11 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 		}
 		return false;
 	}
+
+	@Override
+	public String toString() {
+		return this.getOctave().toString() +  this.getMusicNoteName().toString();
+	}
 	
 	
 }

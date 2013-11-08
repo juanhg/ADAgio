@@ -23,7 +23,10 @@ public class DownOctaveAlteration extends OctaveAlteration implements IModel {
 		return -value.length();
 	}
 	
-	
+	@Override
+	public String toString() {
+		return this.value;
+	}
 	
 
 }

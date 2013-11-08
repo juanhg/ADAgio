@@ -12,4 +12,5 @@ public abstract class MusicNote implements IModel {
 	 */
 	public abstract AbsoluteMusicNote toAbsoluteMusicNote(RunData data);
 	public abstract String getBasicNoteNameString();
+	public abstract String toString();
 }

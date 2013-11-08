@@ -30,6 +30,11 @@ public class SharpAlteration extends Alteration {
 		return "#";
 	}
 	
+	@Override
+	public String toString() {
+		return this.value;
+	}
+	
 	
 
 }

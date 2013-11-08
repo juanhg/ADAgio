@@ -60,6 +60,11 @@ public class AlteredNoteName extends MusicNoteName implements IModel {
 		}
 		return false;
 	}
+
+	@Override
+	public String toString() {
+		return this.getBasicNoteName().toString() + this.getAlteration().toString();
+	}
 	
 	
 

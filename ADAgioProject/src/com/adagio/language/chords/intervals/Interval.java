@@ -31,11 +31,11 @@ public class Interval implements IModel {
 	        mayorIntervals.put(3, 4);
 	        mayorIntervals.put(6, 9);
 	        mayorIntervals.put(7, 11);
+	        
 	        mayorIntervals.put(9, 14);
-	        //Error (?)
 	        mayorIntervals.put(10, 16);
 	        mayorIntervals.put(13, 21);
-	        mayorIntervals.put(14, 24);
+	        mayorIntervals.put(14, 23);
 	    }
 	 
 	 /**
@@ -46,7 +46,7 @@ public class Interval implements IModel {
 			perfectIntervals.put(1,0);
 			perfectIntervals.put(4,5);
 			perfectIntervals.put(5,7);
-			//Error (?)
+			
 			perfectIntervals.put(8,12);
 			perfectIntervals.put(11,17);
 			perfectIntervals.put(12,19);
@@ -161,6 +161,20 @@ public class Interval implements IModel {
 		semitones2Notes = data.semitones2Notes(aNote.getMusicNoteName(), bName);
 		aux = semitones - semitones2Notes;
 		
+		while(aux > 2){
+			aux -= bName.semitonesToNextNote();
+			bName = (BasicNoteName) bName.next().clone();
+			System.err.println("Warning: Can't apply interval \"" + this.toString() 
+					+"\" to the note \""+ note.toString()+"\". The note generated is estimated.");
+		}
+		
+		while(aux < -2){
+			aux += bName.semitonesToPreviousNote();
+			bName = (BasicNoteName) bName.previous().clone();
+			System.err.println("Warning: Can't apply interval \"" + this.toString() 
+					+"\" to the note \""+ note.toString()+"\". The note generated is estimated.");
+		}
+		
 		if(aux == 1){
 			//Adding a Sharp
 			SharpAlteration alteration = new SharpAlteration(true);
@@ -185,7 +199,7 @@ public class Interval implements IModel {
 			AlteredNoteName alteredName = new AlteredNoteName(bName,alteration);
 			result = new AbsoluteMusicNote(new IntegerModel(octave),alteredName);
 		}
-		else if(aux > 2 || aux <-2 || aux == 0){
+		else if(aux == 0){
 			// No changes
 			result = new AbsoluteMusicNote(new IntegerModel(octave), bName);
 		}
@@ -202,10 +216,11 @@ public class Interval implements IModel {
 		return mayorIntervals;
 	}
 
-
-
 	public static Map<Integer, Integer> getPerfectintervals() {
 		return perfectIntervals;
 	}
 
+	public String toString(){
+		return this.quality.toString() + this.number.toString();
+	}
 }

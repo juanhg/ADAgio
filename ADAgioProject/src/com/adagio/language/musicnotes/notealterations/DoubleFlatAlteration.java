@@ -28,4 +28,9 @@ public class DoubleFlatAlteration extends Alteration {
 	public static String getPatern() {
 		return "bb";
 	}
+
+	@Override
+	public String toString() {
+		return this.value;
+	}
 }
