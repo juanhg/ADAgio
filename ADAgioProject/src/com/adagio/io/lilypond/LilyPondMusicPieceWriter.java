@@ -39,7 +39,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		composition += ("\\clef " + data.getClef() + "\n");
 		composition += ("\\time " + data.getTime().toString() + "\n");
 		for(int i = 0; i < data.notesBar.size(); i++){
-			composition += this.translateAbsoluteMusicNote(data.notesBar.elementAt(i));
+			composition += translateAbsoluteMusicNote(data.notesBar.elementAt(i));
 			composition += Integer.toString(data.getTime().defaultNoteDuration());
 			composition += " ";
 		}
@@ -49,7 +49,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		composition += ("\\clef " + data.getClef() + "\n");
 		composition += ("\\time " + data.getTime().toString() + "\n");
 		for(int i = 0; i < data.chordsBar.size(); i++){
-			composition += this.translateChord(data.chordsBar.elementAt(i),data);
+			composition += translateChord(data.chordsBar.elementAt(i),data);
 			composition += Integer.toString(data.getTime().defaultNoteDuration());
 			composition += " ";
 		}
@@ -62,7 +62,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 	 * using its definition in "data".
 	 * Note: Need that the bassNote as a AbsoluteMusicNote
 	 */
-	private String translateChord(Chord chord, RunData data){
+	public static String translateChord(Chord chord, RunData data){
 		String composition = "";
 		List<Interval> intervals = data.getChordsDB().get(chord.getIdentifier());
 		List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
@@ -96,9 +96,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		
 		composition += "<";
 		for(int i = 0; i < aNotes.size(); i++){
-			composition += this.translateAbsoluteMusicNote(aNotes.get(i));
+			composition += translateAbsoluteMusicNote(aNotes.get(i));
 			
-			if(i != intervals.size()-1){
+			if(i != aNotes.size()-1){
 				composition += " ";
 			}
 		}
@@ -112,13 +112,13 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 	 * @param aNote Note to be translated
 	 * @return A String that contains the translation
 	 */
-	private String translateAbsoluteMusicNote(AbsoluteMusicNote aNote){
+	private static String translateAbsoluteMusicNote(AbsoluteMusicNote aNote){
 		String composition = aNote.getBasicNoteNameString().toLowerCase();
 		int intOctave = aNote.getOctave().intValue();
 		Alteration alteration = aNote.getMusicNoteName().getAlteration();
 		
 		if(alteration != null){
-			composition += this.translateAlteration(alteration);
+			composition += translateAlteration(alteration);
 		}
 		
 		for(int i = 0; i < Math.abs(intOctave); i++){
@@ -138,7 +138,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 	 * @param alteration Alteration to be translated
 	 * @return A string with the translation
 	 */
-	private String translateAlteration(Alteration alteration){
+	private static String translateAlteration(Alteration alteration){
 		String composition = "";
 		String value = alteration.getValue();
 		

@@ -9,6 +9,13 @@ public class ChordIdentifier implements IModel {
 	
 	@Value
 	String value;
+	
+	public ChordIdentifier(){}
+	
+	public ChordIdentifier(String value){
+		//TODO No permitir asignación de valores erróneos
+		this.value = value;
+	}
 
 	public String getValue() {
 		return value;
