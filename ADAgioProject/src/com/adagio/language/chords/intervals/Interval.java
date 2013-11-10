@@ -158,7 +158,8 @@ public class Interval implements IModel {
 		
 		
 		// Fixing the alteration
-		semitones2Notes = data.semitones2Notes(aNote.getMusicNoteName(), bName);
+		// TODO fix this.
+		semitones2Notes = aNote.semitones2Notes2(new AbsoluteMusicNote(new IntegerModel(octave),bName));
 		aux = semitones - semitones2Notes;
 		
 		while(aux > 2){

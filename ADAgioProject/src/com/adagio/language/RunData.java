@@ -158,7 +158,7 @@ public class RunData {
 	 * @param name2
 	 * @return Number of semitones
 	 */
-	public int semitones2Notes(MusicNoteName name1, MusicNoteName name2){
+	/*public int semitones2Notes(MusicNoteName name1, MusicNoteName name2){
 		int semitones = 0;
 		int note1 =  BasicNoteName.nameToInt(name1.getBaseNoteName());
 		int note2 =  BasicNoteName.nameToInt(name2.getBaseNoteName());
@@ -201,6 +201,7 @@ public class RunData {
 		}
 		return semitones;
 	}
+	*/
 	
 	/**
 	 * Looks up the chord identifier in the Data base

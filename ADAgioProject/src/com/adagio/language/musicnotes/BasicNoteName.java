@@ -15,7 +15,10 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 
 	@Value
 	String value;
+	
+	public static final int NUM_NOTES = 7;
 
+	//TODO change this to map
 	private static Vector<String> pattern;
 	static {
 		pattern = new Vector<String>();
@@ -29,13 +32,13 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 	}
 	
 
-	private static final int A = 0;
-	private static final int B = 1;
-	private static final int C = 2;
-	private static final int D = 3;
-	private static final int E = 4;
-	private static final int F = 5;
-	private static final int G = 6;
+	public static final int A = 0;
+	public static final int B = 1;
+	public static final int C = 2;
+	public static final int D = 3;
+	public static final int E = 4;
+	public static final int F = 5;
+	public static final int G = 6;
 	
 	
 	public BasicNoteName(){

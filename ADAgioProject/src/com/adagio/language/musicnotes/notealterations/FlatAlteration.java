@@ -30,4 +30,10 @@ public class FlatAlteration extends Alteration {
 	public String toString() {
 		return this.value;
 	}
+	
+	@Override
+	public Alteration clone() {
+		Alteration alteration = new FlatAlteration(true);
+		return alteration;
+	}
 }

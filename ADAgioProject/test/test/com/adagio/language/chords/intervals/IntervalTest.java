@@ -55,6 +55,7 @@ public class IntervalTest {
 	Interval AA3 = new Interval("AA",3);
 	Interval dd7 = new Interval("dd",7);
 	Interval dd5 = new Interval("dd",5);
+	Interval A14 = new Interval("A",14);
 		
 	@Test
 	public void validIntervalTest() {
@@ -284,6 +285,14 @@ public class IntervalTest {
 		alteration = new DoubleSharpAlteration(true);
 		expected =new AbsoluteMusicNote(new IntegerModel(1), new AlteredNoteName(bNoteName, alteration));
 		result = AA3.Apply(note, data);
+		assertEquals(true, expected.equals(result));
+		
+		// A14(0C) --> 2B#
+		note = new AbsoluteMusicNote(0,"C");
+		bNoteName = new BasicNoteName("B");
+		alteration = new SharpAlteration(true);
+		expected = new AbsoluteMusicNote(new IntegerModel(1), new AlteredNoteName(bNoteName, alteration));
+		result = A14.Apply(note, data);
 		assertEquals(true, expected.equals(result));
 		
 		

@@ -35,6 +35,12 @@ public class SharpAlteration extends Alteration {
 		return this.value;
 	}
 	
+	@Override
+	public Alteration clone() {
+		Alteration alteration = new SharpAlteration(true);
+		return alteration;
+	}
+	
 	
 
 }

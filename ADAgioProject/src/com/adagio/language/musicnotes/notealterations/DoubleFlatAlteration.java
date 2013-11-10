@@ -33,4 +33,12 @@ public class DoubleFlatAlteration extends Alteration {
 	public String toString() {
 		return this.value;
 	}
+
+	@Override
+	public Alteration clone() {
+		Alteration alteration = new DoubleFlatAlteration(true);
+		return alteration;
+	}
+	
+	
 }

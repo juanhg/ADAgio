@@ -33,5 +33,11 @@ public class DoubleSharpAlteration extends Alteration {
 	public String toString() {
 		return this.value;
 	}
+	
+	@Override
+	public Alteration clone() {
+		Alteration alteration = new DoubleSharpAlteration(true);
+		return alteration;
+	}
 
 }
