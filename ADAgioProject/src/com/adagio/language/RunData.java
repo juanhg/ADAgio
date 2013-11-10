@@ -6,9 +6,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
-import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.MusicNoteName;
-import com.adagio.language.musicnotes.notealterations.Alteration;
 import com.adagio.language.chords.Chord;
 import com.adagio.language.chords.ChordIdentifier;
 import com.adagio.language.chords.intervals.Interval;
@@ -151,57 +149,6 @@ public class RunData {
 		
 		return octave;
 	}
-	
-	/**
-	 * Calculate the number of semitones between a two notes (superior one)
-	 * @param name1
-	 * @param name2
-	 * @return Number of semitones
-	 */
-	/*public int semitones2Notes(MusicNoteName name1, MusicNoteName name2){
-		int semitones = 0;
-		int note1 =  BasicNoteName.nameToInt(name1.getBaseNoteName());
-		int note2 =  BasicNoteName.nameToInt(name2.getBaseNoteName());
-		Alteration alteration1 = name1.getAlteration();
-		Alteration alteration2 = name2.getAlteration();
-		
-		while(note1 != note2){
-			semitones += (BasicNoteName.intToName(note1)).semitonesToNextNote();
-			note1 = (note1 +1)%7;
-		}
-		
-		if(alteration1 != null){
-			if(alteration1.getValue().equals("#")){
-				semitones--;
-			}
-			else if(alteration1.getValue().equals("x")){
-				semitones = semitones-2;
-			}
-			else if(alteration1.getValue().equals("b")){
-				semitones++;
-			}
-			else if(alteration1.getValue().equals("bb")){
-				semitones = semitones+2;
-			}
-		}
-		
-		if(alteration2 != null){
-			if(alteration2.getValue().equals("#")){
-				semitones++;
-			}
-			else if(alteration2.getValue().equals("x")){
-				semitones = semitones+2;
-			}
-			else if(alteration2.getValue().equals("b")){
-				semitones--;
-			}
-			else if(alteration2.getValue().equals("bb")){
-				semitones = semitones-2;
-			}
-		}
-		return semitones;
-	}
-	*/
 	
 	/**
 	 * Looks up the chord identifier in the Data base

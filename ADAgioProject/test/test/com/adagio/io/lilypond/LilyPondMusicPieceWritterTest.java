@@ -26,17 +26,9 @@ import com.adagio.language.musicnotes.notealterations.SharpAlteration;
 public class LilyPondMusicPieceWritterTest {
 	 
 	RunData data;
-	ChordIdentifier M;
-	ChordIdentifier m;
-	ChordIdentifier add2;
-	Interval M3;
-	Interval m3;
-	Interval P1;
-	Interval P5;
-	Interval M2;
-	Interval optM3;
-	AbsoluteMusicNote bass;
-	AbsoluteMusicNote fundamental;
+	ChordIdentifier M, m, add2;
+	Interval M3, m3, P1, P5, M2, optM3;
+	AbsoluteMusicNote fundamental, bass;
 	BasicNoteName bNoteName;
 	Chord chord;
 	Alteration alteration;

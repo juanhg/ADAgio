@@ -159,11 +159,14 @@ public class Interval implements IModel {
 		
 		// Fixing the alteration
 		// TODO fix this.
-		semitones2Notes = aNote.semitones2Notes2(new AbsoluteMusicNote(new IntegerModel(octave),bName));
+		semitones2Notes = aNote.semitonesTill(new AbsoluteMusicNote(new IntegerModel(octave),bName));
 		aux = semitones - semitones2Notes;
 		
 		while(aux > 2){
 			aux -= bName.semitonesToNextNote();
+			if(bName.getBaseNoteName().getValue().equals("B")){
+				octave++;
+			}
 			bName = (BasicNoteName) bName.next().clone();
 			System.err.println("Warning: Can't apply interval \"" + this.toString() 
 					+"\" to the note \""+ note.toString()+"\". The note generated is estimated.");
@@ -171,6 +174,9 @@ public class Interval implements IModel {
 		
 		while(aux < -2){
 			aux += bName.semitonesToPreviousNote();
+			if(bName.getBaseNoteName().getValue().equals("C")){
+				octave--;
+			}
 			bName = (BasicNoteName) bName.previous().clone();
 			System.err.println("Warning: Can't apply interval \"" + this.toString() 
 					+"\" to the note \""+ note.toString()+"\". The note generated is estimated.");

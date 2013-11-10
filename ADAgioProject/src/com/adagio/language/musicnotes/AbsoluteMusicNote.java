@@ -105,46 +105,43 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	}
 	
 	/**
-	 * TODO test this function
-	 * Calculate the next absoluteMusicNote (Based on next BasicNoteName)
+	 * Calculates the next absoluteMusicNote without alterations (Based on next BasicNoteName) 
 	 * @return The next absoluteMusicNote
 	 */
 	public AbsoluteMusicNote next(){
-		// this == "B"
+		
 		AbsoluteMusicNote result;
 		int octave = this.getOctave().intValue();
 		BasicNoteName bName;
-		MusicNoteName noteName;
-		Alteration alteration;
 		
+		// this == "B"
 		if(this.getMusicNoteName().getBaseNoteName().getValue().equals(BasicNoteName.getPattern().get(BasicNoteName.B))){
 			octave++;
-		}
-		if(this.getMusicNoteName().getAlteration() != null){
-			bName = this.getMusicNoteName().getBaseNoteName().next();
-			alteration = this.getMusicNoteName().getAlteration().clone();
-			noteName = new AlteredNoteName(bName, alteration);
-			result = new AbsoluteMusicNote(new IntegerModel(octave),noteName);
-		}
-		else{
-			bName = this.getMusicNoteName().getBaseNoteName().next();
-			result = new AbsoluteMusicNote(octave,bName.getValue());
-		}
+		}		
+		
+		bName = this.getMusicNoteName().getBaseNoteName().next();
+		result = new AbsoluteMusicNote(octave,bName.getValue());
+		
 		return result;
 	}
 	
 	/**
-	 * TODO test this function
-	 * Calculate the previous absoluteMusicNote (Based on next BasicNoteName)
+	 * Calculates the previous absoluteMusicNote without alterations (Based on next BasicNoteName)
 	 * @return The previous absoluteMusicNote
 	 */
 	public AbsoluteMusicNote previous(){
+		AbsoluteMusicNote result;
+		int octave = this.getOctave().intValue();
+		BasicNoteName bName;
+		
 		// this == "C"
-		AbsoluteMusicNote result = new AbsoluteMusicNote();
-		if(this.getMusicNoteName().getBaseNoteName().equals(BasicNoteName.getPattern().get(BasicNoteName.C))){
-			result.setOctave(this.getOctave().intValue()-1);
-		}
-		result.getMusicNoteName().getBaseNoteName().setValue(this.getMusicNoteName().getBaseNoteName().previous().getValue());
+		if(this.getMusicNoteName().getBaseNoteName().getValue().equals(BasicNoteName.getPattern().get(BasicNoteName.C))){
+			octave--;
+		}		
+		
+		bName = this.getMusicNoteName().getBaseNoteName().previous();
+		result = new AbsoluteMusicNote(octave,bName.getValue());
+		
 		return result;
 	}
 	
@@ -157,12 +154,28 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	}
 	
 	
-	public int semitones2Notes2(AbsoluteMusicNote aNote){
+	/**
+	 * Calculates the number of semitones between the actual note an aNote
+	 * @param aNote 
+	 * @return A positive int of semitones if aNote is higher than this. A negative 
+	 * integer if aNote is not higher than this.
+	 */
+	public int semitonesTill(AbsoluteMusicNote aNote){
 		int semitones = 0;
-		AbsoluteMusicNote aNote1 = this.clone();
-		AbsoluteMusicNote aNote2 = aNote.clone();
-		Alteration alteration1 = this.getMusicNoteName().getAlteration();
-		Alteration alteration2 = aNote.getMusicNoteName().getAlteration();
+		AbsoluteMusicNote aNote1 = null;
+		AbsoluteMusicNote aNote2 = null;
+		
+		if(aNote.isHigher(this)){
+			aNote1 = this.clone();
+			aNote2 = aNote.clone();
+		}
+		else{
+			aNote2 = this.clone();
+			aNote1 = aNote.clone();
+		}
+		
+		Alteration alteration1 = aNote1.getMusicNoteName().getAlteration();
+		Alteration alteration2 = aNote2.getMusicNoteName().getAlteration();
 		
 		while(!aNote1.getBasicNoteNameString().equals(aNote2.getBasicNoteNameString())
 			|| aNote1.octave.intValue() != aNote2.octave.intValue()	
@@ -195,65 +208,13 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 			}
 		}
 		
-		return semitones;
-	}
-	
-	
-	//TODO complete and test this function
-	public int semitones2Notes(AbsoluteMusicNote name2){
-		int semitones = 0;
-		int note1 =  BasicNoteName.nameToInt(this.getMusicNoteName().getBaseNoteName());
-		int note2 =  BasicNoteName.nameToInt(name2.getMusicNoteName().getBaseNoteName());
-		Alteration alteration1 = this.getMusicNoteName().getAlteration();
-		Alteration alteration2 = name2.getMusicNoteName().getAlteration();
-		AbsoluteMusicNote aNote1 = this.clone();
-		AbsoluteMusicNote aNote2 = name2.clone();
-		
-		if (name2.isHigher(this)) {
-			
-			/*if(name2.getOctave().intValue() > this.getOctave().intValue()){
-				semitones += 12*Math.abs((name2.getOctave().intValue() - this.getOctave().intValue()));
-			}*/
-			
-			while (note1 != note2 || aNote1.octave.intValue() != aNote2.octave.intValue()) {
-				semitones += (BasicNoteName.intToName(note1)).semitonesToNextNote();
-				note1++;
-				if(note1 >= BasicNoteName.NUM_NOTES){
-					note1 = note1 % BasicNoteName.NUM_NOTES;
-				}
-				if(note1 == 2){
-					aNote1.increaseOctave();
-				}
-				
-			}
-
-			if (alteration1 != null) {
-				if (alteration1.getValue().equals("#")) {
-					semitones--;
-				} else if (alteration1.getValue().equals("x")) {
-					semitones = semitones - 2;
-				} else if (alteration1.getValue().equals("b")) {
-					semitones++;
-				} else if (alteration1.getValue().equals("bb")) {
-					semitones = semitones + 2;
-				}
-			}
-
-			if (alteration2 != null) {
-				if (alteration2.getValue().equals("#")) {
-					semitones++;
-				} else if (alteration2.getValue().equals("x")) {
-					semitones = semitones + 2;
-				} else if (alteration2.getValue().equals("b")) {
-					semitones--;
-				} else if (alteration2.getValue().equals("bb")) {
-					semitones = semitones - 2;
-				}
-			}
+		if(aNote.isHigher(this)){
+			return semitones;
 		}
-		return semitones;
+		else{
+			return -semitones;
+		}
 	}
-	
 	
 	@Override
 	public AbsoluteMusicNote toAbsoluteMusicNote(RunData data) {

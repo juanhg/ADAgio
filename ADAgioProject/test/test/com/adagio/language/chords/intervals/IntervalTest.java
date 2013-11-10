@@ -2,6 +2,7 @@ package test.com.adagio.language.chords.intervals;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.modelcc.types.IntegerModel;
 
@@ -20,43 +21,55 @@ import com.adagio.language.musicnotes.notealterations.SharpAlteration;
 public class IntervalTest {
 	
 	RunData data = new RunData();
-	AbsoluteMusicNote result;
-	AbsoluteMusicNote note;
-	AbsoluteMusicNote expected;
+	AbsoluteMusicNote result, note, expected;
 	Alteration alteration;
 	BasicNoteName bNoteName;
-	Interval P1 = new Interval("P",1);
-	Interval d2 = new Interval("d",2);
-	Interval m2 = new Interval("m",2);
-	Interval A1 = new Interval("A",1);
-	Interval M2 = new Interval("M",2);
-	Interval d3 = new Interval("d",3);
-	Interval m3 = new Interval("m",3);
-	Interval A2 = new Interval("A",2);
-	Interval M3 = new Interval("M",3);
-	Interval d4 = new Interval("d",4);
-	Interval P4 = new Interval("P",4);
-	Interval A3 = new Interval("A",3);
-	Interval d5 = new Interval("d",5);
-	Interval A4 = new Interval("A",4);
-	Interval P5 = new Interval("P",5);
-	Interval d6 = new Interval("d",6);
-	Interval m6 = new Interval("m",6);
-	Interval A5 = new Interval("A",5);
-	Interval M6 = new Interval("M",6);
-	Interval d7 = new Interval("d",7);
-	Interval m7 = new Interval("m",7);
-	Interval A6 = new Interval("A",6);
-	Interval M7 = new Interval("M",7);
-	Interval d8 = new Interval("d",8);
-	Interval P8 = new Interval("P",8);
-	Interval A7 = new Interval("A",7);
-	Interval AA5 = new Interval("AA",5);
-	Interval AA3 = new Interval("AA",3);
-	Interval dd7 = new Interval("dd",7);
-	Interval dd5 = new Interval("dd",5);
-	Interval A14 = new Interval("A",14);
-		
+	
+	Interval P1, P4, P5, P8;
+	Interval d2, d3, d4, d5, d6, d7, d8;
+	Interval A1, A2, A3, A4, A5, A6, A7, A14;
+	Interval AA5, AA3, AA14;
+	Interval dd7, dd5, dd14;
+	Interval m2, m3, m6, m7;
+	Interval M2, M3, M6, M7;
+			
+	@Before
+	public void setUp() throws Exception {
+		P1 = new Interval("P",1);
+		d2 = new Interval("d",2);
+		m2 = new Interval("m",2);
+		A1 = new Interval("A",1);
+		M2 = new Interval("M",2);
+		d3 = new Interval("d",3);
+		m3 = new Interval("m",3);
+		A2 = new Interval("A",2);
+		M3 = new Interval("M",3);
+		d4 = new Interval("d",4);
+		P4 = new Interval("P",4);
+		A3 = new Interval("A",3);
+		d5 = new Interval("d",5);
+		A4 = new Interval("A",4);
+		P5 = new Interval("P",5);
+		d6 = new Interval("d",6);
+		m6 = new Interval("m",6);
+		A5 = new Interval("A",5);
+		M6 = new Interval("M",6);
+		d7 = new Interval("d",7);
+		m7 = new Interval("m",7);
+		A6 = new Interval("A",6);
+		M7 = new Interval("M",7);
+		d8 = new Interval("d",8);
+		P8 = new Interval("P",8);
+		A7 = new Interval("A",7);
+		AA5 = new Interval("AA",5);
+		AA3 = new Interval("AA",3);
+		dd7 = new Interval("dd",7);
+		dd5 = new Interval("dd",5);
+		A14 = new Interval("A",14);
+		AA14 = new Interval("AA",14);
+		dd14 = new Interval("dd", 14);
+	}
+	
 	@Test
 	public void validIntervalTest() {
 		assertEquals(0, P1.semitones());
@@ -295,6 +308,31 @@ public class IntervalTest {
 		result = A14.Apply(note, data);
 		assertEquals(true, expected.equals(result));
 		
+		// AA14(0C) --> 1B##
+		note = new AbsoluteMusicNote(0,"C");
+		bNoteName = new BasicNoteName("B");
+		alteration = new DoubleSharpAlteration(true);
+		expected = new AbsoluteMusicNote(new IntegerModel(1), new AlteredNoteName(bNoteName, alteration));
+		result = AA14.Apply(note, data);
+		assertEquals(true, expected.equals(result));
+		
+		// AA14(0C#) --> 2C##
+		bNoteName = new BasicNoteName("C");
+		alteration = new SharpAlteration(true);
+		note = new AbsoluteMusicNote(new IntegerModel(0), new AlteredNoteName(bNoteName, alteration));
+		bNoteName = new BasicNoteName("C");
+		alteration = new DoubleSharpAlteration(true);
+		expected = new AbsoluteMusicNote(new IntegerModel(2), new AlteredNoteName(bNoteName, alteration));
+		result = AA14.Apply(note, data);
+		assertEquals(true, expected.equals(result));
+		
+		// dd14(4A) --> 6Gb
+		note = new AbsoluteMusicNote(4,"A");
+		bNoteName = new BasicNoteName("G");
+		alteration = new DoubleFlatAlteration(true);
+		expected = new AbsoluteMusicNote(new IntegerModel(6), new AlteredNoteName(bNoteName, alteration));
+		result = dd14.Apply(note, data);
+		assertEquals(true, expected.equals(result));
 		
 	}
 	
