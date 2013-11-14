@@ -35,25 +35,25 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 	private String translate(RunData data){
 		String composition = "";
 		
-		composition += "{\n";
+		composition += this.version();
+		composition += "\\score {\n";
+		composition += "\\new Staff <<\n";
+		composition += "\\new Voice {";
+		composition += "\\set midiInstrument = #\"acoustic grand\"\n";
+		composition += "\\voiceOne\n";
+		composition += "\\time" + data.getTime().toString() + "\n";
 		composition += ("\\clef " + data.getClef() + "\n");
-		composition += ("\\time " + data.getTime().toString() + "\n");
-		for(int i = 0; i < data.notesBar.size(); i++){
-			composition += translateAbsoluteMusicNote(data.notesBar.elementAt(i));
-			composition += Integer.toString(data.getTime().defaultNoteDuration());
-			composition += " ";
-		}
-		composition += "\n}\n";
 		
-		composition += "{\n";
-		composition += ("\\clef " + data.getClef() + "\n");
-		composition += ("\\time " + data.getTime().toString() + "\n");
 		for(int i = 0; i < data.chordsBar.size(); i++){
 			composition += translateChord(data.chordsBar.elementAt(i),data);
 			composition += Integer.toString(data.getTime().defaultNoteDuration());
 			composition += " ";
 		}
 		composition += "\n}\n";
+		composition += ">> \n";
+		
+		composition += this.midiTail();
+		
 		return composition;
 	}
 	
@@ -155,6 +155,29 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 			composition = "eses";
 		}
 		return composition;
+	}
+	
+	private String midiTail(){
+		String composition = "";
+		
+		composition += "\\layout{ }\n";
+		composition += "\\midi { \n";
+		composition += "\\context {\n";
+		composition += "\\Staff \n";
+		composition += "\\remove \"Staff_performer\"\n";
+		composition += "}\n";
+		composition += "\\context {\n";
+		composition += "\\Voice\n";
+		composition += "\\consists \"Staff_performer\"\n";
+		composition += "}\n";
+		composition += "}\n";
+		composition += "}\n";
+		
+		return composition;
+	}
+	
+	private String version(){
+		return "\\version \"2.16.2\"";
 	}
 
 }

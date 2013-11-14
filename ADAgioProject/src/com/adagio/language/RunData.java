@@ -7,6 +7,8 @@ import java.util.Vector;
 
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.MusicNoteName;
+import com.adagio.language.channels.Channel;
+import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.chords.Chord;
 import com.adagio.language.chords.ChordIdentifier;
 import com.adagio.language.chords.intervals.Interval;
@@ -31,8 +33,11 @@ public class RunData {
 	// Time (4/4, 6/8,...)
 	public Time time;
 	
-	// Data Base of chords defined
+	// Data Base of defined chords
 	Map<ChordIdentifier,List<Interval>> chordsDB;
+	
+	// Data Base of defined channels
+	Map<ChannelIdentifier,Channel> channelsDB;
 		
 	/**
 	 * Class constructor
@@ -45,6 +50,7 @@ public class RunData {
 		clef = "treble";
 		time = new Time(4,4);
 		chordsDB = new HashMap<ChordIdentifier,List<Interval>>();
+		channelsDB = new HashMap<ChannelIdentifier,Channel>();
 	}
 
 	
@@ -82,6 +88,15 @@ public class RunData {
 		this.chordsDB = chordsDB;
 	}
 
+
+	public Map<ChannelIdentifier, Channel> getChannelsDB() {
+		return channelsDB;
+	}
+
+
+	public void setChannelsDB(Map<ChannelIdentifier, Channel> channelsDB) {
+		this.channelsDB = channelsDB;
+	}
 
 
 	public String getClef() {
