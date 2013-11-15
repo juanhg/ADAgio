@@ -2,11 +2,16 @@ package com.adagio.io.lilypond;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.adagio.io.MusicPieceWriter;
 import com.adagio.language.MusicPiece;
 import com.adagio.language.RunData;
+import com.adagio.language.channels.Channel;
+import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.chords.Chord;
 import com.adagio.language.chords.intervals.Interval;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
@@ -32,28 +37,65 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 	    writer.write(m,out);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private String translate(RunData data){
 		String composition = "";
+		Map.Entry e = null;
+		Iterator<Entry<ChannelIdentifier, Channel>> it;
 		
-		composition += this.version();
+		composition += this.version() + "\n";
 		composition += "\\score {\n";
-		composition += "\\new Staff <<\n";
-		composition += "\\new Voice {";
-		composition += "\\set midiInstrument = #\"acoustic grand\"\n";
-		composition += "\\voiceOne\n";
-		composition += "\\time" + data.getTime().toString() + "\n";
-		composition += ("\\clef " + data.getClef() + "\n");
+		composition += " <<\n";
 		
-		for(int i = 0; i < data.chordsBar.size(); i++){
-			composition += translateChord(data.chordsBar.elementAt(i),data);
-			composition += Integer.toString(data.getTime().defaultNoteDuration());
-			composition += " ";
+		it = data.getChannelsDB().entrySet().iterator();
+		if (it.hasNext()) {
+
+			while (it.hasNext()) {
+				e = (Map.Entry) it.next();
+				if (((Channel) e.getValue()).isEnable()) {
+					composition += "\\new Staff { \n";
+					composition += ("\\clef " + data.getClef() + "\n");
+					composition += "\\time " + data.getTime().toString() + "\n";
+					// TODO Translate with this class
+					composition += "\\set Staff.midiInstrument = #\""+ ((Channel) e.getValue()).getInstrument().getValue() + "\"\n";
+					composition += "\\set Staff.midiMinimumVolume = #" + 0+ "\n";
+					composition += "\\set Staff.midiMaximumVolume = #"+ ((Channel) e.getValue()).getVolume() / 100 + "\n";
+					composition += "\\new Voice {\n";
+					for (int i = 0; i < data.chordsBar.size(); i++) {
+						composition += translateChord(data.chordsBar.elementAt(i), data);
+						composition += Integer.toString(data.getTime().defaultNoteDuration());
+						if (i == 0) {
+							composition += "\\mf";
+						}
+						composition += " ";
+					}
+					composition += "\n}\n";
+					composition += "}\n";
+				}
+			}
+		} else {
+			composition += "\\new Staff { \n";
+			composition += ("\\clef " + data.getClef() + "\n");
+			composition += "\\time " + data.getTime().toString() + "\n";
+			// TODO Translate with this class
+			composition += "\\set Staff.midiInstrument = #\""+ data.getDefaultChannel().getInstrument().getValue() + "\"\n";
+			composition += "\\set Staff.midiMinimumVolume = #" + 0+ "\n";
+			composition += "\\set Staff.midiMaximumVolume = #"+ data.getDefaultChannel().getVolume() / 100 + "\n";
+			composition += "\\new Voice {\n";
+			for (int i = 0; i < data.chordsBar.size(); i++) {
+				composition += translateChord(data.chordsBar.elementAt(i), data);
+				composition += Integer.toString(data.getTime().defaultNoteDuration());
+				if (i == 0) {
+					composition += "\\mf";
+				}
+				composition += " ";
+			}
+			composition += "\n}\n";
+			composition += "}\n";
 		}
-		composition += "\n}\n";
+		
 		composition += ">> \n";
-		
 		composition += this.midiTail();
-		
 		return composition;
 	}
 	
@@ -161,17 +203,13 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		String composition = "";
 		
 		composition += "\\layout{ }\n";
-		composition += "\\midi { \n";
+		composition += "\\midi {\n";
 		composition += "\\context {\n";
-		composition += "\\Staff \n";
-		composition += "\\remove \"Staff_performer\"\n";
-		composition += "}\n";
-		composition += "\\context {\n";
-		composition += "\\Voice\n";
-		composition += "\\consists \"Staff_performer\"\n";
+		composition += "\\Score \n";
+		composition += "tempoWholesPerMinute = #(ly:make-moment 72 2)\n";
 		composition += "}\n";
 		composition += "}\n";
-		composition += "}\n";
+		composition += "}";
 		
 		return composition;
 	}

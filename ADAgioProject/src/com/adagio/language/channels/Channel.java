@@ -1,23 +1,34 @@
 package com.adagio.language.channels;
 
+import com.adagio.language.channels.channeloptions.VolumeModifier;
+import com.adagio.language.instruments.Instrument;
+
 /**
  * @author Wungo
  */
 public class Channel {
-	
+
 	private int volume;
 	private boolean enable;
-	
-	private final static int MAX_VOLUME = 127;
-	private final static int MIN_VOLUME = 0;
-	
-	public Channel(){
-		volume = MAX_VOLUME;
+	private Instrument instrument;
+
+	public Channel() {
+		instrument = new Instrument();
+		volume = VolumeModifier.MAX_VOLUME;
 		enable = true;
 	}
 
-	public int getVolume() {
-		return volume;
+	public Instrument getInstrument() {
+		return instrument;
+	}
+
+	public void setInstrument(Instrument instrument) {
+		this.instrument = instrument;
+	}
+
+	public double getVolume() {
+		double doubleVolume = volume;
+		return doubleVolume;
 	}
 
 	public void setVolume(int volume) {
@@ -32,13 +43,38 @@ public class Channel {
 		this.enable = enable;
 	}
 
-	public static int getMaxVolume() {
-		return MAX_VOLUME;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (enable ? 1231 : 1237);
+		result = prime * result
+				+ ((instrument == null) ? 0 : instrument.hashCode());
+		result = prime * result + volume;
+		return result;
 	}
 
-	public static int getMinVolume() {
-		return MIN_VOLUME;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Channel other = (Channel) obj;
+		if (enable != other.enable)
+			return false;
+		if (instrument == null) {
+			if (other.instrument != null)
+				return false;
+		} else if (!instrument.equals(other.instrument))
+			return false;
+		if (volume != other.volume)
+			return false;
+		return true;
 	}
 	
 	
+
 }

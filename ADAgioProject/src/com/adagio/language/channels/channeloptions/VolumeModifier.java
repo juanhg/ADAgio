@@ -13,9 +13,12 @@ public class VolumeModifier extends StatusModifier implements IModel{
 	@Prefix({"(?i)volume","="})
 	IntegerModel volume;
 	
+	public final static int MAX_VOLUME = 100;
+	public final static int MIN_VOLUME = 0;
+	
 	@Constraint
 	boolean volumeInRange(){
-		if(volume.intValue() >= 0 && volume.intValue() <= 127){
+		if(volume.intValue() >= MIN_VOLUME && volume.intValue() <= MAX_VOLUME){
 			return true;
 		}
 		else{

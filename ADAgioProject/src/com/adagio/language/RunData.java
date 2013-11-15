@@ -38,6 +38,8 @@ public class RunData {
 	
 	// Data Base of defined channels
 	Map<ChannelIdentifier,Channel> channelsDB;
+	
+	Channel defaultChannel;
 		
 	/**
 	 * Class constructor
@@ -51,6 +53,7 @@ public class RunData {
 		time = new Time(4,4);
 		chordsDB = new HashMap<ChordIdentifier,List<Interval>>();
 		channelsDB = new HashMap<ChannelIdentifier,Channel>();
+		defaultChannel = new Channel();
 	}
 
 	
@@ -129,7 +132,18 @@ public class RunData {
 		this.relative = relative;
 	}
 	
+	
 			
+	public Channel getDefaultChannel() {
+		return defaultChannel;
+	}
+
+
+	public void setDefaultChannel(Channel defaultChannel) {
+		this.defaultChannel = defaultChannel;
+	}
+
+
 	public int alterationFromReference(MusicNoteName note){
 		
 		boolean up = false;
