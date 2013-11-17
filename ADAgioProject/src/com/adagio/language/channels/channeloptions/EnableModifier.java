@@ -13,8 +13,10 @@ public class EnableModifier extends StatusModifier implements IModel{
 	@Value
 	String value;
 	
+	public static final String PATTERN = "ENABLE";
+	
 	@Override
-	public String getPattern() {
+	public String getValue() {
 		return value;
 	}
 

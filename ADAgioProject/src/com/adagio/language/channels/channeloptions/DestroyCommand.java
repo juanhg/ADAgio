@@ -7,17 +7,19 @@ import org.modelcc.Value;
 import com.adagio.language.RunData;
 import com.adagio.language.channels.ChannelIdentifier;
 
-@Pattern(regExp = "(?i)destroy")
+@Pattern(regExp = "(?i)DESTROY")
 public class DestroyCommand extends Command implements IModel {
 
 	@Value
 	String value;
 	
+	public static final String PATTERN = "DESTROY";
+	
 	@Override
-	public String getPattern() {
+	public String getValue() {
 		return value;
 	}
-
+	
 	@Override
 	public void Apply(ChannelIdentifier id, RunData data) {
 		if(data.getChannelsDB().containsKey(id)){

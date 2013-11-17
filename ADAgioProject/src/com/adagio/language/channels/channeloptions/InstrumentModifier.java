@@ -9,11 +9,13 @@ import com.adagio.language.instruments.Instrument;
 
 public class InstrumentModifier extends StatusModifier implements IModel{
 
-	@Prefix({"(?i)instrument","="})
+	@Prefix({"(?i)INSTRUMENT","="})
 	Instrument instrument;
 	
+	public static final String PATTERN = "INSTRUMENT";
+	
 	@Override
-	public String getPattern() {
+	public String getValue() {
 		return "instrument=" + instrument.getValue();
 	}
 

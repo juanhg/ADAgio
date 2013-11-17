@@ -7,14 +7,16 @@ import org.modelcc.Value;
 import com.adagio.language.RunData;
 import com.adagio.language.channels.ChannelIdentifier;
 
-@Pattern(regExp="(?i)disable")
+@Pattern(regExp="(?i)DISABLE")
 public class DisableModifier extends StatusModifier implements IModel{
 
 	@Value
 	String value;
+	
+	public static final String PATTERN = "DISABLE";
 
 	@Override
-	public String getPattern() {
+	public String getValue() {
 		return value;
 	}
 

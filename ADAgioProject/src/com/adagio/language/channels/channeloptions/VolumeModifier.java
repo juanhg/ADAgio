@@ -10,8 +10,10 @@ import com.adagio.language.channels.ChannelIdentifier;
 
 public class VolumeModifier extends StatusModifier implements IModel{
 
-	@Prefix({"(?i)volume","="})
+	@Prefix({"(?i)VOLUME","="})
 	IntegerModel volume;
+	
+	public static final String PATTERN = "VOLUME";
 	
 	public final static int MAX_VOLUME = 100;
 	public final static int MIN_VOLUME = 0;
@@ -22,14 +24,14 @@ public class VolumeModifier extends StatusModifier implements IModel{
 			return true;
 		}
 		else{
-			System.err.println("Error 6: volume = " + volume + "\nVolume value must be in the range [0,127].");
+			System.err.println("Error 6: volume = " + volume + ". Volume value must be in the range [0,127].");
 			return false;
 		}
 	}
 
 	@Override
-	public String getPattern() {
-		return "volume =" + volume.toString();
+	public String getValue() {
+		return "volume";
 	}
 
 	@Override

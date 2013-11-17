@@ -48,5 +48,10 @@ public class ChannelIdentifier implements IModel {
 		return this.value;
 	}
 	
+	public ChannelIdentifier clone(){
+		ChannelIdentifier newID = new ChannelIdentifier();
+		newID.value = this.value;
+		return newID;
+	}
 	
 }

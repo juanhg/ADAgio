@@ -142,7 +142,7 @@ public class Interval implements IModel {
 		BasicNoteName bName = (BasicNoteName) aNote.getMusicNoteName().getBaseNoteName().clone();
 		MusicNoteName noteName = aNote.getMusicNoteName().clone();
 	
-		AbsoluteMusicNote result;
+		AbsoluteMusicNote result = null;
 		int aux = 0;
 		int semitones = this.semitones();
 		int semitones2Notes = 0;
@@ -168,7 +168,7 @@ public class Interval implements IModel {
 				octave++;
 			}
 			bName = (BasicNoteName) bName.next().clone();
-			System.err.println("Warning: Can't apply interval \"" + this.toString() 
+			System.err.println("Warning 2: Can't apply interval \"" + this.toString() 
 					+"\" to the note \""+ note.toString()+"\". The note generated is estimated.");
 		}
 		
@@ -178,7 +178,7 @@ public class Interval implements IModel {
 				octave--;
 			}
 			bName = (BasicNoteName) bName.previous().clone();
-			System.err.println("Warning: Can't apply interval \"" + this.toString() 
+			System.err.println("Warning 2 : Can't apply interval \"" + this.toString() 
 					+"\" to the note \""+ note.toString()+"\". The note generated is estimated.");
 		}
 		
@@ -211,11 +211,6 @@ public class Interval implements IModel {
 			result = new AbsoluteMusicNote(new IntegerModel(octave), bName);
 		}
 		
-		else{
-			System.err.println("Error2: Error in Apply...");
-			System.exit(2);
-			return null;
-		}
 		return result;
 	}
 	

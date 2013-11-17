@@ -6,7 +6,7 @@ import org.modelcc.Pattern;
 
 //TODO Make a better design
 
-@Pattern(regExp = "flute|acoustic grand|violin|acoustic bass|clarinet")
+@Pattern(regExp = "(?i)(flute|acoustic grand|violin|acoustic bass|clarinet)")
 public class Instrument implements IModel {
 
 	@Value
