@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.modelcc.types.IntegerModel;
 
-import com.adagio.language.RunData;
+import com.adagio.io.lilypond.RunData;
 import com.adagio.language.chords.intervals.Interval;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.AlteredNoteName;

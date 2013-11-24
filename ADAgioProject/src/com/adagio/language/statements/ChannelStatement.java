@@ -5,7 +5,8 @@ import org.modelcc.Optional;
 import org.modelcc.Prefix;
 import org.modelcc.IModel;
 
-import com.adagio.language.RunData;
+import com.adagio.events.MusicEventListener;
+import com.adagio.io.lilypond.RunData;
 import com.adagio.language.channels.Channel;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.channels.channeloptions.ChannelOption;
@@ -77,7 +78,7 @@ public class ChannelStatement extends Statement implements IModel {
 
 
 
-	public void run(RunData data) {
+	public void run(RunData data, MusicEventListener listener) {
 		
 		
 		// If channel doesn't exist && there is not a destroy command

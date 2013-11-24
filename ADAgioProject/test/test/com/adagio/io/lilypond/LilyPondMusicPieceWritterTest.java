@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.modelcc.types.IntegerModel;
 
 import com.adagio.io.lilypond.LilyPondMusicPieceWriter;
-import com.adagio.language.RunData;
+import com.adagio.io.lilypond.RunData;
 import com.adagio.language.chords.Chord;
 import com.adagio.language.chords.ChordIdentifier;
 import com.adagio.language.chords.intervals.Interval;

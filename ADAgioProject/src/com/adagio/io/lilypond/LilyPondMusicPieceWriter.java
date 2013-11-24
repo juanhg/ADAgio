@@ -2,14 +2,16 @@ package com.adagio.io.lilypond;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.adagio.events.MusicEventListener;
+import com.adagio.events.MusicPlayEvent;
 import com.adagio.io.MusicPieceWriter;
 import com.adagio.language.MusicPiece;
-import com.adagio.language.RunData;
 import com.adagio.language.channels.Channel;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.chords.Chord;
@@ -17,14 +19,20 @@ import com.adagio.language.chords.intervals.Interval;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 
-public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 
+
+
+public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicEventListener {
+
+	RunData data;
+	ChannelDB channelDB;
+	
 	@Override
 	public void write(MusicPiece m, PrintWriter out) {
 		String composition = "";
 		RunData data = new RunData();
 		
-		m.run(data);
+		m.run(data, this);
 		
 		composition = this.translate(data);
 		System.out.print(composition);
@@ -216,6 +224,12 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 	
 	private String version(){
 		return "\\version \"2.16.2\"";
+	}
+
+	@Override
+	public void musicPlay(MusicPlayEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

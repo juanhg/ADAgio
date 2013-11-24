@@ -4,7 +4,7 @@ import org.modelcc.IModel;
 import org.modelcc.Pattern;
 import org.modelcc.Value;
 
-import com.adagio.language.RunData;
+import com.adagio.io.lilypond.RunData;
 import com.adagio.language.channels.ChannelIdentifier;
 
 @Pattern(regExp="(?i)DISABLE")

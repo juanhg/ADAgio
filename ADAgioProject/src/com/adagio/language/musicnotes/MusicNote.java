@@ -1,7 +1,7 @@
 package com.adagio.language.musicnotes;
 import org.modelcc.*;
 
-import com.adagio.language.RunData;
+import com.adagio.io.lilypond.RunData;
 
 public abstract class MusicNote implements IModel {
 	

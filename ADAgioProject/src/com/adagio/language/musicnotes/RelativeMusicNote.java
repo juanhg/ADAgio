@@ -3,7 +3,7 @@ package com.adagio.language.musicnotes;
 import org.modelcc.IModel;
 import org.modelcc.Optional;
 
-import com.adagio.language.RunData;
+import com.adagio.io.lilypond.RunData;
 import com.adagio.language.musicnotes.octavealterations.OctaveAlteration;
 
 public class RelativeMusicNote extends MusicNote implements IModel {

@@ -1,6 +1,8 @@
 package com.adagio.language;
 import org.modelcc.*;
 
+import com.adagio.events.MusicEventListener;
+import com.adagio.io.lilypond.RunData;
 import com.adagio.language.definitions.Definition;
 import com.adagio.language.statements.Statement;
 
@@ -19,13 +21,13 @@ public class MusicPiece implements IModel {
 	 * Charges in data the information needed to translate
 	 */
 
-	public void run(RunData data){
+	public void run(RunData data, MusicEventListener listener){
 		for(Definition current: this.getDefinitions()){
-			current.run(data);
+			current.run(data, listener);
 		}
 		
 		for(Statement current: this.getSentences()){
-			current.run(data);
+			current.run(data, listener);
 		}
 	}
 	

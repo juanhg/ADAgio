@@ -5,7 +5,7 @@ import org.modelcc.IModel;
 import org.modelcc.Prefix;
 import org.modelcc.types.IntegerModel;
 
-import com.adagio.language.RunData;
+import com.adagio.io.lilypond.RunData;
 import com.adagio.language.channels.ChannelIdentifier;
 
 public class VolumeModifier extends StatusModifier implements IModel{

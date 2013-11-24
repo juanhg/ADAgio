@@ -3,7 +3,8 @@ package com.adagio.language.statements;
 import org.modelcc.IModel;
 import org.modelcc.Prefix;
 
-import com.adagio.language.RunData;
+import com.adagio.events.MusicEventListener;
+import com.adagio.io.lilypond.RunData;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.MusicNote;
 
@@ -17,7 +18,7 @@ public class PlayNotesStatement extends Statement implements IModel {
 	MusicNote [] notes;
 	
 	@Override
-	public void run(RunData data) {
+	public void run(RunData data, MusicEventListener listener) {
 		AbsoluteMusicNote aMusicNote = new AbsoluteMusicNote();
 		AbsoluteMusicNote relative = data.getRelative();
 		

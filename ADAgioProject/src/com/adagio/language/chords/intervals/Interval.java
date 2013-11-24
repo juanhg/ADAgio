@@ -6,7 +6,7 @@ import java.util.Map;
 import org.modelcc.IModel;
 import org.modelcc.types.IntegerModel;
 
-import com.adagio.language.RunData;
+import com.adagio.io.lilypond.RunData;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.AlteredNoteName;
 import com.adagio.language.musicnotes.BasicNoteName;

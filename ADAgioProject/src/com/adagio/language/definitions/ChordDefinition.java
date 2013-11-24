@@ -8,7 +8,8 @@ import org.modelcc.IModel;
 import org.modelcc.Prefix;
 import org.modelcc.Suffix;
 
-import com.adagio.language.RunData;
+import com.adagio.events.MusicEventListener;
+import com.adagio.io.lilypond.RunData;
 import com.adagio.language.chords.ChordIdentifier;
 import com.adagio.language.chords.intervals.Interval;
 import com.adagio.language.musicnotes.BasicNoteName;
@@ -54,7 +55,7 @@ public class ChordDefinition extends Definition implements IModel {
 	Interval[] intervals;
 	
 	@Override
-	public void run(RunData data) {
+	public void run(RunData data, MusicEventListener listener) {
 		List<Interval> auxInterval = new ArrayList<Interval>();
 		for(int i = 0; i < intervals.length; i++){
 			auxInterval.add(intervals[i]);

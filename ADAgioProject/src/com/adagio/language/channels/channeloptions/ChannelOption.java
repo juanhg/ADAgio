@@ -2,7 +2,7 @@ package com.adagio.language.channels.channeloptions;
 
 import org.modelcc.IModel;
 
-import com.adagio.language.RunData;
+import com.adagio.io.lilypond.RunData;
 import com.adagio.language.channels.ChannelIdentifier;
 
 public abstract class ChannelOption implements IModel {

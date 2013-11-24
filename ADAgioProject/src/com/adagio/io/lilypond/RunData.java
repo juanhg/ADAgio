@@ -1,10 +1,11 @@
-package com.adagio.language;
+package com.adagio.io.lilypond;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import com.adagio.language.Time;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.MusicNoteName;
 import com.adagio.language.channels.Channel;

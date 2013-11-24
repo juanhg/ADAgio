@@ -1,4 +1,6 @@
 package com.adagio.language.statements;
+import com.adagio.events.MusicEventListener;
+import com.adagio.io.lilypond.RunData;
 import com.adagio.language.*;
 import com.adagio.language.chords.Chord;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
@@ -15,7 +17,7 @@ public class PlayStatement extends Statement implements IModel {
 	 * Takes chords, transforms the fundamental note in AbsoluteNote, and stores them
 	 * in the attribute "chords". Each absolute-fundamental-note updates the Relative note.
 	 */
-	public void run(RunData data) {
+	public void run(RunData data, MusicEventListener listener) {
 		
 		AbsoluteMusicNote aNote = null;
 		AbsoluteMusicNote bassNote = null;

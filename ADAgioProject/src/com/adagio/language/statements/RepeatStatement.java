@@ -1,4 +1,6 @@
 package com.adagio.language.statements;
+import com.adagio.events.MusicEventListener;
+import com.adagio.io.lilypond.RunData;
 import com.adagio.language.*;
 
 import org.modelcc.*;
@@ -15,10 +17,10 @@ public class RepeatStatement extends Statement implements IModel {
 	BlockStatement [] sentences;
 	
 	@Override
-	public void run(RunData data) {
+	public void run(RunData data, MusicEventListener listener) {
 		for(int i = 0; i < times.intValue(); i++){
 			for(Statement current: sentences){
-				current.run(data);
+				current.run(data, listener);
 			}
 		}
 	}

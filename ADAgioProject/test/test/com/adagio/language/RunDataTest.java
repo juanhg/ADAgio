@@ -1,7 +1,8 @@
 package test.com.adagio.language;
 
 import org.junit.Before;
-import com.adagio.language.RunData;
+
+import com.adagio.io.lilypond.RunData;
 
 
 
