@@ -10,6 +10,12 @@ public class ChannelIdentifier implements IModel {
 	@Value
 	String value;
 
+	public ChannelIdentifier(){}
+	
+	public ChannelIdentifier(String name){
+		this.value = name;
+	}
+	
 	public String getValue() {
 		return value;
 	}

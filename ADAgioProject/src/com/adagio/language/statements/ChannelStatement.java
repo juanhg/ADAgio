@@ -5,9 +5,9 @@ import org.modelcc.Optional;
 import org.modelcc.Prefix;
 import org.modelcc.IModel;
 
+import com.adagio.events.MusicChannelCreateEvent;
 import com.adagio.events.MusicEventListener;
 import com.adagio.io.lilypond.RunData;
-import com.adagio.language.channels.Channel;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.channels.channeloptions.ChannelOption;
 import com.adagio.language.channels.channeloptions.DestroyCommand;
@@ -79,23 +79,38 @@ public class ChannelStatement extends Statement implements IModel {
 
 
 	public void run(RunData data, MusicEventListener listener) {
-		
-		
+
 		// If channel doesn't exist && there is not a destroy command
 		// Creates the new channel in DB
 
-		if (!data.getChannelsDB().containsKey(id)) {
+		if (data.getChannelDB2().exists(id)) {
+			if (data.getChannelDB2().erased(id)) {
+				if (options != null) {
+					if (options[0].getClass() != DestroyCommand.class) {
+						data.getChannelDB2().getChannelDB().get(id)
+								.setErased(false);
+						data.getChannelDB2().getChannelDB().get(id)
+								.getChannel().setEnable(true);
+					}
+				}
+			}
+			
+			for (ChannelOption current : this.options) {
+				current.Apply(id, listener);
+			}
+			
+		} else {
 			if (options != null) {
 				if (options[0].getClass() != DestroyCommand.class) {
-					data.getChannelsDB().put(id, new Channel());
+					listener.createChannel(new MusicChannelCreateEvent(this, id));
 				}
 				for (ChannelOption current : this.options) {
-					current.Apply(id, data);
+					current.Apply(id, listener);
 				}
-			} else {
-				data.getChannelsDB().put(id, new Channel());
 			}
+
 		}
 	}
+		
 	
 }

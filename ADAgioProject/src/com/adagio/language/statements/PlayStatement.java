@@ -1,7 +1,9 @@
 package com.adagio.language.statements;
+import java.util.Vector;
+
 import com.adagio.events.MusicEventListener;
+import com.adagio.events.MusicPlayEvent;
 import com.adagio.io.lilypond.RunData;
-import com.adagio.language.*;
 import com.adagio.language.chords.Chord;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 
@@ -22,6 +24,7 @@ public class PlayStatement extends Statement implements IModel {
 		AbsoluteMusicNote aNote = null;
 		AbsoluteMusicNote bassNote = null;
 		Chord auxChord;
+		Vector<Chord> chordsVector = new Vector<Chord>();
 		
 		for(Chord current: chords){
 			if(data.isDefined(current)){
@@ -35,13 +38,15 @@ public class PlayStatement extends Statement implements IModel {
 				
 				auxChord = new Chord(aNote, current.getIdentifier(), bassNote);		
 				bassNote = null;
-				data.getChordsBar().add(auxChord);
+				chordsVector.add(auxChord);
 			}
 			else{
 				System.err.println("Error 1: The chord identifier \"" + current.getIdentifier().getValue() + "\" is not defined");
 				System.exit(1);
 			}
 		}
+		
+		listener.musicPlay(new MusicPlayEvent(this, chordsVector));
 	}
 
 }

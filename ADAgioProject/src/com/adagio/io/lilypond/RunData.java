@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import com.adagio.language.Time;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.MusicNoteName;
 import com.adagio.language.channels.Channel;
@@ -40,6 +39,8 @@ public class RunData {
 	// Data Base of defined channels
 	Map<ChannelIdentifier,Channel> channelsDB;
 	
+	ChannelDB channelDB2;
+	
 	Channel defaultChannel;
 		
 	/**
@@ -55,6 +56,7 @@ public class RunData {
 		chordsDB = new HashMap<ChordIdentifier,List<Interval>>();
 		channelsDB = new HashMap<ChannelIdentifier,Channel>();
 		defaultChannel = new Channel();
+		channelDB2 = new ChannelDB();
 	}
 
 	
@@ -188,6 +190,17 @@ public class RunData {
 	public boolean isDefined(Chord chord){
 		return this.chordsDB.containsKey(chord.getIdentifier());
 	}
+
+
+	public ChannelDB getChannelDB2() {
+		return channelDB2;
+	}
+
+
+	public void setChannelDB2(ChannelDB channelDB2) {
+		this.channelDB2 = channelDB2;
+	}
 	
 
+	
 }

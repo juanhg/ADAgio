@@ -5,7 +5,8 @@ import org.modelcc.IModel;
 import org.modelcc.Prefix;
 import org.modelcc.types.IntegerModel;
 
-import com.adagio.io.lilypond.RunData;
+import com.adagio.events.MusicChannelVolumeEvent;
+import com.adagio.events.MusicEventListener;
 import com.adagio.language.channels.ChannelIdentifier;
 
 public class VolumeModifier extends StatusModifier implements IModel{
@@ -35,14 +36,8 @@ public class VolumeModifier extends StatusModifier implements IModel{
 	}
 
 	@Override
-	public void Apply(ChannelIdentifier id, RunData data) {
-		if(data.getChannelsDB().containsKey(id)){
-			data.getChannelsDB().get(id).setVolume(volume.intValue());
-		}
-		else{
-			System.err.println("Error 7: Channel \"" + id.toString() + "\" doesn't exist. "
-					+ "Modifier \"" + this.toString() + "\" can't be applied.");
-		}
+	public void Apply(ChannelIdentifier id, MusicEventListener listener) {
+		listener.setChannelVolume(new MusicChannelVolumeEvent(this,id,volume.intValue()));
 	}
 	
 	@Override

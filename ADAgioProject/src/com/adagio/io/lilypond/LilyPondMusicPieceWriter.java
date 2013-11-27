@@ -2,35 +2,36 @@ package com.adagio.io.lilypond;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Vector;
 
+import com.adagio.events.MusicChannelCreateEvent;
+import com.adagio.events.MusicChannelDestroyEvent;
+import com.adagio.events.MusicChannelDisableEvent;
+import com.adagio.events.MusicChannelEnableEvent;
+import com.adagio.events.MusicChannelInstrumentEvent;
+import com.adagio.events.MusicChannelVolumeEvent;
 import com.adagio.events.MusicEventListener;
 import com.adagio.events.MusicPlayEvent;
 import com.adagio.io.MusicPieceWriter;
 import com.adagio.language.MusicPiece;
-import com.adagio.language.channels.Channel;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.chords.Chord;
 import com.adagio.language.chords.intervals.Interval;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 
-
-
-
 public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicEventListener {
 
 	RunData data;
-	ChannelDB channelDB;
 	
 	@Override
 	public void write(MusicPiece m, PrintWriter out) {
 		String composition = "";
-		RunData data = new RunData();
+		data = new RunData();
 		
 		m.run(data, this);
 		
@@ -44,64 +45,24 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	    LilyPondMusicPieceWriter writer = new LilyPondMusicPieceWriter();
 	    writer.write(m,out);
 	}
-	
+		
 	@SuppressWarnings("rawtypes")
 	private String translate(RunData data){
 		String composition = "";
 		Map.Entry e = null;
-		Iterator<Entry<ChannelIdentifier, Channel>> it;
+		Iterator<Entry<ChannelIdentifier, ChannelInfo>> it;
 		
 		composition += this.version() + "\n";
 		composition += "\\score {\n";
 		composition += " <<\n";
 		
-		it = data.getChannelsDB().entrySet().iterator();
-		if (it.hasNext()) {
-
-			while (it.hasNext()) {
-				e = (Map.Entry) it.next();
-				if (((Channel) e.getValue()).isEnable()) {
-					composition += "\\new Staff { \n";
-					composition += ("\\clef " + data.getClef() + "\n");
-					composition += "\\time " + data.getTime().toString() + "\n";
-					// TODO Translate with this class
-					composition += "\\set Staff.midiInstrument = #\""+ ((Channel) e.getValue()).getInstrument().getValue() + "\"\n";
-					composition += "\\set Staff.midiMinimumVolume = #" + 0+ "\n";
-					composition += "\\set Staff.midiMaximumVolume = #"+ ((Channel) e.getValue()).getVolume() / 100 + "\n";
-					composition += "\\new Voice {\n";
-					for (int i = 0; i < data.chordsBar.size(); i++) {
-						composition += translateChord(data.chordsBar.elementAt(i), data);
-						composition += Integer.toString(data.getTime().defaultNoteDuration());
-						if (i == 0) {
-							composition += "\\mf";
-						}
-						composition += " ";
-					}
-					composition += "\n}\n";
-					composition += "}\n";
-				}
-			}
-		} else {
-			composition += "\\new Staff { \n";
-			composition += ("\\clef " + data.getClef() + "\n");
-			composition += "\\time " + data.getTime().toString() + "\n";
-			// TODO Translate with this class
-			composition += "\\set Staff.midiInstrument = #\""+ data.getDefaultChannel().getInstrument().getValue() + "\"\n";
-			composition += "\\set Staff.midiMinimumVolume = #" + 0+ "\n";
-			composition += "\\set Staff.midiMaximumVolume = #"+ data.getDefaultChannel().getVolume() / 100 + "\n";
-			composition += "\\new Voice {\n";
-			for (int i = 0; i < data.chordsBar.size(); i++) {
-				composition += translateChord(data.chordsBar.elementAt(i), data);
-				composition += Integer.toString(data.getTime().defaultNoteDuration());
-				if (i == 0) {
-					composition += "\\mf";
-				}
-				composition += " ";
-			}
-			composition += "\n}\n";
-			composition += "}\n";
-		}
+		it = data.channelDB2.getChannelDB().entrySet().iterator();
 		
+		while (it.hasNext()) {
+			e = (Map.Entry) it.next();
+			composition += ((ChannelInfo) e.getValue()).getMusic();
+		}
+
 		composition += ">> \n";
 		composition += this.midiTail();
 		return composition;
@@ -228,8 +189,65 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 
 	@Override
 	public void musicPlay(MusicPlayEvent e) {
-		// TODO Auto-generated method stub
 		
+		Vector<Chord> chords = e.getChords();
+		String composition = "";
+		int duration = 0;
+		
+		for (int i = 0; i < chords.size(); i++) {
+			composition += translateChord(chords.elementAt(i), data);
+			duration += data.getTime().defaultNoteDuration();
+			composition += Integer.toString(data.getTime().defaultNoteDuration());
+			if (i == 0) {
+				composition += "\\mf";
+			}
+			composition += " ";
+		}
+		
+		data.channelDB2.fillEnabledWithSilences(data);
+		data.channelDB2.addMusicToEnabled(composition, duration, data);
 	}
+
+	@Override
+	public void createChannel(MusicChannelCreateEvent e) {
+		data.channelDB2.add(e.getId());
+		data.channelDB2.fillWithSilences(e.getId(), data);
+	}
+
+	@Override
+	public void destroyChannel(MusicChannelDestroyEvent e) {
+		data.channelDB2.destroy(e.getId());
+	}
+
+	@Override
+	public void enableChannel(MusicChannelEnableEvent e) {
+		data.channelDB2.enable(e.getId());
+		data.channelDB2.fillWithSilences(e.getId(), data);
+	}
+
+	@Override
+	public void disableChannel(MusicChannelDisableEvent e) {
+		data.channelDB2.disable(e.getId());
+	}
+
+	@Override
+	public void setChannelVolume(MusicChannelVolumeEvent e) {
+		data.channelDB2.setVolume(e.getId(), e.getVolume());
+	}
+
+	@Override
+	public void setChannelInstrument(MusicChannelInstrumentEvent e) {
+		data.channelDB2.setInstrument(e.getId(), e.getInstrument());
+	}
+
+	public RunData getData() {
+		return data;
+	}
+
+	public void setData(RunData data) {
+		this.data = data;
+	}
+	
+	
 
 }

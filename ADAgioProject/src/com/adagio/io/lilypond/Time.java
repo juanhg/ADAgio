@@ -1,4 +1,4 @@
-package com.adagio.language;
+package com.adagio.io.lilypond;
 
 public class Time{
     private int first;
