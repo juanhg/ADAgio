@@ -12,7 +12,6 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
-import com.adagio.io.lilypond.RunData;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.channels.channeloptions.ChannelOption;
 import com.adagio.language.channels.channeloptions.DestroyCommand;
@@ -22,12 +21,10 @@ public class ChannelStatementsTest {
 
 	  Model model;
 	  Parser<ChannelStatement> parser;
-	  RunData data;
 
 	  @SuppressWarnings("unchecked")
 	@Before
 	  public void setUp() throws Exception {
-		data = new RunData();
 	    model = JavaModelReader.read(ChannelStatement.class);
 	    parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
 	  }

@@ -9,7 +9,6 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
-import com.adagio.io.lilypond.RunData;
 import com.adagio.language.statements.RelativeStatement;
 
 import static org.modelcc.test.ModelAssert.*;
@@ -19,12 +18,10 @@ public class RelativeStatementsTest {
 
 	  Model model;
 	  Parser<RelativeStatement> parser;
-	  RunData data;
 
 	  @SuppressWarnings("unchecked")
 	@Before
 	  public void setUp() throws Exception {
-		data = new RunData();
 	    model = JavaModelReader.read(RelativeStatement.class);
 	    parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
 	  }

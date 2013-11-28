@@ -1,6 +1,5 @@
 package com.adagio.language.statements;
 import com.adagio.events.MusicEventListener;
-import com.adagio.io.lilypond.RunData;
 
 import org.modelcc.*;
 
@@ -12,9 +11,9 @@ public class BlockStatement extends Statement implements IModel {
 	Statement [] statements;
 	
 	@Override
-	public void run(RunData data, MusicEventListener listener) {
+	public void run(MusicEventListener listener) {
 		for(Statement current: statements){
-			current.run(data,listener);
+			current.run(listener);
 		}
 	}
 

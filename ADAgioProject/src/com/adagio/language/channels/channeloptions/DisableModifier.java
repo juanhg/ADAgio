@@ -4,8 +4,8 @@ import org.modelcc.IModel;
 import org.modelcc.Pattern;
 import org.modelcc.Value;
 
-import com.adagio.events.MusicChannelDisableEvent;
 import com.adagio.events.MusicEventListener;
+import com.adagio.events.channels.MusicChannelIdentifierEvent;
 import com.adagio.language.channels.ChannelIdentifier;
 
 @Pattern(regExp="(?i)DISABLE")
@@ -23,7 +23,7 @@ public class DisableModifier extends StatusModifier implements IModel{
 
 	@Override
 	public void Apply(ChannelIdentifier id, MusicEventListener listener) {
-		listener.disableChannel(new MusicChannelDisableEvent(this,id));
+		listener.disableChannel(new MusicChannelIdentifierEvent(this,id));
 	}
 	
 	@Override

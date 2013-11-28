@@ -2,8 +2,10 @@ package com.adagio.language.statements;
 import java.util.Vector;
 
 import com.adagio.events.MusicEventListener;
-import com.adagio.events.MusicPlayEvent;
-import com.adagio.io.lilypond.RunData;
+import com.adagio.events.chords.MusicChordEvent;
+import com.adagio.events.notes.MusicNoteToAbsoluteEvent;
+import com.adagio.events.statements.MusicPlayStatementEvent;
+import com.adagio.events.statements.MusicRelativeStatementEvent;
 import com.adagio.language.chords.Chord;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 
@@ -19,7 +21,7 @@ public class PlayStatement extends Statement implements IModel {
 	 * Takes chords, transforms the fundamental note in AbsoluteNote, and stores them
 	 * in the attribute "chords". Each absolute-fundamental-note updates the Relative note.
 	 */
-	public void run(RunData data, MusicEventListener listener) {
+	public void run(MusicEventListener listener) {
 		
 		AbsoluteMusicNote aNote = null;
 		AbsoluteMusicNote bassNote = null;
@@ -27,13 +29,13 @@ public class PlayStatement extends Statement implements IModel {
 		Vector<Chord> chordsVector = new Vector<Chord>();
 		
 		for(Chord current: chords){
-			if(data.isDefined(current)){
-				aNote =  current.getNote().toAbsoluteMusicNote(data);
-				data.setRelative(aNote);
+			if(listener.chordIsDefined(new MusicChordEvent(this,current))){
+				aNote = listener.toAbsolute(new MusicNoteToAbsoluteEvent(this,current.getNote())); 
+				listener.setRelative(new MusicRelativeStatementEvent(this, aNote));
 				
 				// We add the bassNote as an absoluteMusicNote
 				if(current.getBassNote() != null){
-					bassNote = current.getBassNote().toAbsoluteMusicNote(data);
+					bassNote = listener.toAbsolute(new MusicNoteToAbsoluteEvent(this,current.getBassNote()));
 				}
 				
 				auxChord = new Chord(aNote, current.getIdentifier(), bassNote);		
@@ -46,7 +48,7 @@ public class PlayStatement extends Statement implements IModel {
 			}
 		}
 		
-		listener.musicPlay(new MusicPlayEvent(this, chordsVector));
+		listener.musicPlay(new MusicPlayStatementEvent(this, chordsVector));
 	}
 
 }

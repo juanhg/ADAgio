@@ -1,6 +1,6 @@
 package com.adagio.language.statements;
 import com.adagio.events.MusicEventListener;
-import com.adagio.io.lilypond.RunData;
+import com.adagio.events.statements.MusicRelativeStatementEvent;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 
 import org.modelcc.*;
@@ -12,8 +12,8 @@ public class RelativeStatement extends Statement implements IModel {
 	AbsoluteMusicNote value;
 	
 	@Override
-	public void run(RunData data, MusicEventListener listener) {
-		data.setRelative(this.value);
+	public void run(MusicEventListener listener) {
+		listener.setRelative(new MusicRelativeStatementEvent(this, this.value));
 	}
 
 }

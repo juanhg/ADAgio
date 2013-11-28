@@ -9,19 +9,16 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
-import com.adagio.io.lilypond.RunData;
 import com.adagio.language.statements.PlayStatement;
 
 public class PlayNotesStatementsTest {
 
 	  Model model;
 	  Parser<PlayStatement> parser;
-	  RunData data;
 
 	  @SuppressWarnings("unchecked")
 	@Before
 	  public void setUp() throws Exception {
-		data = new RunData();
 	    model = JavaModelReader.read(PlayStatement.class);
 	    parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
 	  }

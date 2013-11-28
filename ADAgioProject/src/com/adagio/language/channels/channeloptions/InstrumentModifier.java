@@ -3,8 +3,8 @@ package com.adagio.language.channels.channeloptions;
 import org.modelcc.IModel;
 import org.modelcc.Prefix;
 
-import com.adagio.events.MusicChannelInstrumentEvent;
 import com.adagio.events.MusicEventListener;
+import com.adagio.events.channels.MusicChannelInstrumentEvent;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.instruments.Instrument;
 

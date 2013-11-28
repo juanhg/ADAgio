@@ -4,8 +4,6 @@ import org.modelcc.IModel;
 import org.modelcc.Prefix;
 
 import com.adagio.events.MusicEventListener;
-import com.adagio.io.lilypond.RunData;
-import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.MusicNote;
 
 /**
@@ -18,16 +16,16 @@ public class PlayNotesStatement extends Statement implements IModel {
 	MusicNote [] notes;
 	
 	@Override
-	public void run(RunData data, MusicEventListener listener) {
-		AbsoluteMusicNote aMusicNote = new AbsoluteMusicNote();
+	public void run(MusicEventListener listener) {
+		/*AbsoluteMusicNote aMusicNote = new AbsoluteMusicNote();
 		AbsoluteMusicNote relative = data.getRelative();
 		
 		for(MusicNote current: notes){
 			aMusicNote = current.toAbsoluteMusicNote(data);
 			data.notesBar.add(aMusicNote);
-			data.setRelative(aMusicNote);
+			listener.setRelative(new MusicRelativeStatementEvent(this, aMusicNote));
 		}
 		
-		data.setRelative(relative);
+		listener.setRelative(new MusicRelativeStatementEvent(this, relative));*/
 	}
 }

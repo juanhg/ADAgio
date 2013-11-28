@@ -2,52 +2,86 @@ package com.adagio.io.lilypond;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Vector;
 
-import com.adagio.events.MusicChannelCreateEvent;
-import com.adagio.events.MusicChannelDestroyEvent;
-import com.adagio.events.MusicChannelDisableEvent;
-import com.adagio.events.MusicChannelEnableEvent;
-import com.adagio.events.MusicChannelInstrumentEvent;
-import com.adagio.events.MusicChannelVolumeEvent;
 import com.adagio.events.MusicEventListener;
-import com.adagio.events.MusicPlayEvent;
+import com.adagio.events.channels.MusicChannelIdentifierEvent;
+import com.adagio.events.channels.MusicChannelInstrumentEvent;
+import com.adagio.events.channels.MusicChannelVolumeEvent;
+import com.adagio.events.chords.MusicChordAddEvent;
+import com.adagio.events.chords.MusicChordEvent;
+import com.adagio.events.notes.MusicNoteNameEvent;
+import com.adagio.events.notes.MusicNoteToAbsoluteEvent;
+import com.adagio.events.statements.MusicPlayStatementEvent;
+import com.adagio.events.statements.MusicRelativeStatementEvent;
 import com.adagio.io.MusicPieceWriter;
 import com.adagio.language.MusicPiece;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.chords.Chord;
+import com.adagio.language.chords.ChordIdentifier;
 import com.adagio.language.chords.intervals.Interval;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 
 public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicEventListener {
 
-	RunData data;
+	// Mode relative	
+	private AbsoluteMusicNote relative;
+		
+	// Clefe (bass,treble...)
+	private String clef;
+		
+	// Time (4/4, 6/8,...)
+	private Time time;
 	
-	@Override
-	public void write(MusicPiece m, PrintWriter out) {
-		String composition = "";
-		data = new RunData();
-		
-		m.run(data, this);
-		
-		composition = this.translate(data);
-		System.out.print(composition);
-		out.print(composition);
-		
+	// Data Base of defined chords
+	Map<ChordIdentifier,List<Interval>> chordsDB;
+	
+	ChannelDB channelDB;
+	
+	public LilyPondMusicPieceWriter(){
+		relative = new AbsoluteMusicNote(2, "C");
+		clef = "treble";
+		time = new Time(4,4);
+		chordsDB = new HashMap<ChordIdentifier,List<Interval>>();
+		channelDB = new ChannelDB();
 	}
+	
 	
 	public static void writeMusicPiece(MusicPiece m,PrintWriter out){
 	    LilyPondMusicPieceWriter writer = new LilyPondMusicPieceWriter();
 	    writer.write(m,out);
 	}
+	
+	@Override
+	/**
+	 * Makes the constructor's work
+	 */
+	public void write(MusicPiece m, PrintWriter out) {
 		
+		String composition = "";
+		
+		relative = new AbsoluteMusicNote(2, "C");
+		clef = "treble";
+		time = new Time(4,4);
+		chordsDB = new HashMap<ChordIdentifier,List<Interval>>();
+		channelDB = new ChannelDB();
+		
+		m.run(this);
+		
+		composition = this.translate();
+		System.out.print(composition);
+		out.print(composition);
+		
+	}
+			
 	@SuppressWarnings("rawtypes")
-	private String translate(RunData data){
+	private String translate(){
 		String composition = "";
 		Map.Entry e = null;
 		Iterator<Entry<ChannelIdentifier, ChannelInfo>> it;
@@ -56,7 +90,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		composition += "\\score {\n";
 		composition += " <<\n";
 		
-		it = data.channelDB2.getChannelDB().entrySet().iterator();
+		it = this.channelDB.getChannelMap().entrySet().iterator();
 		
 		while (it.hasNext()) {
 			e = (Map.Entry) it.next();
@@ -73,15 +107,15 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 * using its definition in "data".
 	 * Note: Need that the bassNote as a AbsoluteMusicNote
 	 */
-	public static String translateChord(Chord chord, RunData data){
+	public String translateChord(Chord chord){
 		String composition = "";
-		List<Interval> intervals = data.getChordsDB().get(chord.getIdentifier());
+		List<Interval> intervals = this.chordsDB.get(chord.getIdentifier());
 		List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
 		AbsoluteMusicNote bassNote = (AbsoluteMusicNote) chord.getBassNote();
 		
 	    //Recollects the notes result to apply the interval to the fundamental note
 		for(int i = 0; i < intervals.size();i++){
-			aNotes.add(intervals.get(i).Apply(chord.getNote(), data));		
+			aNotes.add(intervals.get(i).Apply(chord.getNote(), this));		
 		}
 		
 		if (bassNote != null) {
@@ -188,65 +222,174 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	}
 
 	@Override
-	public void musicPlay(MusicPlayEvent e) {
+	public void musicPlay(MusicPlayStatementEvent e) {
 		
 		Vector<Chord> chords = e.getChords();
 		String composition = "";
 		int duration = 0;
 		
 		for (int i = 0; i < chords.size(); i++) {
-			composition += translateChord(chords.elementAt(i), data);
-			duration += data.getTime().defaultNoteDuration();
-			composition += Integer.toString(data.getTime().defaultNoteDuration());
+			composition += translateChord(chords.elementAt(i));
+			duration += this.time.defaultNoteDuration();
+			composition += Integer.toString(this.time.defaultNoteDuration());
 			if (i == 0) {
 				composition += "\\mf";
 			}
 			composition += " ";
 		}
 		
-		data.channelDB2.fillEnabledWithSilences(data);
-		data.channelDB2.addMusicToEnabled(composition, duration, data);
+		this.channelDB.fillEnabledWithSilences(this.clef, this.time);
+		this.channelDB.addMusicToEnabled(composition, duration, this.clef, this.time);
+	}
+	
+	@Override
+	public void createChannel(MusicChannelIdentifierEvent e) {
+		this.channelDB.add(e.getId());
+		this.channelDB.fillWithSilences(e.getId(), this.clef, this.time);
 	}
 
 	@Override
-	public void createChannel(MusicChannelCreateEvent e) {
-		data.channelDB2.add(e.getId());
-		data.channelDB2.fillWithSilences(e.getId(), data);
+	public void destroyChannel(MusicChannelIdentifierEvent e) {
+		this.channelDB.destroy(e.getId());
 	}
 
 	@Override
-	public void destroyChannel(MusicChannelDestroyEvent e) {
-		data.channelDB2.destroy(e.getId());
+	public void enableChannel(MusicChannelIdentifierEvent e) {
+		this.channelDB.enable(e.getId());
+		this.channelDB.fillWithSilences(e.getId(), this.clef, this.time);
 	}
 
 	@Override
-	public void enableChannel(MusicChannelEnableEvent e) {
-		data.channelDB2.enable(e.getId());
-		data.channelDB2.fillWithSilences(e.getId(), data);
-	}
-
-	@Override
-	public void disableChannel(MusicChannelDisableEvent e) {
-		data.channelDB2.disable(e.getId());
+	public void disableChannel(MusicChannelIdentifierEvent e) {
+		this.channelDB.disable(e.getId());
 	}
 
 	@Override
 	public void setChannelVolume(MusicChannelVolumeEvent e) {
-		data.channelDB2.setVolume(e.getId(), e.getVolume());
+		this.channelDB.setVolume(e.getId(), e.getVolume());
 	}
 
 	@Override
 	public void setChannelInstrument(MusicChannelInstrumentEvent e) {
-		data.channelDB2.setInstrument(e.getId(), e.getInstrument());
+		this.channelDB.setInstrument(e.getId(), e.getInstrument());
+	}
+	
+	@Override
+	public void setRelative(MusicRelativeStatementEvent e) {
+		this.relative = (e.getaNote());
 	}
 
-	public RunData getData() {
-		return data;
+	public AbsoluteMusicNote getRelative() {
+		return relative;
 	}
 
-	public void setData(RunData data) {
-		this.data = data;
+	public void setRelative(AbsoluteMusicNote relative) {
+		this.relative = relative;
 	}
+
+	public String getClef() {
+		return clef;
+	}
+
+	public void setClef(String clef) {
+		this.clef = clef;
+	}
+
+	public Time getTime() {
+		return time;
+	}
+
+	public void setTime(Time time) {
+		this.time = time;
+	}
+
+	public Map<ChordIdentifier, List<Interval>> getChordsDB() {
+		return chordsDB;
+	}
+
+	public void setChordsDB(Map<ChordIdentifier, List<Interval>> chordsDB) {
+		this.chordsDB = chordsDB;
+	}
+
+	public ChannelDB getChannelDB() {
+		return channelDB;
+	}
+
+	public void setChannelDB(ChannelDB channelDB) {
+		this.channelDB = channelDB;
+	}
+
+	
+	/** ----- EVENTS ----- **/
+	
+	@Override
+	public AbsoluteMusicNote toAbsolute(MusicNoteToAbsoluteEvent e) {
+		return e.getNote().toAbsoluteMusicNote(this);
+	}
+
+	@Override
+	public boolean chordIsDefined(MusicChordEvent e) {
+		return this.chordsDB.containsKey(e.getChord().getIdentifier());
+		
+	}
+
+	@Override
+	public boolean existsChannel(MusicChannelIdentifierEvent e) {
+		return this.channelDB.exists(e.getId());
+	}
+
+	@Override
+	public boolean isErasedChannel(MusicChannelIdentifierEvent e) {
+		return this.channelDB.erased(e.getId());
+	}
+
+	@Override
+	public void recoverChannel(MusicChannelIdentifierEvent e) {
+		this.channelDB.getChannelMap().get(e.getId()).setErased(false);
+		
+	}
+
+	@Override
+	public void addChord(MusicChordAddEvent e) {
+		this.chordsDB.put(e.getId(), e.getIntervals());
+	}
+
+	@Override
+	public int alterationFromReference(MusicNoteNameEvent e) {
+		boolean up = false;
+		boolean down = false;
+			
+		String rNoteName = this.relative.getBasicNoteNameString();
+		int octave = this.relative.getOctave().intValue();
+		
+		int distance = this.relative.getMusicNoteName().getBaseNoteName().shortestDistance(e.getMusicNoteName().getBaseNoteName());
+		
+		if(distance == 3 && (rNoteName.equals("A") || rNoteName.equals("B")|| rNoteName.equals("C"))){
+			up = true;
+		}
+		else if(distance == 2 && (rNoteName.equals("A") || rNoteName.equals("B"))){
+			up = true;
+		}
+		else if(distance == 1 && (rNoteName.equals("B"))){
+			up = true;
+		}
+		else if(distance == -3 && (rNoteName.equals("C") || rNoteName.equals("D") || rNoteName.equals("E"))){
+			down = true;
+		}
+		else if(distance == -2 && (rNoteName.equals("C") || rNoteName.equals("D"))){
+			down = true;
+		}
+		else if(distance == -1 && (rNoteName.equals("C"))){
+			down = true;
+		}
+		
+		if(up){ octave++;}
+		else if(down){ octave--;}
+		
+		return octave;
+	}
+
+	
 	
 	
 

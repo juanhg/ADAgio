@@ -6,7 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.modelcc.types.IntegerModel;
 
-import com.adagio.io.lilypond.RunData;
+import com.adagio.events.MusicEventListener;
+import com.adagio.io.lilypond.LilyPondMusicPieceWriter;
 import com.adagio.language.chords.intervals.Interval;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.AlteredNoteName;
@@ -20,10 +21,10 @@ import com.adagio.language.musicnotes.notealterations.SharpAlteration;
 
 public class IntervalTest {
 	
-	RunData data = new RunData();
 	AbsoluteMusicNote result, note, expected;
 	Alteration alteration;
 	BasicNoteName bNoteName;
+	MusicEventListener listener;
 	
 	Interval P1, P4, P5, P8;
 	Interval d2, d3, d4, d5, d6, d7, d8;
@@ -35,6 +36,9 @@ public class IntervalTest {
 			
 	@Before
 	public void setUp() throws Exception {
+		
+		listener = new LilyPondMusicPieceWriter();
+		
 		P1 = new Interval("P",1);
 		d2 = new Interval("d",2);
 		m2 = new Interval("m",2);
@@ -113,31 +117,31 @@ public class IntervalTest {
 		// P5(-3C) --> -3G
 		note = new AbsoluteMusicNote(-3,"C");
 		expected = new AbsoluteMusicNote(-3,"G");
-		result = P5.Apply(note, data);
+		result = P5.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// P5(-3G) --> -2D
 		note = result;
 		expected = new AbsoluteMusicNote(-2,"D");
-		result = P5.Apply(note, data);
+		result = P5.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 
 		// P5(-2D) --> -2A
 		note = result;
 		expected = new AbsoluteMusicNote(-2,"A");
-		result = P5.Apply(note, data);
+		result = P5.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// P5(-2A) --> -1E
 		note = result;
 		expected = new AbsoluteMusicNote(-1,"E");
-		result = P5.Apply(note, data);
+		result = P5.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// P5(-1E) --> -1B
 		note = result;
 		expected = new AbsoluteMusicNote(-1,"B");
-		result = P5.Apply(note, data);
+		result = P5.Apply(note, listener);
 		assertEquals(true, expected.equals(result));	
 		
 		// P5(-1B) --> 0F#
@@ -145,7 +149,7 @@ public class IntervalTest {
 		bNoteName = new BasicNoteName("F");
 		alteration = new SharpAlteration(true);
 		expected = new AbsoluteMusicNote(new IntegerModel(0), new AlteredNoteName(bNoteName, alteration));
-		result = P5.Apply(note, data);
+		result = P5.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// P5(0F#) --> 1C#
@@ -153,7 +157,7 @@ public class IntervalTest {
 		bNoteName = new BasicNoteName("C");
 		alteration = new SharpAlteration(true);
 		expected = new AbsoluteMusicNote(new IntegerModel(1), new AlteredNoteName(bNoteName, alteration));
-		result = P5.Apply(note, data);
+		result = P5.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		
@@ -162,7 +166,7 @@ public class IntervalTest {
 		// P4(-3C) --> -3F
 		note = new AbsoluteMusicNote(-3,"C");
 		expected = new AbsoluteMusicNote(-3,"F");
-		result = P4.Apply(note, data);
+		result = P4.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// P5(-3F) --> -3Bb
@@ -170,7 +174,7 @@ public class IntervalTest {
 		bNoteName = new BasicNoteName("B");
 		alteration = new FlatAlteration(true);
 		expected = new AbsoluteMusicNote(new IntegerModel(-3), new AlteredNoteName(bNoteName, alteration));
-		result = P4.Apply(note, data);
+		result = P4.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 
 		// P5(-3Bb) --> -2Eb
@@ -178,7 +182,7 @@ public class IntervalTest {
 		bNoteName = new BasicNoteName("E");
 		alteration = new FlatAlteration(true);
 		expected = new AbsoluteMusicNote(new IntegerModel(-2), new AlteredNoteName(bNoteName, alteration));
-		result = P4.Apply(note, data);
+		result = P4.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// P5(-2Eb) --> -2Ab
@@ -186,7 +190,7 @@ public class IntervalTest {
 		bNoteName = new BasicNoteName("A");
 		alteration = new FlatAlteration(true);
 		expected = new AbsoluteMusicNote(new IntegerModel(-2), new AlteredNoteName(bNoteName, alteration));
-		result = P4.Apply(note, data);
+		result = P4.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// P5(-2Ab) --> -1Db
@@ -194,7 +198,7 @@ public class IntervalTest {
 		bNoteName = new BasicNoteName("D");
 		alteration = new FlatAlteration(true);
 		expected = new AbsoluteMusicNote(new IntegerModel(-1), new AlteredNoteName(bNoteName, alteration));
-		result = P4.Apply(note, data);
+		result = P4.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 
 		// P5(-1Db) --> -1Gb
@@ -202,7 +206,7 @@ public class IntervalTest {
 		bNoteName = new BasicNoteName("G");
 		alteration = new FlatAlteration(true);
 		expected = new AbsoluteMusicNote(new IntegerModel(-1), new AlteredNoteName(bNoteName, alteration));
-		result = P4.Apply(note, data);
+		result = P4.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// P5(-1Gb) --> 0Cb
@@ -210,7 +214,7 @@ public class IntervalTest {
 		bNoteName = new BasicNoteName("C");
 		alteration = new FlatAlteration(true);
 		expected = new AbsoluteMusicNote(new IntegerModel(0), new AlteredNoteName(bNoteName, alteration));
-		result = P4.Apply(note, data);
+		result = P4.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 
 		/* OTHERS */
@@ -218,13 +222,13 @@ public class IntervalTest {
 		// P1(0C) --> 0C
 		expected = new AbsoluteMusicNote(0,"C");
 		note = new AbsoluteMusicNote(0,"C");
-		result = P1.Apply(note, data);
+		result = P1.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// M3(0C) --> 0E
 		note = new AbsoluteMusicNote(0,"C");
 		expected = new AbsoluteMusicNote(0,"E");
-		result = M3.Apply(note, data);
+		result = M3.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// m3(0C#) --> 0E
@@ -232,7 +236,7 @@ public class IntervalTest {
 		alteration = new SharpAlteration(true);
 		note = new AbsoluteMusicNote(new IntegerModel(0), new AlteredNoteName(bNoteName, alteration));
 		expected = new AbsoluteMusicNote(0,"E");
-		result = m3.Apply(note, data);
+		result = m3.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// P5(0C#) --> 0G#
@@ -241,7 +245,7 @@ public class IntervalTest {
 		note = new AbsoluteMusicNote(new IntegerModel(0), new AlteredNoteName(bNoteName, alteration));
 		bNoteName = new BasicNoteName("G");
 		expected =new AbsoluteMusicNote(new IntegerModel(0), new AlteredNoteName(bNoteName, alteration));
-		result = P5.Apply(note, data);
+		result = P5.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// M3(0E#) --> 0G##
@@ -251,7 +255,7 @@ public class IntervalTest {
 		bNoteName = new BasicNoteName("G");
 		alteration = new DoubleSharpAlteration(true);
 		expected =new AbsoluteMusicNote(new IntegerModel(0), new AlteredNoteName(bNoteName, alteration));
-		result = M3.Apply(note, data);
+		result = M3.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		
@@ -262,13 +266,13 @@ public class IntervalTest {
 		bNoteName = new BasicNoteName("E");
 		alteration = new SharpAlteration(true);
 		expected =new AbsoluteMusicNote(new IntegerModel(1), new AlteredNoteName(bNoteName, alteration));
-		result = P5.Apply(note, data);
+		result = P5.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// d5(0B) --> 1F
 		note = new AbsoluteMusicNote(0, "B");
 		expected =new AbsoluteMusicNote(1,"F");
-		result = d5.Apply(note, data);
+		result = d5.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// d5(0Cb) --> 0Gbb
@@ -278,7 +282,7 @@ public class IntervalTest {
 		bNoteName = new BasicNoteName("G");
 		alteration = new DoubleFlatAlteration(true);
 		expected =new AbsoluteMusicNote(new IntegerModel(0), new AlteredNoteName(bNoteName, alteration));
-		result = d5.Apply(note, data);
+		result = d5.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// A3(0B#) --> E#
@@ -287,7 +291,7 @@ public class IntervalTest {
 		note = new AbsoluteMusicNote(new IntegerModel(0), new AlteredNoteName(bNoteName, alteration));
 		bNoteName = new BasicNoteName("E");
 		expected =new AbsoluteMusicNote(new IntegerModel(1), new AlteredNoteName(bNoteName, alteration));
-		result = A3.Apply(note, data);
+		result = A3.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// AA3(0B#) --> E##
@@ -297,7 +301,7 @@ public class IntervalTest {
 		bNoteName = new BasicNoteName("E");
 		alteration = new DoubleSharpAlteration(true);
 		expected =new AbsoluteMusicNote(new IntegerModel(1), new AlteredNoteName(bNoteName, alteration));
-		result = AA3.Apply(note, data);
+		result = AA3.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// A14(0C) --> 2B#
@@ -305,7 +309,7 @@ public class IntervalTest {
 		bNoteName = new BasicNoteName("B");
 		alteration = new SharpAlteration(true);
 		expected = new AbsoluteMusicNote(new IntegerModel(1), new AlteredNoteName(bNoteName, alteration));
-		result = A14.Apply(note, data);
+		result = A14.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// AA14(0C) --> 1B##
@@ -313,7 +317,7 @@ public class IntervalTest {
 		bNoteName = new BasicNoteName("B");
 		alteration = new DoubleSharpAlteration(true);
 		expected = new AbsoluteMusicNote(new IntegerModel(1), new AlteredNoteName(bNoteName, alteration));
-		result = AA14.Apply(note, data);
+		result = AA14.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// AA14(0C#) --> 2C##
@@ -323,7 +327,7 @@ public class IntervalTest {
 		bNoteName = new BasicNoteName("C");
 		alteration = new DoubleSharpAlteration(true);
 		expected = new AbsoluteMusicNote(new IntegerModel(2), new AlteredNoteName(bNoteName, alteration));
-		result = AA14.Apply(note, data);
+		result = AA14.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 		// dd14(4A) --> 6Gb
@@ -331,7 +335,7 @@ public class IntervalTest {
 		bNoteName = new BasicNoteName("G");
 		alteration = new DoubleFlatAlteration(true);
 		expected = new AbsoluteMusicNote(new IntegerModel(6), new AlteredNoteName(bNoteName, alteration));
-		result = dd14.Apply(note, data);
+		result = dd14.Apply(note, listener);
 		assertEquals(true, expected.equals(result));
 		
 	}

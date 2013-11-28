@@ -5,8 +5,8 @@ import org.modelcc.IModel;
 import org.modelcc.Prefix;
 import org.modelcc.types.IntegerModel;
 
-import com.adagio.events.MusicChannelVolumeEvent;
 import com.adagio.events.MusicEventListener;
+import com.adagio.events.channels.MusicChannelVolumeEvent;
 import com.adagio.language.channels.ChannelIdentifier;
 
 public class VolumeModifier extends StatusModifier implements IModel{

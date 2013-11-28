@@ -10,19 +10,16 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
-import com.adagio.io.lilypond.RunData;
 import com.adagio.language.definitions.ChordDefinition;
 
 public class ChordDefinitionsTest {
 	
 	  Model model;
 	  Parser<ChordDefinition> parser;
-	  RunData data;
 
 	  @SuppressWarnings("unchecked")
 	@Before
 	  public void setUp() throws Exception {
-		data = new RunData();
 	    model = JavaModelReader.read(ChordDefinition.class);
 	    parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
 	  }

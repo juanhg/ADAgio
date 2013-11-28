@@ -11,15 +11,15 @@ import com.adagio.language.instruments.Instrument;
 public class ChannelDB {
 
 
-	private Map<ChannelIdentifier, ChannelInfo> channelDB;
+	private Map<ChannelIdentifier, ChannelInfo> channelMap;
 
 	/**
 	 * Initializes the channelDB and creates the default channel empty 
 	 */
 	public ChannelDB() {
-		channelDB = new HashMap<ChannelIdentifier, ChannelInfo>();
-		channelDB.put(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER), new ChannelInfo());
-		channelDB.get(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER)).getChannel().setEnable(false);
+		channelMap = new HashMap<ChannelIdentifier, ChannelInfo>();
+		channelMap.put(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER), new ChannelInfo());
+		channelMap.get(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER)).getChannel().setEnable(false);
 	}
 
 	/**
@@ -28,7 +28,7 @@ public class ChannelDB {
 	 * @return True if channel has existed anytime in the database.
 	 */
 	public boolean exists(ChannelIdentifier id) {
-		return channelDB.containsKey(id);
+		return channelMap.containsKey(id);
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class ChannelDB {
 	 */
 	public boolean erased(ChannelIdentifier id) {
 		if (this.exists(id)) {
-			return channelDB.get(id).isErased();
+			return channelMap.get(id).isErased();
 		}
 		return false;
 	}
@@ -54,10 +54,10 @@ public class ChannelDB {
 		ChannelInfo info;
 
 		if (this.erased(id)) {
-			channelDB.get(id).setErased(false);
+			channelMap.get(id).setErased(false);
 		} else {
 			info = new ChannelInfo();
-			channelDB.put(id, info);
+			channelMap.put(id, info);
 		}
 	}
 
@@ -72,8 +72,8 @@ public class ChannelDB {
 				System.err.println("Warning: Channel \"" + id.toString()
 						+ "\" doesn't exist. It can't be destroyed.");
 			} else {
-				channelDB.get(id).setErased(true);
-				channelDB.get(id).getChannel().setEnable(false);
+				channelMap.get(id).setErased(true);
+				channelMap.get(id).getChannel().setEnable(false);
 			}
 		} else {
 			System.err.println("Warning: Channel \"" + id.toString()
@@ -83,7 +83,7 @@ public class ChannelDB {
 
 	public void enable(ChannelIdentifier id) {
 		if(!this.erased(id)){
-			channelDB.get(id).getChannel().setEnable(true);
+			channelMap.get(id).getChannel().setEnable(true);
 		}
 		else{
 			System.err.println("Error 7: Channel \"" + id.toString() + "\" doesn't exist. "
@@ -93,7 +93,7 @@ public class ChannelDB {
 
 	public void disable(ChannelIdentifier id) {
 		if(!this.erased(id)){
-			channelDB.get(id).getChannel().setEnable(false);
+			channelMap.get(id).getChannel().setEnable(false);
 		}
 		else{
 			System.err.println("Error 7: Channel \"" + id.toString() + "\" doesn't exist. "
@@ -103,7 +103,7 @@ public class ChannelDB {
 
 	public void setVolume(ChannelIdentifier id, int volume) {
 		if(!this.erased(id)){
-			channelDB.get(id).getChannel().setVolume(volume);
+			channelMap.get(id).getChannel().setVolume(volume);
 		}
 		else{
 			System.err.println("Error 7: Channel \"" + id.toString() + "\" doesn't exist. "
@@ -113,7 +113,7 @@ public class ChannelDB {
 	
 	public void setInstrument(ChannelIdentifier id, Instrument instrument){
 		if(!this.erased(id)){
-			channelDB.get(id).getChannel().setInstrument(instrument);
+			channelMap.get(id).getChannel().setInstrument(instrument);
 		}
 		else{
 			System.err.println("Error 7: Channel \"" + id.toString() + "\" doesn't exist. "
@@ -128,30 +128,30 @@ public class ChannelDB {
 	 * @param duration
 	 * @param data
 	 */
-	public void addMusic(ChannelIdentifier id, String music, int duration, RunData data){
+	public void addMusic(ChannelIdentifier id, String music, int duration, String clef, Time time){
 		String composition = "";
 		
 		if(!this.erased(id)){
-			if(!(channelDB.get(id).getMusic().equals(""))){
+			if(!(channelMap.get(id).getMusic().equals(""))){
 				//Deletes the last "}"
-				channelDB.get(id).setMusic(channelDB.get(id).getMusic().substring(0, channelDB.get(id).getMusic().length()-2));
+				channelMap.get(id).setMusic(channelMap.get(id).getMusic().substring(0, channelMap.get(id).getMusic().length()-2));
 			}
 			else{
 				composition += "\\new Staff { \n";
 			}
 			
-			composition += ("\\clef " + data.getClef() + "\n");
-			composition += "\\time " + data.getTime().toString() + "\n";
-			composition += "\\set Staff.midiInstrument = #\""+ channelDB.get(id).getChannel().getInstrument().getValue() + "\"\n";
+			composition += ("\\clef " + clef + "\n");
+			composition += "\\time " + time.toString() + "\n";
+			composition += "\\set Staff.midiInstrument = #\""+ channelMap.get(id).getChannel().getInstrument().getValue() + "\"\n";
 			composition += "\\set Staff.midiMinimumVolume = #" + 0+ "\n";
-			composition += "\\set Staff.midiMaximumVolume = #"+ channelDB.get(id).getChannel().getVolume() / 100 + "\n";
+			composition += "\\set Staff.midiMaximumVolume = #"+ channelMap.get(id).getChannel().getVolume() / 100 + "\n";
 			composition += "\\new Voice {\n";
 			composition += music;
 			composition += "\n}\n";
 			composition += "}\n";
 			
-			channelDB.get(id).addMusic(composition);
-			channelDB.get(id).addDuration(duration);
+			channelMap.get(id).addMusic(composition);
+			channelMap.get(id).addDuration(duration);
 		}
 		else{
 			System.err.println("Error X: Channel \"" + id.toString() + "\" doesn't exist. "
@@ -167,37 +167,37 @@ public class ChannelDB {
 	 * @param data
 	 */
 	@SuppressWarnings("rawtypes")
-	public void addMusicToEnabled(String music, int duration, RunData data){
+	public void addMusicToEnabled(String music, int duration, String clef, Time time){
 		Map.Entry e = null;
 		Iterator<Entry<ChannelIdentifier, ChannelInfo>> it;
 		
-		it = this.channelDB.entrySet().iterator();
+		it = this.channelMap.entrySet().iterator();
 		if (it.hasNext()) {
 
 			while (it.hasNext()) {
 				e = (Map.Entry) it.next();
 				if(((ChannelInfo)e.getValue()).getChannel().isEnable()){
-					this.addMusic((ChannelIdentifier)e.getKey(), music, duration, data);
+					this.addMusic((ChannelIdentifier)e.getKey(), music, duration, clef, time);
 				}
 			}
 		}
 		else{
-			this.addMusic(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER),music,duration,data);
+			this.addMusic(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER),music,duration,clef, time);
 		}
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public void fillEnabledWithSilences(RunData data){
+	public void fillEnabledWithSilences(String clef, Time time){
 		Map.Entry e = null;
 		Iterator<Entry<ChannelIdentifier, ChannelInfo>> it;
 		
-		it = this.channelDB.entrySet().iterator();
+		it = this.channelMap.entrySet().iterator();
 		if (it.hasNext()) {
 
 			while (it.hasNext()) {
 				e = (Map.Entry) it.next();
 				if(((ChannelInfo)e.getValue()).getChannel().isEnable()){
-					this.fillWithSilences((ChannelIdentifier)e.getKey(), data);
+					this.fillWithSilences((ChannelIdentifier)e.getKey(), clef, time);
 				}
 			}
 		}
@@ -215,7 +215,7 @@ public class ChannelDB {
 		int max = 0;
 		int auxDuration = 0;
 		
-		it = this.channelDB.entrySet().iterator();
+		it = this.channelMap.entrySet().iterator();
 		if (it.hasNext()) {
 
 			while (it.hasNext()) {
@@ -235,22 +235,22 @@ public class ChannelDB {
 	 * @param id
 	 * @param data
 	 */
-	public void fillWithSilences(ChannelIdentifier id, RunData data) {
+	public void fillWithSilences(ChannelIdentifier id, String clef, Time time) {
 		int maxDuration = this.maxDuration();
 		int auxDuration = 0;
 		int difference = 0;
 
 		String composition = "";
 
-		if (this.channelDB.containsKey(id)) {
-			auxDuration = this.channelDB.get(id).getDuration();
+		if (this.channelMap.containsKey(id)) {
+			auxDuration = this.channelMap.get(id).getDuration();
 			difference = maxDuration - auxDuration;
 
 			if (difference > 0) {
 				for (int i = difference; i > 0; i--) {
 					composition += "s1 ";
 				}
-				this.addMusic(id, composition, difference, data);
+				this.addMusic(id, composition, difference, clef, time);
 			}
 		} else {
 			System.err.println("Error 10: Channel \"" + id.toString()
@@ -259,11 +259,11 @@ public class ChannelDB {
 		}
 	}
 
-	public Map<ChannelIdentifier, ChannelInfo> getChannelDB() {
-		return channelDB;
+	public Map<ChannelIdentifier, ChannelInfo> getChannelMap() {
+		return channelMap;
 	}
 
-	public void setChannelDB(Map<ChannelIdentifier, ChannelInfo> channelDB) {
-		this.channelDB = channelDB;
+	public void setChannelMap(Map<ChannelIdentifier, ChannelInfo> channelMap) {
+		this.channelMap = channelMap;
 	}
 }

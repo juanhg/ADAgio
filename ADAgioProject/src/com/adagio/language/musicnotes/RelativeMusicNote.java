@@ -3,7 +3,8 @@ package com.adagio.language.musicnotes;
 import org.modelcc.IModel;
 import org.modelcc.Optional;
 
-import com.adagio.io.lilypond.RunData;
+import com.adagio.events.MusicEventListener;
+import com.adagio.events.notes.MusicNoteNameEvent;
 import com.adagio.language.musicnotes.octavealterations.OctaveAlteration;
 
 public class RelativeMusicNote extends MusicNote implements IModel {
@@ -30,10 +31,10 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 	}
 
 	@Override
-	public AbsoluteMusicNote toAbsoluteMusicNote(RunData data) {
+	public AbsoluteMusicNote toAbsoluteMusicNote(MusicEventListener listener) {
 		int nAlterations = 0;
 		AbsoluteMusicNote result = new AbsoluteMusicNote();
-		nAlterations += data.alterationFromReference(musicNoteName);
+		nAlterations += listener.alterationFromReference(new MusicNoteNameEvent(this,musicNoteName));
 		if(octave != null){
 			nAlterations += octave.toInt();
 		}

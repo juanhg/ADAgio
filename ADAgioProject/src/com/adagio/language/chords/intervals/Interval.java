@@ -6,7 +6,8 @@ import java.util.Map;
 import org.modelcc.IModel;
 import org.modelcc.types.IntegerModel;
 
-import com.adagio.io.lilypond.RunData;
+import com.adagio.events.MusicEventListener;
+import com.adagio.events.notes.MusicNoteToAbsoluteEvent;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.AlteredNoteName;
 import com.adagio.language.musicnotes.BasicNoteName;
@@ -113,7 +114,7 @@ public class Interval implements IModel {
 	 * @param data
 	 * @return
 	 */
-	public int octaveAlterations(MusicNoteName noteName, RunData data){
+	public int octaveAlterations(MusicNoteName noteName){
 		int increment = 0;
 		int noteIntValue =  BasicNoteName.nameToInt(noteName.getBaseNoteName());
 		
@@ -134,9 +135,9 @@ public class Interval implements IModel {
 	 * @return And absolute note with the result of apply the interval to the note. Always is 
 	 * higher than the fundamental one
 	 */
-	public AbsoluteMusicNote Apply(MusicNote note, RunData data){
+	public AbsoluteMusicNote Apply(MusicNote note, MusicEventListener listener){
 		
-		AbsoluteMusicNote aNote = (note.toAbsoluteMusicNote(data));
+		AbsoluteMusicNote aNote = listener.toAbsolute(new MusicNoteToAbsoluteEvent(this,note));
 
 		int octave = aNote.getOctave().intValue();
 		BasicNoteName bName = (BasicNoteName) aNote.getMusicNoteName().getBaseNoteName().clone();
@@ -148,7 +149,7 @@ public class Interval implements IModel {
 		int semitones2Notes = 0;
 		
 		// Generating the new octave value
-		octave += this.octaveAlterations(aNote.getMusicNoteName(), data);
+		octave += this.octaveAlterations(aNote.getMusicNoteName());
 		
 		// Generating the new noteName
 		aux = (BasicNoteName.nameToInt(bName) + number.intValue());
@@ -158,7 +159,6 @@ public class Interval implements IModel {
 		
 		
 		// Fixing the alteration
-		// TODO fix this.
 		semitones2Notes = aNote.semitonesTill(new AbsoluteMusicNote(new IntegerModel(octave),bName));
 		aux = semitones - semitones2Notes;
 		

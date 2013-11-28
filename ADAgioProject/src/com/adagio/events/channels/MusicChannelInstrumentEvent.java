@@ -1,4 +1,4 @@
-package com.adagio.events;
+package com.adagio.events.channels;
 
 import java.util.EventObject;
 

@@ -1,17 +1,18 @@
-package com.adagio.events;
+package com.adagio.events.channels;
 
 import java.util.EventObject;
 
 import com.adagio.language.channels.ChannelIdentifier;
 
-public class MusicChannelDisableEvent extends EventObject {
+public class MusicChannelIdentifierEvent extends EventObject{
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5763182959489914368L;
+	private static final long serialVersionUID = 1L;
 	private ChannelIdentifier id;
 
-	public MusicChannelDisableEvent(Object source, ChannelIdentifier id){
+	public MusicChannelIdentifierEvent(Object source, ChannelIdentifier id) {
 		super(source);
 		this.id = id;
 	}
@@ -22,7 +23,5 @@ public class MusicChannelDisableEvent extends EventObject {
 
 	public void setId(ChannelIdentifier id) {
 		this.id = id;
-	}
-	
-	 
+	}	
 }

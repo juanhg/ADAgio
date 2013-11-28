@@ -4,7 +4,7 @@ import org.modelcc.Constraint;
 import org.modelcc.IModel;
 import org.modelcc.types.IntegerModel;
 
-import com.adagio.io.lilypond.RunData;
+import com.adagio.events.MusicEventListener;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 
 public class AbsoluteMusicNote extends MusicNote implements IModel {
@@ -217,7 +217,7 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	}
 	
 	@Override
-	public AbsoluteMusicNote toAbsoluteMusicNote(RunData data) {
+	public AbsoluteMusicNote toAbsoluteMusicNote(MusicEventListener listener) {
 		return this;
 	}
 	

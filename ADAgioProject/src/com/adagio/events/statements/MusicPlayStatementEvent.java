@@ -1,4 +1,4 @@
-package com.adagio.events;
+package com.adagio.events.statements;
 
 import com.adagio.language.chords.Chord;
 
@@ -7,14 +7,14 @@ import java.util.Vector;
 
 
 
-public class MusicPlayEvent extends EventObject {
+public class MusicPlayStatementEvent extends EventObject {
 	
 	private static final long serialVersionUID = 1L;
 	
 	// Este evento se lanza cuando se ha generado música.
 	private  Vector<Chord> chords;
 
-	public MusicPlayEvent(Object source, Vector<Chord> chords) {
+	public MusicPlayStatementEvent(Object source, Vector<Chord> chords) {
 		super(source);
 		this.chords = chords;
 	}
