@@ -79,7 +79,11 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		out.print(composition);
 		
 	}
-			
+		
+	/**
+	 * Translates all the main program
+	 * @return
+	 */
 	@SuppressWarnings("rawtypes")
 	private String translate(){
 		String composition = "";
@@ -102,7 +106,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		return composition;
 	}
 	
-	/*
+	/**
 	 * Receives a chord with an absolute-fundamental-note and translates it 
 	 * using its definition in "data".
 	 * Note: Need that the bassNote as a AbsoluteMusicNote
@@ -202,6 +206,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		return composition;
 	}
 	
+	/**
+	 * @return String-tail needed to create the midi file
+	 */
 	private String midiTail(){
 		String composition = "";
 		
@@ -221,64 +228,207 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		return "\\version \"2.16.2\"";
 	}
 
+	/** ----- EVENTS ----- **/
+	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void musicPlay(MusicPlayStatementEvent e) {
 		
+		AbsoluteMusicNote aNote = null;
+		AbsoluteMusicNote bassNote = null;
+
 		Vector<Chord> chords = e.getChords();
+		Vector<Chord> absoluteChords = new Vector<Chord>();
 		String composition = "";
-		int duration = 0;
-		
+
+		// Translates to absoluteMusicNote
 		for (int i = 0; i < chords.size(); i++) {
-			composition += translateChord(chords.elementAt(i));
-			duration += this.time.defaultNoteDuration();
-			composition += Integer.toString(this.time.defaultNoteDuration());
-			if (i == 0) {
-				composition += "\\mf";
+			if (this.chordsDB.containsKey(chords.get(i).getIdentifier())) {
+				aNote = chords.get(i).getNote().toAbsoluteMusicNote(this);
+				this.setRelative(aNote);
+
+				// We add the bassNote as an absoluteMusicNote
+				if (chords.get(i).getBassNote() != null) {
+					bassNote = chords.get(i).getBassNote()
+							.toAbsoluteMusicNote(this);
+				}
+
+				absoluteChords.add(new Chord(aNote, chords.get(i)
+						.getIdentifier(), bassNote));
+			} else {
+				System.err.println("Error 1: The chord identifier \""
+						+ chords.get(i).getIdentifier().getValue()
+						+ "\" is not defined");
+				System.exit(1);
 			}
-			composition += " ";
+
 		}
+
+		//Prepare staffs to play (Staff.maximunVolume...)
+		this.channelDB.prepareStaffToPlay(clef, time);
+		this.channelDB.fillEnabledWithSilences(clef, time);
 		
-		this.channelDB.fillEnabledWithSilences(this.clef, this.time);
-		this.channelDB.addMusicToEnabled(composition, duration, this.clef, this.time);
-	}
+		composition = "";
+		int duration = 0;
+
+		Map.Entry x = null;
+		Iterator<Entry<ChannelIdentifier, ChannelInfo>> it;
+
+		it = this.getChannelDB().getChannelMap().entrySet().iterator();
+		
+		this.channelDB.fillEnabledWithSilences(clef, time);
+		
+			while (it.hasNext()) {
+				x = (Map.Entry) it.next();
+				if (((ChannelInfo) x.getValue()).getChannel().isEnable()) {
+
+					for (int i = 0; i < absoluteChords.size(); i++) {
+						composition += translateChord(absoluteChords.get(i));
+						duration += this.time.defaultNoteDuration();
+						composition += Integer.toString(this.time
+								.defaultNoteDuration());
+						if (((ChannelInfo) x.getValue()).isVolumeChanged()) {
+							composition += "\\mf";
+							((ChannelInfo) x.getValue()).setVolumeChanged(false);
+						}
+						composition += " ";
+					}
+					composition += "\n";
+
+					this.channelDB.addMusic((ChannelIdentifier) x.getKey(),composition, duration, clef, time);
+					duration = 0;
+					composition = "";
+				}
+
+			}
+		} 
 	
+	/**
+	 * Event that occurs when a channel is going to be created.
+	 * DISABLES the default channel.
+	 */
 	@Override
 	public void createChannel(MusicChannelIdentifierEvent e) {
 		this.channelDB.add(e.getId());
-		this.channelDB.fillWithSilences(e.getId(), this.clef, this.time);
+		if(!e.getId().getValue().equals(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER)){
+			this.channelDB.disable(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER));
+		}
 	}
 
+	/**
+	 * Event that occurs when a channel is going to be destroyed.
+	 */
 	@Override
 	public void destroyChannel(MusicChannelIdentifierEvent e) {
 		this.channelDB.destroy(e.getId());
 	}
 
+	
+	/**
+	 * Event that occurs when a translation to AbsoluteMusicNote is needed
+	 */
+	@Override
+	public AbsoluteMusicNote toAbsolute(MusicNoteToAbsoluteEvent e) {
+		return e.getNote().toAbsoluteMusicNote(this);
+	}
+
+	/**
+	 * Event that look for a chord in chordsDB
+	 * @return true if is defined. False in other case
+	 */
+	@Override
+	public boolean chordIsDefined(MusicChordEvent e) {
+		return this.chordsDB.containsKey(e.getChord().getIdentifier());
+		
+	}
+
+	/**
+	 * Event that happens when it's needed to know if a channel has existed anytime in DB
+	 * @return true if has existed. False in other case.
+	 */
+	@Override
+	public boolean existsChannel(MusicChannelIdentifierEvent e) {
+		return this.channelDB.exists(e.getId());
+	}
+
+	/**
+	 * Event that happens when it's needed to know if a channel has been erased (logically destroyed)
+	 * @return true if is erased. False in other case.
+	 */
+	@Override
+	public boolean isErasedChannel(MusicChannelIdentifierEvent e) {
+		return this.channelDB.isErased(e.getId());
+	}
+
+	/**
+	 * Event that happens when it's needed to recover a previously destroyed channel
+	 */
+	@Override
+	public void recoverChannel(MusicChannelIdentifierEvent e) {
+		this.channelDB.getChannelMap().get(e.getId()).setErased(false);
+		//this.channelDB.fillWithSilences(e.getId(), this.clef, this.time);
+		
+		
+	}
+
+	/**
+	 * Event that happens when it's needed to add a chord in ChordsDB
+	 */
+	@Override
+	public void addChord(MusicChordAddEvent e) {
+		this.chordsDB.put(e.getId(), e.getIntervals());
+	}
+	
+	/**
+	 * Event that happens when a channel is going to be neabled. DISABLES the
+	 * default channel (unless it was the enabled one).
+	 */
 	@Override
 	public void enableChannel(MusicChannelIdentifierEvent e) {
 		this.channelDB.enable(e.getId());
-		this.channelDB.fillWithSilences(e.getId(), this.clef, this.time);
+		if (!e.getId().getValue()
+				.equals(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER)) {
+			this.channelDB.disable(new ChannelIdentifier(
+					ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER));
+		}
 	}
-
+	
+	/**
+	 * Event that happens when it's needed to disable a channel
+	 */
 	@Override
 	public void disableChannel(MusicChannelIdentifierEvent e) {
 		this.channelDB.disable(e.getId());
 	}
-
+	
+	/**
+	 * Event that happens when it's needed change the volume of a channel
+	 */
 	@Override
 	public void setChannelVolume(MusicChannelVolumeEvent e) {
 		this.channelDB.setVolume(e.getId(), e.getVolume());
+		this.channelDB.getChannelMap().get(e.getId()).setVolumeChanged(true);
 	}
 
+	/**
+	 * Event that happens when it's needed to change the instrument of a channel
+	 */
 	@Override
 	public void setChannelInstrument(MusicChannelInstrumentEvent e) {
 		this.channelDB.setInstrument(e.getId(), e.getInstrument());
 	}
 	
+	/**
+	 * Event that happens when it's needed to change the relative note
+	 */
 	@Override
 	public void setRelative(MusicRelativeStatementEvent e) {
 		this.relative = (e.getaNote());
 	}
 
+	
+	/** ----- GETTERS & SETTERS ----- **/
+	
 	public AbsoluteMusicNote getRelative() {
 		return relative;
 	}
@@ -320,40 +470,12 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	}
 
 	
-	/** ----- EVENTS ----- **/
+	/** ----- OTHERS ----- **/
 	
-	@Override
-	public AbsoluteMusicNote toAbsolute(MusicNoteToAbsoluteEvent e) {
-		return e.getNote().toAbsoluteMusicNote(this);
-	}
-
-	@Override
-	public boolean chordIsDefined(MusicChordEvent e) {
-		return this.chordsDB.containsKey(e.getChord().getIdentifier());
-		
-	}
-
-	@Override
-	public boolean existsChannel(MusicChannelIdentifierEvent e) {
-		return this.channelDB.exists(e.getId());
-	}
-
-	@Override
-	public boolean isErasedChannel(MusicChannelIdentifierEvent e) {
-		return this.channelDB.erased(e.getId());
-	}
-
-	@Override
-	public void recoverChannel(MusicChannelIdentifierEvent e) {
-		this.channelDB.getChannelMap().get(e.getId()).setErased(false);
-		
-	}
-
-	@Override
-	public void addChord(MusicChordAddEvent e) {
-		this.chordsDB.put(e.getId(), e.getIntervals());
-	}
-
+	/**
+	 * Obtains the alteration produces in a MusicNoteName because of the reference
+	 * @return A integer value, that means the octave-alteration produces.
+	 */
 	@Override
 	public int alterationFromReference(MusicNoteNameEvent e) {
 		boolean up = false;
@@ -388,9 +510,4 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		
 		return octave;
 	}
-
-	
-	
-	
-
 }

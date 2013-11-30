@@ -4,12 +4,16 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.modelcc.types.IntegerModel;
 
+import com.adagio.events.channels.MusicChannelIdentifierEvent;
+import com.adagio.events.statements.MusicPlayStatementEvent;
 import com.adagio.io.lilypond.LilyPondMusicPieceWriter;
+import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.chords.Chord;
 import com.adagio.language.chords.ChordIdentifier;
 import com.adagio.language.chords.intervals.Interval;
@@ -31,6 +35,10 @@ public class LilyPondMusicPieceWritterTest {
 	Chord chord;
 	Alteration alteration;
 	LilyPondMusicPieceWriter listener;
+	
+	ChannelIdentifier channelID;
+	MusicChannelIdentifierEvent channelIdentifierEvent;
+	MusicPlayStatementEvent playStatementEvent;
 	 
 	@Before
 	public void setUp() throws Exception {
@@ -50,6 +58,7 @@ public class LilyPondMusicPieceWritterTest {
 		bNoteName = null;
 		alteration = null;
 		listener = new LilyPondMusicPieceWriter();
+		
 		
 		// DEFINE CHORD "M" NOTES P1 M3 P5
 		// DEFINE CHORD "m" NOTES P1 m3 P5
@@ -120,6 +129,56 @@ public class LilyPondMusicPieceWritterTest {
 		fundamental = new AbsoluteMusicNote(new IntegerModel(4), new AlteredNoteName(bNoteName, alteration));
 		chord = new Chord(fundamental,M,bass);
 		assertEquals("<ges'''' bes'''' des''''' ceses''''>", listener.translateChord(chord));
+	}
+	
+	@Test
+	public void createChannelTest(){
+		channelID = new ChannelIdentifier("piano");
+		channelIdentifierEvent = new MusicChannelIdentifierEvent(this,channelID);
+		listener.createChannel(channelIdentifierEvent);	
+		
+		assertTrue(listener.existsChannel(channelIdentifierEvent));	
+	}
+	
+	@Test
+	public void destroyChannelTest(){
+		channelID = new ChannelIdentifier("piano");
+		channelIdentifierEvent = new MusicChannelIdentifierEvent(this,channelID);
+		
+		listener.createChannel(channelIdentifierEvent);	
+		assertTrue(listener.existsChannel(channelIdentifierEvent));	
+		listener.destroyChannel(channelIdentifierEvent);
+		//Still Exist but erased
+		assertTrue(listener.existsChannel(channelIdentifierEvent));
+		assertTrue(listener.isErasedChannel(channelIdentifierEvent));
+		//It must print a warning message
+		listener.destroyChannel(channelIdentifierEvent);
+	}
+	
+	@Test
+	public void musicPlayTest(){
+		
+		int duration = 0;
+		
+		playStatementEvent = new MusicPlayStatementEvent(this, new Vector<Chord>());
+		playStatementEvent.testInitilizer();
+		
+		channelID = new ChannelIdentifier("piano");
+		channelIdentifierEvent = new MusicChannelIdentifierEvent(this,channelID);
+		//Creates channel "piano"
+		listener.createChannel(channelIdentifierEvent);
+		
+		listener.musicPlay(playStatementEvent);
+		
+		channelID = new ChannelIdentifier("violin");
+		channelIdentifierEvent = new MusicChannelIdentifierEvent(this,channelID);
+		//Creates channel "violin"
+		listener.createChannel(channelIdentifierEvent);
+	
+		listener.musicPlay(playStatementEvent);
+		duration = listener.getChannelDB().getChannelMap().get(channelID).getDuration();
+		//Are silences added when channel is create?
+		assertEquals(6, duration);
 	}
 
 }

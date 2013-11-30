@@ -23,8 +23,7 @@ public class ChannelDB {
 	}
 
 	/**
-	 * @param id
-	 *            Channel identifier
+	 * @param idChannel identifier
 	 * @return True if channel has existed anytime in the database.
 	 */
 	public boolean exists(ChannelIdentifier id) {
@@ -32,11 +31,10 @@ public class ChannelDB {
 	}
 
 	/**
-	 * @param id
-	 *            Channel identifier
+	 * @param id Channel identifier
 	 * @return True if channel has existed anytime & has been erased.
 	 */
-	public boolean erased(ChannelIdentifier id) {
+	public boolean isErased(ChannelIdentifier id) {
 		if (this.exists(id)) {
 			return channelMap.get(id).isErased();
 		}
@@ -47,13 +45,12 @@ public class ChannelDB {
 	 * Add a new channel with the id given. If the channel has been "erased",
 	 * actives it again.
 	 * 
-	 * @param id
-	 *            Channel identifier
+	 * @param id Channel identifier
 	 */
 	public void add(ChannelIdentifier id) {
 		ChannelInfo info;
 
-		if (this.erased(id)) {
+		if (this.isErased(id)) {
 			channelMap.get(id).setErased(false);
 		} else {
 			info = new ChannelInfo();
@@ -63,12 +60,11 @@ public class ChannelDB {
 
 	/**
 	 * Destroys logically the channel, and put it as disabled
-	 * 
 	 * @param id Channel identifier
 	 */
 	public void destroy(ChannelIdentifier id) {
 		if (this.exists(id)) {
-			if (this.erased(id)) {
+			if (this.isErased(id)) {
 				System.err.println("Warning: Channel \"" + id.toString()
 						+ "\" doesn't exist. It can't be destroyed.");
 			} else {
@@ -81,8 +77,12 @@ public class ChannelDB {
 		}
 	}
 
+	/**
+	 * Enables the channel
+	 * @param id
+	 */
 	public void enable(ChannelIdentifier id) {
-		if(!this.erased(id)){
+		if(!this.isErased(id)){
 			channelMap.get(id).getChannel().setEnable(true);
 		}
 		else{
@@ -91,8 +91,12 @@ public class ChannelDB {
 		}
 	}
 
+	/**
+	 * Disables the channel
+	 * @param id
+	 */
 	public void disable(ChannelIdentifier id) {
-		if(!this.erased(id)){
+		if(!this.isErased(id)){
 			channelMap.get(id).getChannel().setEnable(false);
 		}
 		else{
@@ -101,8 +105,12 @@ public class ChannelDB {
 		}
 	}
 
+	/**
+	 * Change the volume of the channel
+	 * @param id
+	 */
 	public void setVolume(ChannelIdentifier id, int volume) {
-		if(!this.erased(id)){
+		if(!this.isErased(id)){
 			channelMap.get(id).getChannel().setVolume(volume);
 		}
 		else{
@@ -111,8 +119,12 @@ public class ChannelDB {
 		}
 	}
 	
+	/**
+	 * Change the instrument
+	 * @param id
+	 */
 	public void setInstrument(ChannelIdentifier id, Instrument instrument){
-		if(!this.erased(id)){
+		if(!this.isErased(id)){
 			channelMap.get(id).getChannel().setInstrument(instrument);
 		}
 		else{
@@ -121,34 +133,25 @@ public class ChannelDB {
 		}
 	}
 	
+	
 	/**
 	 * Add a music string to the channel, and increments the duration of the channel;
 	 * @param id
 	 * @param music
 	 * @param duration
-	 * @param data
+	 * @param clef
+	 * @param time
 	 */
 	public void addMusic(ChannelIdentifier id, String music, int duration, String clef, Time time){
 		String composition = "";
 		
-		if(!this.erased(id)){
+		if(!this.isErased(id)){
 			if(!(channelMap.get(id).getMusic().equals(""))){
 				//Deletes the last "}"
 				channelMap.get(id).setMusic(channelMap.get(id).getMusic().substring(0, channelMap.get(id).getMusic().length()-2));
 			}
-			else{
-				composition += "\\new Staff { \n";
-			}
-			
-			composition += ("\\clef " + clef + "\n");
-			composition += "\\time " + time.toString() + "\n";
-			composition += "\\set Staff.midiInstrument = #\""+ channelMap.get(id).getChannel().getInstrument().getValue() + "\"\n";
-			composition += "\\set Staff.midiMinimumVolume = #" + 0+ "\n";
-			composition += "\\set Staff.midiMaximumVolume = #"+ channelMap.get(id).getChannel().getVolume() / 100 + "\n";
-			composition += "\\new Voice {\n";
 			composition += music;
 			composition += "\n}\n";
-			composition += "}\n";
 			
 			channelMap.get(id).addMusic(composition);
 			channelMap.get(id).addDuration(duration);
@@ -182,56 +185,13 @@ public class ChannelDB {
 			}
 		}
 		else{
+			
 			this.addMusic(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER),music,duration,clef, time);
 		}
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public void fillEnabledWithSilences(String clef, Time time){
-		Map.Entry e = null;
-		Iterator<Entry<ChannelIdentifier, ChannelInfo>> it;
-		
-		it = this.channelMap.entrySet().iterator();
-		if (it.hasNext()) {
-
-			while (it.hasNext()) {
-				e = (Map.Entry) it.next();
-				if(((ChannelInfo)e.getValue()).getChannel().isEnable()){
-					this.fillWithSilences((ChannelIdentifier)e.getKey(), clef, time);
-				}
-			}
-		}
-	}
-	
 	/**
-	 * Obtains the max duration of the channels in the DB
-	 * @return A int value with the duration
-	 */
-	@SuppressWarnings("rawtypes")
-	public int maxDuration(){
-		Map.Entry e = null;
-		Iterator<Entry<ChannelIdentifier, ChannelInfo>> it;
-		
-		int max = 0;
-		int auxDuration = 0;
-		
-		it = this.channelMap.entrySet().iterator();
-		if (it.hasNext()) {
-
-			while (it.hasNext()) {
-				e = (Map.Entry) it.next();
-				auxDuration = ((ChannelInfo)e.getValue()).getDuration();
-				if(auxDuration > max){
-					max = auxDuration;
-				}
-			}
-		}
-		
-		return max;
-	}
-	
-	/**
-	 * Fills a channel with silences until reach the maxDuration
+	 * Fills a channel with silences until reaches the maxDuration
 	 * @param id
 	 * @param data
 	 */
@@ -258,6 +218,184 @@ public class ChannelDB {
 
 		}
 	}
+	
+	/**
+	 * Fills all the enabled channels with silences until reach the maxDuration
+	 * @param id
+	 * @param data
+	 */
+	@SuppressWarnings("rawtypes")
+	public void fillEnabledWithSilences(String clef, Time time){
+		Map.Entry e = null;
+		Iterator<Entry<ChannelIdentifier, ChannelInfo>> it;
+		
+		it = this.channelMap.entrySet().iterator();
+		if (it.hasNext()) {
+
+			while (it.hasNext()) {
+				e = (Map.Entry) it.next();
+				if(((ChannelInfo)e.getValue()).getChannel().isEnable()){
+					this.fillWithSilences((ChannelIdentifier)e.getKey(), clef, time);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Fills all the disabled channels with silences until reach the maxDuration
+	 * @param id
+	 * @param data
+	 */
+	@SuppressWarnings("rawtypes")
+	public void fillDisabledWithSilences(String clef, Time time){
+		Map.Entry e = null;
+		Iterator<Entry<ChannelIdentifier, ChannelInfo>> it;
+		
+		it = this.channelMap.entrySet().iterator();
+		if (it.hasNext()) {
+
+			while (it.hasNext()) {
+				e = (Map.Entry) it.next();
+				if(!((ChannelInfo)e.getValue()).getChannel().isEnable()){
+					this.fillWithSilences((ChannelIdentifier)e.getKey(), clef, time);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Fills all the channels with silences until reach the maxDuration
+	 * @param id
+	 * @param data
+	 */
+	@SuppressWarnings("rawtypes")
+	public void fillAllWithSilences(String clef, Time time) {
+		Map.Entry e = null;
+		Iterator<Entry<ChannelIdentifier, ChannelInfo>> it;
+
+		it = this.channelMap.entrySet().iterator();
+		if (it.hasNext()) {
+
+			while (it.hasNext()) {
+				e = (Map.Entry) it.next();
+				this.fillWithSilences((ChannelIdentifier) e.getKey(), clef,
+						time);
+			}
+		}
+	}
+	
+	/**
+	 * Create the block \Staf{ options + music} for enabled channels.
+	 * If \Staff has been created yet, it adds {options + music} to the current 
+	 * staff. You need to call to this function in PlaySentence-events.
+	 * If there is no enable channels, enables the default-one and use it.
+	 * @param clef
+	 * @param time
+	 */
+	@SuppressWarnings("rawtypes")
+	public void prepareStaffToPlay(String clef, Time time) {
+		Map.Entry e = null;
+		Iterator<Entry<ChannelIdentifier, ChannelInfo>> it;
+		String composition = "";
+
+		it = this.channelMap.entrySet().iterator();
+		if (this.isDefaultChannelNeeded()) {
+
+			while (it.hasNext()) {
+				e = (Map.Entry) it.next();
+				if (((ChannelInfo) e.getValue()).getChannel().isEnable()) {
+
+					if (!((ChannelInfo) e.getValue()).getMusic().equals("")) {
+						// Deletes the last "}"
+						((ChannelInfo) e.getValue()).setMusic(((ChannelInfo) e.getValue()).getMusic().substring(0,((ChannelInfo) e.getValue()).getMusic().length() - 2));
+					} else {
+						composition += "\\new Staff {";
+					}
+
+					composition += ("\n\\clef " + clef + "\n");
+					composition += "\\time " + time.toString() + "\n";
+					composition += "\\set Staff.midiInstrument = #\"" + ((ChannelInfo) e.getValue()).getChannel().getInstrument().getValue() + "\"\n";
+					composition += "\\set Staff.midiMinimumVolume = #" + 0 + "\n";
+					composition += "\\set Staff.midiMaximumVolume = #"+ ((ChannelInfo) e.getValue()).getChannel().getVolume() / 100 + "\n";
+					composition += "\n}\n";
+
+					((ChannelInfo) e.getValue()).addMusic(composition);
+				}
+				composition = "";
+			}
+		} else {
+			//enable default
+			this.enable(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER));
+		
+			if (!(this.channelMap.get(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER))).getMusic().equals("")) {
+				// Deletes the last "}"
+				(this.channelMap.get(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER))).setMusic((this.channelMap.get(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER))).getMusic().substring(0,(this.channelMap.get(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER))).getMusic().length() - 2));
+			} else {
+				composition += "\\new Staff {";
+			}
+
+			
+			composition += ("\n\\clef " + clef + "\n");
+			composition += "\\time " + time.toString() + "\n";
+			composition += "\\set Staff.midiInstrument = #\""+ this.channelMap.get(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER)).getChannel().getInstrument().getValue() + "\"\n";
+			composition += "\\set Staff.midiMinimumVolume = #" + 0 + "\n";
+			composition += "\\set Staff.midiMaximumVolume = #" + this.channelMap.get(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER)).getChannel().getVolume()/ 100 + "\n";
+			composition += "\n}\n";
+
+			this.channelMap.get(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER)).addMusic(composition);
+
+		}
+	}
+	
+	/**
+	 * Obtains the max duration of the channels in the DB
+	 * @return A int value with the duration
+	 */
+	@SuppressWarnings("rawtypes")
+	public int maxDuration() {
+		Map.Entry e = null;
+		Iterator<Entry<ChannelIdentifier, ChannelInfo>> it;
+
+		int max = 0;
+		int auxDuration = 0;
+
+		it = this.channelMap.entrySet().iterator();
+
+		while (it.hasNext()) {
+			e = (Map.Entry) it.next();
+			auxDuration = ((ChannelInfo) e.getValue()).getDuration();
+			if (auxDuration > max) {
+				max = auxDuration;
+			}
+		}
+
+		return max;
+	}
+	
+	
+	/**
+	 * @return True if there is not an enabled-channel and Default is required. Else in other case.
+	 */
+	@SuppressWarnings("rawtypes")
+	public boolean isDefaultChannelNeeded(){
+		
+		Map.Entry e = null;
+		Iterator<Entry<ChannelIdentifier, ChannelInfo>> it;
+		
+		it = this.channelMap.entrySet().iterator();
+	
+			while (it.hasNext()) {
+				e = (Map.Entry) it.next();
+				if(((ChannelInfo)e.getValue()).getChannel().isEnable()){
+					return true;
+				}
+			}
+			
+			return false;
+	}
+	
+	
+	/** ----- GETTERS & SETTERS ----- **/
 
 	public Map<ChannelIdentifier, ChannelInfo> getChannelMap() {
 		return channelMap;
@@ -266,4 +404,6 @@ public class ChannelDB {
 	public void setChannelMap(Map<ChannelIdentifier, ChannelInfo> channelMap) {
 		this.channelMap = channelMap;
 	}
+	
+	
 }

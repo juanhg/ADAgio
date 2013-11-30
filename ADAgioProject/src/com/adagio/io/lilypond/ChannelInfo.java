@@ -7,6 +7,7 @@ public class ChannelInfo {
 	private boolean erased;
 	private String music;
 	private int duration;
+	private boolean volumeChanged;
 	
 	public static final String DEFAULT_CHANNEL_IDENTIFIER = "default";
 
@@ -15,6 +16,7 @@ public class ChannelInfo {
 		erased = false;
 		music = "";
 		duration = 0;
+		volumeChanged = true;
 	}
 
 	public Channel getChannel() {
@@ -56,5 +58,15 @@ public class ChannelInfo {
 	public void addDuration(int duration){
 		this.duration += duration;
 	}
+
+	public boolean isVolumeChanged() {
+		return volumeChanged;
+	}
+
+	public void setVolumeChanged(boolean volumeChanged) {
+		this.volumeChanged = volumeChanged;
+	}
+	
+	
 	
 }
