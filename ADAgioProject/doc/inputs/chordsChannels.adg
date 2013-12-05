@@ -1,6 +1,0 @@
-DEFINE CHORD "M" NOTES P1 M3 P5
-DEFINE CHORD "m" NOTES P1 m3 P5
-DEFINE CHORD "add2" NOTES P1 M2 (M3) P5
-
-channel flauta volume=60 instrument=flute
-channel piano volume=100 instrument=acoustic grand 

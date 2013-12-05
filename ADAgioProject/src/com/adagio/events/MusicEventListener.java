@@ -11,6 +11,7 @@ import com.adagio.events.notes.MusicNoteNameEvent;
 import com.adagio.events.notes.MusicNoteToAbsoluteEvent;
 import com.adagio.events.statements.MusicPlayStatementEvent;
 import com.adagio.events.statements.MusicRelativeStatementEvent;
+import com.adagio.events.tempos.MusicTempoDefinitionEvent;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 
 public interface MusicEventListener extends EventListener {
@@ -48,6 +49,10 @@ public interface MusicEventListener extends EventListener {
 	 * @param e
 	 * @return True if is Defined. False in other case
 	 */
-	public boolean chordIsDefined(MusicChordEvent e);
+	public boolean isChordDefined(MusicChordEvent e);
 	public void addChord(MusicChordAddEvent e);
+	
+	/** ----- TEMPOS EVENTS ----- **/
+	
+	public void tempoDefinition(MusicTempoDefinitionEvent e);
 }

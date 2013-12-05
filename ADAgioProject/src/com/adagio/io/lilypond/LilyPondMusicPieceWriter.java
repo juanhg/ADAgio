@@ -19,6 +19,7 @@ import com.adagio.events.notes.MusicNoteNameEvent;
 import com.adagio.events.notes.MusicNoteToAbsoluteEvent;
 import com.adagio.events.statements.MusicPlayStatementEvent;
 import com.adagio.events.statements.MusicRelativeStatementEvent;
+import com.adagio.events.tempos.MusicTempoDefinitionEvent;
 import com.adagio.io.MusicPieceWriter;
 import com.adagio.language.MusicPiece;
 import com.adagio.language.channels.ChannelIdentifier;
@@ -42,16 +43,21 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	// Data Base of defined chords
 	Map<ChordIdentifier,List<Interval>> chordsDB;
 	
-	ChannelDB channelDB;
+	// Data base of tempos
+	TemposDB temposDB;
+	
+	// Data base of channels
+	ChannelsDB channelsDB;
+	
 	
 	public LilyPondMusicPieceWriter(){
 		relative = new AbsoluteMusicNote(2, "C");
 		clef = "treble";
 		time = new Time(4,4);
 		chordsDB = new HashMap<ChordIdentifier,List<Interval>>();
-		channelDB = new ChannelDB();
+		temposDB = new TemposDB();
+		channelsDB = new ChannelsDB();
 	}
-	
 	
 	public static void writeMusicPiece(MusicPiece m,PrintWriter out){
 	    LilyPondMusicPieceWriter writer = new LilyPondMusicPieceWriter();
@@ -70,7 +76,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		clef = "treble";
 		time = new Time(4,4);
 		chordsDB = new HashMap<ChordIdentifier,List<Interval>>();
-		channelDB = new ChannelDB();
+		channelsDB = new ChannelsDB();
 		
 		m.run(this);
 		
@@ -94,7 +100,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		composition += "\\score {\n";
 		composition += " <<\n";
 		
-		it = this.channelDB.getChannelMap().entrySet().iterator();
+		it = this.channelsDB.getChannelMap().entrySet().iterator();
 		
 		while (it.hasNext()) {
 			e = (Map.Entry) it.next();
@@ -265,8 +271,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		}
 
 		//Prepare staffs to play (Staff.maximunVolume...)
-		this.channelDB.prepareStaffToPlay(clef, time);
-		this.channelDB.fillEnabledWithSilences(clef, time);
+		this.channelsDB.prepareStaffToPlay(clef, time);
+		this.channelsDB.fillEnabledWithSilences(clef, time);
 		
 		composition = "";
 		int duration = 0;
@@ -276,7 +282,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 
 		it = this.getChannelDB().getChannelMap().entrySet().iterator();
 		
-		this.channelDB.fillEnabledWithSilences(clef, time);
+		this.channelsDB.fillEnabledWithSilences(clef, time);
 		
 			while (it.hasNext()) {
 				x = (Map.Entry) it.next();
@@ -295,7 +301,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 					}
 					composition += "\n";
 
-					this.channelDB.addMusic((ChannelIdentifier) x.getKey(),composition, duration, clef, time);
+					this.channelsDB.addMusic((ChannelIdentifier) x.getKey(),composition, duration, clef, time);
 					duration = 0;
 					composition = "";
 				}
@@ -309,9 +315,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public void createChannel(MusicChannelIdentifierEvent e) {
-		this.channelDB.add(e.getId());
+		this.channelsDB.add(e.getId());
 		if(!e.getId().getValue().equals(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER)){
-			this.channelDB.disable(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER));
+			this.channelsDB.disable(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER));
 		}
 	}
 
@@ -320,7 +326,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public void destroyChannel(MusicChannelIdentifierEvent e) {
-		this.channelDB.destroy(e.getId());
+		this.channelsDB.destroy(e.getId());
 	}
 
 	
@@ -337,7 +343,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 * @return true if is defined. False in other case
 	 */
 	@Override
-	public boolean chordIsDefined(MusicChordEvent e) {
+	public boolean isChordDefined(MusicChordEvent e) {
 		return this.chordsDB.containsKey(e.getChord().getIdentifier());
 		
 	}
@@ -348,7 +354,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public boolean existsChannel(MusicChannelIdentifierEvent e) {
-		return this.channelDB.exists(e.getId());
+		return this.channelsDB.exists(e.getId());
 	}
 
 	/**
@@ -357,7 +363,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public boolean isErasedChannel(MusicChannelIdentifierEvent e) {
-		return this.channelDB.isErased(e.getId());
+		return this.channelsDB.isErased(e.getId());
 	}
 
 	/**
@@ -365,7 +371,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public void recoverChannel(MusicChannelIdentifierEvent e) {
-		this.channelDB.getChannelMap().get(e.getId()).setErased(false);
+		this.channelsDB.getChannelMap().get(e.getId()).setErased(false);
 		//this.channelDB.fillWithSilences(e.getId(), this.clef, this.time);
 		
 		
@@ -385,10 +391,10 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public void enableChannel(MusicChannelIdentifierEvent e) {
-		this.channelDB.enable(e.getId());
+		this.channelsDB.enable(e.getId());
 		if (!e.getId().getValue()
 				.equals(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER)) {
-			this.channelDB.disable(new ChannelIdentifier(
+			this.channelsDB.disable(new ChannelIdentifier(
 					ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER));
 		}
 	}
@@ -398,7 +404,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public void disableChannel(MusicChannelIdentifierEvent e) {
-		this.channelDB.disable(e.getId());
+		this.channelsDB.disable(e.getId());
 	}
 	
 	/**
@@ -406,8 +412,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public void setChannelVolume(MusicChannelVolumeEvent e) {
-		this.channelDB.setVolume(e.getId(), e.getVolume());
-		this.channelDB.getChannelMap().get(e.getId()).setVolumeChanged(true);
+		this.channelsDB.setVolume(e.getId(), e.getVolume());
+		this.channelsDB.getChannelMap().get(e.getId()).setVolumeChanged(true);
 	}
 
 	/**
@@ -415,7 +421,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public void setChannelInstrument(MusicChannelInstrumentEvent e) {
-		this.channelDB.setInstrument(e.getId(), e.getInstrument());
+		this.channelsDB.setInstrument(e.getId(), e.getInstrument());
 	}
 	
 	/**
@@ -424,6 +430,14 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	@Override
 	public void setRelative(MusicRelativeStatementEvent e) {
 		this.relative = (e.getaNote());
+	}
+	
+	/**
+	 * Event that happens when a tempo is defined.
+	 */
+	@Override
+	public void tempoDefinition(MusicTempoDefinitionEvent e) {
+		this.temposDB.add(e.getId(), e.getTempo());
 	}
 
 	
@@ -461,12 +475,12 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		this.chordsDB = chordsDB;
 	}
 
-	public ChannelDB getChannelDB() {
-		return channelDB;
+	public ChannelsDB getChannelDB() {
+		return channelsDB;
 	}
 
-	public void setChannelDB(ChannelDB channelDB) {
-		this.channelDB = channelDB;
+	public void setChannelDB(ChannelsDB channelsDB) {
+		this.channelsDB = channelsDB;
 	}
 
 	

@@ -22,7 +22,7 @@ public class ADAgioCLI {
 	public static void main(String [] args){
 		try {
 	
-			String inFileName = args[0];
+			String inFileName = args[1];
 			String outFileName = inFileName.replace(".adg", ".ly");
 			ModelReader reader = new JavaModelReader(MusicPiece.class);
 
@@ -40,9 +40,12 @@ public class ADAgioCLI {
 			// Parse an input string.
 			MusicPiece result = parser.parse(new BufferedReader(new FileReader(inFileName)));
 			
+			System.out.println("Fichero: " + inFileName);
 			PrintWriter out = (new PrintWriter(outFileName));
 			LilyPondMusicPieceWriter.writeMusicPiece(result,out);
 			out.close();
+			
+			System.out.println("\n\nProgram: " + inFileName);
 			
 			
 

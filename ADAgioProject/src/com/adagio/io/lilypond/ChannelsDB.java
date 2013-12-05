@@ -8,15 +8,15 @@ import java.util.Map.Entry;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.instruments.Instrument;
 
-public class ChannelDB {
+public class ChannelsDB {
 
 
 	private Map<ChannelIdentifier, ChannelInfo> channelMap;
 
 	/**
-	 * Initializes the channelDB and creates the default channel empty 
+	 * Initializes the channelsDB and creates the default channel empty 
 	 */
-	public ChannelDB() {
+	public ChannelsDB() {
 		channelMap = new HashMap<ChannelIdentifier, ChannelInfo>();
 		channelMap.put(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER), new ChannelInfo());
 		channelMap.get(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER)).getChannel().setEnable(false);
