@@ -22,6 +22,7 @@ import com.adagio.events.statements.MusicRelativeStatementEvent;
 import com.adagio.events.tempos.MusicTempoDefinitionEvent;
 import com.adagio.io.MusicPieceWriter;
 import com.adagio.language.MusicPiece;
+import com.adagio.language.channels.Channel;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.chords.Chord;
 import com.adagio.language.chords.ChordIdentifier;
@@ -94,7 +95,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	private String translate(){
 		String composition = "";
 		Map.Entry e = null;
-		Iterator<Entry<ChannelIdentifier, ChannelInfo>> it;
+		Iterator<Entry<ChannelIdentifier, Channel>> it;
 		
 		composition += this.version() + "\n";
 		composition += "\\score {\n";
@@ -104,7 +105,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		
 		while (it.hasNext()) {
 			e = (Map.Entry) it.next();
-			composition += ((ChannelInfo) e.getValue()).getMusic();
+			composition += ((Channel) e.getValue()).getMusic();
 		}
 
 		composition += ">> \n";
@@ -247,6 +248,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		Vector<Chord> absoluteChords = new Vector<Chord>();
 		String composition = "";
 
+		//We save the relative before play statement
+		AbsoluteMusicNote relativeBeforePlay = this.getRelative();
+		
 		// Translates to absoluteMusicNote
 		for (int i = 0; i < chords.size(); i++) {
 			if (this.chordsDB.containsKey(chords.get(i).getIdentifier())) {
@@ -269,6 +273,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 			}
 
 		}
+		
+		//we recover the relative
+		this.setRelative(relativeBeforePlay);
 
 		//Prepare staffs to play (Staff.maximunVolume...)
 		this.channelsDB.prepareStaffToPlay(clef, time);
@@ -278,7 +285,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		int duration = 0;
 
 		Map.Entry x = null;
-		Iterator<Entry<ChannelIdentifier, ChannelInfo>> it;
+		Iterator<Entry<ChannelIdentifier, Channel>> it;
 
 		it = this.getChannelDB().getChannelMap().entrySet().iterator();
 		
@@ -286,16 +293,16 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		
 			while (it.hasNext()) {
 				x = (Map.Entry) it.next();
-				if (((ChannelInfo) x.getValue()).getChannel().isEnable()) {
+				if (((Channel) x.getValue()).isEnable()) {
 
 					for (int i = 0; i < absoluteChords.size(); i++) {
 						composition += translateChord(absoluteChords.get(i));
 						duration += this.time.defaultNoteDuration();
 						composition += Integer.toString(this.time
 								.defaultNoteDuration());
-						if (((ChannelInfo) x.getValue()).isVolumeChanged()) {
+						if (((Channel) x.getValue()).isVolumeChanged()) {
 							composition += "\\mf";
-							((ChannelInfo) x.getValue()).setVolumeChanged(false);
+							((Channel) x.getValue()).setVolumeChanged(false);
 						}
 						composition += " ";
 					}
@@ -316,8 +323,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	@Override
 	public void createChannel(MusicChannelIdentifierEvent e) {
 		this.channelsDB.add(e.getId());
-		if(!e.getId().getValue().equals(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER)){
-			this.channelsDB.disable(new ChannelIdentifier(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER));
+		if(!e.getId().getValue().equals(Channel.DEFAULT_CHANNEL_IDENTIFIER)){
+			this.channelsDB.disable(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER));
 		}
 	}
 
@@ -393,9 +400,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	public void enableChannel(MusicChannelIdentifierEvent e) {
 		this.channelsDB.enable(e.getId());
 		if (!e.getId().getValue()
-				.equals(ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER)) {
+				.equals(Channel.DEFAULT_CHANNEL_IDENTIFIER)) {
 			this.channelsDB.disable(new ChannelIdentifier(
-					ChannelInfo.DEFAULT_CHANNEL_IDENTIFIER));
+					Channel.DEFAULT_CHANNEL_IDENTIFIER));
 		}
 	}
 	

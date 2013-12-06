@@ -9,7 +9,6 @@ import com.adagio.language.musicnotes.MusicNote;
 public class Chord implements IModel {
 	
 	MusicNote note;
-	
 	ChordIdentifier identifier;
 	
 	@Optional

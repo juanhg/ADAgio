@@ -7,15 +7,26 @@ import com.adagio.language.instruments.Instrument;
  * @author Wungo
  */
 public class Channel {
+	
+	public static final String DEFAULT_CHANNEL_IDENTIFIER = "default";
 
 	private int volume;
 	private boolean enable;
 	private Instrument instrument;
+	
+	private boolean erased;
+	private String music;
+	private int duration;
+	private boolean volumeChanged;
 
 	public Channel() {
 		instrument = new Instrument();
 		volume = VolumeModifier.MAX_VOLUME;
 		enable = true;
+		erased = false;
+		music = "";
+		duration = 0;
+		volumeChanged = true;
 	}
 
 	public Instrument getInstrument() {
@@ -42,15 +53,59 @@ public class Channel {
 	public void setEnable(boolean enable) {
 		this.enable = enable;
 	}
+	
+	public boolean isErased() {
+		return erased;
+	}
+
+	public void setErased(boolean erased) {
+		this.erased = erased;
+	}
+
+	public String getMusic() {
+		return music;
+	}
+
+	public void setMusic(String music) {
+		this.music = music;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+	public boolean isVolumeChanged() {
+		return volumeChanged;
+	}
+
+	public void setVolumeChanged(boolean volumeChanged) {
+		this.volumeChanged = volumeChanged;
+	}
+	
+	public void addMusic(String music){
+		this.music += music;
+	}
+	
+	public void addDuration(int duration){
+		this.duration += duration;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + duration;
 		result = prime * result + (enable ? 1231 : 1237);
+		result = prime * result + (erased ? 1231 : 1237);
 		result = prime * result
 				+ ((instrument == null) ? 0 : instrument.hashCode());
+		result = prime * result + ((music == null) ? 0 : music.hashCode());
 		result = prime * result + volume;
+		result = prime * result + (volumeChanged ? 1231 : 1237);
 		return result;
 	}
 
@@ -63,17 +118,30 @@ public class Channel {
 		if (getClass() != obj.getClass())
 			return false;
 		Channel other = (Channel) obj;
+		if (duration != other.duration)
+			return false;
 		if (enable != other.enable)
+			return false;
+		if (erased != other.erased)
 			return false;
 		if (instrument == null) {
 			if (other.instrument != null)
 				return false;
 		} else if (!instrument.equals(other.instrument))
 			return false;
+		if (music == null) {
+			if (other.music != null)
+				return false;
+		} else if (!music.equals(other.music))
+			return false;
 		if (volume != other.volume)
+			return false;
+		if (volumeChanged != other.volumeChanged)
 			return false;
 		return true;
 	}
+
+	
 	
 	
 

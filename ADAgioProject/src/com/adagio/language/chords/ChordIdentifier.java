@@ -4,7 +4,8 @@ import org.modelcc.IModel;
 import org.modelcc.Pattern;
 import org.modelcc.Value;
 
-@Pattern(regExp="([ac-wyzA-Z0-9][a-zA-Z0-9#]*)*")
+
+@Pattern(regExp="([ac-wyzH-Z0-9][a-zA-Z0-9#]*)*")
 public class ChordIdentifier implements IModel {
 	
 	@Value
