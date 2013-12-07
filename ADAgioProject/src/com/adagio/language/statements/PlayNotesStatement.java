@@ -1,6 +1,7 @@
 package com.adagio.language.statements;
 
 import org.modelcc.IModel;
+import org.modelcc.Multiplicity;
 import org.modelcc.Prefix;
 
 import com.adagio.events.MusicEventListener;
@@ -13,6 +14,7 @@ import com.adagio.language.musicnotes.MusicNote;
 
 @Prefix("(?i)PLAYNOTES")
 public class PlayNotesStatement extends Statement implements IModel {
+	@Multiplicity(minimum = 1)
 	MusicNote [] notes;
 	
 	@Override

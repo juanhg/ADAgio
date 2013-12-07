@@ -11,9 +11,9 @@ import com.adagio.language.statements.Statement;
  * @author Wungo
  */
 public class MusicPiece implements IModel {
-	@Minimum(0)
+	@Multiplicity(minimum = 0)
 	Definition[] definitions;
-	@Minimum(0)
+	@Multiplicity(minimum = 0)
 	Statement[] statements;
 	
 	/**

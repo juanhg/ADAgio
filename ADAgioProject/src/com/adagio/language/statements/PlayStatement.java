@@ -11,6 +11,7 @@ import org.modelcc.*;
 @Prefix("(?i)play")
 public class PlayStatement extends Statement implements IModel {
 
+	@Multiplicity(minimum = 1)
 	Chord [] chords;
 	
 	@Override

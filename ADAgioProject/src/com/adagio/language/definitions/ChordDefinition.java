@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.modelcc.Constraint;
 import org.modelcc.IModel;
+import org.modelcc.Multiplicity;
 import org.modelcc.Prefix;
 import org.modelcc.Suffix;
 
@@ -53,6 +54,7 @@ public class ChordDefinition extends Definition implements IModel {
 		return allowed;
 	}
 	
+	@Multiplicity(minimum = 1)
 	@Prefix("(?i)NOTES")
 	Interval[] intervals;
 	

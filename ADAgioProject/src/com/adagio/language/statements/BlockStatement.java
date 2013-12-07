@@ -7,7 +7,7 @@ import org.modelcc.*;
 @Suffix("\\}")
 public class BlockStatement extends Statement implements IModel {
 
-	@Minimum(0)
+	@Multiplicity(minimum = 0)
 	Statement [] statements;
 	
 	@Override

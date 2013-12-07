@@ -12,6 +12,8 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
+import static org.modelcc.test.ModelAssert.*;
+
 import com.adagio.io.lilypond.LilyPondMusicPieceWriter;
 import com.adagio.language.chords.Chord;
 import com.adagio.language.chords.ChordIdentifier;
@@ -100,9 +102,14 @@ public class PlayStatementsTest {
 		assertAmbiguityFree(parser,"PLAY A#M");
 	}
 	
+	@Test
+	public void playSentenceInvalidtest() {
+		assertInvalid(parser,"PLAY");
+	}
+	
 	  @Test
 	  public void ChordReadTest1() throws Exception {
-	    //TODO Solucionar esta ambiguedad para permitir utilizar el acorde
+	    //TODO Solucionar esta ambigüedad para permitir utilizar el acorde
 		//con indetificador "" 
 	    assertAmbiguityFree(parser,"PLAY G Cm"); // Nos garantiza que es válido y no hay ambigüedades
 

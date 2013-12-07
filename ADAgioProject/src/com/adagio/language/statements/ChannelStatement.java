@@ -1,6 +1,7 @@
 package com.adagio.language.statements;
 
 import org.modelcc.Constraint;
+import org.modelcc.Multiplicity;
 import org.modelcc.Optional;
 import org.modelcc.Prefix;
 import org.modelcc.IModel;
@@ -21,6 +22,7 @@ public class ChannelStatement extends Statement implements IModel {
 	private ChannelIdentifier id;
 
 	@Optional
+	@Multiplicity(minimum = 1)
 	private ChannelOption [] options;
 
 	@Constraint

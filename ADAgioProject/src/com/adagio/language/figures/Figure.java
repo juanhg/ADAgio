@@ -2,6 +2,7 @@ package com.adagio.language.figures;
 
 import org.modelcc.Constraint;
 import org.modelcc.IModel;
+import org.modelcc.Multiplicity;
 import org.modelcc.Optional;
 import org.modelcc.types.IntegerModel;
 
@@ -35,6 +36,7 @@ public class Figure implements IModel {
 	}
 
 	@Optional
+	@Multiplicity(minimum = 1)
 	FigureDot [] dots;
 	
 	/**

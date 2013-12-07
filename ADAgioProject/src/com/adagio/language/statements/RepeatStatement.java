@@ -11,7 +11,7 @@ public class RepeatStatement extends Statement implements IModel {
 	@Suffix("(?i)times")
 	UnsignedIntegerModel times;
 	
-	@Minimum(0)
+	@Multiplicity(minimum = 0)
 	BlockStatement [] sentences;
 	
 	@Override

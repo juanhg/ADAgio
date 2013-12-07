@@ -25,7 +25,7 @@ public class ChordDefinitionsTest {
 	  }
 	
 	@Test
-	public void chordDefinitionTest() {
+	public void chordDefinitionValidTest() {
 		assertAmbiguityFree(parser,"DEFINE CHORD \"M\" NOTES P1 M3 P5");
 		assertAmbiguityFree(parser,"DEFINE CHORD \"m\" NOTES P1 m3 P5");
 		assertAmbiguityFree(parser, "DEFINE CHORD \"add2\" NOTES P1 M2 (M3) P5");
@@ -33,6 +33,13 @@ public class ChordDefinitionsTest {
 		assertAmbiguityFree(parser,"DEFINE CHORD \"Mbb\" NOTES P1 dd3 P5");
 		assertAmbiguityFree(parser,"DEFINE CHORD \"Mx\" NOTES P1 M3 P5");
 		assertAmbiguityFree(parser,"DEFINE CHORD \"M0#x\" NOTES P1 M3 P5");
+		assertAmbiguityFree(parser,"DEFINE CHORD \"\" NOTES P1 M3 P5");
+		
+	}
+	
+	@Test
+	public void chordDefinitionInvalidTest() {
+		assertInvalid(parser,"DEFINE CHORD \"M\" NOTES");
 		
 	}
 	
