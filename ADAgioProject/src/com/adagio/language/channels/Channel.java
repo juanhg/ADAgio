@@ -37,9 +37,8 @@ public class Channel {
 		this.instrument = instrument;
 	}
 
-	public double getVolume() {
-		double doubleVolume = volume;
-		return doubleVolume;
+	public int getVolume() {
+		return this.volume;
 	}
 
 	public void setVolume(int volume) {

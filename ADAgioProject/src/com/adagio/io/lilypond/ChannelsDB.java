@@ -150,7 +150,7 @@ public class ChannelsDB {
 		if(!this.isErased(id)){
 			if(!(channelMap.get(id).getMusic().equals(""))){
 				//Deletes the last "}"
-				channelMap.get(id).setMusic(channelMap.get(id).getMusic().substring(0, channelMap.get(id).getMusic().length()-2));
+				channelMap.get(id).setMusic(LilyPondMusicPieceWriter.deleteLastBracket(channelMap.get(id).getMusic()));
 			}
 			composition += music;
 			composition += "\n}\n";

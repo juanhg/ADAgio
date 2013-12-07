@@ -51,7 +51,9 @@ public class Figure implements IModel {
 	 */
 	public Figure(IntegerModel shapeDuration, FigureDot [] dots){
 		this.shapeDuration = shapeDuration;
-		this.dots= dots.clone();
+		if(this.dots != null){
+			this.dots= dots.clone();
+		}
 	}
 	
 	/**

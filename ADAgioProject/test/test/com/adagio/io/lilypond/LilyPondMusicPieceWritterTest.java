@@ -171,9 +171,9 @@ public class LilyPondMusicPieceWritterTest {
 	@Test
 	public void TranslateTimeTest(){
 		Time time = new Time(4, 4);
-		assertEquals("4/4", listener.translateTime(time));
+		assertEquals("\\time 4/4", listener.translateTime(time));
 		time = new Time(4, 1.25);;
-		assertEquals("4/2..", listener.translateTime(time));
+		assertEquals("\\time 4/2..", listener.translateTime(time));
 	}
 	
 	@Test
@@ -200,6 +200,12 @@ public class LilyPondMusicPieceWritterTest {
 		duration = listener.getChannelsDB().getChannelMap().get(channelID).getNumBars();
 		//Are silences added when channel is create?
 		assertEquals(6, duration);
+	}
+	
+	@Test
+	public void deleteLastBracketTest(){
+		assertEquals("a b c d ", LilyPondMusicPieceWriter.deleteLastBracket("a b c d }"));
+		assertEquals("a b c d\n\n ", LilyPondMusicPieceWriter.deleteLastBracket("a b c d\n\n }"));
 	}
 
 }

@@ -61,6 +61,8 @@ public class FiguresTest {
 		testFigure = new Figure(3.3);
 		assertEquals(4,testFigure.getShapeDuration().intValue());
 		assertEquals(1,testFigure.getDots().length);
+		
+		testFigure = new Figure(7.5);
 	
 	}
 }

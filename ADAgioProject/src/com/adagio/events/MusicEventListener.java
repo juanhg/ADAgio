@@ -10,9 +10,11 @@ import com.adagio.events.chords.MusicChordEvent;
 import com.adagio.events.definitions.MusicTempoDefinitionEvent;
 import com.adagio.events.notes.MusicNoteNameEvent;
 import com.adagio.events.notes.MusicNoteToAbsoluteEvent;
+import com.adagio.events.statements.MusicDefinedTempoStatementEvent;
 import com.adagio.events.statements.MusicPlayStatementEvent;
 import com.adagio.events.statements.MusicRelativeStatementEvent;
 import com.adagio.events.statements.MusicTimeStatementEvent;
+import com.adagio.events.statements.MusicUndefinedTempoStatementEvent;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 
 public interface MusicEventListener extends EventListener {
@@ -38,6 +40,8 @@ public interface MusicEventListener extends EventListener {
 	public void setRelative(MusicRelativeStatementEvent e);
 	public void musicPlay(MusicPlayStatementEvent e);
 	public void setTime(MusicTimeStatementEvent e);
+	public void setTempo(MusicDefinedTempoStatementEvent e);
+	public void setTempo(MusicUndefinedTempoStatementEvent e);
 	
 	/** ----- NOTE EVENTS ----- **/
 	public AbsoluteMusicNote toAbsolute(MusicNoteToAbsoluteEvent e);

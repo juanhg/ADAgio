@@ -18,9 +18,11 @@ import com.adagio.events.chords.MusicChordEvent;
 import com.adagio.events.definitions.MusicTempoDefinitionEvent;
 import com.adagio.events.notes.MusicNoteNameEvent;
 import com.adagio.events.notes.MusicNoteToAbsoluteEvent;
+import com.adagio.events.statements.MusicDefinedTempoStatementEvent;
 import com.adagio.events.statements.MusicPlayStatementEvent;
 import com.adagio.events.statements.MusicRelativeStatementEvent;
 import com.adagio.events.statements.MusicTimeStatementEvent;
+import com.adagio.events.statements.MusicUndefinedTempoStatementEvent;
 import com.adagio.io.MusicPieceWriter;
 import com.adagio.language.MusicPiece;
 import com.adagio.language.channels.Channel;
@@ -29,8 +31,10 @@ import com.adagio.language.chords.Chord;
 import com.adagio.language.chords.ChordIdentifier;
 import com.adagio.language.chords.intervals.Interval;
 import com.adagio.language.figures.Figure;
+import com.adagio.language.instruments.Instrument;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.notealterations.Alteration;
+import com.adagio.language.tempos.Tempo;
 import com.adagio.language.times.Time;
 
 public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicEventListener {
@@ -43,6 +47,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		
 	// Time (4/4, 6/8,...)
 	private Time time;
+	
+	//Tempo 4=90bpm...
+	private Tempo tempo;
 	
 	// Data Base of defined chords
 	private Map<ChordIdentifier,List<Interval>> chordsDB;
@@ -60,6 +67,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		relative = new AbsoluteMusicNote(2, "C");
 		clef = "treble";
 		time = new Time(4,4);
+		tempo = new Tempo(new Figure(4,0),90);
 		chordsDB = new HashMap<ChordIdentifier,List<Interval>>();
 		temposDB = new TemposDB();
 		channelsDB = new ChannelsDB();
@@ -240,16 +248,39 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	
 	public String translateTime(Time time){
 		String composition = "";
+		composition += "\\time ";
 		composition += time.getBeats().intValue();
 		composition += "/";
 		composition += this.translateFigure(time.getFigure());
+		
+		return composition;
+	}
+	
+	public String translateClef(String clef){
+		String composition = "\\clef " + clef;
+		return composition;
+	}
+	
+	public String translateInstrument(Instrument instrument){
+		String composition = "\\set Staff.midiInstrument = #\"" + instrument.getValue() + "\"";;
+		return composition;
+	}
+	
+	public String translateVolume(int volume){
+		String composition = "\\set midiMinimumVolume = #" + 0 + "\n";
+		composition += "\\set midiMaximumVolume = #" + ((double)volume)/100;
+		return composition;
+	}
+	
+	public String translateTempo(Tempo tempo){
+		String composition = "\\tempo ";
+		composition += this.translateFigure(tempo.getFigure());
+		composition += "=" + this.tempo.getBps().intValue();
 		return composition;
 	}
 	
 	/**
-	 * Create the block \Staff{ options + music} for enabled channels.
-	 * If \Staff has been created yet, it adds {options + music} to the current 
-	 * staff. You need to call to this function in PlaySentence-events.
+	 * Create the block \Staff{} for enabled channels.
 	 * If there is no enable channels, enables the default-one and use it.
 	 * @param clef
 	 * @param time
@@ -267,17 +298,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 				e = (Map.Entry) it.next();
 					if (!((Channel) e.getValue()).getMusic().equals("")) {
 						// Deletes the last "}"
-						((Channel) e.getValue()).setMusic(((Channel) e.getValue()).getMusic().substring(0,((Channel) e.getValue()).getMusic().length() - 2));
+						((Channel) e.getValue()).setMusic(deleteLastBracket(((Channel) e.getValue()).getMusic()));
 					} else {
 						composition += "\n\\new Staff{\n";
-					}
-
-					if (((Channel) e.getValue()).isEnable()) {
-						composition += ("\n\\clef " + clef + "\n");
-						composition += "\\time " + this.translateTime(this.time) + "\n";
-						composition += "\\set Staff.midiInstrument = #\"" + ((Channel) e.getValue()).getInstrument().getValue() + "\"\n";
-						composition += "\\set Staff.midiMinimumVolume = #" + 0 + "\n";
-						composition += "\\set Staff.midiMaximumVolume = #"+ ((Channel) e.getValue()).getVolume() / 100 + "\n";
 					}
 					composition += "}\n";
 					
@@ -291,17 +314,12 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		
 			if (!(this.channelsDB.getChannelMap().get(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER))).getMusic().equals("")) {
 				// Deletes the last "}"
-				(this.channelsDB.getChannelMap().get(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER))).setMusic((this.channelsDB.getChannelMap().get(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER))).getMusic().substring(0,(this.channelsDB.getChannelMap().get(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER))).getMusic().length() - 2));
+				ChannelIdentifier defaultID = new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER);
+				this.channelsDB.getChannelMap().get(defaultID).setMusic(deleteLastBracket(this.channelsDB.getChannelMap().get(defaultID).getMusic()));
 			} else {
 				composition += "\n\\new Staff{";
 			}
 
-			
-			composition += ("\n\\clef " + clef + "\n");
-			composition += "\\time " + this.translateTime(this.time) + "\n";
-			composition += "\\set Staff.midiInstrument = #\""+ this.channelsDB.getChannelMap().get(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER)).getInstrument().getValue() + "\"\n";
-			composition += "\\set Staff.midiMinimumVolume = #" + 0 + "\n";
-			composition += "\\set Staff.midiMaximumVolume = #" + this.channelsDB.getChannelMap().get(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER)).getVolume()/ 100 + "\n";
 			composition += "\n}\n";
 
 			this.channelsDB.getChannelMap().get(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER)).addMusic(composition);
@@ -374,8 +392,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		//we recover the relative
 		this.relative = relativeBeforePlay;
 
-		//Prepare staffs to play (Staff.maximunVolume...)
+		//Prepare staffs to play (\Staff{})
 		this.prepareStaffsToPlay(clef, time);
+		this.channelsDB.fillAllWithSilences(clef, time);
 		
 		composition = "";
 		int numBarsAdded = 0;
@@ -388,9 +407,18 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 			while (it.hasNext()) {
 				x = (Map.Entry) it.next();
 				if (((Channel) x.getValue()).isEnable()) {
-
+					
+					//Clef time & tempo
+					composition += "\n" + this.translateTempo(this.tempo) + "\n";
+					composition += this.translateClef(clef) + "\n";
+					composition += this.translateTime(this.time) + "\n";
+					composition += this.translateVolume(((Channel) x.getValue()).getVolume()) + "\n";
+					composition += this.translateInstrument(((Channel) x.getValue()).getInstrument()) + "\n"; 
+					
 					for (int i = 0; i < absoluteChords.size(); i++) {
+						
 						composition += translateChord(absoluteChords.get(i));
+						
 						numBarsAdded ++;
 						composition += Integer.toString((int)this.time
 								.defaultDuration());
@@ -400,7 +428,6 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 						}
 						composition += " ";
 					}
-					//composition += "\n";
 
 					this.channelsDB.addMusic((ChannelIdentifier) x.getKey(),composition, numBarsAdded, clef, time);
 					numBarsAdded = 0;
@@ -536,6 +563,18 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		this.time = (e.getTime());
 	}
 	
+	@Override
+	public void setTempo(MusicDefinedTempoStatementEvent e) {
+		if(this.temposDB.exists(e.getIdentifier())){
+			this.tempo = this.temposDB.getTempo(e.getIdentifier()).clone();
+		}
+	}
+
+	@Override
+	public void setTempo(MusicUndefinedTempoStatementEvent e) {
+		this.tempo = e.getTempo().clone();
+	}	
+	
 	/**
 	 * Event that happens when a tempo is defined.
 	 */
@@ -544,7 +583,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		this.temposDB.add(e.getId(), e.getTempo());
 	}
 	
-	/** ----- GETTERS & SETTERS ----- **/
+	/** ----- GETTERS & SETTERS (Not events) ----- **/
 	
 
 	public Map<ChordIdentifier, List<Interval>> getChordsDB() {
@@ -596,5 +635,24 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		else if(down){ octave--;}
 		
 		return octave;
-	}	
+	}
+	
+	/**
+	 * Obtain a string that is equal than the original, without the last close-bracket
+	 * @param music
+	 * @return A string if the original has '}'. Null in other case.
+	 */
+	static public String deleteLastBracket(String music){
+		String noBracket = null;
+		
+		for(int i = music.length()-1; i >= 0; i--){
+			if(music.charAt(i) == '}'){
+				noBracket = music.substring(0, i);
+			}
+		}
+		
+		return noBracket;
+	}
+
+	
 }

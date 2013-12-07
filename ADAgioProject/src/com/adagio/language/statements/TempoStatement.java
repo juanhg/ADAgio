@@ -4,17 +4,11 @@ import org.modelcc.IModel;
 import org.modelcc.Prefix;
 
 import com.adagio.events.MusicEventListener;
-import com.adagio.language.tempos.TempoIdentifier;
 
 @Prefix("(?i)TEMPO")
-public class TempoStatement extends Statement implements IModel {
-
-	TempoIdentifier tempoID;
+public abstract class TempoStatement extends Statement implements IModel {
 	
 	@Override
-	public void run(MusicEventListener listener) {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void run(MusicEventListener listener);
 
 }
