@@ -16,7 +16,7 @@ public class Channel {
 	
 	private boolean erased;
 	private String music;
-	private int duration;
+	private int numBars;
 	private boolean volumeChanged;
 
 	public Channel() {
@@ -25,7 +25,7 @@ public class Channel {
 		enable = true;
 		erased = false;
 		music = "";
-		duration = 0;
+		numBars = 0;
 		volumeChanged = true;
 	}
 
@@ -70,12 +70,12 @@ public class Channel {
 		this.music = music;
 	}
 
-	public int getDuration() {
-		return duration;
+	public int getNumBars() {
+		return numBars;
 	}
 
-	public void setDuration(int duration) {
-		this.duration = duration;
+	public void setNumBars(int numBars) {
+		this.numBars = numBars;
 	}
 
 	public boolean isVolumeChanged() {
@@ -90,20 +90,20 @@ public class Channel {
 		this.music += music;
 	}
 	
-	public void addDuration(int duration){
-		this.duration += duration;
+	public void addNumBars(int numBars){
+		this.numBars += numBars;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + duration;
 		result = prime * result + (enable ? 1231 : 1237);
 		result = prime * result + (erased ? 1231 : 1237);
 		result = prime * result
 				+ ((instrument == null) ? 0 : instrument.hashCode());
 		result = prime * result + ((music == null) ? 0 : music.hashCode());
+		result = prime * result + numBars;
 		result = prime * result + volume;
 		result = prime * result + (volumeChanged ? 1231 : 1237);
 		return result;
@@ -118,8 +118,6 @@ public class Channel {
 		if (getClass() != obj.getClass())
 			return false;
 		Channel other = (Channel) obj;
-		if (duration != other.duration)
-			return false;
 		if (enable != other.enable)
 			return false;
 		if (erased != other.erased)
@@ -134,12 +132,16 @@ public class Channel {
 				return false;
 		} else if (!music.equals(other.music))
 			return false;
+		if (numBars != other.numBars)
+			return false;
 		if (volume != other.volume)
 			return false;
 		if (volumeChanged != other.volumeChanged)
 			return false;
 		return true;
 	}
+
+	
 
 	
 	

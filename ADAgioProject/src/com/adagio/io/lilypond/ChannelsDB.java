@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import com.adagio.language.channels.Channel;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.instruments.Instrument;
+import com.adagio.language.times.Time;
 
 public class ChannelsDB {
 
@@ -143,7 +144,7 @@ public class ChannelsDB {
 	 * @param clef
 	 * @param time
 	 */
-	public void addMusic(ChannelIdentifier id, String music, int duration, String clef, Time time){
+	public void addMusic(ChannelIdentifier id, String music, int numBars, String clef, Time time){
 		String composition = "";
 		
 		if(!this.isErased(id)){
@@ -155,7 +156,7 @@ public class ChannelsDB {
 			composition += "\n}\n";
 			
 			channelMap.get(id).addMusic(composition);
-			channelMap.get(id).addDuration(duration);
+			channelMap.get(id).addNumBars(numBars);
 		}
 		else{
 			System.err.println("Error X: Channel \"" + id.toString() + "\" doesn't exist. "
@@ -171,7 +172,7 @@ public class ChannelsDB {
 	 * @param data
 	 */
 	@SuppressWarnings("rawtypes")
-	public void addMusicToEnabled(String music, int duration, String clef, Time time){
+	public void addMusicToEnabled(String music, int numBars, String clef, Time time){
 		Map.Entry e = null;
 		Iterator<Entry<ChannelIdentifier, Channel>> it;
 		
@@ -181,13 +182,13 @@ public class ChannelsDB {
 			while (it.hasNext()) {
 				e = (Map.Entry) it.next();
 				if(((Channel)e.getValue()).isEnable()){
-					this.addMusic((ChannelIdentifier)e.getKey(), music, duration, clef, time);
+					this.addMusic((ChannelIdentifier)e.getKey(), music, numBars, clef, time);
 				}
 			}
 		}
 		else{
 			
-			this.addMusic(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER),music,duration,clef, time);
+			this.addMusic(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER),music,numBars,clef, time);
 		}
 	}
 	
@@ -197,19 +198,19 @@ public class ChannelsDB {
 	 * @param data
 	 */
 	public void fillWithSilences(ChannelIdentifier id, String clef, Time time) {
-		int maxDuration = this.maxDuration();
+		int maxDuration = this.maxNumBars();
 		int auxDuration = 0;
 		int difference = 0;
 
 		String composition = "";
 
 		if (this.channelMap.containsKey(id)) {
-			auxDuration = this.channelMap.get(id).getDuration();
+			auxDuration = this.channelMap.get(id).getNumBars();
 			difference = maxDuration - auxDuration;
 
 			if (difference > 0) {
 				for (int i = difference; i > 0; i--) {
-					composition += "s1 ";
+					composition += "s" + time.defaultDuration() + " ";
 				}
 				this.addMusic(id, composition, difference, clef, time);
 			}
@@ -286,74 +287,11 @@ public class ChannelsDB {
 	}
 	
 	/**
-	 * Create the block \Staf{ options + music} for enabled channels.
-	 * If \Staff has been created yet, it adds {options + music} to the current 
-	 * staff. You need to call to this function in PlaySentence-events.
-	 * If there is no enable channels, enables the default-one and use it.
-	 * @param clef
-	 * @param time
-	 */
-	@SuppressWarnings("rawtypes")
-	public void prepareStaffToPlay(String clef, Time time) {
-		Map.Entry e = null;
-		Iterator<Entry<ChannelIdentifier, Channel>> it;
-		String composition = "";
-
-		it = this.channelMap.entrySet().iterator();
-		if (this.isDefaultChannelNeeded()) {
-
-			while (it.hasNext()) {
-				e = (Map.Entry) it.next();
-				if (((Channel) e.getValue()).isEnable()) {
-
-					if (!((Channel) e.getValue()).getMusic().equals("")) {
-						// Deletes the last "}"
-						((Channel) e.getValue()).setMusic(((Channel) e.getValue()).getMusic().substring(0,((Channel) e.getValue()).getMusic().length() - 2));
-					} else {
-						composition += "\\new Staff {";
-					}
-
-					composition += ("\n\\clef " + clef + "\n");
-					composition += "\\time " + time.toString() + "\n";
-					composition += "\\set Staff.midiInstrument = #\"" + ((Channel) e.getValue()).getInstrument().getValue() + "\"\n";
-					composition += "\\set Staff.midiMinimumVolume = #" + 0 + "\n";
-					composition += "\\set Staff.midiMaximumVolume = #"+ ((Channel) e.getValue()).getVolume() / 100 + "\n";
-					composition += "\n}\n";
-
-					((Channel) e.getValue()).addMusic(composition);
-				}
-				composition = "";
-			}
-		} else {
-			//enable default
-			this.enable(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER));
-		
-			if (!(this.channelMap.get(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER))).getMusic().equals("")) {
-				// Deletes the last "}"
-				(this.channelMap.get(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER))).setMusic((this.channelMap.get(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER))).getMusic().substring(0,(this.channelMap.get(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER))).getMusic().length() - 2));
-			} else {
-				composition += "\\new Staff {";
-			}
-
-			
-			composition += ("\n\\clef " + clef + "\n");
-			composition += "\\time " + time.toString() + "\n";
-			composition += "\\set Staff.midiInstrument = #\""+ this.channelMap.get(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER)).getInstrument().getValue() + "\"\n";
-			composition += "\\set Staff.midiMinimumVolume = #" + 0 + "\n";
-			composition += "\\set Staff.midiMaximumVolume = #" + this.channelMap.get(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER)).getVolume()/ 100 + "\n";
-			composition += "\n}\n";
-
-			this.channelMap.get(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER)).addMusic(composition);
-
-		}
-	}
-	
-	/**
-	 * Obtains the max duration of the channels in the DB
+	 * Obtains the max duration (in bars) of the channels in the DB
 	 * @return A int value with the duration
 	 */
 	@SuppressWarnings("rawtypes")
-	public int maxDuration() {
+	public int maxNumBars() {
 		Map.Entry e = null;
 		Iterator<Entry<ChannelIdentifier, Channel>> it;
 
@@ -364,7 +302,7 @@ public class ChannelsDB {
 
 		while (it.hasNext()) {
 			e = (Map.Entry) it.next();
-			auxDuration = ((Channel) e.getValue()).getDuration();
+			auxDuration = ((Channel) e.getValue()).getNumBars();
 			if (auxDuration > max) {
 				max = auxDuration;
 			}
@@ -388,11 +326,11 @@ public class ChannelsDB {
 			while (it.hasNext()) {
 				e = (Map.Entry) it.next();
 				if(((Channel)e.getValue()).isEnable()){
-					return true;
+					return false;
 				}
 			}
 			
-			return false;
+			return true;
 	}
 	
 	

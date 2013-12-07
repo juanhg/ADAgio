@@ -7,11 +7,12 @@ import com.adagio.events.channels.MusicChannelInstrumentEvent;
 import com.adagio.events.channels.MusicChannelVolumeEvent;
 import com.adagio.events.chords.MusicChordAddEvent;
 import com.adagio.events.chords.MusicChordEvent;
+import com.adagio.events.definitions.MusicTempoDefinitionEvent;
 import com.adagio.events.notes.MusicNoteNameEvent;
 import com.adagio.events.notes.MusicNoteToAbsoluteEvent;
 import com.adagio.events.statements.MusicPlayStatementEvent;
 import com.adagio.events.statements.MusicRelativeStatementEvent;
-import com.adagio.events.tempos.MusicTempoDefinitionEvent;
+import com.adagio.events.statements.MusicTimeStatementEvent;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 
 public interface MusicEventListener extends EventListener {
@@ -36,6 +37,7 @@ public interface MusicEventListener extends EventListener {
 	/** ----- STATEMENT EVENTS ----- **/
 	public void setRelative(MusicRelativeStatementEvent e);
 	public void musicPlay(MusicPlayStatementEvent e);
+	public void setTime(MusicTimeStatementEvent e);
 	
 	/** ----- NOTE EVENTS ----- **/
 	public AbsoluteMusicNote toAbsolute(MusicNoteToAbsoluteEvent e);
@@ -52,7 +54,7 @@ public interface MusicEventListener extends EventListener {
 	public boolean isChordDefined(MusicChordEvent e);
 	public void addChord(MusicChordAddEvent e);
 	
-	/** ----- TEMPOS EVENTS ----- **/
+	/** ----- DEFINITIONS ----- **/
 	
 	public void tempoDefinition(MusicTempoDefinitionEvent e);
 }

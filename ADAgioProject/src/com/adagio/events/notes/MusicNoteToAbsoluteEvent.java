@@ -20,10 +20,5 @@ public class MusicNoteToAbsoluteEvent extends EventObject{
 	public MusicNote getNote() {
 		return note;
 	}
-
-	public void setNote(MusicNote note) {
-		this.note = note;
-	}
-	
 	
 }

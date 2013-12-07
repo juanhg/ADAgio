@@ -20,8 +20,4 @@ public class MusicRelativeStatementEvent extends EventObject {
 	public AbsoluteMusicNote getaNote() {
 		return aNote;
 	}
-
-	public void setaNote(AbsoluteMusicNote aNote) {
-		this.aNote = aNote;
-	}
 }

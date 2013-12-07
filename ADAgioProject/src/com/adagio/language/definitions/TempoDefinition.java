@@ -5,7 +5,7 @@ import org.modelcc.Prefix;
 import org.modelcc.Suffix;
 
 import com.adagio.events.MusicEventListener;
-import com.adagio.events.tempos.MusicTempoDefinitionEvent;
+import com.adagio.events.definitions.MusicTempoDefinitionEvent;
 import com.adagio.language.tempos.Tempo;
 import com.adagio.language.tempos.TempoIdentifier;
 

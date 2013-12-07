@@ -32,10 +32,6 @@ public class MusicPlayStatementEvent extends EventObject {
 	public Vector<Chord> getChords() {
 		return chords;
 	}
-
-	public void setChords(Vector<Chord> chords) {
-		this.chords = chords;
-	}
 	
 	/**
 	 * Used for Test

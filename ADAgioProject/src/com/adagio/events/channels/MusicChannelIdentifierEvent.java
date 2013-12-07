@@ -20,8 +20,4 @@ public class MusicChannelIdentifierEvent extends EventObject{
 	public ChannelIdentifier getId() {
 		return id;
 	}
-
-	public void setId(ChannelIdentifier id) {
-		this.id = id;
-	}	
 }

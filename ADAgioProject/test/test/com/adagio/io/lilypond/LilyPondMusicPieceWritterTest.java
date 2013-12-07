@@ -1,6 +1,7 @@
 package test.com.adagio.io.lilypond;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ import com.adagio.language.chords.Chord;
 import com.adagio.language.chords.ChordIdentifier;
 import com.adagio.language.chords.intervals.Interval;
 import com.adagio.language.chords.intervals.OptionalInterval;
+import com.adagio.language.figures.Figure;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.AlteredNoteName;
 import com.adagio.language.musicnotes.BasicNoteName;
@@ -25,6 +27,7 @@ import com.adagio.language.musicnotes.notealterations.Alteration;
 import com.adagio.language.musicnotes.notealterations.DoubleFlatAlteration;
 import com.adagio.language.musicnotes.notealterations.FlatAlteration;
 import com.adagio.language.musicnotes.notealterations.SharpAlteration;
+import com.adagio.language.times.Time;
 
 public class LilyPondMusicPieceWritterTest {
 	 
@@ -156,6 +159,24 @@ public class LilyPondMusicPieceWritterTest {
 	}
 	
 	@Test
+	public void TranslateFigureTest(){
+		Figure figure = new Figure(1.5);
+		assertEquals("2.", listener.translateFigure(figure));
+		figure = new Figure(4);
+		assertEquals("4", listener.translateFigure(figure));
+		figure = new Figure(1.25);
+		assertEquals("2..", listener.translateFigure(figure));
+	}
+	
+	@Test
+	public void TranslateTimeTest(){
+		Time time = new Time(4, 4);
+		assertEquals("4/4", listener.translateTime(time));
+		time = new Time(4, 1.25);;
+		assertEquals("4/2..", listener.translateTime(time));
+	}
+	
+	@Test
 	public void musicPlayTest(){
 		
 		int duration = 0;
@@ -176,7 +197,7 @@ public class LilyPondMusicPieceWritterTest {
 		listener.createChannel(channelIdentifierEvent);
 	
 		listener.musicPlay(playStatementEvent);
-		duration = listener.getChannelDB().getChannelMap().get(channelID).getDuration();
+		duration = listener.getChannelsDB().getChannelMap().get(channelID).getNumBars();
 		//Are silences added when channel is create?
 		assertEquals(6, duration);
 	}

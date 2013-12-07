@@ -123,8 +123,10 @@ public class Figure implements IModel {
 		double duration = this.shapeDuration.intValue();
 		double firstDuration = duration;
 		
-		for(int i = 1; i <= this.dots.length; i++){
-			duration -= (firstDuration/2)/Math.pow(2.0, i);
+		if(this.dots != null){
+			for(int i = 1; i <= this.dots.length; i++){
+				duration -= (firstDuration/2)/Math.pow(2.0, i);
+			}
 		}
 		
 		return duration;

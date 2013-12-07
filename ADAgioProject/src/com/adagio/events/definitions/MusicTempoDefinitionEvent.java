@@ -1,4 +1,4 @@
-package com.adagio.events.tempos;
+package com.adagio.events.definitions;
 import java.util.EventObject;
 
 import com.adagio.language.tempos.Tempo;
@@ -13,23 +13,15 @@ public class MusicTempoDefinitionEvent extends EventObject {
 	
 	public MusicTempoDefinitionEvent(Object source, TempoIdentifier id, Tempo tempo) {
 		super(source);
-		this.id = id.clone();
-		this.tempo = tempo.clone();
+		this.id = id;
+		this.tempo = tempo;
 	}
 
 	public TempoIdentifier getId() {
 		return id;
 	}
 
-	public void setId(TempoIdentifier id) {
-		this.id = id;
-	}
-
 	public Tempo getTempo() {
 		return tempo;
-	}
-
-	public void setTempo(Tempo tempo) {
-		this.tempo = tempo;
 	}
 }

@@ -19,12 +19,5 @@ public class MusicNoteNameEvent extends EventObject {
 
 	public MusicNoteName getMusicNoteName() {
 		return musicNoteName;
-	}
-
-	public void setMusicNoteName(MusicNoteName musicNoteName) {
-		this.musicNoteName = musicNoteName;
-	}
-	
-	
-	
+	}	
 }

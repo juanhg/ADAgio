@@ -26,20 +26,7 @@ public class MusicChordAddEvent extends EventObject {
 		return id;
 	}
 
-	public void setId(ChordIdentifier id) {
-		this.id = id;
-	}
-
 	public List<Interval> getIntervals() {
 		return intervals;
-	}
-
-	public void setIntervals(List<Interval> intervals) {
-		this.intervals = intervals;
-	}
-	
-	
-	
-	
-	
+	}	
 }

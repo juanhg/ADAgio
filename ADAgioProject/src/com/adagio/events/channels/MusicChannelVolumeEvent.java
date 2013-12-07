@@ -22,15 +22,7 @@ public class MusicChannelVolumeEvent extends EventObject {
 		return id;
 	}
 
-	public void setId(ChannelIdentifier id) {
-		this.id = id;
-	}
-
 	public int getVolume() {
 		return volume;
-	}
-
-	public void setVolume(int volume) {
-		this.volume = volume;
 	}
 }

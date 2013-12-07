@@ -20,11 +20,4 @@ public class MusicChordEvent extends EventObject {
 	public Chord getChord() {
 		return chord;
 	}
-
-	public void setChord(Chord chord) {
-		this.chord = chord;
-	}
-	
-	
-
 }
