@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Vector;
 
+import org.modelcc.types.IntegerModel;
+
 import com.adagio.events.MusicEventListener;
 import com.adagio.events.channels.MusicChannelIdentifierEvent;
 import com.adagio.events.channels.MusicChannelInstrumentEvent;
@@ -66,16 +68,18 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	private boolean hasClefChanged;
 	
 	
+	
 	public LilyPondMusicPieceWriter(){
 		relative = new AbsoluteMusicNote(2, "C");
 		clef = "treble";
-		time = new Time(4,4);
+		time = new Time(new IntegerModel(4), new Figure(4,0));
 		tempo = new Tempo(new Figure(4,0),90);
 		chordsDB = new HashMap<ChordIdentifier,List<Interval>>();
 		temposDB = new TemposDB();
 		channelsDB = new ChannelsDB();
 		defaultUsed = false;
 		hasTempoChanged = hasTimeChanged = hasClefChanged = true;
+		
 	}
 	
 	public static void writeMusicPiece(MusicPiece m,PrintWriter out){
@@ -239,7 +243,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		return composition;
 	}
 	
-	public String translateFigure(Figure figure){
+	static public String translateFigure(Figure figure){
 		String composition = "";
 		composition += Integer.toString(figure.getShape().intValue());
 		if(figure.getDots() != null){
@@ -255,7 +259,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		composition += "\\time ";
 		composition += time.getBeats().intValue();
 		composition += "/";
-		composition += this.translateFigure(time.getFigure());
+		composition += translateFigure(time.getFigure());
 		
 		return composition;
 	}
@@ -278,59 +282,11 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	
 	public String translateTempo(Tempo tempo){
 		String composition = "\\tempo ";
-		composition += this.translateFigure(tempo.getFigure());
+		composition += translateFigure(tempo.getFigure());
 		composition += "=" + this.tempo.getBps().intValue();
 		return composition;
 	}
-	
-	/**
-	 * Create the block \Staff{} for enabled channels.
-	 * If there is no enable channels, enables the default-one and use it.
-	 * @param clef
-	 * @param time
-	 */
-	@SuppressWarnings("rawtypes")
-	public void prepareStaffsToPlay(String clef, Time time) {
-		Map.Entry e = null;
-		Iterator<Entry<ChannelIdentifier, Channel>> it;
-		String composition = "";
-
-		it = this.channelsDB.getChannelMap().entrySet().iterator();
-		if (!this.channelsDB.isDefaultChannelNeeded()) {
-
-			while (it.hasNext()) {
-				e = (Map.Entry) it.next();
-					if (!((Channel) e.getValue()).getMusic().equals("")) {
-						// Deletes the last "}"
-						((Channel) e.getValue()).setMusic(deleteLastBracket(((Channel) e.getValue()).getMusic()));
-					} else {
-						composition += "\n\\new Staff{\n";
-					}
-					composition += "}\n";
-					
-					((Channel) e.getValue()).addMusic(composition);
-					composition = "";
-			}
-		} else {
-			this.defaultUsed = true;
-			//enable default
-			this.channelsDB.enable(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER));
 		
-			if (!(this.channelsDB.getChannelMap().get(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER))).getMusic().equals("")) {
-				// Deletes the last "}"
-				ChannelIdentifier defaultID = new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER);
-				this.channelsDB.getChannelMap().get(defaultID).setMusic(deleteLastBracket(this.channelsDB.getChannelMap().get(defaultID).getMusic()));
-			} else {
-				composition += "\n\\new Staff{";
-			}
-
-			composition += "\n}\n";
-
-			this.channelsDB.getChannelMap().get(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER)).addMusic(composition);
-
-		}
-	}
-	
 	/**
 	 * @return String-tail needed to create the midi file
 	 */
@@ -363,6 +319,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		AbsoluteMusicNote bassNote = null;
 		Vector<Chord> chords = new Vector<Chord>();
 		Vector<Chord> absoluteChords = new Vector<Chord>();
+		Vector<Figure> barFigures = barFigures(e.getBar().getChords().length, time); 
 		String composition = "";
 		
 		//Transform Chord [] chords in Vector<Chord> chords
@@ -370,6 +327,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 			chords.add(e.getBar().getChords()[i]);
 		}
 
+		
 		//We save the relative before play statement
 		//AbsoluteMusicNote relativeBeforePlay = this.relative;
 		
@@ -399,9 +357,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		// (Erase this if don't want to reset relative after play)
 		//we recover the relative
 		//this.relative = relativeBeforePlay;
-
-		//Prepare staffs to play (\Staff{})
-		this.prepareStaffsToPlay(clef, time);
+		
 		this.channelsDB.fillAllWithSilences(clef, time);
 		
 		composition = "";
@@ -450,13 +406,17 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 						((Channel) x.getValue()).setInstrumentChanged(false);
 					}
 					
+					
 					for (int i = 0; i < absoluteChords.size(); i++) {
 						
 						composition += translateChord(absoluteChords.get(i));
 						
-						numBarsAdded ++;
-						composition += Integer.toString((int)this.time
-								.defaultDuration());
+						if(i < barFigures.size()){
+							composition += translateFigure(barFigures.elementAt(i));
+						}
+						else{
+							composition += Integer.toString((int)this.time.defaultDuration());
+						}
 						if (((Channel) x.getValue()).hasVolumeChanged()) {
 							composition += "\\mf";
 							((Channel) x.getValue()).setVolumeChanged(false);
@@ -464,7 +424,11 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 						composition += " ";
 					}
 
-					this.channelsDB.addMusic((ChannelIdentifier) x.getKey(),composition, numBarsAdded, clef, time);
+					if(((ChannelIdentifier)x.getKey()).getValue().equals(Channel.DEFAULT_CHANNEL_IDENTIFIER)){
+						this.defaultUsed = true;
+					}
+					numBarsAdded=1;
+					this.channelsDB.addMusic((ChannelIdentifier) x.getKey(),composition, numBarsAdded);
 					numBarsAdded = 0;
 					composition = "";
 				}
@@ -483,14 +447,19 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		if(!e.getId().getValue().equals(Channel.DEFAULT_CHANNEL_IDENTIFIER)){
 			this.channelsDB.disable(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER));
 		}
+		this.channelsDB.fillWithSilences(e.getId(), clef, time);
 	}
 
 	/**
 	 * Event that occurs when a channel is going to be destroyed.
+	 * Destroy the channel, and if is needed, activates the default one.
 	 */
 	@Override
 	public void destroyChannel(MusicChannelIdentifierEvent e) {
 		this.channelsDB.destroy(e.getId());
+		if(this.channelsDB.isDefaultChannelNeeded() && !e.getId().getValue().equals(Channel.DEFAULT_CHANNEL_IDENTIFIER)){
+			this.channelsDB.enable(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER));
+		}
 	}
 
 	
@@ -532,10 +501,16 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 
 	/**
 	 * Event that happens when it's needed to recover a previously destroyed channel
+	 * Disable the default channel
 	 */
 	@Override
 	public void recoverChannel(MusicChannelIdentifierEvent e) {
-		this.channelsDB.getChannelMap().get(e.getId()).setErased(false);		
+		this.channelsDB.getChannelMap().get(e.getId()).setErased(false);
+		if (!e.getId().getValue()
+				.equals(Channel.DEFAULT_CHANNEL_IDENTIFIER)) {
+			this.channelsDB.disable(new ChannelIdentifier(
+					Channel.DEFAULT_CHANNEL_IDENTIFIER));
+		}
 	}
 
 	/**
@@ -547,8 +522,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	}
 	
 	/**
-	 * Event that happens when a channel is going to be neabled. DISABLES the
-	 * default channel (unless it was the enabled one).
+	 * Event that happens when a channel is going to be neabled. 
+	 * DISABLES the default channel (unless it was the enabled one).
 	 */
 	@Override
 	public void enableChannel(MusicChannelIdentifierEvent e) {
@@ -561,11 +536,15 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	}
 	
 	/**
-	 * Event that happens when it's needed to disable a channel
+	 * Event that happens when it's needed to disable a channel.
+	 * Disable the channel, and if is needed, activates the default one.
 	 */
 	@Override
 	public void disableChannel(MusicChannelIdentifierEvent e) {
 		this.channelsDB.disable(e.getId());
+		if(this.channelsDB.isDefaultChannelNeeded() && !e.getId().getValue().equals(Channel.DEFAULT_CHANNEL_IDENTIFIER)){
+			this.channelsDB.enable(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER));
+		}
 	}
 	
 	/**
@@ -691,6 +670,33 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		}
 		
 		return noBracket;
+	}
+	
+	/**
+	 * Return a string with the figures that correspond 
+	 * to the chords in the bars. If the vector is bigger
+	 * than the number of chords, the rest of the figures 
+	 * will be silences.
+	 * @param bar Bar with chords
+	 * @param numChords Number of chords in the bar
+	 * @return
+	 */
+	static public Vector<Figure> barFigures(int numChords, Time time){
+		Vector<Figure> figures = new Vector<Figure>();
+		double factor = time.getBeats().doubleValue()/numChords;
+		double figuresDuration = factor * time.getFigure().duration();
+		
+		if(Figure.validDuration(figuresDuration)){
+			for(int i = 0; i < numChords; i++){
+				figures.add(new Figure(figuresDuration));
+			}
+		}
+		else{
+			for(int i = 0; i < time.getBeats().intValue(); i++){
+				figures.add(time.getFigure().clone());
+			}
+		}
+		return figures;
 	}
 
 	

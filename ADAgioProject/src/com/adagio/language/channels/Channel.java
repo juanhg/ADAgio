@@ -26,7 +26,7 @@ public class Channel {
 		volume = VolumeModifier.MAX_VOLUME;
 		enable = true;
 		erased = false;
-		music = "";
+		music = "\\new Staff{\n}";
 		numBars = 0;
 		
 		volumeChanged = true;
@@ -114,6 +114,7 @@ public class Channel {
 		result = prime * result + (erased ? 1231 : 1237);
 		result = prime * result
 				+ ((instrument == null) ? 0 : instrument.hashCode());
+		result = prime * result + (instrumentChanged ? 1231 : 1237);
 		result = prime * result + ((music == null) ? 0 : music.hashCode());
 		result = prime * result + numBars;
 		result = prime * result + volume;
@@ -139,6 +140,8 @@ public class Channel {
 				return false;
 		} else if (!instrument.equals(other.instrument))
 			return false;
+		if (instrumentChanged != other.instrumentChanged)
+			return false;
 		if (music == null) {
 			if (other.music != null)
 				return false;
@@ -152,6 +155,8 @@ public class Channel {
 			return false;
 		return true;
 	}
+
+	
 
 	
 

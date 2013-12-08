@@ -47,4 +47,6 @@ public class FiguresTest {
 		assertEquals(2,testFigure.getDots().length);
 		
 	}
+	
+	
 }

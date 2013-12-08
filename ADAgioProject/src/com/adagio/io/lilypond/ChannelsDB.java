@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Vector;
 
 import com.adagio.language.channels.Channel;
 import com.adagio.language.channels.ChannelIdentifier;
+import com.adagio.language.figures.Figure;
 import com.adagio.language.instruments.Instrument;
 import com.adagio.language.times.Time;
 
@@ -20,8 +22,7 @@ public class ChannelsDB {
 	 */
 	public ChannelsDB() {
 		channelMap = new HashMap<ChannelIdentifier, Channel>();
-		channelMap.put(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER), new Channel());
-		channelMap.get(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER)).setEnable(false);
+		this.add(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER));
 	}
 
 	/**
@@ -56,12 +57,15 @@ public class ChannelsDB {
 			channelMap.get(id).setErased(false);
 		} else {
 			channel = new Channel();
-			channelMap.put(id, channel);
+			if(!channelMap.containsKey(id)){
+				channelMap.put(new ChannelIdentifier(id.getValue()), channel);
+			}
 		}
 	}
 
 	/**
-	 * Destroys logically the channel, and put it as disabled
+	 * Destroys logically the channel, and put it as disabled.
+	 * Enable default channel if is needed
 	 * @param id Channel identifier
 	 */
 	public void destroy(ChannelIdentifier id) {
@@ -144,7 +148,7 @@ public class ChannelsDB {
 	 * @param clef
 	 * @param time
 	 */
-	public void addMusic(ChannelIdentifier id, String music, int numBars, String clef, Time time){
+	public void addMusic(ChannelIdentifier id, String music, int numBars){
 		String composition = "";
 		
 		if(!this.isErased(id)){
@@ -172,7 +176,7 @@ public class ChannelsDB {
 	 * @param data
 	 */
 	@SuppressWarnings("rawtypes")
-	public void addMusicToEnabled(String music, int numBars, String clef, Time time){
+	public void addMusicToEnabled(String music, int numBars){
 		Map.Entry e = null;
 		Iterator<Entry<ChannelIdentifier, Channel>> it;
 		
@@ -182,13 +186,13 @@ public class ChannelsDB {
 			while (it.hasNext()) {
 				e = (Map.Entry) it.next();
 				if(((Channel)e.getValue()).isEnable()){
-					this.addMusic((ChannelIdentifier)e.getKey(), music, numBars, clef, time);
+					this.addMusic((ChannelIdentifier)e.getKey(), music, numBars);
 				}
 			}
 		}
 		else{
 			
-			this.addMusic(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER),music,numBars,clef, time);
+			this.addMusic(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER),music,numBars);
 		}
 	}
 	
@@ -201,6 +205,7 @@ public class ChannelsDB {
 		int maxDuration = this.maxNumBars();
 		int auxDuration = 0;
 		int difference = 0;
+		Vector<Figure> silenceFigures = LilyPondMusicPieceWriter.barFigures(time.getBeats().intValue(), time);
 
 		String composition = "";
 
@@ -210,9 +215,11 @@ public class ChannelsDB {
 
 			if (difference > 0) {
 				for (int i = difference; i > 0; i--) {
-					composition += "s" + time.defaultDuration() + " ";
+					for(int j = 0; j < silenceFigures.size(); j++){
+						composition += "s" + LilyPondMusicPieceWriter.translateFigure(silenceFigures.elementAt(j)) + " ";
+					}
 				}
-				this.addMusic(id, composition, difference, clef, time);
+				this.addMusic(id, composition, difference);
 			}
 		} else {
 			System.err.println("Error 10: Channel \"" + id.toString()

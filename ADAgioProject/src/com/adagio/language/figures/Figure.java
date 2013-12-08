@@ -1,5 +1,7 @@
 package com.adagio.language.figures;
 
+import java.util.Arrays;
+
 import org.modelcc.Constraint;
 import org.modelcc.IModel;
 import org.modelcc.Multiplicity;
@@ -51,8 +53,8 @@ public class Figure implements IModel {
 	 */
 	public Figure(IntegerModel shape, FigureDot [] dots){
 		this.shape = shape;
-		if(this.dots != null){
-			this.dots= dots.clone();
+		if(dots != null){
+			this.dots= dots;
 		}
 	}
 	
@@ -65,6 +67,9 @@ public class Figure implements IModel {
 
 		this.shape = new IntegerModel(shape);
 		this.dots = new FigureDot[dotsNum];
+		for(int i = 0; i < dotsNum; i++){
+			dots[i] = new FigureDot();
+		}
 		if (!this.validShape()) {
 			System.err.println("Error 11: \"" + shape + "\" it's not a valid shape duration.\n");
 			System.exit(11);
@@ -96,6 +101,9 @@ public class Figure implements IModel {
 		if(figDur == duration){
 			this.shape = figure.shape;
 			this.dots = new FigureDot[dotsNum];
+			for(int i = 0; i < dotsNum; i++){
+				dots[i] = new FigureDot();
+			}
 		}
 		else{
 			this.shape = null;
@@ -138,10 +146,10 @@ public class Figure implements IModel {
 		}
 		
 		if(figDur == duration){
-			return false;
+			return true;
 		}
 		else{
-			return true;
+			return false;
 		}
 	}
 	
@@ -165,6 +173,36 @@ public class Figure implements IModel {
 		Figure cloned = new Figure(this.shape,this.dots);
 		return cloned;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(dots);
+		result = prime * result + ((shape == null) ? 0 : shape.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Figure other = (Figure) obj;
+		if (!Arrays.equals(dots, other.dots))
+			return false;
+		if (shape == null) {
+			if (other.shape != null)
+				return false;
+		} else if (shape.intValue() != other.shape.intValue())
+			return false;
+		return true;
+	}
+	
+	
 	
 }
 

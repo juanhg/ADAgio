@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -160,18 +161,18 @@ public class LilyPondMusicPieceWritterTest {
 	@Test
 	public void TranslateFigureTest(){
 		Figure figure = new Figure(1.5);
-		assertEquals("2.", listener.translateFigure(figure));
+		assertEquals("4.", listener.translateFigure(figure));
 		figure = new Figure(4);
-		assertEquals("4", listener.translateFigure(figure));
-		figure = new Figure(1.25);
-		assertEquals("2..", listener.translateFigure(figure));
+		assertEquals("1", listener.translateFigure(figure));
+		figure = new Figure(7);
+		assertEquals("1..", listener.translateFigure(figure));
 	}
 	
 	@Test
 	public void TranslateTimeTest(){
-		Time time = new Time(4, 4);
+		Time time = new Time(new IntegerModel(4), new Figure(4,0));
 		assertEquals("\\time 4/4", listener.translateTime(time));
-		time = new Time(4, 1.25);;
+		time = new Time(new IntegerModel(4), new Figure(2,2));;
 		assertEquals("\\time 4/2..", listener.translateTime(time));
 	}
 	
@@ -205,6 +206,33 @@ public class LilyPondMusicPieceWritterTest {
 	public void deleteLastBracketTest(){
 		assertEquals("a b c d ", LilyPondMusicPieceWriter.deleteLastBracket("a b c d }"));
 		assertEquals("a b c d\n\n ", LilyPondMusicPieceWriter.deleteLastBracket("a b c d\n\n }"));
+	}
+	
+	@Test
+	public void barFiguresTest(){
+		// TIME 4/4 - 4 chords
+		Vector<Figure> figures = new Vector<Figure>();
+		figures = listener.barFigures(4, new Time(new IntegerModel(4), new Figure(4,0)));
+		assertEquals(4, figures.size());
+		assertEquals(new Figure(4,0), figures.elementAt(0));
+		
+		// TIME 3/4 - 2 chords
+		figures = new Vector<Figure>();
+		figures = listener.barFigures(2, new Time(new IntegerModel(3), new Figure(4,0)));
+		assertEquals(2, figures.size());
+		assertEquals(new Figure(4, 1), figures.elementAt(0));
+		
+		// TIME 4/4 - 3 chords
+		figures = new Vector<Figure>();
+		figures = listener.barFigures(3, new Time(new IntegerModel(4), new Figure(4,0)));
+		assertEquals(4, figures.size());
+		assertEquals(new Figure(4, 0), figures.elementAt(0));
+		
+		// TIME 4/4 - 8 chords
+		figures = new Vector<Figure>();
+		figures = listener.barFigures(8, new Time(new IntegerModel(4), new Figure(4,0)));
+		assertEquals(8, figures.size());
+		assertEquals(new Figure(8,0), figures.elementAt(0));
 	}
 
 }
