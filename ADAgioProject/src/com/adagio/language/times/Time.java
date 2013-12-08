@@ -40,7 +40,7 @@ public class Time implements IModel {
 			}
 		} else {
 			//TODO Should return figure.getShapeDuration() + ...
-			return	figure.getShapeDuration().intValue();
+			return	figure.getShape().intValue();
 		}
 	}
 

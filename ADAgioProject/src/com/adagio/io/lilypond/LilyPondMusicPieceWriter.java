@@ -237,7 +237,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	
 	public String translateFigure(Figure figure){
 		String composition = "";
-		composition += Integer.toString(figure.getShapeDuration().intValue());
+		composition += Integer.toString(figure.getShape().intValue());
 		if(figure.getDots() != null){
 			for(int i = 0; i < figure.getDots().length; i++){
 				composition += ".";

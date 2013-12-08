@@ -15,54 +15,36 @@ public class FiguresTest {
 		double delta = 0.00001;
 		
 		testFigure = new Figure(4,1);
-		assertEquals(3.0,testFigure.duration(),delta);
+		assertEquals(1.5,testFigure.duration(),delta);
 		
 		testFigure = new Figure(2,2);
-		assertEquals(1.25,testFigure.duration(),delta);
+		assertEquals(3.5,testFigure.duration(),delta);
 		
 		testFigure = new Figure(32,0);
-		assertEquals(32.0,testFigure.duration(),delta);
+		assertEquals(0.125,testFigure.duration(),delta);
 		
-		testFigure = new Figure(64,4);
-		assertEquals(34,testFigure.duration(),delta);
+		testFigure = new Figure(64,2);
+		assertEquals(0.109375,testFigure.duration(),delta);
 	}
 	
 
 	@Test
 	public void DurationConstructorTest() {
-		testFigure = new Figure(4);
-		assertEquals(4,testFigure.getShapeDuration().intValue());
-		assertEquals(0,testFigure.getDots().length);
-		
-		testFigure = new Figure(1);
-		assertEquals(1,testFigure.getShapeDuration().intValue());
-		assertEquals(0,testFigure.getDots().length);
-		
 		testFigure = new Figure(1.5);
-		assertEquals(2,testFigure.getShapeDuration().intValue());
+		assertEquals(4,testFigure.getShape().intValue());
 		assertEquals(1,testFigure.getDots().length);
 		
-		testFigure = new Figure(3);
-		assertEquals(4,testFigure.getShapeDuration().intValue());
-		assertEquals(1,testFigure.getDots().length);
-		
-		testFigure = new Figure(2.5);
-		assertEquals(4,testFigure.getShapeDuration().intValue());
+		testFigure = new Figure(3.5);
+		assertEquals(2,testFigure.getShape().intValue());
 		assertEquals(2,testFigure.getDots().length);
 		
-		testFigure = new Figure(4.5);
-		assertEquals(8,testFigure.getShapeDuration().intValue());
-		assertEquals(3,testFigure.getDots().length);
+		testFigure = new Figure(0.125);
+		assertEquals(32,testFigure.getShape().intValue());
+		assertEquals(0,testFigure.getDots().length);
 		
-		testFigure = new Figure(6);
-		assertEquals(8,testFigure.getShapeDuration().intValue());
-		assertEquals(1,testFigure.getDots().length);
+		testFigure = new Figure(0.109375);
+		assertEquals(64,testFigure.getShape().intValue());
+		assertEquals(2,testFigure.getDots().length);
 		
-		testFigure = new Figure(3.3);
-		assertEquals(4,testFigure.getShapeDuration().intValue());
-		assertEquals(1,testFigure.getDots().length);
-		
-		testFigure = new Figure(7.5);
-	
 	}
 }

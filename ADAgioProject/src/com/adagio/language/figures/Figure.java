@@ -9,27 +9,27 @@ import org.modelcc.types.IntegerModel;
 
 public class Figure implements IModel {
 	
-	IntegerModel shapeDuration;
+	IntegerModel shape;
 
 	/**
 	 * @return True is duration is pow of 2. False in other case.
 	 */
 	@Constraint
-	boolean validShapeDuration() {
-		int result = 1;
+	boolean validShape() {
+		int result = 0;
 		boolean isValid = false;
 		
-		if(shapeDuration.intValue() >= 0) {
-			for (int i = 0; result < shapeDuration.intValue(); i++) {
+		if(shape.intValue() >= 0) {
+			for (int i = 0; result < shape.intValue(); i++) {
 				result = (int) Math.pow(2.0, i);
-				if (result == shapeDuration.intValue()) {
+				if (result == shape.intValue()) {
 					isValid = true;
 				}
 			}
 		}
 		
 		if(isValid == false){
-			System.err.println("Error 11: \"" + shapeDuration.intValue() +"\" it's not a valid shape duration.\n");
+			System.err.println("Error 11: \"" + shape.intValue() +"\" it's not a valid figure shape.\n");
 			System.exit(11);
 		}
 		return isValid;
@@ -49,8 +49,8 @@ public class Figure implements IModel {
 	 * @param shape duration of the shape 
 	 * @param dots Vector of dots
 	 */
-	public Figure(IntegerModel shapeDuration, FigureDot [] dots){
-		this.shapeDuration = shapeDuration;
+	public Figure(IntegerModel shape, FigureDot [] dots){
+		this.shape = shape;
 		if(this.dots != null){
 			this.dots= dots.clone();
 		}
@@ -61,87 +61,96 @@ public class Figure implements IModel {
 	 * @param shape int value duration of the shape
 	 * @param dotsNum Number of dots
 	 */
-	public Figure(int shapeDuration, int dotsNum) {
+	public Figure(int shape, int dotsNum) {
 
-		this.shapeDuration = new IntegerModel(shapeDuration);
+		this.shape = new IntegerModel(shape);
 		this.dots = new FigureDot[dotsNum];
-		if (!this.validShapeDuration()) {
-			System.err.println("Error 11: \"" + shapeDuration + "\" it's not a valid shape duration.\n");
+		if (!this.validShape()) {
+			System.err.println("Error 11: \"" + shape + "\" it's not a valid shape duration.\n");
 			System.exit(11);
 		}
 	}
 	
+
 	/**
-	 * Duration constructor.
-	 * Construct the figure that have the indicated total duration
-	 * (RECIPROCAL DURATION RESPECT THE Whole Note)
-	 * 2 - Half Note
-	 * 4 - Quarter Note
-	 * 8 - Eight Note
-	 * etc
-	 * @param finalDuration RECIPROCAL DURATION VALUE RESPECT THE WHOLE NOTE
+	 * If duration is valid, it will create a figure with the indicated duration.
+	 * If duration is not valid, it will create a figure with null attributes;
+	 * @param duration Figure's duration. (4 whole note, 2 half note, ...)
 	 */
-	public Figure(double finalDuration){
-		int powResult = 0;
-		int shape = 0;
-		int dots= 0;
-		double dotResult = 0.0;
-		boolean isValidDuration = false;
+	public Figure(double duration){
+		double figDur = Double.MAX_VALUE;
+		int dotsNum = 0;
+		Figure figure = null;
 		
-		if(finalDuration > 0) {
-			for (int i = 0; powResult < finalDuration; i++) {
-				powResult = (int) Math.pow(2.0, i);
-			}
-			if(finalDuration != shape){
-				dotResult = powResult;
-				for(int j = 1; dotResult > finalDuration; j++){
-					dotResult -= (powResult/2)/Math.pow(2.0, j); 
-					dots++;
-				}
-				if(dotResult == finalDuration){
-					isValidDuration = true;
-				}
-			}
-			else{
-				isValidDuration = true;
-			}
+		for(int i = 0; figDur > duration; i++){
+			figure = (new Figure((int)Math.pow(2.0, i),0));
+			figDur = figure.duration();
 		}
 		
-		if(isValidDuration){
-			this.shapeDuration = new IntegerModel(powResult);
-			this.dots = new FigureDot[dots];
+		double originalFigDur = figDur;
+		for(int i = 0; figDur < duration; i++){
+			figDur += originalFigDur / (Math.pow(2.0, i+1));
+			dotsNum++;
+		}
+		
+		if(figDur == duration){
+			this.shape = figure.shape;
+			this.dots = new FigureDot[dotsNum];
 		}
 		else{
-			System.err.println("Warning 12: \"" + finalDuration+ "\" it's not a valid total duration."
-					+ " Closest figure generated.");
-			this.shapeDuration = new IntegerModel(powResult);
-			this.dots = new FigureDot[dots];
+			this.shape = null;
+			this.dots = null;
+			System.err.println("Warning 12: \"" + duration+ "\" it's not a valid duration");
 		}
 	}
 	
 	/**
-	 * Obtains the reciprocal duration value respect the whole note
-	 * @return The duration value of the note repect the whole note
+	 * Calculates the figure's duration (4 whole note, 2 half note, ...)
+	 * @return
 	 */
 	public double duration(){
-		double duration = this.shapeDuration.intValue();
-		double firstDuration = duration;
+		double baseDuration = 4.0/this.shape.intValue();
+		double duration = baseDuration;
 		
 		if(this.dots != null){
-			for(int i = 1; i <= this.dots.length; i++){
-				duration -= (firstDuration/2)/Math.pow(2.0, i);
+			for(int i = 0; i < this.dots.length;i++){
+				duration += baseDuration/(Math.pow(2.0, i+1));
 			}
 		}
-		
 		return duration;
 	}
-
-	public IntegerModel getShapeDuration() {
-		return shapeDuration;
+	
+	/**
+	 * Checks if a duration is a valid one
+	 * @param duration Figure's duration. (4 whole note, 2 half note, ...)
+	 * @return True if is valid. False in other case.
+	 */
+ 	static public boolean validDuration(double duration){
+ 		double figDur = Double.MAX_VALUE;
+		
+		for(int i = 0; figDur > duration; i++){
+			figDur = (new Figure((int)Math.pow(2.0, i),0)).duration();
+		}
+		
+		double originalFigDur = figDur;
+		for(int i = 0; figDur < duration; i++){
+			figDur += originalFigDur / (Math.pow(2.0, i+1));
+		}
+		
+		if(figDur == duration){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+	
+	public IntegerModel getShape() {
+		return shape;
 	}
 
-	public void setShapeDuration(IntegerModel shapeDuration) {
-		this.shapeDuration = shapeDuration;
+	public void setShape(IntegerModel shapeDuration) {
+		this.shape = shapeDuration;
 	}
 
 	public FigureDot[] getDots() {
@@ -153,11 +162,9 @@ public class Figure implements IModel {
 	}
 	
 	public Figure clone(){
-		Figure cloned = new Figure(this.shapeDuration,this.dots);
+		Figure cloned = new Figure(this.shape,this.dots);
 		return cloned;
 	}
-	
-	
 	
 }
 
