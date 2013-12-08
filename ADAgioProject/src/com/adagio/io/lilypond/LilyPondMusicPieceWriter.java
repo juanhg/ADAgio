@@ -61,6 +61,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	private ChannelsDB channelsDB;
 	
 	private boolean defaultUsed;
+	private boolean hasTempoChanged;
+	private boolean hasTimeChanged;
+	private boolean hasClefChanged;
 	
 	
 	public LilyPondMusicPieceWriter(){
@@ -72,6 +75,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		temposDB = new TemposDB();
 		channelsDB = new ChannelsDB();
 		defaultUsed = false;
+		hasTempoChanged = hasTimeChanged = hasClefChanged = true;
 	}
 	
 	public static void writeMusicPiece(MusicPiece m,PrintWriter out){
@@ -357,13 +361,17 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		
 		AbsoluteMusicNote aNote = null;
 		AbsoluteMusicNote bassNote = null;
-
-		Vector<Chord> chords = e.getChords();
+		Vector<Chord> chords = new Vector<Chord>();
 		Vector<Chord> absoluteChords = new Vector<Chord>();
 		String composition = "";
+		
+		//Transform Chord [] chords in Vector<Chord> chords
+		for(int i = 0; i < e.getBar().getChords().length; i++){
+			chords.add(e.getBar().getChords()[i]);
+		}
 
 		//We save the relative before play statement
-		AbsoluteMusicNote relativeBeforePlay = this.relative;
+		//AbsoluteMusicNote relativeBeforePlay = this.relative;
 		
 		// Translates to absoluteMusicNote
 		for (int i = 0; i < chords.size(); i++) {
@@ -390,7 +398,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		
 		// (Erase this if don't want to reset relative after play)
 		//we recover the relative
-		this.relative = relativeBeforePlay;
+		//this.relative = relativeBeforePlay;
 
 		//Prepare staffs to play (\Staff{})
 		this.prepareStaffsToPlay(clef, time);
@@ -408,12 +416,39 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 				x = (Map.Entry) it.next();
 				if (((Channel) x.getValue()).isEnable()) {
 					
-					//Clef time & tempo
-					composition += "\n" + this.translateTempo(this.tempo) + "\n";
-					composition += this.translateClef(clef) + "\n";
-					composition += this.translateTime(this.time) + "\n";
-					composition += this.translateVolume(((Channel) x.getValue()).getVolume()) + "\n";
-					composition += this.translateInstrument(((Channel) x.getValue()).getInstrument()) + "\n"; 
+					// To format composition...
+					if(this.hasClefChanged 
+							|| this.hasTempoChanged || this.hasTimeChanged
+							|| ((Channel) x.getValue()).hasVolumeChanged()
+							|| ((Channel) x.getValue()).hasInstrumentChanged())
+					{
+						composition += "\n";
+					}
+					
+					// \Tempo...
+					if(this.hasTempoChanged){
+						composition += this.translateTempo(this.tempo) + "\n";
+						this.hasTempoChanged = false;
+					}
+					// \Clef...
+					if(this.hasClefChanged){
+						composition += this.translateClef(clef) + "\n";
+						this.hasClefChanged = false;
+					}
+					// \Time...
+					if(this.hasTimeChanged){
+						composition += this.translateTime(this.time) + "\n";
+						this.hasTimeChanged = false;
+					}
+					// \set midiMaximunVolumen...
+					if(((Channel) x.getValue()).hasVolumeChanged()){
+						composition += this.translateVolume(((Channel) x.getValue()).getVolume()) + "\n";
+					}
+					// \set Staff.midiInstrument...
+					if(((Channel) x.getValue()).hasInstrumentChanged()){
+						composition += this.translateInstrument(((Channel) x.getValue()).getInstrument()) + "\n"; 
+						((Channel) x.getValue()).setInstrumentChanged(false);
+					}
 					
 					for (int i = 0; i < absoluteChords.size(); i++) {
 						
@@ -422,7 +457,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 						numBarsAdded ++;
 						composition += Integer.toString((int)this.time
 								.defaultDuration());
-						if (((Channel) x.getValue()).isVolumeChanged()) {
+						if (((Channel) x.getValue()).hasVolumeChanged()) {
 							composition += "\\mf";
 							((Channel) x.getValue()).setVolumeChanged(false);
 						}
@@ -548,6 +583,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	@Override
 	public void setChannelInstrument(MusicChannelInstrumentEvent e) {
 		this.channelsDB.setInstrument(e.getId(), e.getInstrument());
+		this.channelsDB.getChannelMap().get(e.getId()).setInstrumentChanged(true);
 	}
 	
 	/**
@@ -561,6 +597,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	@Override
 	public void setTime(MusicTimeStatementEvent e) {
 		this.time = (e.getTime());
+		this.hasTimeChanged = true;
 	}
 	
 	@Override
@@ -568,11 +605,13 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		if(this.temposDB.exists(e.getIdentifier())){
 			this.tempo = this.temposDB.getTempo(e.getIdentifier()).clone();
 		}
+		this.hasTempoChanged = true;
 	}
 
 	@Override
 	public void setTempo(MusicUndefinedTempoStatementEvent e) {
 		this.tempo = e.getTempo().clone();
+		this.hasTempoChanged = true;
 	}	
 	
 	/**

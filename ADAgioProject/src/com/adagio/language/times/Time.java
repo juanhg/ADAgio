@@ -30,11 +30,9 @@ public class Time implements IModel {
 	 */
 	public int defaultDuration() {
 
-		double figureDuration = figure.duration();
-
-		if (0 == (figureDuration % beats.intValue())) {
-			if (figureDuration >= beats.intValue()) {
-				return (int) figureDuration/beats.intValue();
+		if (0 == (figure.getShape().intValue() % beats.intValue())) {
+			if (figure.getShape().intValue() >= beats.intValue()) {
+				return (int) figure.getShape().intValue()/beats.intValue();
 			} else {
 				return 1;
 			}

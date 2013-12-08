@@ -1,18 +1,22 @@
 package com.adagio.language.statements;
-import java.util.Vector;
+import org.modelcc.IModel;
+import org.modelcc.Multiplicity;
+import org.modelcc.Prefix;
+import org.modelcc.Separator;
 
 import com.adagio.events.MusicEventListener;
 import com.adagio.events.statements.MusicPlayStatementEvent;
-import com.adagio.language.chords.Chord;
-
-
-import org.modelcc.*;
+import com.adagio.language.chords.Bar;
 
 @Prefix("(?i)play")
 public class PlayStatement extends Statement implements IModel {
 
+	
+	// @Prefix("(\\|)?")
+	// @Suffix("(\\|)?")
+	@Separator("\\|")
 	@Multiplicity(minimum = 1)
-	Chord [] chords;
+	Bar [] bars;
 	
 	@Override
 	/**
@@ -21,12 +25,11 @@ public class PlayStatement extends Statement implements IModel {
 	 */
 	public void run(MusicEventListener listener) {
 		
-		Vector<Chord> auxVector = new Vector<Chord>();
-		for(Chord current: chords){
-			auxVector.add(current);
+		if(bars != null){
+			for(int i = 0; i <bars.length; i++){
+				listener.musicPlay(new MusicPlayStatementEvent(this, bars[i]));
+			}
 		}
-
-		listener.musicPlay(new MusicPlayStatementEvent(this, auxVector));
 	}
 
 }

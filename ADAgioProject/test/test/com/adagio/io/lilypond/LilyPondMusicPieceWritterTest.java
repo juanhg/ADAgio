@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -176,31 +175,31 @@ public class LilyPondMusicPieceWritterTest {
 		assertEquals("\\time 4/2..", listener.translateTime(time));
 	}
 	
-	@Test
-	public void musicPlayTest(){
-		
-		int duration = 0;
-		
-		playStatementEvent = new MusicPlayStatementEvent(this, new Vector<Chord>());
-		playStatementEvent.testInitilizer();
-		
-		channelID = new ChannelIdentifier("piano");
-		channelIdentifierEvent = new MusicChannelIdentifierEvent(this,channelID);
-		//Creates channel "piano"
-		listener.createChannel(channelIdentifierEvent);
-		
-		listener.musicPlay(playStatementEvent);
-		
-		channelID = new ChannelIdentifier("violin");
-		channelIdentifierEvent = new MusicChannelIdentifierEvent(this,channelID);
-		//Creates channel "violin"
-		listener.createChannel(channelIdentifierEvent);
-	
-		listener.musicPlay(playStatementEvent);
-		duration = listener.getChannelsDB().getChannelMap().get(channelID).getNumBars();
-		//Are silences added when channel is create?
-		assertEquals(6, duration);
-	}
+//	@Test
+//	public void musicPlayTest(){
+//		
+//		int duration = 0;
+//		
+//		playStatementEvent = new MusicPlayStatementEvent(this, new Vector<Chord>());
+//		playStatementEvent.testInitilizer();
+//		
+//		channelID = new ChannelIdentifier("piano");
+//		channelIdentifierEvent = new MusicChannelIdentifierEvent(this,channelID);
+//		//Creates channel "piano"
+//		listener.createChannel(channelIdentifierEvent);
+//		
+//		listener.musicPlay(playStatementEvent);
+//		
+//		channelID = new ChannelIdentifier("violin");
+//		channelIdentifierEvent = new MusicChannelIdentifierEvent(this,channelID);
+//		//Creates channel "violin"
+//		listener.createChannel(channelIdentifierEvent);
+//	
+//		listener.musicPlay(playStatementEvent);
+//		duration = listener.getChannelsDB().getChannelMap().get(channelID).getNumBars();
+//		//Are silences added when channel is create?
+//		assertEquals(6, duration);
+//	}
 	
 	@Test
 	public void deleteLastBracketTest(){

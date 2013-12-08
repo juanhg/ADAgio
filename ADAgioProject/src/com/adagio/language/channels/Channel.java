@@ -17,7 +17,9 @@ public class Channel {
 	private boolean erased;
 	private String music;
 	private int numBars;
+	
 	private boolean volumeChanged;
+	private boolean instrumentChanged;
 
 	public Channel() {
 		instrument = new Instrument();
@@ -26,7 +28,9 @@ public class Channel {
 		erased = false;
 		music = "";
 		numBars = 0;
+		
 		volumeChanged = true;
+		instrumentChanged = true;
 	}
 
 	public Instrument getInstrument() {
@@ -77,7 +81,7 @@ public class Channel {
 		this.numBars = numBars;
 	}
 
-	public boolean isVolumeChanged() {
+	public boolean hasVolumeChanged() {
 		return volumeChanged;
 	}
 
@@ -85,6 +89,15 @@ public class Channel {
 		this.volumeChanged = volumeChanged;
 	}
 	
+	
+	public boolean hasInstrumentChanged() {
+		return instrumentChanged;
+	}
+
+	public void setInstrumentChanged(boolean instrumentChanged) {
+		this.instrumentChanged = instrumentChanged;
+	}
+
 	public void addMusic(String music){
 		this.music += music;
 	}
