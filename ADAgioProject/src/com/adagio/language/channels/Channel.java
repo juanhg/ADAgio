@@ -8,8 +8,6 @@ import com.adagio.language.instruments.Instrument;
  */
 public class Channel {
 	
-	public static final String DEFAULT_CHANNEL_IDENTIFIER = "default";
-
 	private int volume;
 	private boolean enable;
 	private Instrument instrument;
@@ -97,6 +95,8 @@ public class Channel {
 	public void setInstrumentChanged(boolean instrumentChanged) {
 		this.instrumentChanged = instrumentChanged;
 	}
+	
+	
 
 	public void addMusic(String music){
 		this.music += music;

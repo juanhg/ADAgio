@@ -22,7 +22,6 @@ public class ChannelsDB {
 	 */
 	public ChannelsDB() {
 		channelMap = new HashMap<ChannelIdentifier, Channel>();
-		this.add(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER));
 	}
 
 	/**
@@ -65,7 +64,6 @@ public class ChannelsDB {
 
 	/**
 	 * Destroys logically the channel, and put it as disabled.
-	 * Enable default channel if is needed
 	 * @param id Channel identifier
 	 */
 	public void destroy(ChannelIdentifier id) {
@@ -192,7 +190,7 @@ public class ChannelsDB {
 		}
 		else{
 			
-			this.addMusic(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER),music,numBars);
+			this.addMusic(LilyPondMusicPieceWriter.DEFAULT_CHANNEL_IDENTIFIER,music,numBars);
 		}
 	}
 	

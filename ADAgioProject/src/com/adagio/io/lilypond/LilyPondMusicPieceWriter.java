@@ -67,7 +67,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	private boolean hasTimeChanged;
 	private boolean hasClefChanged;
 	
-	
+	public static final ChannelIdentifier DEFAULT_CHANNEL_IDENTIFIER = new ChannelIdentifier("defaultChannelIdentifier");
+	public static final ChannelIdentifier SILENCES_PATTERN_CHANNEL_IDENTIFIER = new ChannelIdentifier("silencesPatternChannelIdentifier");
 	
 	public LilyPondMusicPieceWriter(){
 		relative = new AbsoluteMusicNote(2, "C");
@@ -80,6 +81,11 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		defaultUsed = false;
 		hasTempoChanged = hasTimeChanged = hasClefChanged = true;
 		
+		//add the default channel
+		channelsDB.add(DEFAULT_CHANNEL_IDENTIFIER);
+		//add the pattern channe, disabled
+		channelsDB.add(SILENCES_PATTERN_CHANNEL_IDENTIFIER);
+		channelsDB.disable(SILENCES_PATTERN_CHANNEL_IDENTIFIER);
 	}
 	
 	public static void writeMusicPiece(MusicPiece m,PrintWriter out){
@@ -94,13 +100,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	public void write(MusicPiece m, PrintWriter out) {
 		
 		String composition = "";
-		
-		relative = new AbsoluteMusicNote(2, "C");
-		clef = "treble";
-		time = new Time(4,4);
-		chordsDB = new HashMap<ChordIdentifier,List<Interval>>();
-		channelsDB = new ChannelsDB();
-		
+			
 		m.run(this);
 		
 		composition = this.translate();
@@ -128,7 +128,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		while (it.hasNext()) {
 			e = (Map.Entry) it.next();
 			//Only print the default channel if has been used.
-			if(((ChannelIdentifier) e.getKey()).getValue().equals(Channel.DEFAULT_CHANNEL_IDENTIFIER)){
+			//TODO Change this to "if(channel.isUsed())"
+			if(((ChannelIdentifier) e.getKey()).getValue().equals(DEFAULT_CHANNEL_IDENTIFIER.getValue())){
 				if(this.defaultUsed){
 					composition += ((Channel) e.getValue()).getMusic();
 				}
@@ -357,9 +358,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		// (Erase this if don't want to reset relative after play)
 		//we recover the relative
 		//this.relative = relativeBeforePlay;
-		
-		this.channelsDB.fillAllWithSilences(clef, time);
-		
+				
 		composition = "";
 		int numBarsAdded = 0;
 
@@ -406,30 +405,62 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 						((Channel) x.getValue()).setInstrumentChanged(false);
 					}
 					
+					int figuresAdded = 0;
 					
-					for (int i = 0; i < absoluteChords.size(); i++) {
-						
-						composition += translateChord(absoluteChords.get(i));
-						
-						if(i < barFigures.size()){
+					if(barFigures.size() >= absoluteChords.size()){
+						for (int i = 0; i < barFigures.size(); i++) {
+							
+							if(i < absoluteChords.size()){
+								composition += translateChord(absoluteChords.get(i));
+							}
+							else{
+								composition += "s";
+							}
+							
 							composition += translateFigure(barFigures.elementAt(i));
+							
+							if (((Channel) x.getValue()).hasVolumeChanged()) {
+								composition += "\\mf";
+								((Channel) x.getValue()).setVolumeChanged(false);
+							}
+							composition += " ";
 						}
-						else{
-							composition += Integer.toString((int)this.time.defaultDuration());
-						}
-						if (((Channel) x.getValue()).hasVolumeChanged()) {
-							composition += "\\mf";
-							((Channel) x.getValue()).setVolumeChanged(false);
-						}
-						composition += " ";
+						numBarsAdded = 1;
 					}
+					else{
+						for (int i = 0; i < absoluteChords.size() || (i%time.getBeats().intValue() != 0); i++) {
+							
+							if(i < chords.size()){
+								composition += translateChord(absoluteChords.get(0));
+							}
+							else{
+								composition += "s";
+							}
+							
+							composition += translateFigure(barFigures.elementAt(0));
+							
+							if (((Channel) x.getValue()).hasVolumeChanged()) {
+								composition += "\\mf";
+								((Channel) x.getValue()).setVolumeChanged(false);
+							}
+							composition += " ";
+							figuresAdded++;
+						}
+						
+						numBarsAdded = figuresAdded/time.getBeats().intValue();
+					}
+					
 
-					if(((ChannelIdentifier)x.getKey()).getValue().equals(Channel.DEFAULT_CHANNEL_IDENTIFIER)){
+					//If we are going to add music to default channel
+					//We mark it has used.
+					//TODO add tu channel "boolean used"
+					if(((ChannelIdentifier)x.getKey()).getValue().equals(DEFAULT_CHANNEL_IDENTIFIER.getValue())){
 						this.defaultUsed = true;
 					}
-					numBarsAdded=1;
+					
 					this.channelsDB.addMusic((ChannelIdentifier) x.getKey(),composition, numBarsAdded);
 					numBarsAdded = 0;
+					figuresAdded = 0;
 					composition = "";
 				}
 
@@ -443,11 +474,26 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public void createChannel(MusicChannelIdentifierEvent e) {
+		boolean newChannelAdded = !this.channelsDB.exists(e.getId());
+		boolean existsPattern = this.channelsDB.exists(LilyPondMusicPieceWriter.SILENCES_PATTERN_CHANNEL_IDENTIFIER);
+				
 		this.channelsDB.add(e.getId());
-		if(!e.getId().getValue().equals(Channel.DEFAULT_CHANNEL_IDENTIFIER)){
-			this.channelsDB.disable(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER));
+		if(!e.getId().getValue().equals(DEFAULT_CHANNEL_IDENTIFIER.getValue())){
+			this.channelsDB.disable(DEFAULT_CHANNEL_IDENTIFIER);
 		}
-		this.channelsDB.fillWithSilences(e.getId(), clef, time);
+	
+		//if the channel added is new in the DB, copy the music and duration
+		// silences pattern
+		if(existsPattern && newChannelAdded){
+			this.channelsDB.getChannelMap().get(e.getId())
+			        .setMusic(this.channelsDB.getChannelMap()
+					.get(LilyPondMusicPieceWriter.SILENCES_PATTERN_CHANNEL_IDENTIFIER)
+					.getMusic());
+			this.channelsDB.getChannelMap().get(e.getId())
+			         .setNumBars(this.channelsDB.getChannelMap()
+					.get(LilyPondMusicPieceWriter.SILENCES_PATTERN_CHANNEL_IDENTIFIER)
+					.getNumBars());
+		}
 	}
 
 	/**
@@ -457,8 +503,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	@Override
 	public void destroyChannel(MusicChannelIdentifierEvent e) {
 		this.channelsDB.destroy(e.getId());
-		if(this.channelsDB.isDefaultChannelNeeded() && !e.getId().getValue().equals(Channel.DEFAULT_CHANNEL_IDENTIFIER)){
-			this.channelsDB.enable(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER));
+		if(this.channelsDB.isDefaultChannelNeeded() && !e.getId().getValue().equals(DEFAULT_CHANNEL_IDENTIFIER.getValue())){
+			this.channelsDB.enable(DEFAULT_CHANNEL_IDENTIFIER);
 		}
 	}
 
@@ -506,10 +552,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	@Override
 	public void recoverChannel(MusicChannelIdentifierEvent e) {
 		this.channelsDB.getChannelMap().get(e.getId()).setErased(false);
-		if (!e.getId().getValue()
-				.equals(Channel.DEFAULT_CHANNEL_IDENTIFIER)) {
-			this.channelsDB.disable(new ChannelIdentifier(
-					Channel.DEFAULT_CHANNEL_IDENTIFIER));
+		if (!e.getId().getValue().equals(DEFAULT_CHANNEL_IDENTIFIER.getValue())) {
+			this.channelsDB.disable(DEFAULT_CHANNEL_IDENTIFIER);
 		}
 	}
 
@@ -528,10 +572,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	@Override
 	public void enableChannel(MusicChannelIdentifierEvent e) {
 		this.channelsDB.enable(e.getId());
-		if (!e.getId().getValue()
-				.equals(Channel.DEFAULT_CHANNEL_IDENTIFIER)) {
-			this.channelsDB.disable(new ChannelIdentifier(
-					Channel.DEFAULT_CHANNEL_IDENTIFIER));
+		if (!e.getId().getValue().equals(DEFAULT_CHANNEL_IDENTIFIER.getValue())) {
+			this.channelsDB.disable(DEFAULT_CHANNEL_IDENTIFIER);
 		}
 	}
 	
@@ -542,8 +584,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	@Override
 	public void disableChannel(MusicChannelIdentifierEvent e) {
 		this.channelsDB.disable(e.getId());
-		if(this.channelsDB.isDefaultChannelNeeded() && !e.getId().getValue().equals(Channel.DEFAULT_CHANNEL_IDENTIFIER)){
-			this.channelsDB.enable(new ChannelIdentifier(Channel.DEFAULT_CHANNEL_IDENTIFIER));
+		if(this.channelsDB.isDefaultChannelNeeded() && !e.getId().getValue().equals(DEFAULT_CHANNEL_IDENTIFIER.getValue())){
+			this.channelsDB.enable(DEFAULT_CHANNEL_IDENTIFIER);
 		}
 	}
 	
