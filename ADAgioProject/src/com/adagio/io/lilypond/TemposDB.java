@@ -15,6 +15,15 @@ public class TemposDB {
 	}
 	
 	/**
+	 * If doesn't exists, add it. If exists, override it.
+	 * @param identifier Tempo's identifier
+	 * @param tempo Tempo to be added.
+	 */
+	public void addTempo(TempoIdentifier identifier, Tempo tempo){
+		this.temposMap.put(identifier, tempo);
+	}
+	
+	/**
 	 * Looks for the tempo in the DB
 	 * @param identifier Tempo identifier
 	 * @return true if exists in the DB. False in other case.
@@ -34,21 +43,6 @@ public class TemposDB {
 		}
 		else{
 			return null;
-		}
-	}
-	
-	/**
-	 * Adds a tempo to the Data Base. If tempo exists, overwrites it
-	 * @param id Tempo identifier
-	 * @param tempo tempo to be added
-	 */
-	public void add(TempoIdentifier id, Tempo tempo){
-		if(this.temposMap.containsKey(id)){
-			this.temposMap.get(id).setFigure(tempo.getFigure());
-			this.temposMap.get(id).setBps(tempo.getBps());
-		}
-		else{
-			this.temposMap.put(id, tempo);
 		}
 	}
 }

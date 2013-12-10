@@ -2,7 +2,6 @@ package com.adagio.io.lilypond;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +29,6 @@ import com.adagio.language.MusicPiece;
 import com.adagio.language.channels.Channel;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.chords.Chord;
-import com.adagio.language.chords.ChordIdentifier;
 import com.adagio.language.chords.intervals.Interval;
 import com.adagio.language.figures.Figure;
 import com.adagio.language.instruments.Instrument;
@@ -54,7 +52,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	private Tempo tempo;
 	
 	// Data Base of defined chords
-	private Map<ChordIdentifier,List<Interval>> chordsDB;
+	private ChordsDB chordsDB;
 	
 	// Data base of tempos
 	private TemposDB temposDB;
@@ -62,7 +60,6 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	// Data base of channels
 	private ChannelsDB channelsDB;
 	
-	private boolean defaultUsed;
 	private boolean hasTempoChanged;
 	private boolean hasTimeChanged;
 	private boolean hasClefChanged;
@@ -75,16 +72,15 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		clef = "treble";
 		time = new Time(new IntegerModel(4), new Figure(4,0));
 		tempo = new Tempo(new Figure(4,0),90);
-		chordsDB = new HashMap<ChordIdentifier,List<Interval>>();
+		chordsDB = new ChordsDB();
 		temposDB = new TemposDB();
 		channelsDB = new ChannelsDB();
-		defaultUsed = false;
 		hasTempoChanged = hasTimeChanged = hasClefChanged = true;
 		
 		//add the default channel
-		channelsDB.add(DEFAULT_CHANNEL_IDENTIFIER);
+		channelsDB.addChannel(DEFAULT_CHANNEL_IDENTIFIER);
 		//add the pattern channe, disabled
-		channelsDB.add(SILENCES_PATTERN_CHANNEL_IDENTIFIER);
+		channelsDB.addChannel(SILENCES_PATTERN_CHANNEL_IDENTIFIER);
 		channelsDB.disable(SILENCES_PATTERN_CHANNEL_IDENTIFIER);
 	}
 	
@@ -127,31 +123,24 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		
 		while (it.hasNext()) {
 			e = (Map.Entry) it.next();
-			//Only print the default channel if has been used.
-			//TODO Change this to "if(channel.isUsed())"
-			if(((ChannelIdentifier) e.getKey()).getValue().equals(DEFAULT_CHANNEL_IDENTIFIER.getValue())){
-				if(this.defaultUsed){
-					composition += ((Channel) e.getValue()).getMusic();
-				}
-			}
-			else{
+			//Only print the channel if has been used.
+			if(((Channel) e.getValue()).isUsed()){
 				composition += ((Channel) e.getValue()).getMusic();
 			}
 		}
-
+		
 		composition += ">> \n";
 		composition += this.midiTail();
 		return composition;
 	}
 	
 	/**
-	 * Receives a chord with an absolute-fundamental-note and translates it 
-	 * using its definition in "data".
+	 * Receives a chord with an absolute-fundamental-note and translates it
 	 * Note: Need that the bassNote as a AbsoluteMusicNote
 	 */
 	public String translateChord(Chord chord){
 		String composition = "";
-		List<Interval> intervals = this.chordsDB.get(chord.getIdentifier());
+		List<Interval> intervals = this.chordsDB.getIntervals(chord.getIdentifier());
 		List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
 		AbsoluteMusicNote bassNote = (AbsoluteMusicNote) chord.getBassNote();
 		
@@ -199,7 +188,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 * @param aNote Note to be translated
 	 * @return A String that contains the translation
 	 */
-	private static String translateAbsoluteMusicNote(AbsoluteMusicNote aNote){
+	private String translateAbsoluteMusicNote(AbsoluteMusicNote aNote){
 		String composition = aNote.getBasicNoteNameString().toLowerCase();
 		int intOctave = aNote.getOctave().intValue();
 		Alteration alteration = aNote.getMusicNoteName().getAlteration();
@@ -225,7 +214,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 * @param alteration Alteration to be translated
 	 * @return A string with the translation
 	 */
-	private static String translateAlteration(Alteration alteration){
+	private String translateAlteration(Alteration alteration){
 		String composition = "";
 		String value = alteration.getValue();
 		
@@ -244,7 +233,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		return composition;
 	}
 	
-	static public String translateFigure(Figure figure){
+	public String translateFigure(Figure figure){
 		String composition = "";
 		composition += Integer.toString(figure.getShape().intValue());
 		if(figure.getDots() != null){
@@ -287,7 +276,59 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		composition += "=" + this.tempo.getBps().intValue();
 		return composition;
 	}
+	
+	/**
+	 * Fills a channel with silences until reaches the maxDuration of channelsDB
+	 * @param id Identifier of the channel
+	 */
+	private void fillChannelWithSilences(ChannelIdentifier id) {
+		int maxDuration = this.channelsDB.maxNumBars();
+		int auxDuration = 0;
+		int difference = 0;
+		Vector<Figure> silenceFigures = barFigures(this.time.getBeats().intValue(), time);
+
+		String composition = "";
+
+		if (this.channelsDB.exists(id)) {
+			auxDuration = this.channelsDB.getChannel(id).getNumBars();
+			difference = maxDuration - auxDuration;
+
+			if (difference > 0) {
+				for (int i = difference; i > 0; i--) {
+					for(int j = 0; j < silenceFigures.size(); j++){
+						composition += "s" + translateFigure(silenceFigures.elementAt(j)) + " ";
+					}
+				}
+				this.channelsDB.addMusic(id, composition, difference);
+			}
+		} else {
+			System.err.println("Error 10: Channel \"" + id.toString()
+					+ "\" doesn't exist. " + "Can't be filled with zeros.");
+
+		}
+	}
+	
+	/**
+	 * Fills all the disabled channels with silences until reach the maxDuration
+	 * @param id Identifier of the DB
+	 */
+	@SuppressWarnings("rawtypes")
+	private void fillDisabledChannelsWithSilences(){
+		Map.Entry e = null;
+		Iterator<Entry<ChannelIdentifier, Channel>> it;
 		
+		it = this.channelsDB.getChannelMap().entrySet().iterator();
+		if (it.hasNext()) {
+
+			while (it.hasNext()) {
+				e = (Map.Entry) it.next();
+				if(!((Channel)e.getValue()).isEnable()){
+					this.fillChannelWithSilences((ChannelIdentifier)e.getKey());
+				}
+			}
+		}
+	}
+			
 	/**
 	 * @return String-tail needed to create the midi file
 	 */
@@ -334,7 +375,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		
 		// Translates to absoluteMusicNote
 		for (int i = 0; i < chords.size(); i++) {
-			if (this.chordsDB.containsKey(chords.get(i).getIdentifier())) {
+			if (this.chordsDB.exists(chords.get(i).getIdentifier())) {
 				aNote = chords.get(i).getNote().toAbsoluteMusicNote(this);
 				this.relative = aNote;
 
@@ -407,57 +448,54 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 					
 					int figuresAdded = 0;
 					
-					if(barFigures.size() >= absoluteChords.size()){
-						for (int i = 0; i < barFigures.size(); i++) {
-							
-							if(i < absoluteChords.size()){
-								composition += translateChord(absoluteChords.get(i));
-							}
-							else{
-								composition += "s";
-							}
-							
-							composition += translateFigure(barFigures.elementAt(i));
-							
-							if (((Channel) x.getValue()).hasVolumeChanged()) {
-								composition += "\\mf";
-								((Channel) x.getValue()).setVolumeChanged(false);
-							}
-							composition += " ";
-						}
-						numBarsAdded = 1;
-					}
-					else{
-						for (int i = 0; i < absoluteChords.size() || (i%time.getBeats().intValue() != 0); i++) {
-							
-							if(i < chords.size()){
-								composition += translateChord(absoluteChords.get(0));
-							}
-							else{
-								composition += "s";
-							}
-							
-							composition += translateFigure(barFigures.elementAt(0));
-							
-							if (((Channel) x.getValue()).hasVolumeChanged()) {
-								composition += "\\mf";
-								((Channel) x.getValue()).setVolumeChanged(false);
-							}
-							composition += " ";
-							figuresAdded++;
-						}
-						
-						numBarsAdded = figuresAdded/time.getBeats().intValue();
-					}
+					if(absoluteChords.size() > 0){
+						//The channel is used
+						((Channel) x.getValue()).setUsed(true);
 					
+						if(barFigures.size() >= absoluteChords.size()){
+							for (int i = 0; i < barFigures.size(); i++) {
 
-					//If we are going to add music to default channel
-					//We mark it has used.
-					//TODO add tu channel "boolean used"
-					if(((ChannelIdentifier)x.getKey()).getValue().equals(DEFAULT_CHANNEL_IDENTIFIER.getValue())){
-						this.defaultUsed = true;
+								if(i < absoluteChords.size()){
+									composition += translateChord(absoluteChords.get(i));
+								}
+								else{
+									composition += "s";
+								}
+
+								composition += translateFigure(barFigures.elementAt(i));
+
+								if (((Channel) x.getValue()).hasVolumeChanged()) {
+									composition += "\\mf";
+									((Channel) x.getValue()).setVolumeChanged(false);
+								}
+								composition += " ";
+							}
+							numBarsAdded = 1;
+						}
+						else{
+							for (int i = 0; i < absoluteChords.size() || (i%time.getBeats().intValue() != 0); i++) {
+
+								if(i < chords.size()){
+									composition += translateChord(absoluteChords.get(0));
+								}
+								else{
+									composition += "s";
+								}
+
+								composition += translateFigure(barFigures.elementAt(0));
+
+								if (((Channel) x.getValue()).hasVolumeChanged()) {
+									composition += "\\mf";
+									((Channel) x.getValue()).setVolumeChanged(false);
+								}
+								composition += " ";
+								figuresAdded++;
+							}
+
+							numBarsAdded = figuresAdded/time.getBeats().intValue();
+						}
 					}
-					
+						
 					this.channelsDB.addMusic((ChannelIdentifier) x.getKey(),composition, numBarsAdded);
 					numBarsAdded = 0;
 					figuresAdded = 0;
@@ -465,7 +503,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 				}
 
 			}
-			this.channelsDB.fillAllWithSilences(clef, time);
+			this.fillDisabledChannelsWithSilences();
 		} 
 	
 	/**
@@ -477,7 +515,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		boolean newChannelAdded = !this.channelsDB.exists(e.getId());
 		boolean existsPattern = this.channelsDB.exists(LilyPondMusicPieceWriter.SILENCES_PATTERN_CHANNEL_IDENTIFIER);
 				
-		this.channelsDB.add(e.getId());
+		this.channelsDB.addChannel(e.getId());
 		if(!e.getId().getValue().equals(DEFAULT_CHANNEL_IDENTIFIER.getValue())){
 			this.channelsDB.disable(DEFAULT_CHANNEL_IDENTIFIER);
 		}
@@ -485,11 +523,11 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		//if the channel added is new in the DB, copy the music and duration
 		// silences pattern
 		if(existsPattern && newChannelAdded){
-			this.channelsDB.getChannelMap().get(e.getId())
+			this.channelsDB.getChannel(e.getId())
 			        .setMusic(this.channelsDB.getChannelMap()
 					.get(LilyPondMusicPieceWriter.SILENCES_PATTERN_CHANNEL_IDENTIFIER)
 					.getMusic());
-			this.channelsDB.getChannelMap().get(e.getId())
+			this.channelsDB.getChannel(e.getId())
 			         .setNumBars(this.channelsDB.getChannelMap()
 					.get(LilyPondMusicPieceWriter.SILENCES_PATTERN_CHANNEL_IDENTIFIER)
 					.getNumBars());
@@ -523,7 +561,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public boolean isChordDefined(MusicChordEvent e) {
-		return this.chordsDB.containsKey(e.getChord().getIdentifier());
+		return this.chordsDB.exists(e.getChord().getIdentifier());
 		
 	}
 
@@ -551,7 +589,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public void recoverChannel(MusicChannelIdentifierEvent e) {
-		this.channelsDB.getChannelMap().get(e.getId()).setErased(false);
+		this.channelsDB.getChannel(e.getId()).setErased(false);
 		if (!e.getId().getValue().equals(DEFAULT_CHANNEL_IDENTIFIER.getValue())) {
 			this.channelsDB.disable(DEFAULT_CHANNEL_IDENTIFIER);
 		}
@@ -562,11 +600,11 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public void addChord(MusicChordAddEvent e) {
-		this.chordsDB.put(e.getId(), e.getIntervals());
+		this.chordsDB.addChord(e.getId(), e.getIntervals());
 	}
 	
 	/**
-	 * Event that happens when a channel is going to be neabled. 
+	 * Event that happens when a channel is going to be enabled. 
 	 * DISABLES the default channel (unless it was the enabled one).
 	 */
 	@Override
@@ -595,7 +633,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	@Override
 	public void setChannelVolume(MusicChannelVolumeEvent e) {
 		this.channelsDB.setVolume(e.getId(), e.getVolume());
-		this.channelsDB.getChannelMap().get(e.getId()).setVolumeChanged(true);
+		this.channelsDB.getChannel(e.getId()).setVolumeChanged(true);
 	}
 
 	/**
@@ -604,7 +642,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	@Override
 	public void setChannelInstrument(MusicChannelInstrumentEvent e) {
 		this.channelsDB.setInstrument(e.getId(), e.getInstrument());
-		this.channelsDB.getChannelMap().get(e.getId()).setInstrumentChanged(true);
+		this.channelsDB.getChannel(e.getId()).setInstrumentChanged(true);
 	}
 	
 	/**
@@ -640,21 +678,20 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public void tempoDefinition(MusicTempoDefinitionEvent e) {
-		this.temposDB.add(e.getId(), e.getTempo());
+		this.temposDB.addTempo(e.getId(), e.getTempo());
 	}
 	
 	/** ----- GETTERS & SETTERS (Not events) ----- **/
 	
 
-	public Map<ChordIdentifier, List<Interval>> getChordsDB() {
+	public ChordsDB getChordsDB() {
 		return chordsDB;
 	}
-	
 	
 	public ChannelsDB getChannelsDB() {
 		return channelsDB;
 	}
-
+	
 	
 	/** ----- OTHERS ----- **/
 
@@ -696,24 +733,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		
 		return octave;
 	}
-	
-	/**
-	 * Obtain a string that is equal than the original, without the last close-bracket
-	 * @param music
-	 * @return A string if the original has '}'. Null in other case.
-	 */
-	static public String deleteLastBracket(String music){
-		String noBracket = null;
 		
-		for(int i = music.length()-1; i >= 0; i--){
-			if(music.charAt(i) == '}'){
-				noBracket = music.substring(0, i);
-			}
-		}
-		
-		return noBracket;
-	}
-	
 	/**
 	 * Return a string with the figures that correspond 
 	 * to the chords in the bars. If the vector is bigger
@@ -723,7 +743,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 * @param numChords Number of chords in the bar
 	 * @return
 	 */
-	static public Vector<Figure> barFigures(int numChords, Time time){
+
+	public Vector<Figure> barFigures(int numChords, Time time){
 		Vector<Figure> figures = new Vector<Figure>();
 		double factor = time.getBeats().doubleValue()/numChords;
 		double figuresDuration = factor * time.getFigure().duration();
@@ -740,6 +761,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		}
 		return figures;
 	}
+	
 
 	
 }

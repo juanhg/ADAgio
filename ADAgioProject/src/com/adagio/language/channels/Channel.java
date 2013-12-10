@@ -18,6 +18,8 @@ public class Channel {
 	
 	private boolean volumeChanged;
 	private boolean instrumentChanged;
+	//If music have chords, "used" will be true.
+	private boolean used;
 
 	public Channel() {
 		instrument = new Instrument();
@@ -29,6 +31,7 @@ public class Channel {
 		
 		volumeChanged = true;
 		instrumentChanged = true;
+		used = false;
 	}
 
 	public Instrument getInstrument() {
@@ -106,6 +109,14 @@ public class Channel {
 		this.numBars += numBars;
 	}
 
+	public boolean isUsed() {
+		return used;
+	}
+
+	public void setUsed(boolean used) {
+		this.used = used;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -117,6 +128,7 @@ public class Channel {
 		result = prime * result + (instrumentChanged ? 1231 : 1237);
 		result = prime * result + ((music == null) ? 0 : music.hashCode());
 		result = prime * result + numBars;
+		result = prime * result + (used ? 1231 : 1237);
 		result = prime * result + volume;
 		result = prime * result + (volumeChanged ? 1231 : 1237);
 		return result;
@@ -149,19 +161,12 @@ public class Channel {
 			return false;
 		if (numBars != other.numBars)
 			return false;
+		if (used != other.used)
+			return false;
 		if (volume != other.volume)
 			return false;
 		if (volumeChanged != other.volumeChanged)
 			return false;
 		return true;
 	}
-
-	
-
-	
-
-	
-	
-	
-
 }
