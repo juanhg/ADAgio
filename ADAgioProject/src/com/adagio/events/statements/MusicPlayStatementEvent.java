@@ -2,7 +2,7 @@ package com.adagio.events.statements;
 
 import java.util.EventObject;
 
-import com.adagio.language.chords.Bar;
+import com.adagio.language.bars.Bar;
 
 
 

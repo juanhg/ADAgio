@@ -1,12 +1,15 @@
-package com.adagio.language.chords;
+package com.adagio.language.bars.chords;
 
 import org.modelcc.IModel;
 import org.modelcc.Optional;
 import org.modelcc.Prefix;
 
+import com.adagio.events.MusicEventListener;
+import com.adagio.language.bars.BarItem;
+import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.MusicNote;
 
-public class Chord implements IModel {
+public class Chord  extends BarItem implements IModel {
 	
 	MusicNote note;
 	ChordIdentifier identifier;
@@ -26,6 +29,18 @@ public class Chord implements IModel {
 			this.bassNote = bassNote;
 		}
 	}
+	
+	public Chord toAbsoluteChord(MusicEventListener listener){
+		AbsoluteMusicNote aNote;
+		aNote = this.getNote().toAbsoluteMusicNote(listener);
+
+		// We add the bassNote as an absoluteMusicNote
+		if (this.getBassNote() != null) {
+			bassNote = this.getBassNote().toAbsoluteMusicNote(listener);
+		}
+		return (new Chord(aNote, this.getIdentifier(), bassNote));
+	}
+	
 	
 	public MusicNote getNote() {
 		return note;

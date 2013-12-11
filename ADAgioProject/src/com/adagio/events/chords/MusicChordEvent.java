@@ -2,7 +2,7 @@ package com.adagio.events.chords;
 
 import java.util.EventObject;
 
-import com.adagio.language.chords.Chord;
+import com.adagio.language.bars.chords.Chord;
 
 public class MusicChordEvent extends EventObject {
 	

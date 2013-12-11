@@ -1,4 +1,4 @@
-package com.adagio.language.chords.intervals;
+package com.adagio.language.bars.chords.intervals;
 
 import java.util.HashMap;
 import java.util.Map;

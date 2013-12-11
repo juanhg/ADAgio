@@ -1,4 +1,4 @@
-package com.adagio.language.chords.intervals;
+package com.adagio.language.bars.chords.intervals;
 import org.modelcc.IModel;
 import org.modelcc.Prefix;
 import org.modelcc.Suffix;

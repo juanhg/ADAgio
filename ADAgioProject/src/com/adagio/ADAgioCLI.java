@@ -22,7 +22,7 @@ public class ADAgioCLI {
 	public static void main(String [] args){
 		try {
 	
-			String inFileName = args[3];
+			String inFileName = args[1];
 			String outFileName = inFileName.replace(".adg", ".ly");
 			ModelReader reader = new JavaModelReader(MusicPiece.class);
 

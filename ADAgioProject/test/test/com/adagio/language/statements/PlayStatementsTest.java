@@ -15,10 +15,10 @@ import org.modelcc.parser.ParserFactory;
 import static org.modelcc.test.ModelAssert.*;
 
 import com.adagio.io.lilypond.LilyPondMusicPieceWriter;
-import com.adagio.language.chords.Chord;
-import com.adagio.language.chords.ChordIdentifier;
-import com.adagio.language.chords.intervals.Interval;
-import com.adagio.language.chords.intervals.OptionalInterval;
+import com.adagio.language.bars.chords.Chord;
+import com.adagio.language.bars.chords.ChordIdentifier;
+import com.adagio.language.bars.chords.intervals.Interval;
+import com.adagio.language.bars.chords.intervals.OptionalInterval;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.notealterations.Alteration;

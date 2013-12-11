@@ -8,7 +8,7 @@ import org.modelcc.types.IntegerModel;
 
 import com.adagio.events.MusicEventListener;
 import com.adagio.io.lilypond.LilyPondMusicPieceWriter;
-import com.adagio.language.chords.intervals.Interval;
+import com.adagio.language.bars.chords.intervals.Interval;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.AlteredNoteName;
 import com.adagio.language.musicnotes.BasicNoteName;

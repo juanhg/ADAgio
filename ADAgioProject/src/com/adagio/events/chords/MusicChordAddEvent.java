@@ -3,8 +3,8 @@ package com.adagio.events.chords;
 import java.util.EventObject;
 import java.util.List;
 
-import com.adagio.language.chords.ChordIdentifier;
-import com.adagio.language.chords.intervals.Interval;
+import com.adagio.language.bars.chords.ChordIdentifier;
+import com.adagio.language.bars.chords.intervals.Interval;
 
 public class MusicChordAddEvent extends EventObject {
 

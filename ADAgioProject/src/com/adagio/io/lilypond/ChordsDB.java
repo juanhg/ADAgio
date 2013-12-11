@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.adagio.language.chords.ChordIdentifier;
-import com.adagio.language.chords.intervals.Interval;
+import com.adagio.language.bars.chords.ChordIdentifier;
+import com.adagio.language.bars.chords.intervals.Interval;
 
 public class ChordsDB {
 

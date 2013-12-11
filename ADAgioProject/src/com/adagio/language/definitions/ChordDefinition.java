@@ -11,8 +11,8 @@ import org.modelcc.Suffix;
 
 import com.adagio.events.MusicEventListener;
 import com.adagio.events.chords.MusicChordAddEvent;
-import com.adagio.language.chords.ChordIdentifier;
-import com.adagio.language.chords.intervals.Interval;
+import com.adagio.language.bars.chords.ChordIdentifier;
+import com.adagio.language.bars.chords.intervals.Interval;
 import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.notealterations.DoubleFlatAlteration;
 import com.adagio.language.musicnotes.notealterations.DoubleSharpAlteration;
