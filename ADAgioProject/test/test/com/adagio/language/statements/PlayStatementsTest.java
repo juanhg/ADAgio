@@ -109,9 +109,13 @@ public class PlayStatementsTest {
 	
 	  @Test
 	  public void ChordReadTest1() throws Exception {
-	    //TODO Solucionar esta ambigüedad para permitir utilizar el acorde
-		//con indetificador "" 
 	    assertAmbiguityFree(parser,"PLAY G Cm"); // Nos garantiza que es válido y no hay ambigüedades
-
+	    assertAmbiguityFree(parser, "PLAY G");
+	    assertAmbiguityFree(parser, "PLAY Gm");
+	    assertAmbiguityFree(parser, "PLAY Cm");
+	    assertAmbiguityFree(parser, "PLAY G C");
+	    assertAmbiguityFree(parser, "PLAY Gm C");
+	    assertAmbiguityFree(parser, "PLAY G Cm");
+	    
 	  }
 }

@@ -9,6 +9,7 @@ import com.adagio.language.bars.BarItem;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.MusicNote;
 
+
 public class Chord  extends BarItem implements IModel {
 	
 	MusicNote note;
