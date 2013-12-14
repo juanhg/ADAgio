@@ -6,7 +6,7 @@ import org.modelcc.Value;
 
 import com.adagio.language.bars.BarItem;
 
-@Pattern(regExp = "_|R|S|r|s")
+@Pattern(regExp = "_|S|s")
 public class Silence extends BarItem implements IModel {
 	@Value
 	String value;

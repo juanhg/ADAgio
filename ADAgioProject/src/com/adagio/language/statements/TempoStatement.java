@@ -2,7 +2,6 @@ package com.adagio.language.statements;
 
 import org.modelcc.IModel;
 import org.modelcc.Prefix;
-import org.modelcc.Priority;
 
 import com.adagio.events.MusicEventListener;
 

@@ -96,10 +96,10 @@ public class PlayStatementsTest {
 	
 	@Test
 	public void playSentenceValidtest() {
-		assertAmbiguityFree(parser,"PLAY 3D#m");
-		assertAmbiguityFree(parser,"PLAY 3Dbm");
-		assertAmbiguityFree(parser,"PLAY 3D#m#");
-		assertAmbiguityFree(parser,"PLAY A#M");
+		assertAmbiguityFree(parser,"PLAY | 3D#m |");
+		assertAmbiguityFree(parser,"PLAY | 3Dbm |");
+		assertAmbiguityFree(parser,"PLAY | 3D#m# |");
+		assertAmbiguityFree(parser,"PLAY | A#M |");
 	}
 	
 	@Test
@@ -109,13 +109,14 @@ public class PlayStatementsTest {
 	
 	  @Test
 	  public void ChordReadTest1() throws Exception {
-	    assertAmbiguityFree(parser,"PLAY G Cm"); // Nos garantiza que es válido y no hay ambigüedades
-	    assertAmbiguityFree(parser, "PLAY G");
-	    assertAmbiguityFree(parser, "PLAY Gm");
-	    assertAmbiguityFree(parser, "PLAY Cm");
-	    assertAmbiguityFree(parser, "PLAY G C");
-	    assertAmbiguityFree(parser, "PLAY Gm C");
-	    assertAmbiguityFree(parser, "PLAY G Cm");
+	    assertAmbiguityFree(parser,"PLAY | G Cm |"); // Nos garantiza que es válido y no hay ambigüedades
+	    assertAmbiguityFree(parser, "PLAY | G |");
+	    assertAmbiguityFree(parser, "PLAY | Gm |");
+	    assertAmbiguityFree(parser, "PLAY | Cm |");
+	    assertAmbiguityFree(parser, "PLAY | G C |");
+	    assertAmbiguityFree(parser, "PLAY | Gm C |");
+	    assertAmbiguityFree(parser, "PLAY | G Cm |");
+	    assertAmbiguityFree(parser, "PLAY | G Cm |");
 	    
 	  }
 }

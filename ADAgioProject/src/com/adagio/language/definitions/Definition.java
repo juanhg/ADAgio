@@ -2,9 +2,11 @@ package com.adagio.language.definitions;
 
 
 import org.modelcc.IModel;
+import org.modelcc.Suffix;
 
 import com.adagio.events.MusicEventListener;
 
+@Suffix(";")
 public abstract class Definition implements IModel {
 
 	/**
