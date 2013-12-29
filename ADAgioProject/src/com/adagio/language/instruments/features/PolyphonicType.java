@@ -10,6 +10,10 @@ public class PolyphonicType extends PhoneticType implements IModel {
 	@Value
 	String value;
 
+	public PolyphonicType(){
+		this.value = "polyphonic";
+	}
+	
 	public String getValue() {
 		return value;
 	}

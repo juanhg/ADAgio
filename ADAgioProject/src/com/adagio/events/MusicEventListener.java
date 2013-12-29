@@ -7,6 +7,7 @@ import com.adagio.events.channels.MusicChannelInstrumentEvent;
 import com.adagio.events.channels.MusicChannelVolumeEvent;
 import com.adagio.events.chords.MusicChordAddEvent;
 import com.adagio.events.chords.MusicChordEvent;
+import com.adagio.events.definitions.InstrumentDefinitionEvent;
 import com.adagio.events.definitions.MusicTempoDefinitionEvent;
 import com.adagio.events.notes.MusicNoteNameEvent;
 import com.adagio.events.notes.MusicNoteToAbsoluteEvent;
@@ -58,7 +59,9 @@ public interface MusicEventListener extends EventListener {
 	public boolean isChordDefined(MusicChordEvent e);
 	public void addChord(MusicChordAddEvent e);
 	
+	
 	/** ----- DEFINITIONS ----- **/
 	
 	public void tempoDefinition(MusicTempoDefinitionEvent e);
+	public void instrumentDefinition(InstrumentDefinitionEvent e);
 }

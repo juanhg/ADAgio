@@ -22,4 +22,12 @@ public class Register implements IModel {
 		return true;
 	}
 	
+	/**
+	 * Default Constructor. Piano register.
+	 */
+	public Register(){
+		lowerNote = new AbsoluteMusicNote(0, "A");
+		higherNote = new AbsoluteMusicNote(8, "C");
+	}
+	
 }

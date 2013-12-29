@@ -2,6 +2,7 @@ package com.adagio.language.channels;
 
 import com.adagio.language.channels.channeloptions.VolumeModifier;
 import com.adagio.language.instruments.Instrument;
+import com.adagio.language.instruments.PolyphonicInstrument;
 
 /**
  * @author Wungo
@@ -22,7 +23,7 @@ public class Channel {
 	private boolean used;
 
 	public Channel() {
-		instrument = new Instrument();
+		instrument = new PolyphonicInstrument();
 		volume = VolumeModifier.MAX_VOLUME;
 		enable = true;
 		erased = false;

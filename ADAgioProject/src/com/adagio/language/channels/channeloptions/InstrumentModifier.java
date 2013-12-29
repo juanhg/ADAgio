@@ -11,13 +11,13 @@ import com.adagio.language.instruments.InstrumentIdentifier;
 public class InstrumentModifier extends StatusModifier implements IModel{
 
 	@Prefix({"(?i)INSTRUMENT","="})
-	InstrumentIdentifier instrument;
+	InstrumentIdentifier instrumentID;
 	
 	public static final String PATTERN = "INSTRUMENT";
 	
 	@Override
 	public void Apply(ChannelIdentifier id, MusicEventListener listener) {
-		listener.setChannelInstrument(new MusicChannelInstrumentEvent(this,id,instrument));
+		listener.setChannelInstrument(new MusicChannelInstrumentEvent(this,id,instrumentID));
 	}
 
 }

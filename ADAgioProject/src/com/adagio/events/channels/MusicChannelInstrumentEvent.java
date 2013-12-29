@@ -23,7 +23,7 @@ public class MusicChannelInstrumentEvent extends EventObject {
 		return id;
 	}
 
-	public InstrumentIdentifier getInstrument() {
+	public InstrumentIdentifier getInstrumentID() {
 		return instrumentID;
 	}
 }

@@ -17,6 +17,7 @@ import com.adagio.events.channels.MusicChannelInstrumentEvent;
 import com.adagio.events.channels.MusicChannelVolumeEvent;
 import com.adagio.events.chords.MusicChordAddEvent;
 import com.adagio.events.chords.MusicChordEvent;
+import com.adagio.events.definitions.InstrumentDefinitionEvent;
 import com.adagio.events.definitions.MusicTempoDefinitionEvent;
 import com.adagio.events.notes.MusicNoteNameEvent;
 import com.adagio.events.notes.MusicNoteToAbsoluteEvent;
@@ -42,26 +43,29 @@ import com.adagio.language.times.Time;
 
 public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicEventListener {
 
-	// Mode relative	
+	//Mode relative	
 	private AbsoluteMusicNote relative;
 		
-	// Clefe (bass,treble...)
+	//Clefe (bass,treble...)
 	private String clef;
 		
-	// Time (4/4, 6/8,...)
+	//Time (4/4, 6/8,...)
 	private Time time;
 	
 	//Tempo 4=90bpm...
 	private Tempo tempo;
 	
-	// Data Base of defined chords
+	//Data Base of defined chords
 	private ChordsDB chordsDB;
 	
-	// Data base of tempos
+	//Data base of tempos
 	private TemposDB temposDB;
 	
-	// Data base of channels
+	//Data base of channels
 	private ChannelsDB channelsDB;
+	
+	//Data base of instruments
+	private InstrumentsDB instrumentsDB;
 	
 	private boolean hasTempoChanged;
 	private boolean hasTimeChanged;
@@ -78,6 +82,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		chordsDB = new ChordsDB();
 		temposDB = new TemposDB();
 		channelsDB = new ChannelsDB();
+		instrumentsDB = new InstrumentsDB();
 		hasTempoChanged = hasTimeChanged = hasClefChanged = true;
 		
 		//add the default channel
@@ -281,8 +286,29 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	}
 	
 	public String translateInstrument(Instrument instrument){
-		//TODO fix this
-		String composition = "\\set Staff.midiInstrument = #\"" + /*instrument.getValue()*/ "piano grand" + "\"";;
+		
+		String composition = "\\set Staff.midiInstrument = #\"";
+		String timbre = instrument.getTimbre().getValue();
+		if(timbre.equals("piano")){
+			composition += "acoustic grand";
+		}
+		else if(timbre.equals("violin")){
+			composition += "violin";
+		}
+		else if(timbre.equals("flute")){
+			composition += "flute";
+		}
+		else if(timbre.equals("acousticguitar")){
+			composition += "acoustic guitar (nylon)";
+		}
+		else if(timbre.equals("voice")){
+			composition += "synth voice";
+		}
+		else if(timbre.equals("clarinet")){
+			composition += "clarinet";
+		}
+		
+		composition += "\"";
 		return composition;
 	}
 	
@@ -661,9 +687,17 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public void setChannelInstrument(MusicChannelInstrumentEvent e) {
-		//TODO look for the instrument in the database and change instrument of the channel.
-		/*this.channelsDB.setInstrument(e.getId(), e.getInstrument());
-		this.channelsDB.getChannel(e.getId()).setInstrumentChanged(true);*/
+	
+		if(this.instrumentsDB.exists(e.getInstrumentID())){
+			this.channelsDB.setInstrument(e.getId(), this.instrumentsDB.getInstrument(e.getInstrumentID()));
+			this.channelsDB.getChannel(e.getId()).setInstrumentChanged(true);
+		}
+		else{
+			System.err.println("Error 11: The Instrument identifier \""
+					+ e.getInstrumentID().getValue()
+					+ "\" is not defined");
+			System.exit(11);
+		}
 	}
 	
 	/**
@@ -700,6 +734,15 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	@Override
 	public void tempoDefinition(MusicTempoDefinitionEvent e) {
 		this.temposDB.addTempo(e.getId(), e.getTempo());
+	}
+	
+	
+	/**
+	 * Event that happens when an instrument is defined.
+	 */
+	@Override
+	public void instrumentDefinition(InstrumentDefinitionEvent e) {
+		this.instrumentsDB.addInstrument(e.getIdentifier(), e.getInstrument());
 	}
 	
 	/** ----- GETTERS & SETTERS (Not events) ----- **/
@@ -782,6 +825,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		}
 		return figures;
 	}
+
+
 	
 
 	

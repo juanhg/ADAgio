@@ -2,6 +2,7 @@ package com.adagio.language.instruments;
 
 import org.modelcc.IModel;
 import org.modelcc.Pattern;
+import org.modelcc.Setup;
 import org.modelcc.Value;
 
 @Pattern(regExp = "[a-zA-Z][a-zA-Z[0-9]_]*")
@@ -9,6 +10,11 @@ public class InstrumentIdentifier implements IModel {
 
 	@Value
 	String value;
+	
+	@Setup
+	public void setup() {
+		value = value.toLowerCase();
+	}
 	
 	public InstrumentIdentifier(){}
 
