@@ -27,7 +27,7 @@ public class ADAgioCLI {
 	public static void main(String [] args){
 		try {
 	
-			String inFileName = args[5];
+			String inFileName = args[0];
 			String outFileName = inFileName.replace(".adg", ".ly");
 			ModelReader reader = new JavaModelReader(MusicPiece.class);
 			
@@ -72,7 +72,7 @@ public class ADAgioCLI {
 	    return s.hasNext() ? s.next() : "";
 	}
 	
-	static String fileToString(String path, Charset encoding) 
+	public static String fileToString(String path, Charset encoding) 
 			  throws IOException 
 			{
 			  byte[] encoded = Files.readAllBytes(Paths.get(path));

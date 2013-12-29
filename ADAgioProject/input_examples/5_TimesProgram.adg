@@ -1,0 +1,8 @@
+CHANNEL piano instrument=acoustic grand;
+TIME 3/4;
+RELATIVE 1C;
+PLAY | Am Am Am | Am Am Am Am Am | Am Am;
+
+Time 4/4;
+CHANNEL flauta instrument=flute;
+PLAY | B Bm B Am | Bm Bm;

@@ -1,0 +1,27 @@
+DEFINE TEMPO "estrofa" 4=65;
+DEFINE TEMPO "estribillo" 4=70;
+
+TIME 4/4;
+TEMPO estrofa;
+channel piano volume=80 instrument=acoustic grand;
+channel flauta volume=50 instrument=flute disable;
+RELATIVE 2C;
+PLAY  C G | Dm Am F | G A;
+RELATIVE 2C;
+PLAY  C G | Dm Am F | G Am;
+
+TEMPO ESTRIBILLO;
+channel piano volume=100;
+channel flauta enable;
+PLAY | F C | E Am | F C G | F G;
+
+TEMPO ESTROFA;
+channel flauta disable;
+RELATIVE 2C;
+PLAY | C G | Dm Am F | G A;
+RELATIVE 2C;
+PLAY | C G | Am F Dm | G Am; 
+
+TEMPO ESTRIBILLO;
+channel flauta enable; 
+PLAY | F C | E Am | F C G | F G C;

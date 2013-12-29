@@ -117,6 +117,7 @@ public class PlayStatementsTest {
 	    assertAmbiguityFree(parser, "PLAY | Gm C |");
 	    assertAmbiguityFree(parser, "PLAY | G Cm |");
 	    assertAmbiguityFree(parser, "PLAY | G Cm |");
+	    assertAmbiguityFree(parser, "PLAY | Bb S |");
 	    
 	  }
 }

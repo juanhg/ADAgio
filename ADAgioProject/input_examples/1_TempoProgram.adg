@@ -1,0 +1,21 @@
+TIME 4/4;
+TEMPO adagio;
+RELATIVE 1C;
+PLAY A Am | A# A#m | Ab Abm;
+
+Tempo 4=120;
+
+channel violin volume=70 instrument=violin;
+PLAY | B Bm | B# B#m | Bb Bbm;
+
+Tempo adagio;
+channel violin disable;
+channel piano volume=100 disable;
+
+PLAY | A Am | A# A#m | Ab Abm;
+
+tempo 4=60;
+channel piano volume=80 enable;
+channel violin enable volume=60;
+
+PLAY | A Am | A# A#m | Ab Abm;
