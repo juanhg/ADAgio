@@ -1,4 +1,4 @@
-CHANNEL piano instrument=acoustic grand;
+CHANNEL piano;
 TIME 3/4;
 RELATIVE 1C;
 PLAY | Am Am Am | Am Am Am Am Am | Am Am;

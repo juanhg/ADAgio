@@ -3,7 +3,7 @@ package com.adagio.events.channels;
 import java.util.EventObject;
 
 import com.adagio.language.channels.ChannelIdentifier;
-import com.adagio.language.instruments.Instrument;
+import com.adagio.language.instruments.InstrumentIdentifier;
 
 public class MusicChannelInstrumentEvent extends EventObject {
 	/**
@@ -11,19 +11,19 @@ public class MusicChannelInstrumentEvent extends EventObject {
 	 */
 	private static final long serialVersionUID = -1888586157392301529L;
 	private ChannelIdentifier id;
-	private Instrument instrument;
+	private InstrumentIdentifier instrumentID;
 	
-	public MusicChannelInstrumentEvent(Object source, ChannelIdentifier id, Instrument instrument){
+	public MusicChannelInstrumentEvent(Object source, ChannelIdentifier id, InstrumentIdentifier instrumentID){
 		super(source);
 		this.id = id;
-		this.instrument = instrument;
+		this.instrumentID = instrumentID;
 	}
 	
 	public ChannelIdentifier getId() {
 		return id;
 	}
 
-	public Instrument getInstrument() {
-		return instrument;
+	public InstrumentIdentifier getInstrument() {
+		return instrumentID;
 	}
 }

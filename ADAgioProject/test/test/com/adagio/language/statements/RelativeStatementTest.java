@@ -14,7 +14,7 @@ import com.adagio.language.statements.RelativeStatement;
 import static org.modelcc.test.ModelAssert.*;
 
 
-public class RelativeStatementsTest {
+public class RelativeStatementTest {
 
 	  Model model;
 	  Parser<RelativeStatement> parser;

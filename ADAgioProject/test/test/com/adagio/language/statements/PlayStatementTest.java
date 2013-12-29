@@ -24,7 +24,7 @@ import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 import com.adagio.language.statements.PlayStatement;
 
-public class PlayStatementsTest {
+public class PlayStatementTest {
 
 	Model model;
 	Parser<PlayStatement> parser;

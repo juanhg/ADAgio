@@ -13,7 +13,7 @@ import org.modelcc.parser.ParserFactory;
 import com.adagio.language.definitions.ChordDefinition;
 import com.adagio.language.definitions.TempoDefinition;
 
-public class TempoDefinitionsTest {
+public class TempoDefinitionTest {
 	
 	Model model;
 	Parser<ChordDefinition> parser;

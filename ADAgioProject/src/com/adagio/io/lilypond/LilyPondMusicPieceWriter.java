@@ -281,7 +281,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	}
 	
 	public String translateInstrument(Instrument instrument){
-		String composition = "\\set Staff.midiInstrument = #\"" + instrument.getValue() + "\"";;
+		//TODO fix this
+		String composition = "\\set Staff.midiInstrument = #\"" + /*instrument.getValue()*/ "piano grand" + "\"";;
 		return composition;
 	}
 	
@@ -660,8 +661,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public void setChannelInstrument(MusicChannelInstrumentEvent e) {
-		this.channelsDB.setInstrument(e.getId(), e.getInstrument());
-		this.channelsDB.getChannel(e.getId()).setInstrumentChanged(true);
+		//TODO look for the instrument in the database and change instrument of the channel.
+		/*this.channelsDB.setInstrument(e.getId(), e.getInstrument());
+		this.channelsDB.getChannel(e.getId()).setInstrumentChanged(true);*/
 	}
 	
 	/**

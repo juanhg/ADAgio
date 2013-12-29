@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.adagio.language.musicnotes.BasicNoteName;
 
-public class BasicNoteNamesTest {
+public class BasicNoteNameTest {
 	
 	BasicNoteName A = new BasicNoteName("A");
 	BasicNoteName B = new BasicNoteName("B");

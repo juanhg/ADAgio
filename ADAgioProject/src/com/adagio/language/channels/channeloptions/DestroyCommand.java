@@ -17,11 +17,6 @@ public class DestroyCommand extends Command implements IModel {
 	public static final String PATTERN = "DESTROY";
 	
 	@Override
-	public String getValue() {
-		return value;
-	}
-	
-	@Override
 	public void Apply(ChannelIdentifier id, MusicEventListener listener) {
 		listener.destroyChannel(new MusicChannelIdentifierEvent(this,id));
 	}

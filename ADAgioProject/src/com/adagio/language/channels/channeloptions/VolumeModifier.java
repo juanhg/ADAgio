@@ -30,10 +30,6 @@ public class VolumeModifier extends StatusModifier implements IModel{
 		}
 	}
 
-	@Override
-	public String getValue() {
-		return "volume";
-	}
 
 	@Override
 	public void Apply(ChannelIdentifier id, MusicEventListener listener) {

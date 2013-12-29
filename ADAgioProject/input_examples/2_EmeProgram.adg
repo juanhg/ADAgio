@@ -3,7 +3,7 @@ DEFINE TEMPO "estribillo" 4=70;
 
 TIME 4/4;
 TEMPO estrofa;
-channel piano volume=80 instrument=acoustic grand;
+channel piano volume=80 instrument=piano;
 channel flauta volume=50 instrument=flute disable;
 RELATIVE 2C;
 PLAY  C G | Dm Am F | G A;

@@ -13,7 +13,7 @@ import com.adagio.language.musicnotes.notealterations.Alteration;
 import com.adagio.language.musicnotes.notealterations.DoubleFlatAlteration;
 import com.adagio.language.musicnotes.notealterations.SharpAlteration;
 
-public class AbsoluteMusicNotesTest {
+public class AbsoluteMusicNoteTest {
 	
 	AbsoluteMusicNote A5Sharp, A4bb; 
 	AbsoluteMusicNote A5,A3, A2, C4, B3, C3, G3; 

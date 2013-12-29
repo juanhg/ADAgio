@@ -12,7 +12,7 @@ import org.modelcc.parser.ParserFactory;
 
 import com.adagio.language.definitions.ChordDefinition;
 
-public class ChordDefinitionsTest {
+public class ChordDefinitionTest {
 	
 	  Model model;
 	  Parser<ChordDefinition> parser;

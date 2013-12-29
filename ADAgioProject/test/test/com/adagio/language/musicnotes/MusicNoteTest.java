@@ -24,7 +24,7 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
-public class MusicNotesTest { 
+public class MusicNoteTest { 
 
   Model model;
   Parser<MusicNote> parser;

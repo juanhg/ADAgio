@@ -17,7 +17,7 @@ import com.adagio.language.channels.channeloptions.ChannelOption;
 import com.adagio.language.channels.channeloptions.DestroyCommand;
 import com.adagio.language.statements.ChannelStatement;
 
-public class ChannelStatementsTest {
+public class ChannelStatementTest {
 
 	  Model model;
 	  Parser<ChannelStatement> parser;
@@ -33,7 +33,7 @@ public class ChannelStatementsTest {
 	public void playSentenceValidtest() {
 		assertAmbiguityFree(parser,"CHANNEL GUITARRA ENABLE VOLUME=19");
 		assertAmbiguityFree(parser,"CHANNEL GUITARRA ENABLE DISABLE VOLUME=19");
-		assertAmbiguityFree(parser,"CHANNEL GUITARRA ENABLE DISABLE VOLUME=19 INSTRUMENT=ACOUSTIC GRAND");
+		assertAmbiguityFree(parser,"CHANNEL GUITARRA ENABLE DISABLE VOLUME=19 INSTRUMENT=PIANO");
 		assertAmbiguityFree(parser,"channel violin instrument=violin");
 		assertAmbiguityFree(parser,"CHANNEL PIANO");
 		assertAmbiguityFree(parser,"CHANNEL ENABLE");
@@ -63,9 +63,5 @@ public class ChannelStatementsTest {
 		assertTrue(options != null);
 		
 		assertTrue(cStat.getOptions()[0] instanceof DestroyCommand);
-		DestroyCommand option = (DestroyCommand) cStat.getOptions()[0];
-		
-		assertEquals("DESTROY", option.getValue());
-		
 	}
 }

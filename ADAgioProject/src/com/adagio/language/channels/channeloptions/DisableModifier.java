@@ -17,11 +17,6 @@ public class DisableModifier extends StatusModifier implements IModel{
 	public static final String PATTERN = "DISABLE";
 
 	@Override
-	public String getValue() {
-		return value;
-	}
-
-	@Override
 	public void Apply(ChannelIdentifier id, MusicEventListener listener) {
 		listener.disableChannel(new MusicChannelIdentifierEvent(this,id));
 	}

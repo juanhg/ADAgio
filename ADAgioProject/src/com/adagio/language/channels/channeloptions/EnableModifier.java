@@ -15,11 +15,6 @@ public class EnableModifier extends StatusModifier implements IModel{
 	String value;
 	
 	public static final String PATTERN = "ENABLE";
-	
-	@Override
-	public String getValue() {
-		return value;
-	}
 
 	@Override
 	public void Apply(ChannelIdentifier id, MusicEventListener listener) {

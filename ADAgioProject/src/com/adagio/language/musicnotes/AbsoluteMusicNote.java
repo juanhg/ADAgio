@@ -1,6 +1,5 @@
 package com.adagio.language.musicnotes;
 
-import org.modelcc.Constraint;
 import org.modelcc.IModel;
 import org.modelcc.types.IntegerModel;
 
@@ -11,13 +10,13 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	  
 	IntegerModel octave;
 	
-	@Constraint
-    public boolean check() {
-      if (octave.intValue() >=-5 && octave.intValue() <=5) {
-        return true;
-      }
-      return false;
-    }
+//	@Constraint
+//    public boolean check() {
+//      if (octave.intValue() >=-5 && octave.intValue() <=5) {
+//        return true;
+//      }
+//      return false;
+//    }
 	
 	MusicNoteName musicNoteName;
 	

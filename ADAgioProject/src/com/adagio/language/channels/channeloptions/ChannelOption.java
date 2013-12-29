@@ -6,6 +6,5 @@ import com.adagio.events.MusicEventListener;
 import com.adagio.language.channels.ChannelIdentifier;
 
 public abstract class ChannelOption implements IModel {
-	public abstract String getValue();
 	public abstract void Apply(ChannelIdentifier id, MusicEventListener listener);
 }

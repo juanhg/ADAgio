@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.adagio.language.figures.Figure;
 
-public class FiguresTest {
+public class FigureTest {
 
 	Figure testFigure;
 	
