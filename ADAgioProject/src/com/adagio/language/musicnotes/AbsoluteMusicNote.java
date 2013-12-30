@@ -43,7 +43,7 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	
 	public AbsoluteMusicNote clone(){
 		AbsoluteMusicNote aMusicNote = new AbsoluteMusicNote();
-		aMusicNote.setMusicNoteName(this.musicNoteName);
+		aMusicNote.setMusicNoteName(this.musicNoteName.clone());
 		aMusicNote.setOctave(this.octave);
 		return aMusicNote;
 	}
@@ -80,12 +80,12 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	}
 	
 	/**
-	 * Checks if the actual AbsoluteMusicNote is Higher int the stave
+	 * Checks if the actual AbsoluteMusicNote is Higher int the stave.
+	 * DOESN'T LOOK THE ALTERATIONS.
 	 * @param note AbsoluteMusicNote to compare with
 	 * @return true if is higher. False in other way.
 	 */
 	public boolean isHigher(AbsoluteMusicNote note){
-		boolean higher = false;
 		int distance = 0;
 		
 		if(this.getOctave().intValue() > note.getOctave().intValue()){
@@ -100,7 +100,7 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 				return true;
 			}
 		}
-		return higher;
+		return false;
 	}
 	
 	/**
@@ -157,7 +157,7 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	 * Calculates the number of semitones between the actual note an aNote
 	 * @param aNote 
 	 * @return A positive int of semitones if aNote is higher than this. A negative 
-	 * integer if aNote is not higher than this.
+	 * integer if aNote is not higher than this. Zero if are the same notes
 	 */
 	public int semitonesTill(AbsoluteMusicNote aNote){
 		int semitones = 0;

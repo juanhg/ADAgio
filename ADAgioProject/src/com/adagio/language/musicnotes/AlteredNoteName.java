@@ -44,7 +44,7 @@ public class AlteredNoteName extends MusicNoteName implements IModel {
 	@Override
 	public MusicNoteName clone() {
 		AlteredNoteName aNoteName = new AlteredNoteName();
-		aNoteName.setAlteration(this.alteration);
+		aNoteName.setAlteration(this.alteration.clone());
 		aNoteName.setBasicNoteName((BasicNoteName)this.basicNoteName.clone());
 		return aNoteName;
 	}

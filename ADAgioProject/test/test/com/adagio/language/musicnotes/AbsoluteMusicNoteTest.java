@@ -54,6 +54,8 @@ public class AbsoluteMusicNoteTest {
 
 	@Test
 	public void isHigherTest() {
+		assertEquals(false, A3.isHigher(A3));
+		assertEquals(false, Am1.isHigher(Am1));
 		assertEquals(true, A3.isHigher(A2));
 		assertEquals(false, A3.isHigher(B3));
 		assertEquals(false, Am1.isHigher(C4));
@@ -75,6 +77,10 @@ public class AbsoluteMusicNoteTest {
 		assertEquals(-24, A5.semitonesTill(A3));
 		assertEquals(-25, A5Sharp.semitonesTill(A3));
 		assertEquals(-10, A4bb.semitonesTill(A3));
+		
+		//Cero Results
+		assertEquals(0, A3.semitonesTill(A3));
+		assertEquals(0, A5Sharp.semitonesTill(A5Sharp));
 	}
 	
 	public void nextTest(){
