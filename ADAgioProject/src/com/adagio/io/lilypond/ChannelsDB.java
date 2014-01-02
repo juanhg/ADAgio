@@ -5,9 +5,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.adagio.language.channels.Channel;
+import com.adagio.channels.Channel;
+import com.adagio.instruments.Instrument;
 import com.adagio.language.channels.ChannelIdentifier;
-import com.adagio.language.instruments.Instrument;
 
 public class ChannelsDB {
 

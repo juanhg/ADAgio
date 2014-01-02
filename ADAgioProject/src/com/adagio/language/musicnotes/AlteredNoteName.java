@@ -50,12 +50,16 @@ public class AlteredNoteName extends MusicNoteName implements IModel {
 	}
 
 	@Override
-	public boolean equals(MusicNoteName name) {
-		if (this.getClass().equals(name.getClass())) {
-			if (this.getBaseNoteName().equals(name.getBaseNoteName())
-					&& this.alteration.getValue().equals(
-							name.getAlteration().getValue())) {
-				return true;
+	public boolean equals(Object o) {
+
+		if(o instanceof AlteredNoteName){
+			AlteredNoteName name = (AlteredNoteName) o;
+			if (this.getClass().equals(name.getClass())) {
+				if (this.getBaseNoteName().equals(name.getBaseNoteName())
+						&& this.alteration.getValue().equals(
+								name.getAlteration().getValue())) {
+					return true;
+				}
 			}
 		}
 		return false;

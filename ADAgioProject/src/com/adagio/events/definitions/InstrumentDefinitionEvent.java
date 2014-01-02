@@ -2,7 +2,7 @@ package com.adagio.events.definitions;
 
 import java.util.EventObject;
 
-import com.adagio.language.instruments.Instrument;
+import com.adagio.instruments.Instrument;
 import com.adagio.language.instruments.InstrumentIdentifier;
 
 public class InstrumentDefinitionEvent extends EventObject {

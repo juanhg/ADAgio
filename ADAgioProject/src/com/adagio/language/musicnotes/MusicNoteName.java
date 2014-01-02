@@ -9,6 +9,6 @@ public abstract class MusicNoteName implements IModel {
 	public abstract BasicNoteName getBaseNoteName();
 	public abstract Alteration getAlteration();
 	public abstract MusicNoteName clone();
-	public abstract boolean equals(MusicNoteName name);
+	public abstract boolean equals(Object o);
 	public abstract String toString();
 }

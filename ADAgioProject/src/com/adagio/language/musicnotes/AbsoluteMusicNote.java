@@ -1,5 +1,7 @@
 package com.adagio.language.musicnotes;
 
+import java.util.List;
+
 import org.modelcc.IModel;
 import org.modelcc.types.IntegerModel;
 
@@ -80,7 +82,7 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	}
 	
 	/**
-	 * Checks if the actual AbsoluteMusicNote is Higher int the stave.
+	 * Checks if the actual AbsoluteMusicNote is Higher in the stave.
 	 * DOESN'T LOOK THE ALTERATIONS.
 	 * @param note AbsoluteMusicNote to compare with
 	 * @return true if is higher. False in other way.
@@ -154,6 +156,36 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	
 	
 	/**
+	 * Return the pos of the lower note in a List of AbsoluteMusicNote
+	 * @param aNotes List of absolute notes
+	 * @return Integer that indicates the position of the lower note
+	 */
+	public static int lowerNotePosition(List<AbsoluteMusicNote> aNotes){
+
+		int referenceSemitones = 0;
+		int semitones = 0;
+		int posLower = 0;
+		
+		if(aNotes.size() == 0 || aNotes == null){
+			
+			//Find the lower note
+			for(int i = 0; i < aNotes.size(); i++){
+				semitones = aNotes.get(0).semitonesTill(aNotes.get(i));
+				if(semitones < referenceSemitones){
+					referenceSemitones = semitones;
+					posLower = i;
+				}
+			}
+		}
+		else{
+			System.err.println("(posLowerNote) Error 13: Null or Empty List.");
+			System.exit(13);
+		}
+		return posLower;
+	}
+	
+	
+	/**
 	 * Calculates the number of semitones between the actual note an aNote
 	 * @param aNote 
 	 * @return A positive int of semitones if aNote is higher than this. A negative 
@@ -219,16 +251,22 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	public AbsoluteMusicNote toAbsoluteMusicNote(MusicEventListener listener) {
 		return this;
 	}
-	
-	public boolean equals (AbsoluteMusicNote aNote){
-	
-		if(this.getClass().equals(aNote.getClass())){
-			if(this.getOctave().intValue() == aNote.getOctave().intValue() 
-				&&	this.getMusicNoteName().equals(aNote.getMusicNoteName()))
-			{
-				return true;
+
+	@Override
+	public boolean equals (Object o){
+
+		if(o instanceof AbsoluteMusicNote){
+
+			AbsoluteMusicNote aNote = (AbsoluteMusicNote) o;
+
+			if(this.getClass().equals(aNote.getClass())){
+				if(this.getOctave().intValue() == aNote.getOctave().intValue() 
+						&&	this.getMusicNoteName().equals(aNote.getMusicNoteName()))
+				{
+					return true;
+				}
+
 			}
-				
 		}
 		return false;
 	}

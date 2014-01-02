@@ -12,6 +12,10 @@ public class Register implements IModel {
 	@Prefix("(?i)to")
 	private AbsoluteMusicNote higherNote;
 	
+	//True if register has been used to play an AbsoluteMusicNote
+	//Useful with LimitedPolyphonicInstruments
+	boolean used = false;
+	
 	@Constraint
 	boolean validRange(){
 		if(lowerNote.semitonesTill(higherNote) >= 0){
@@ -29,6 +33,7 @@ public class Register implements IModel {
 	public Register(){
 		this.lowerNote = new AbsoluteMusicNote(0, "A");
 		this.higherNote = new AbsoluteMusicNote(8, "C");
+		this.used = false;
 	}
 	
 	/**
@@ -39,6 +44,7 @@ public class Register implements IModel {
 	public Register(AbsoluteMusicNote lower, AbsoluteMusicNote higher){
 		this.lowerNote = lower;
 		this.higherNote = higher;
+		this.used = false;
 	}
 	
 	/**
@@ -48,6 +54,7 @@ public class Register implements IModel {
 	public Register(Register other){
 		this.lowerNote = other.higherNote.clone();
 		this.higherNote = other.lowerNote.clone();
+		this.used = false;
 	}
 	
 	/**
@@ -107,5 +114,22 @@ public class Register implements IModel {
 	public Register clone(){
 		return new Register(this);
 	}
+
+
+	public boolean isUsed() {
+		return used;
+	}
+
+
+	public void setUsed(boolean used) {
+		this.used = used;
+	}
+
+
+	public AbsoluteMusicNote getLowerNote() {
+		return lowerNote;
+	}
+	
+	
 	
 }

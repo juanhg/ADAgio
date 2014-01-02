@@ -1,12 +1,18 @@
-package test.com.adagio.language.instruments.features;
+package test.com.adagio.language.instruments;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.modelcc.types.IntegerModel;
 
+import com.adagio.instruments.Instrument;
+import com.adagio.instruments.PolyphonicInstrument;
 import com.adagio.language.instruments.features.Register;
+import com.adagio.language.instruments.features.Timbre;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.AlteredNoteName;
 import com.adagio.language.musicnotes.BasicNoteName;
@@ -14,14 +20,15 @@ import com.adagio.language.musicnotes.notealterations.Alteration;
 import com.adagio.language.musicnotes.notealterations.DoubleFlatAlteration;
 import com.adagio.language.musicnotes.notealterations.SharpAlteration;
 
-public class RegisterTest {
+public class PolyphonicInstrumentTest {
 
 	AbsoluteMusicNote A5Sharp, A2Sharp, A4bb, A3bb; 
-	AbsoluteMusicNote A5,A3, A2, C4,B2, B3,C2, C3, G3; 
+	AbsoluteMusicNote A5,A3, A2, C4,B2, B3,C2, C3, G3, E0, C0, G0; 
 	AbsoluteMusicNote Am1, Cm1, Dm1, Am5, Cm5, Gm5, Bm4, Cm3;
 	BasicNoteName bNoteName;
 	Alteration alteration;
-	Register r1, r2, r3, r4, r5;
+	Register r1, r2, r3, r4, r5, r6;
+	Instrument piano;
 
 	@Before
 	public void setUp() throws Exception {
@@ -41,6 +48,9 @@ public class RegisterTest {
 		alteration = new DoubleFlatAlteration(true);
 		A3bb = new AbsoluteMusicNote(new IntegerModel(3), new AlteredNoteName(bNoteName, alteration));
 
+		C0 = new AbsoluteMusicNote(0,"C"); 
+		E0 = new AbsoluteMusicNote(0, "E");
+		G0 = new AbsoluteMusicNote(0, "G");
 		A5 = new AbsoluteMusicNote(5, "A");
 		G3 = new AbsoluteMusicNote(3,"G");
 		A3 = new AbsoluteMusicNote(3,"A");
@@ -65,18 +75,30 @@ public class RegisterTest {
 		r3 = new Register(Cm1, C4);
 		r4 = new Register(A2, A5Sharp);
 		r5 = new Register(A2,B2);
+		r6 = new Register(Bm4,C4);
+		
+		Register pianoRegister[]= new Register[1];
+		pianoRegister[0] = new Register();
+		pianoRegister[0] = r6;
+		piano = new PolyphonicInstrument(new Timbre(),pianoRegister);
 	}
+	
 	
 	@Test
-	public void noteToRegisterTest(){
-		assertEquals(A2, r1.aNoteToRegister(A2));
-		assertEquals(A5Sharp, r1.aNoteToRegister(A5Sharp));
-		assertEquals(Cm1, r3.aNoteToRegister(Cm5));
-		assertEquals(Cm3, r2.aNoteToRegister(Cm5));
-		assertEquals(B2, r2.aNoteToRegister(B3));
-		assertEquals(A3bb, r2.aNoteToRegister(A4bb));
-		assertEquals(C2, r5.aNoteToRegister(C3));
-		assertEquals(A2Sharp, r5.aNoteToRegister(A5Sharp));
-	}
+	public void aNotesToRegisterstest() {
+		List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
+		List<AbsoluteMusicNote> expected = new ArrayList<AbsoluteMusicNote>();
+		aNotes.add(E0);
+		aNotes.add(C0);
+		aNotes.add(G0);
+		
+		expected.add(E0);
+		expected.add(C0);
+		expected.add(G0);
+		List<AbsoluteMusicNote> result = piano.aNotesToInstrumentRegister(aNotes);
+		assertEquals(expected, result);
 	
+		
+	}
+
 }

@@ -261,11 +261,15 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 	}
 
 	@Override
-	public boolean equals(MusicNoteName name) {
-		if(this.getClass().equals(name.getClass())){
-			return this.value.equals(name.getBaseNoteName().value);
+	public boolean equals(Object o) {
+		if(o instanceof BasicNoteName){
+			BasicNoteName name = (BasicNoteName) o;
+			if(this.getClass().equals(name.getClass())){
+				return this.value.equals(name.getBaseNoteName().value);
+			}
 		}
 		return false;
+
 	}
 
 	@Override

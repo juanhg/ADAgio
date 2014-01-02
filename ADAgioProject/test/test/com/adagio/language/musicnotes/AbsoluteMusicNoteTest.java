@@ -1,6 +1,11 @@
 package test.com.adagio.language.musicnotes;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,14 +59,17 @@ public class AbsoluteMusicNoteTest {
 
 	@Test
 	public void isHigherTest() {
-		assertEquals(false, A3.isHigher(A3));
-		assertEquals(false, Am1.isHigher(Am1));
-		assertEquals(true, A3.isHigher(A2));
-		assertEquals(false, A3.isHigher(B3));
-		assertEquals(false, Am1.isHigher(C4));
-		assertEquals(true, Dm1.isHigher(new AbsoluteMusicNote(-1, "C")));
-		assertEquals(false, Cm1.isHigher(new AbsoluteMusicNote(-1, "G")));
-		assertEquals(true, A3.isHigher(C3));
+		
+		assertTrue(A3.isHigher(A2));
+		assertTrue(A3.isHigher(C3));
+		assertTrue(Dm1.isHigher(new AbsoluteMusicNote(-1, "C")));
+		
+		assertFalse("Error in isHigerTest", A3.isHigher(A3));
+		assertFalse("Error in isHigerTest", Am1.isHigher(Am1));
+		assertFalse("Error in isHigerTest", A3.isHigher(B3));
+		assertFalse("Error in isHigerTest", Am1.isHigher(C4));
+		assertFalse("Error in isHigerTest", Cm1.isHigher(new AbsoluteMusicNote(-1, "G")));
+		
 	}
 	
 	@Test
@@ -84,17 +92,37 @@ public class AbsoluteMusicNoteTest {
 	}
 	
 	public void nextTest(){
-		assertEquals(true, Cm3.equals(Bm4.next()));
-		assertEquals(true, B3.equals(C4.next()));
-		assertEquals(true, Am5.equals(Gm5.next()));
-		assertEquals(true, A3.equals(G3.next()));
+		assertEquals(Cm3, Bm4.next());
+		assertEquals(B3, C4.next());
+		assertEquals(Am5, Gm5.next());
+		assertEquals(A3, G3.next());
 	}
 	
 	public void previousTest(){
-		assertEquals(true, Bm4.equals(Cm3.next()));
-		assertEquals(true, C4.equals(B3.next()));
-		assertEquals(true, Gm5.equals(Am5.next()));
-		assertEquals(true, G3.equals(A3.next()));
+		assertEquals(Bm4, Cm3.next());
+		assertEquals(C4, B3.next());
+		assertEquals(Gm5, Am5.next());
+		assertEquals(G3, A3.next());
+	}
+	
+	public void lowerNotePositionTest(){
+		List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
+		
+		aNotes.add(A2);
+		aNotes.add(A3);
+		assertEquals(0, AbsoluteMusicNote.lowerNotePosition(aNotes));
+		
+		aNotes.clear();
+		aNotes.add(A5);
+		aNotes.add(A5Sharp);
+		assertEquals(1, AbsoluteMusicNote.lowerNotePosition(aNotes));
+		
+		aNotes.clear();
+		aNotes.add(Am1);
+		aNotes.add(B3);
+		aNotes.add(Am5);
+		aNotes.add(Bm4);
+		assertEquals(2, AbsoluteMusicNote.lowerNotePosition(aNotes));
 	}
 
 }

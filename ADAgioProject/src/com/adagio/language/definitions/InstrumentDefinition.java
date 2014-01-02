@@ -1,5 +1,6 @@
 package com.adagio.language.definitions;
 
+import org.modelcc.Constraint;
 import org.modelcc.FreeOrder;
 import org.modelcc.IModel;
 import org.modelcc.Optional;
@@ -10,14 +11,15 @@ import org.modelcc.Suffix;
 
 import com.adagio.events.MusicEventListener;
 import com.adagio.events.definitions.InstrumentDefinitionEvent;
-import com.adagio.language.instruments.Instrument;
+import com.adagio.instruments.Instrument;
+import com.adagio.instruments.LimitedPolyphonicInstrument;
+import com.adagio.instruments.MonophonicInstrument;
+import com.adagio.instruments.PolyphonicInstrument;
 import com.adagio.language.instruments.InstrumentIdentifier;
-import com.adagio.language.instruments.LimitedPolyphonicInstrument;
-import com.adagio.language.instruments.MonophonicInstrument;
-import com.adagio.language.instruments.PolyphonicInstrument;
 import com.adagio.language.instruments.features.LimitedPolyphonicType;
 import com.adagio.language.instruments.features.MonophonicType;
 import com.adagio.language.instruments.features.PhoneticType;
+import com.adagio.language.instruments.features.PolyphonicType;
 import com.adagio.language.instruments.features.Register;
 import com.adagio.language.instruments.features.Timbre;
 
@@ -41,6 +43,19 @@ public class InstrumentDefinition extends Definition implements IModel {
 	@Separator(",")
 	@Prefix("(?i)Registers")
 	Register registers[];
+	
+	@Constraint
+	boolean validNumRegisters(){
+		if(phType.getClass().equals(MonophonicType.class)
+		|| phType.getClass().equals(PolyphonicType.class)){
+			if(registers != null && registers.length != 1){
+				System.err.println("Error 17: Monophonic and Unlimited Polyphonic instrument"
+						+ " can not have more than 1 register");
+				return false;
+			}
+		}
+		return true;
+	}
 	
 	@Override
 	public void run(MusicEventListener listener) {

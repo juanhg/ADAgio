@@ -11,6 +11,7 @@ import java.util.Vector;
 
 import org.modelcc.types.IntegerModel;
 
+import com.adagio.channels.Channel;
 import com.adagio.events.MusicEventListener;
 import com.adagio.events.channels.MusicChannelIdentifierEvent;
 import com.adagio.events.channels.MusicChannelInstrumentEvent;
@@ -26,16 +27,15 @@ import com.adagio.events.statements.MusicPlayStatementEvent;
 import com.adagio.events.statements.MusicRelativeStatementEvent;
 import com.adagio.events.statements.MusicTimeStatementEvent;
 import com.adagio.events.statements.MusicUndefinedTempoStatementEvent;
+import com.adagio.instruments.Instrument;
 import com.adagio.io.MusicPieceWriter;
 import com.adagio.language.MusicPiece;
 import com.adagio.language.bars.BarItem;
 import com.adagio.language.bars.chords.Chord;
 import com.adagio.language.bars.chords.intervals.Interval;
 import com.adagio.language.bars.silences.Silence;
-import com.adagio.language.channels.Channel;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.figures.Figure;
-import com.adagio.language.instruments.Instrument;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 import com.adagio.language.tempos.Tempo;
