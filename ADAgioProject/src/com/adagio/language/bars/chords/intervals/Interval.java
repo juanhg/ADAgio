@@ -9,7 +9,6 @@ import org.modelcc.types.IntegerModel;
 import com.adagio.events.MusicEventListener;
 import com.adagio.events.notes.MusicNoteToAbsoluteEvent;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
-import com.adagio.language.musicnotes.AlteredNoteName;
 import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.MusicNote;
 import com.adagio.language.musicnotes.MusicNoteName;
@@ -183,28 +182,19 @@ public class Interval implements IModel {
 		}
 		
 		if(aux == 1){
-			//Adding a Sharp
-			SharpAlteration alteration = new SharpAlteration(true);
-			AlteredNoteName alteredName = new AlteredNoteName(bName,alteration);
-			result = new AbsoluteMusicNote(new IntegerModel(octave),alteredName);
+			result = new AbsoluteMusicNote(octave,bName.getValue(),new SharpAlteration());
 		}
 		else if (aux == 2){
 			//Adding a DoubleSharp
-			DoubleSharpAlteration alteration = new DoubleSharpAlteration(true);
-			AlteredNoteName alteredName = new AlteredNoteName(bName,alteration);
-			result = new AbsoluteMusicNote(new IntegerModel(octave),alteredName);
+			result = new AbsoluteMusicNote(octave,bName.getValue(),new DoubleSharpAlteration());
 		}
 		else if (aux == -1){
 			//Adding a Flat
-			FlatAlteration alteration = new FlatAlteration(true);
-			AlteredNoteName alteredName = new AlteredNoteName(bName,alteration);
-			result = new AbsoluteMusicNote(new IntegerModel(octave),alteredName);
+			result = new AbsoluteMusicNote(octave,bName.getValue(),new FlatAlteration());
 		}
 		else if (aux == -2){
 			//Adding a DoubleFlat
-			DoubleFlatAlteration alteration = new DoubleFlatAlteration(true);
-			AlteredNoteName alteredName = new AlteredNoteName(bName,alteration);
-			result = new AbsoluteMusicNote(new IntegerModel(octave),alteredName);
+			result = new AbsoluteMusicNote(octave,bName.getValue(),new DoubleFlatAlteration());
 		}
 		else if(aux == 0){
 			// No changes

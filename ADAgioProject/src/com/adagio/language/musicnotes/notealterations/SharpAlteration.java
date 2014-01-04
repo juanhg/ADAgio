@@ -10,14 +10,9 @@ public class SharpAlteration extends Alteration {
 	String value;
 	
 	public SharpAlteration(){
+		value = "#";
 	}
 	
-	public SharpAlteration(boolean initValue){
-		if(initValue == true){
-			this.value = "#";
-		}
-	}
-
 	public String getValue() {
 		return value;
 	}
@@ -37,7 +32,7 @@ public class SharpAlteration extends Alteration {
 	
 	@Override
 	public Alteration clone() {
-		Alteration alteration = new SharpAlteration(true);
+		Alteration alteration = new SharpAlteration();
 		return alteration;
 	}
 	

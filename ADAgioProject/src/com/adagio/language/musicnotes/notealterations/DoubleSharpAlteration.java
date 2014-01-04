@@ -9,14 +9,10 @@ public class DoubleSharpAlteration extends Alteration {
 	@Value
 	String value;
 
-	public DoubleSharpAlteration(){}
-	
-	public DoubleSharpAlteration(boolean initValue){
-		if(initValue == true){
-			value = "x";
-		}
+	public DoubleSharpAlteration(){
+		value = "x";
 	}
-	
+		
 	public String getValue() {
 		return value;
 	}
@@ -36,7 +32,7 @@ public class DoubleSharpAlteration extends Alteration {
 	
 	@Override
 	public Alteration clone() {
-		Alteration alteration = new DoubleSharpAlteration(true);
+		Alteration alteration = new DoubleSharpAlteration();
 		return alteration;
 	}
 

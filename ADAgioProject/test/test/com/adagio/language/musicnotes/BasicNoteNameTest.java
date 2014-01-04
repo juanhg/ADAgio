@@ -1,20 +1,18 @@
 package test.com.adagio.language.musicnotes;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import com.adagio.language.musicnotes.BasicNoteName;
+import test.com.adagio.InitTest;
 
-public class BasicNoteNameTest {
-
-	BasicNoteName A = new BasicNoteName("A");
-	BasicNoteName B = new BasicNoteName("B");
-	BasicNoteName C = new BasicNoteName("C");
-	BasicNoteName D = new BasicNoteName("D");
-	BasicNoteName E = new BasicNoteName("E");
-	BasicNoteName F = new BasicNoteName("F");
-	BasicNoteName G = new BasicNoteName("G");
+public class BasicNoteNameTest extends InitTest {
+	
+	@Before
+	public void setUp() throws Exception{
+		super.setUp();
+	}
 
 	@Test
 	public void shortestDistanceValidTest() {

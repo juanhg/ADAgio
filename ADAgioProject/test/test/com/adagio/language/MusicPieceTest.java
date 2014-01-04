@@ -11,10 +11,12 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
+import test.com.adagio.InitTest;
+
 import com.adagio.ADAgioCLI;
 import com.adagio.language.MusicPiece;
 
-public class MusicPieceTest {
+public class MusicPieceTest extends InitTest {
 	
 	Model model;
 	Parser<MusicPiece> parser;
@@ -33,6 +35,7 @@ public class MusicPieceTest {
 	@Before
 	  public void setUp() throws Exception {
 		
+		super.setUp();
 	    model = JavaModelReader.read(MusicPiece.class);
 	    parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
 	    test0 = ADAgioCLI.fileToString(program0, StandardCharsets.UTF_8);

@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.modelcc.types.IntegerModel;
 
+import test.com.adagio.InitTest;
+
 import com.adagio.events.channels.MusicChannelIdentifierEvent;
 import com.adagio.events.statements.MusicPlayStatementEvent;
 import com.adagio.io.lilypond.LilyPondMusicPieceWriter;
@@ -29,7 +31,7 @@ import com.adagio.language.musicnotes.notealterations.FlatAlteration;
 import com.adagio.language.musicnotes.notealterations.SharpAlteration;
 import com.adagio.language.times.Time;
 
-public class LilyPondMusicPieceWritterTest {
+public class LilyPondMusicPieceWritterTest extends InitTest {
 	 
 	ChordIdentifier M, m, add2;
 	Interval M3, m3, P1, P5, M2, optM3;
@@ -45,7 +47,7 @@ public class LilyPondMusicPieceWritterTest {
 	 
 	@Before
 	public void setUp() throws Exception {
-		
+		super.setUp();
 		M = new ChordIdentifier("M");
 		m = new ChordIdentifier("m");
 		add2 = new ChordIdentifier("add2");
@@ -61,11 +63,7 @@ public class LilyPondMusicPieceWritterTest {
 		bNoteName = null;
 		alteration = null;
 		listener = new LilyPondMusicPieceWriter();
-		
-		
-		// DEFINE CHORD "M" NOTES P1 M3 P5
-		// DEFINE CHORD "m" NOTES P1 m3 P5
-		// DEFINE CHORD "add2" NOTES P1 M2 (M3) P5
+	
 		
 		List<Interval> intervals = new ArrayList<Interval>();
 		
@@ -103,14 +101,14 @@ public class LilyPondMusicPieceWritterTest {
 		
 		//3E#M --> <eis''' gisis''' bis'''>
 		bNoteName = new BasicNoteName("E");
-		alteration = new SharpAlteration(true);
+		alteration = new SharpAlteration();
 		fundamental = new AbsoluteMusicNote(new IntegerModel(3), new AlteredNoteName(bNoteName, alteration));
 		chord = new Chord(fundamental,M,bass);
 		assertEquals("<eis''' gisis''' bis'''>", listener.translateChord(chord));
 		
 		//2F#m -->  <fis'' a'' cis'''>
 		bNoteName = new BasicNoteName("F");
-		alteration = new SharpAlteration(true);
+		alteration = new SharpAlteration();
 		fundamental = new AbsoluteMusicNote(new IntegerModel(2), new AlteredNoteName(bNoteName, alteration));
 		chord = new Chord(fundamental,m,bass);
 		assertEquals("<fis'' a'' cis'''>", listener.translateChord(chord));
@@ -118,17 +116,17 @@ public class LilyPondMusicPieceWritterTest {
 		//2F#m/2A -->  <fis'' cis''' a'>
 		bass = new AbsoluteMusicNote(2,"A");
 		bNoteName = new BasicNoteName("F");
-		alteration = new SharpAlteration(true);
+		alteration = new SharpAlteration();
 		fundamental = new AbsoluteMusicNote(new IntegerModel(2), new AlteredNoteName(bNoteName, alteration));
 		chord = new Chord(fundamental,m,bass);
 		assertEquals("<fis'' cis''' a'>", listener.translateChord(chord));
 		
 		//4GbM/4Cbb -->   <ges'''' bes'''' des''''' ceses''''>
 		bNoteName = new BasicNoteName("C");
-		alteration = new DoubleFlatAlteration(true);
+		alteration = new DoubleFlatAlteration();
 		bass = new AbsoluteMusicNote(new IntegerModel(4), new AlteredNoteName(bNoteName, alteration));
 		bNoteName = new BasicNoteName("G");
-		alteration = new FlatAlteration(true);
+		alteration = new FlatAlteration();
 		fundamental = new AbsoluteMusicNote(new IntegerModel(4), new AlteredNoteName(bNoteName, alteration));
 		chord = new Chord(fundamental,M,bass);
 		assertEquals("<ges'''' bes'''' des''''' ceses''''>", listener.translateChord(chord));
@@ -175,33 +173,6 @@ public class LilyPondMusicPieceWritterTest {
 		time = new Time(new IntegerModel(4), new Figure(2,2));;
 		assertEquals("\\time 4/2..", listener.translateTime(time));
 	}
-	
-//	@Test
-//	public void musicPlayTest(){
-//		
-//		int duration = 0;
-//		
-//		playStatementEvent = new MusicPlayStatementEvent(this, new Vector<Chord>());
-//		playStatementEvent.testInitilizer();
-//		
-//		channelID = new ChannelIdentifier("piano");
-//		channelIdentifierEvent = new MusicChannelIdentifierEvent(this,channelID);
-//		//Creates channel "piano"
-//		listener.createChannel(channelIdentifierEvent);
-//		
-//		listener.musicPlay(playStatementEvent);
-//		
-//		channelID = new ChannelIdentifier("violin");
-//		channelIdentifierEvent = new MusicChannelIdentifierEvent(this,channelID);
-//		//Creates channel "violin"
-//		listener.createChannel(channelIdentifierEvent);
-//	
-//		listener.musicPlay(playStatementEvent);
-//		duration = listener.getChannelsDB().getChannelMap().get(channelID).getNumBars();
-//		//Are silences added when channel is create?
-//		assertEquals(6, duration);
-//	}
-	
 	
 	@Test
 	public void barFiguresTest(){

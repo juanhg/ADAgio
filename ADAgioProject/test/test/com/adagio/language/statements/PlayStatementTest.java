@@ -1,6 +1,7 @@
 package test.com.adagio.language.statements;
 
 import static org.modelcc.test.ModelAssert.assertAmbiguityFree;
+import static org.modelcc.test.ModelAssert.assertInvalid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
-import static org.modelcc.test.ModelAssert.*;
+import test.com.adagio.InitTest;
 
 import com.adagio.io.lilypond.LilyPondMusicPieceWriter;
 import com.adagio.language.bars.chords.Chord;
@@ -24,14 +25,14 @@ import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 import com.adagio.language.statements.PlayStatement;
 
-public class PlayStatementTest {
+public class PlayStatementTest extends InitTest {
 
 	Model model;
 	Parser<PlayStatement> parser;
 	LilyPondMusicPieceWriter listener;
 
 	ChordIdentifier M, m, add2,white;
-	Interval M3, m3, P1, P5, M2, optM3;
+	Interval optM3;
 	AbsoluteMusicNote fundamental, bass;
 	BasicNoteName bNoteName;
 	Chord chord;
@@ -41,6 +42,7 @@ public class PlayStatementTest {
 	  @SuppressWarnings("unchecked")
 	@Before
 	  public void setUp() throws Exception {
+		super.setUp();
 	    model = JavaModelReader.read(PlayStatement.class);
 	    parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
 	    listener = new LilyPondMusicPieceWriter();
@@ -49,11 +51,6 @@ public class PlayStatementTest {
 		m = new ChordIdentifier("m");
 		add2 = new ChordIdentifier("add2");
 		white = new ChordIdentifier("");
-		M3 = new Interval("M",3);
-		m3 = new Interval("m",3);
-		P1 = new Interval("P",1);
-		P5 = new Interval("P",5);
-		M2 = new Interval("M",2);
 		optM3 = new OptionalInterval("M",3);
 		bass = null;
 		fundamental = null;
@@ -68,28 +65,28 @@ public class PlayStatementTest {
 		
 		List<Interval> intervals = new ArrayList<Interval>();
 		
-		intervals.add(P1);
-		intervals.add(m3);
-		intervals.add(P5);
+		intervals.add(perfect1);
+		intervals.add(minor3);
+		intervals.add(perfect5);
 		listener.getChordsDB().addChord(m, intervals);
 		
 		intervals = new ArrayList<Interval>();
-		intervals.add(P1);
-		intervals.add(M3);
-		intervals.add(P5);
+		intervals.add(perfect1);
+		intervals.add(major3);
+		intervals.add(perfect5);
 		listener.getChordsDB().addChord(M, intervals);
 		
 		intervals = new ArrayList<Interval>();
-		intervals.add(P1);
-		intervals.add(M3);
-		intervals.add(P5);
+		intervals.add(perfect1);
+		intervals.add(major3);
+		intervals.add(perfect5);
 		listener.getChordsDB().addChord(white, intervals);
 		
 		intervals = new ArrayList<Interval>();
-		intervals.add(P1);
-		intervals.add(M2);
+		intervals.add(perfect1);
+		intervals.add(major2);
 		intervals.add(optM3);
-		intervals.add(P5);
+		intervals.add(perfect5);
 		listener.getChordsDB().addChord(add2, intervals);
 	
 	  }

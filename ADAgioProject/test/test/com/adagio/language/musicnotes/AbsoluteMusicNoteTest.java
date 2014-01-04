@@ -9,51 +9,16 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.modelcc.types.IntegerModel;
+
+import test.com.adagio.InitTest;
 
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
-import com.adagio.language.musicnotes.AlteredNoteName;
-import com.adagio.language.musicnotes.BasicNoteName;
-import com.adagio.language.musicnotes.notealterations.Alteration;
-import com.adagio.language.musicnotes.notealterations.DoubleFlatAlteration;
-import com.adagio.language.musicnotes.notealterations.SharpAlteration;
 
-public class AbsoluteMusicNoteTest {
-	
-	AbsoluteMusicNote A5Sharp, A4bb; 
-	AbsoluteMusicNote A5,A3, A2, C4, B3, C3, G3; 
-	AbsoluteMusicNote Am1, Cm1, Dm1, Am5, Cm5, Gm5, Bm4, Cm3;
-	BasicNoteName bNoteName;
-	Alteration alteration;
-	
+public class AbsoluteMusicNoteTest extends InitTest {
+		
 	@Before
 	  public void setUp() throws Exception {
-		bNoteName = new BasicNoteName("A");
-		alteration = new SharpAlteration(true);
-		A5Sharp = new AbsoluteMusicNote(new IntegerModel(5), new AlteredNoteName(bNoteName, alteration));
-		
-		bNoteName = new BasicNoteName("A");
-		alteration = new DoubleFlatAlteration(true);
-		A4bb = new AbsoluteMusicNote(new IntegerModel(4), new AlteredNoteName(bNoteName, alteration));
-		
-		
-		A5 = new AbsoluteMusicNote(5, "A");
-		G3 = new AbsoluteMusicNote(3,"G");
-		A3 = new AbsoluteMusicNote(3,"A");
-		A2 = new AbsoluteMusicNote(2,"A");
-		C4 = new AbsoluteMusicNote(4,"C");
-		B3 = new AbsoluteMusicNote(3, "B");
-		C3 = new AbsoluteMusicNote(3, "C");
-		
-		Am1 = new AbsoluteMusicNote(-1,"A");
-		Cm1 = new AbsoluteMusicNote(-1,"C");
-		Dm1 = new AbsoluteMusicNote(-1,"D");
-		Am5 = new AbsoluteMusicNote(-5,"A");
-		Cm5 = new AbsoluteMusicNote(-5,"C");
-		Gm5 = new AbsoluteMusicNote(-5,"G");
-		Bm4 = new AbsoluteMusicNote(-4,"B");
-		Cm3 = new AbsoluteMusicNote(-3,"C");
-		
+		super.setUp();
 	  }
 	
 

@@ -9,13 +9,10 @@ public class DoubleFlatAlteration extends Alteration {
 	@Value
 	String value;
 
-	public DoubleFlatAlteration(){}
-	
-	public DoubleFlatAlteration(boolean initValue){
-		if(initValue == true){
-			value = "bb";
-		}
+	public DoubleFlatAlteration(){
+		value = "bb";
 	}
+	
 	
 	public String getValue() {
 		return value;
@@ -36,7 +33,7 @@ public class DoubleFlatAlteration extends Alteration {
 
 	@Override
 	public Alteration clone() {
-		Alteration alteration = new DoubleFlatAlteration(true);
+		Alteration alteration = new DoubleFlatAlteration();
 		return alteration;
 	}
 	

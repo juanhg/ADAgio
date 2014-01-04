@@ -9,13 +9,10 @@ public class FlatAlteration extends Alteration {
 	@Value
 	String value;
 	
-	public FlatAlteration(){}
-	
-	public FlatAlteration(boolean initValue){
-		if(initValue == true){
-			this.value = "b";
-		}
+	public FlatAlteration(){
+		value = "b";
 	}
+
 	
 	@Override
 	public String getValue() {
@@ -33,7 +30,7 @@ public class FlatAlteration extends Alteration {
 	
 	@Override
 	public Alteration clone() {
-		Alteration alteration = new FlatAlteration(true);
+		Alteration alteration = new FlatAlteration();
 		return alteration;
 	}
 }
