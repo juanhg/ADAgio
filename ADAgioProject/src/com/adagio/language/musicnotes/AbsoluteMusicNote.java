@@ -172,7 +172,7 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 		int semitones = 0;
 		int posLower = 0;
 		
-		if(aNotes.size() == 0 || aNotes == null){
+		if(aNotes.size() != 0 && aNotes != null){
 			
 			//Find the lower note
 			for(int i = 0; i < aNotes.size(); i++){

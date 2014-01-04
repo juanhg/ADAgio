@@ -85,7 +85,7 @@ public class ChannelStatement extends Statement implements IModel {
 		// Creates the new channel in DB
 
 		if (listener.existsChannel(new MusicChannelIdentifierEvent(this,id))){ 
-				if (listener.isErasedChannel(new MusicChannelIdentifierEvent(this,id))) {
+			if (listener.isErasedChannel(new MusicChannelIdentifierEvent(this,id))) {
 				if (options != null) {
 					if (options[0].getClass() != DestroyCommand.class) {
 						listener.recoverChannel(new MusicChannelIdentifierEvent(this,id));
@@ -106,6 +106,9 @@ public class ChannelStatement extends Statement implements IModel {
 				for (ChannelOption current : this.options) {
 					current.Apply(id, listener);
 				}
+			}
+			else{
+				listener.createChannel(new MusicChannelIdentifierEvent(this, id));
 			}
 
 		}

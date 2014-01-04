@@ -2,8 +2,13 @@ package test.com.adagio;
 
 import org.junit.Before;
 
+import com.adagio.instruments.Instrument;
+import com.adagio.instruments.LimitedPolyphonicInstrument;
+import com.adagio.instruments.MonophonicInstrument;
+import com.adagio.instruments.PolyphonicInstrument;
 import com.adagio.language.bars.chords.intervals.Interval;
 import com.adagio.language.instruments.features.Register;
+import com.adagio.language.instruments.features.Timbre;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.notealterations.DoubleFlatAlteration;
@@ -15,21 +20,23 @@ public class InitTest {
 	public BasicNoteName A, B, C, D, E, F, G;
 	
 	// AbsoluteMusicNotes
-	public AbsoluteMusicNote A0, A1, A2, A3, A4, A5, A6, A7, A8;
+	public AbsoluteMusicNote A0, A1, A2, A3, A4, A5, A6, A7, A8, A100;
 	public AbsoluteMusicNote B0, B1, B2, B3, B4, B5, B6, B7, B8;
-	public AbsoluteMusicNote C0, C1, C2, C3, C4, C5, C6, C7, C8, C1Sharp;
+	public AbsoluteMusicNote C0, C1, C2, C3, C4, C5, C6, C7, C8;
 	public AbsoluteMusicNote D0, D1, D2, D3, D4, D5, D6, D7, D8;
 	public AbsoluteMusicNote E0, E1, E2, E3, E4, E5, E6, E7, E8;
-	public AbsoluteMusicNote F0, F1, F2, F3, F4, F5, F6, F7, F8, F0Sharp;
+	public AbsoluteMusicNote F0, F1, F2, F3, F4, F5, F6, F7, F8;
 	public AbsoluteMusicNote G0, G1, G2, G3, G4, G5, G6, G7, G8;
-	public AbsoluteMusicNote Am1, Am2, Am5;
+	public AbsoluteMusicNote Am1, Am2, Am5, Am100;
 	public AbsoluteMusicNote Bm1, Bm4;
 	public AbsoluteMusicNote Cm1, Cm3, Cm5;
 	public AbsoluteMusicNote Dm1, Dm2;
 	public AbsoluteMusicNote Em1;
 	public AbsoluteMusicNote Fm3;
-	public AbsoluteMusicNote Gm3, Gm5;
-	public AbsoluteMusicNote A5Sharp, A2Sharp, F2Sharp, A3bb,  A4bb; 
+	public AbsoluteMusicNote Gm1, Gm3, Gm5;
+	public AbsoluteMusicNote A5Sharp, A2Sharp, A3bb,  A4bb;
+	public AbsoluteMusicNote C1Sharp, C3Sharp;
+	public AbsoluteMusicNote F0Sharp, F2Sharp;
 	
 	
 	// Intervals
@@ -44,7 +51,10 @@ public class InitTest {
 	
 	// Registers
 	public Register r1, r2, r3, r4, r5, r6;
-	public Register[] maleVoice, femaleVoice, realPiano, acousticGuitar;
+	public Register[] maleVoiceR, femaleVoiceR, realPianoR, acousticGuitarR, fluteR, perfectInstrumentR;
+	
+	// Instruments
+	public Instrument maleVoice, femaleVoice, realPiano, acousticGuitar, flute, polyInstrument, perfectInstrument;
 	
 	@Before
 	  public void setUp() throws Exception {
@@ -68,6 +78,7 @@ public class InitTest {
 		A6 = new AbsoluteMusicNote(6,"A"); 
 		A7 = new AbsoluteMusicNote(7,"A"); 
 		A8 = new AbsoluteMusicNote(8,"A"); 
+		A100 = new AbsoluteMusicNote(100,"A");
 		
 		B0 = new AbsoluteMusicNote(0,"B");
 		B1 = new AbsoluteMusicNote(1,"B"); 
@@ -88,7 +99,7 @@ public class InitTest {
 		C6 = new AbsoluteMusicNote(6,"C"); 
 		C7 = new AbsoluteMusicNote(7,"C"); 
 		C8 = new AbsoluteMusicNote(8,"C"); 
-		C1Sharp = new AbsoluteMusicNote(1, "C", new SharpAlteration());
+		
 		
 		D0 = new AbsoluteMusicNote(0,"D");
 		D1 = new AbsoluteMusicNote(1,"D"); 
@@ -119,7 +130,7 @@ public class InitTest {
 		F6 = new AbsoluteMusicNote(6,"F"); 
 		F7 = new AbsoluteMusicNote(7,"F"); 
 		F8 = new AbsoluteMusicNote(8,"F");
-		F0Sharp = new AbsoluteMusicNote(0,"F", new SharpAlteration());
+		
 		
 		G0 = new AbsoluteMusicNote(0,"G");
 		G1 = new AbsoluteMusicNote(1,"G"); 
@@ -134,6 +145,7 @@ public class InitTest {
 		Am1 = new AbsoluteMusicNote(-1,"A");
 		Am2 = new AbsoluteMusicNote(-2, "A");
 		Am5 = new AbsoluteMusicNote(-5,"A");
+		Am100 = new AbsoluteMusicNote(-100,"A");
 		
 		Bm1 = new AbsoluteMusicNote(-1, "B");
 		Bm4 = new AbsoluteMusicNote(-4,"B");
@@ -150,16 +162,19 @@ public class InitTest {
 		
 		Fm3 = new AbsoluteMusicNote(-3, "F");
 		
+		Gm1 = new AbsoluteMusicNote(-1, "G");
 		Gm5 = new AbsoluteMusicNote(-5,"G");
 		Gm3 = new AbsoluteMusicNote(-3, "G");
 		
-		A5Sharp = new AbsoluteMusicNote(5, "A", new SharpAlteration());
 		A2Sharp = new AbsoluteMusicNote(2, "A", new SharpAlteration());
-		A4bb = new AbsoluteMusicNote(4, "A", new DoubleFlatAlteration());
+		A5Sharp = new AbsoluteMusicNote(5, "A", new SharpAlteration());
 		A3bb = new AbsoluteMusicNote(3, "A", new DoubleFlatAlteration());
+		A4bb = new AbsoluteMusicNote(4, "A", new DoubleFlatAlteration());
+		C1Sharp = new AbsoluteMusicNote(1, "C", new SharpAlteration());
+		C3Sharp = new AbsoluteMusicNote(3, "C", new SharpAlteration());
+		F0Sharp = new AbsoluteMusicNote(0,"F", new SharpAlteration());
 		F2Sharp = new AbsoluteMusicNote(2, "F", new SharpAlteration());
 		
-
 		// Intervals
 		perfect1 = new Interval("P",1);
 		diminished2 = new Interval("d",2);
@@ -204,19 +219,32 @@ public class InitTest {
 		r6 = new Register(Bm4,C4);
 		
 		// Instrument Registers
-		maleVoice = new Register[1];
-		maleVoice[0] = new Register(C2,C5);
-		femaleVoice = new Register[1];
-		femaleVoice[0] = new Register(C3, C6);
-		realPiano = new Register[1];
-		realPiano[0] = new Register(A0,C8);
-		acousticGuitar = new Register[6];
-		acousticGuitar[0] = new Register(E0, G1);
-		acousticGuitar[1] = new Register(A0, C2);
-		acousticGuitar[2] = new Register(D1, F2);
-		acousticGuitar[3] = new Register(G1, A2Sharp);
-		acousticGuitar[4] = new Register(B1, D3);
-		acousticGuitar[5] = new Register(E2, G3);
+		maleVoiceR = new Register[1];
+		maleVoiceR[0] = new Register(C2,C5);
+		femaleVoiceR = new Register[1];
+		femaleVoiceR[0] = new Register(C3, C6);
+		fluteR = new Register[1];
+		fluteR[0] = new Register(C0,C3);
+		realPianoR = new Register[1];
+		realPianoR[0] = new Register(A0,C8);
+		acousticGuitarR = new Register[6];
+		acousticGuitarR[0] = new Register(E0, G1);
+		acousticGuitarR[1] = new Register(A0, C2);
+		acousticGuitarR[2] = new Register(D1, F2);
+		acousticGuitarR[3] = new Register(G1, A2Sharp);
+		acousticGuitarR[4] = new Register(B1, D3);
+		acousticGuitarR[5] = new Register(E2, G3);
 		
+		perfectInstrumentR = new Register[1];
+		perfectInstrumentR[0] = new Register(Am100, A100);
+		
+		//Instruments
+		maleVoice = new MonophonicInstrument(new Timbre("voice"), maleVoiceR);
+		femaleVoice = new MonophonicInstrument(new Timbre("voice"), femaleVoiceR);
+		flute = new MonophonicInstrument(new Timbre("flute"), fluteR);
+		polyInstrument = new PolyphonicInstrument(new Timbre(), fluteR);
+		realPiano = new PolyphonicInstrument(new Timbre("piano"), realPianoR);
+		acousticGuitar = new LimitedPolyphonicInstrument(new Timbre("acousticguitar"), acousticGuitarR);
+		perfectInstrument = new PolyphonicInstrument(new Timbre(), perfectInstrumentR);
 	  }
 }

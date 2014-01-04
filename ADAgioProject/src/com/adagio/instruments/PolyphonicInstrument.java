@@ -19,6 +19,10 @@ public class PolyphonicInstrument extends Instrument implements IModel {
 		super(timbre,registers);
 	}
 	
+	public PolyphonicInstrument(Timbre timbre){
+		super(timbre);
+	}
+	
 	
 	/**
 	 * There is no limit in the number of notes to play.
@@ -31,6 +35,15 @@ public class PolyphonicInstrument extends Instrument implements IModel {
 		
 		for(AbsoluteMusicNote current: aNotes){
 			transportedNotes.add(registers[0].aNoteToRegister(current));
+		}
+		
+		//Fix octave to achieve that the first note is always de lower
+		if(transportedNotes.size() >= 2){
+			for(int i = 1; i < transportedNotes.size(); i++){
+				while(transportedNotes.get(i-1).semitonesTill(transportedNotes.get(i)) < 0){
+					transportedNotes.get(i-1).decreaseOctave();
+				}
+			}
 		}
 		
 		return transportedNotes;

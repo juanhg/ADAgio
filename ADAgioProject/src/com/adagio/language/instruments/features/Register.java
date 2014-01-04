@@ -67,7 +67,7 @@ public class Register implements IModel {
 		int semitonesToHigher = aNote.semitonesTill(this.higherNote);
 		int semitonesToLower = aNote.semitonesTill(this.lowerNote);
 		
-		if(semitonesToHigher >= 0 && semitonesToLower >= 0){
+		if(semitonesToHigher >= 0 && semitonesToLower <= 0){
 			return true;
 		}
 		else{

@@ -60,15 +60,30 @@ public class InstrumentDefinition extends Definition implements IModel {
 	@Override
 	public void run(MusicEventListener listener) {
 		Instrument instrument;
-		
+
 		if(phType.getClass().equals(MonophonicType.class)){
-			instrument = new MonophonicInstrument(timbre, registers);
+			if(registers != null && registers.length > 0){
+				instrument = new MonophonicInstrument(timbre, registers);
+			}
+			else{
+				instrument = new MonophonicInstrument(timbre);
+			}
 		}
 		else if(phType.getClass().equals(LimitedPolyphonicType.class)){
-			instrument = new LimitedPolyphonicInstrument(timbre, registers);
+			if(registers != null && registers.length > 0){
+				instrument = new LimitedPolyphonicInstrument(timbre, registers);
+			}
+			else{
+				instrument = new LimitedPolyphonicInstrument(timbre);
+			}
 		}
 		else{
-			instrument = new PolyphonicInstrument(timbre, registers);
+			if(registers != null && registers.length > 0){
+				instrument = new PolyphonicInstrument(timbre, registers);
+			}
+			else{
+				instrument = new PolyphonicInstrument(timbre);
+			}
 		}
 		
 		listener.instrumentDefinition(new InstrumentDefinitionEvent(this, identifier, instrument));	

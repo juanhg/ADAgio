@@ -24,6 +24,12 @@ public abstract class Instrument{
 		this.registers = registers;
 	}
 	
+	public Instrument(Timbre timbre){
+		this.timbre = timbre;
+		this.registers = new Register[1];
+		registers[0] = new Register();
+	}
+	
 	public Timbre getTimbre() {
 		return timbre;
 	}

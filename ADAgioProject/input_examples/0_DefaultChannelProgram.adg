@@ -7,6 +7,7 @@ PLAY | B Bm B# | B#m Bb S S;
 channel violin disable;
 PLAY | A Am | A# A#m | _ _ _ _ |; 
 
+channel falla;
 channel piano volume=100;
 channel violin enable;
 PLAY | A Am | A# A#m | Ab Abm;

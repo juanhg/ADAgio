@@ -19,6 +19,10 @@ public class MonophonicInstrument extends Instrument implements IModel {
 		super(timbre,registers);
 	}
 	
+	public MonophonicInstrument(Timbre timbre){
+		super(timbre);
+	}
+	
 	@Override
 	/**
 	 * MonophonicInstrument can play ONLY ONE NOTE per time.

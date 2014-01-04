@@ -92,26 +92,26 @@ public class LilyPondMusicPieceWritterTest extends InitTest {
 		//0CM --> <c e g>
 		fundamental = new AbsoluteMusicNote(0, "C");
 		chord = new Chord(fundamental,M,bass);
-		assertEquals("<c e g>", listener.translateChord(chord));
+		assertEquals("<c e g>", listener.translateChord(chord, perfectInstrument));
 		
 		//0Dm --> <d f a>
 		fundamental = new AbsoluteMusicNote(0, "D");
 		chord = new Chord(fundamental,m,bass);
-		assertEquals("<d f a>", listener.translateChord(chord));
+		assertEquals("<d f a>", listener.translateChord(chord, perfectInstrument));
 		
 		//3E#M --> <eis''' gisis''' bis'''>
 		bNoteName = new BasicNoteName("E");
 		alteration = new SharpAlteration();
 		fundamental = new AbsoluteMusicNote(new IntegerModel(3), new AlteredNoteName(bNoteName, alteration));
 		chord = new Chord(fundamental,M,bass);
-		assertEquals("<eis''' gisis''' bis'''>", listener.translateChord(chord));
+		assertEquals("<eis''' gisis''' bis'''>", listener.translateChord(chord, perfectInstrument));
 		
 		//2F#m -->  <fis'' a'' cis'''>
 		bNoteName = new BasicNoteName("F");
 		alteration = new SharpAlteration();
 		fundamental = new AbsoluteMusicNote(new IntegerModel(2), new AlteredNoteName(bNoteName, alteration));
 		chord = new Chord(fundamental,m,bass);
-		assertEquals("<fis'' a'' cis'''>", listener.translateChord(chord));
+		assertEquals("<fis'' a'' cis'''>", listener.translateChord(chord, perfectInstrument));
 		
 		//2F#m/2A -->  <fis'' cis''' a'>
 		bass = new AbsoluteMusicNote(2,"A");
@@ -119,7 +119,7 @@ public class LilyPondMusicPieceWritterTest extends InitTest {
 		alteration = new SharpAlteration();
 		fundamental = new AbsoluteMusicNote(new IntegerModel(2), new AlteredNoteName(bNoteName, alteration));
 		chord = new Chord(fundamental,m,bass);
-		assertEquals("<fis'' cis''' a'>", listener.translateChord(chord));
+		assertEquals("<fis'' cis''' a'>", listener.translateChord(chord, perfectInstrument));
 		
 		//4GbM/4Cbb -->   <ges'''' bes'''' des''''' ceses''''>
 		bNoteName = new BasicNoteName("C");
@@ -129,7 +129,7 @@ public class LilyPondMusicPieceWritterTest extends InitTest {
 		alteration = new FlatAlteration();
 		fundamental = new AbsoluteMusicNote(new IntegerModel(4), new AlteredNoteName(bNoteName, alteration));
 		chord = new Chord(fundamental,M,bass);
-		assertEquals("<ges'''' bes'''' des''''' ceses''''>", listener.translateChord(chord));
+		assertEquals("<ges'''' bes'''' des''''' ceses''''>", listener.translateChord(chord, perfectInstrument));
 	}
 	
 	@Test

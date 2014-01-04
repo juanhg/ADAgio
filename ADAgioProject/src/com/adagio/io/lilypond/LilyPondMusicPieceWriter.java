@@ -33,7 +33,6 @@ import com.adagio.language.MusicPiece;
 import com.adagio.language.bars.BarItem;
 import com.adagio.language.bars.chords.Chord;
 import com.adagio.language.bars.chords.intervals.Interval;
-import com.adagio.language.bars.silences.Silence;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.figures.Figure;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
@@ -142,29 +141,18 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		return composition;
 	}
 	
-	
-	public String translateBarItem(BarItem barItem){
-		if(barItem.getClass().equals(Chord.class)){
-			return this.translateChord((Chord) barItem);
-		}
-		else if(barItem.getClass().equals(Silence.class)){
-			return "s";
-		}
-		else{
-			System.err.println("Clase rara: " + barItem.getClass());
-			return "0";
-		}
-	}
-	
+		
 	public String translateSilence(){
 		return "s";
 	}
 	
 	/**
-	 * Receives a chord with an absolute-fundamental-note and translates it
+	 * Receives a chord with an absolute-fundamental-note and translates it. Depend of
+	 * the instrument that will play the chord, the translation is diferent.
+	 * The instrument try to brings the chord to his register.
 	 * Note: Need that the bassNote as a AbsoluteMusicNote
 	 */
-	public String translateChord(Chord chord){
+	public String translateChord(Chord chord, Instrument instrument){
 		String composition = "";
 		List<Interval> intervals = this.chordsDB.getIntervals(chord.getIdentifier());
 		List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
@@ -195,6 +183,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 			aNotes.add(bassNote);
 		}
 		
+		//The instrument transports the notes to his register
+		aNotes = instrument.aNotesToInstrumentRegister(aNotes);
 		
 		composition += "<";
 		for(int i = 0; i < aNotes.size(); i++){
@@ -490,7 +480,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 
 							if(i < barItems.size()){
 								if(barItems.get(i).getClass().equals(Chord.class)){
-									composition += translateChord(absoluteChords.get(chordsIndex));
+									composition += translateChord(absoluteChords.get(chordsIndex),((Channel)x.getValue()).getInstrument());
 									chordsIndex++;
 								}
 								else{
@@ -517,7 +507,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 
 							if(i < barItems.size()){
 								if(barItems.get(i).getClass().equals(Chord.class)){
-									composition += translateChord(absoluteChords.get(chordsIndex));
+									composition += translateChord(absoluteChords.get(chordsIndex),((Channel)x.getValue()).getInstrument());
 									chordsIndex++;
 								}
 								else{

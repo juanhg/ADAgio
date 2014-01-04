@@ -58,11 +58,6 @@ public class PlayStatementTest extends InitTest {
 		bNoteName = null;
 		alteration = null;
 		
-		
-		// DEFINE CHORD "M" NOTES P1 M3 P5
-		// DEFINE CHORD "m" NOTES P1 m3 P5
-		// DEFINE CHORD "add2" NOTES P1 M2 (M3) P5
-		
 		List<Interval> intervals = new ArrayList<Interval>();
 		
 		intervals.add(perfect1);

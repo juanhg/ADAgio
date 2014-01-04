@@ -12,71 +12,81 @@ import test.com.adagio.InitTest;
 
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 
-public class PolyphonicInstrumentTest extends InitTest {
-
+public class MonophonicInstrumentTest extends InitTest {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 	}
-	
-	
+
+
 	@Test
 	public void aNotesToRegisterstest() {
 		List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
 		List<AbsoluteMusicNote> expected = new ArrayList<AbsoluteMusicNote>();
 		List<AbsoluteMusicNote> result;
-		
-		//piano(0C,0E,0G) == (1C,1E,1G)
+
+		//maleVoice(0C,0E,0G) == (2C)
 		aNotes.add(C0);
 		aNotes.add(E0);
 		aNotes.add(G0);
-		
-		expected.add(C1);
-		expected.add(E1);
-		expected.add(G1);
-		result = realPiano.aNotesToInstrumentRegister(aNotes);
+
+		expected.add(C2);
+		result = maleVoice.aNotesToInstrumentRegister(aNotes);
 		assertEquals(expected, result);
 		aNotes.clear();
 		expected.clear();
-		
-		//piano(-1C,-1E,-1G) == (1C,1E,1G)
+
+		//femaleVoice(-1C,-1E,-1G) == (3C)
 		aNotes.add(Cm1);
 		aNotes.add(Em1);
 		aNotes.add(Gm1);
 
-		expected.add(C1);
-		expected.add(E1);
-		expected.add(G1);
-		result = realPiano.aNotesToInstrumentRegister(aNotes);
+		expected.add(C3);
+		result = femaleVoice.aNotesToInstrumentRegister(aNotes);
 		assertEquals(expected, result);
 		aNotes.clear();
 		expected.clear();
-		
-		// piano(2F#, A2, C3Sharp) == (2F#, A2, C3Sharp);
+
+		//flute(2F#, A2, C3Sharp) == (2F#);
 		aNotes.add(F2Sharp);
 		aNotes.add(A2);
 		aNotes.add(C3Sharp);
-	
-		expected.add(F2Sharp);
-		expected.add(A2);
-		expected.add(C3Sharp);
-		result = realPiano.aNotesToInstrumentRegister(aNotes);
-		assertEquals(expected, result);	
-		aNotes.clear();
-		expected.clear();
-		
-		//polyInstrument(4C,4E,4G) == (2C,2E,2G)
-		aNotes.add(C4);
-		aNotes.add(E4);
-		aNotes.add(G4);
 
-		expected.add(C2);
-		expected.add(E2);
-		expected.add(G2);
-		result = polyInstrument.aNotesToInstrumentRegister(aNotes);
+		expected.add(F2Sharp);
+		result = flute.aNotesToInstrumentRegister(aNotes);
 		assertEquals(expected, result);
 		aNotes.clear();
 		expected.clear();
+		
+		//flute(-1A,-1E,-1G) == (E0)
+		aNotes.add(Am1);
+		aNotes.add(Em1);
+		aNotes.add(Gm1);
+		
+		expected.add(E0);
+		result = flute.aNotesToInstrumentRegister(aNotes);
+		assertEquals(expected, result);
+		aNotes.clear();
+		expected.clear();
+		
+		//flute(7A,7C,7D) == (C3)
+		aNotes.add(A7);
+		aNotes.add(C7);
+		aNotes.add(D7);
+
+		expected.add(C3);
+		result = flute.aNotesToInstrumentRegister(aNotes);
+		assertEquals(expected, result);
+		expected.clear();
+		aNotes.clear();
+		
+		//flute(7A,7C,7D) == (C3)
+		aNotes.add(G4);
+
+		expected.add(G2);
+		result = flute.aNotesToInstrumentRegister(aNotes);
+		assertEquals(expected, result);
+		
 	}
 
 }
