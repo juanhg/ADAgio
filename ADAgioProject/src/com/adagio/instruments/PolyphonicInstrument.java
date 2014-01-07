@@ -31,22 +31,22 @@ public class PolyphonicInstrument extends Instrument implements IModel {
 	
 	@Override
 	public List<AbsoluteMusicNote> aNotesToInstrumentRegister(List<AbsoluteMusicNote> aNotes) {
-		List<AbsoluteMusicNote> transportedNotes = new ArrayList<AbsoluteMusicNote>();
+		List<AbsoluteMusicNote> transportedANotes = new ArrayList<AbsoluteMusicNote>();
 		
 		for(AbsoluteMusicNote current: aNotes){
-			transportedNotes.add(registers[0].aNoteToRegister(current));
+			transportedANotes.add(registers[0].aNoteToRegister(current));
 		}
 		
 		//Fix octave to achieve that the first note is always de lower
-		if(transportedNotes.size() >= 2){
-			for(int i = 1; i < transportedNotes.size(); i++){
-				while(transportedNotes.get(i-1).semitonesTill(transportedNotes.get(i)) < 0){
-					transportedNotes.get(i-1).decreaseOctave();
+		if(transportedANotes.size() >= 2){
+			for(int i = 1; i < transportedANotes.size(); i++){
+				while(transportedANotes.get(0).semitonesTill(transportedANotes.get(i)) < 0){
+					transportedANotes.get(0).decreaseOctave();
 				}
 			}
 		}
 		
-		return transportedNotes;
+		return transportedANotes;
 	}
 
 }

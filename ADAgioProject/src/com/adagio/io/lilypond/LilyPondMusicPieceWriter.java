@@ -179,8 +179,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 					aNotes.remove(i);
 				}
 			}
-			
-			aNotes.add(bassNote);
+			aNotes.add(0,bassNote);
 		}
 		
 		//The instrument transports the notes to his register
@@ -763,7 +762,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		
 		int distance = this.relative.getMusicNoteName().getBaseNoteName().shortestDistance(e.getMusicNoteName().getBaseNoteName());
 		
-		if(distance == 3 && (rNoteName.equals("A") || rNoteName.equals("B")|| rNoteName.equals("C"))){
+		if(distance == 3 && (rNoteName.equals("A") || rNoteName.equals("B")|| rNoteName.equals("G"))){
 			up = true;
 		}
 		else if(distance == 2 && (rNoteName.equals("A") || rNoteName.equals("B"))){

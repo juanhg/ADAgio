@@ -20,7 +20,7 @@ public class MonophonicInstrumentTest extends InitTest {
 
 
 	@Test
-	public void aNotesToRegisterstest() {
+	public void aNotesToRegistersTest() {
 		List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
 		List<AbsoluteMusicNote> expected = new ArrayList<AbsoluteMusicNote>();
 		List<AbsoluteMusicNote> result;

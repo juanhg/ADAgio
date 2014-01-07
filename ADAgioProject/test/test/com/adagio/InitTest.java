@@ -37,6 +37,7 @@ public class InitTest {
 	public AbsoluteMusicNote A5Sharp, A2Sharp, A3bb,  A4bb;
 	public AbsoluteMusicNote C1Sharp, C3Sharp;
 	public AbsoluteMusicNote F0Sharp, F2Sharp;
+	public AbsoluteMusicNote G0Sharp, G1Sharp;
 	
 	
 	// Intervals
@@ -174,6 +175,8 @@ public class InitTest {
 		C3Sharp = new AbsoluteMusicNote(3, "C", new SharpAlteration());
 		F0Sharp = new AbsoluteMusicNote(0,"F", new SharpAlteration());
 		F2Sharp = new AbsoluteMusicNote(2, "F", new SharpAlteration());
+		G0Sharp = new AbsoluteMusicNote(0, "G", new SharpAlteration());
+		G1Sharp = new AbsoluteMusicNote(1, "G", new SharpAlteration());
 		
 		// Intervals
 		perfect1 = new Interval("P",1);

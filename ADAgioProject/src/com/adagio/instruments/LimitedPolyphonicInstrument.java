@@ -56,8 +56,8 @@ public class LimitedPolyphonicInstrument extends Instrument implements IModel {
 		//Fix octave to achieve that the first note is always de lower
 				if(transportedANotes.size() >= 2){
 					for(int i = 1; i < transportedANotes.size(); i++){
-						while(transportedANotes.get(i-1).semitonesTill(transportedANotes.get(i)) < 0){
-							transportedANotes.get(i-1).decreaseOctave();
+						while(transportedANotes.get(0).semitonesTill(transportedANotes.get(i)) < 0){
+							transportedANotes.get(0).decreaseOctave();
 						}
 					}
 				}
@@ -111,7 +111,7 @@ public class LimitedPolyphonicInstrument extends Instrument implements IModel {
 	 * @return The lower not used register of the instrument
 	 */
 	private Register lowerNotUsedRegister(){
-		int referenceSemitones = 0;
+		int referenceSemitones = Integer.MAX_VALUE;
 		int semitones = 0;
 		int lowerPos = 0;
 
