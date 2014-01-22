@@ -1,0 +1,48 @@
+DEFINE TEMPO "estrofa" 4=65;
+DEFINE TEMPO "estribillo" 4=70;
+
+TIME 4/4;
+TEMPO estrofa;
+channel guitar volume=80 instrument=acousticguitar;
+channel flauta volume=60 instrument=flute disable;
+channel piano volume=60 disable;
+
+RELATIVE 2C;
+PLAY Am G F E | Am G F E | C  G F E | C  G F E;
+
+Channel flauta enable;      
+RELATIVE 2C;
+PLAY Am G F E | Am G F E | C G F E | C  G F E;
+
+
+TEMPO ESTRIBILLO;
+channel piano enable;
+RELATIVE 1C;
+PLAY | F#m E | D C#m | Bm D | C#;
+RELATIVE 1C; 
+PLAY | F#m E | D C#m | Bm G;
+
+TEMPO ESTROFA;
+channel piano disable;
+channel flauta disable;
+channel guitar volume=80;
+
+RELATIVE 2C;
+PLAY | Am G | F E | Am G | F E;
+RELATIVE 2C;
+PLAY | C G F | E | C G F| E;
+
+channel flauta enable;
+
+RELATIVE 2C;
+PLAY | Am G | F E | Am G | F E;
+RELATIVE 2C;
+PLAY | C G F | E | C G F| E;
+ 
+ 
+TEMPO ESTRIBILLO;
+channel piano enable;
+RELATIVE 1C;
+PLAY | F#m E | D C#m | Bm D | C#;
+RELATIVE 1C; 
+PLAY | F#m E | D C#m | Bm G;

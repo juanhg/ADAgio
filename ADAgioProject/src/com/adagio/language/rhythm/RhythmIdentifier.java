@@ -1,4 +1,4 @@
-package com.adagio.language.tempos;
+package com.adagio.language.rhythm;
 
 import org.modelcc.IModel;
 import org.modelcc.Pattern;
@@ -6,15 +6,18 @@ import org.modelcc.Setup;
 import org.modelcc.Value;
 
 @Pattern(regExp = "[a-zA-Z][a-zA-Z[0-9]_]*")
-public class TempoIdentifier implements IModel{
-	
+public class RhythmIdentifier implements IModel {
+
 	@Value
-	String value; 
-	
-	
+	private String value;
+
 	@Setup
 	public void setup() {
 		value = value.toLowerCase();
+	}
+	
+	public String getValue() {
+		return value;
 	}
 
 	@Override
@@ -33,7 +36,7 @@ public class TempoIdentifier implements IModel{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TempoIdentifier other = (TempoIdentifier) obj;
+		RhythmIdentifier other = (RhythmIdentifier) obj;
 		if (value == null) {
 			if (other.value != null)
 				return false;
@@ -42,9 +45,7 @@ public class TempoIdentifier implements IModel{
 		return true;
 	}
 	
-	public TempoIdentifier clone(){
-		TempoIdentifier cloned = new TempoIdentifier();
-		cloned.value = this.value;
-		return cloned;
-	}
+	
+	
+	
 }

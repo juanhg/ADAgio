@@ -9,7 +9,7 @@ import com.adagio.events.definitions.MusicTempoDefinitionEvent;
 import com.adagio.language.tempos.Tempo;
 import com.adagio.language.tempos.TempoIdentifier;
 
-@Prefix("(?i)DEFINE TEMPO")
+@Prefix({"(?i)Define","(?i)Tempo"})
 public class TempoDefinition extends Definition implements IModel {
 
 	@Prefix("\"")

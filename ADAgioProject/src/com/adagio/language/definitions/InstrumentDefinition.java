@@ -11,12 +11,7 @@ import org.modelcc.Suffix;
 
 import com.adagio.events.MusicEventListener;
 import com.adagio.events.definitions.InstrumentDefinitionEvent;
-import com.adagio.instruments.Instrument;
-import com.adagio.instruments.LimitedPolyphonicInstrument;
-import com.adagio.instruments.MonophonicInstrument;
-import com.adagio.instruments.PolyphonicInstrument;
 import com.adagio.language.instruments.InstrumentIdentifier;
-import com.adagio.language.instruments.features.LimitedPolyphonicType;
 import com.adagio.language.instruments.features.MonophonicType;
 import com.adagio.language.instruments.features.PhoneticType;
 import com.adagio.language.instruments.features.PolyphonicType;
@@ -59,33 +54,6 @@ public class InstrumentDefinition extends Definition implements IModel {
 	
 	@Override
 	public void run(MusicEventListener listener) {
-		Instrument instrument;
-
-		if(phType.getClass().equals(MonophonicType.class)){
-			if(registers != null && registers.length > 0){
-				instrument = new MonophonicInstrument(timbre, registers);
-			}
-			else{
-				instrument = new MonophonicInstrument(timbre);
-			}
-		}
-		else if(phType.getClass().equals(LimitedPolyphonicType.class)){
-			if(registers != null && registers.length > 0){
-				instrument = new LimitedPolyphonicInstrument(timbre, registers);
-			}
-			else{
-				instrument = new LimitedPolyphonicInstrument(timbre);
-			}
-		}
-		else{
-			if(registers != null && registers.length > 0){
-				instrument = new PolyphonicInstrument(timbre, registers);
-			}
-			else{
-				instrument = new PolyphonicInstrument(timbre);
-			}
-		}
-		
-		listener.instrumentDefinition(new InstrumentDefinitionEvent(this, identifier, instrument));	
+		listener.instrumentDefinition(new InstrumentDefinitionEvent(this,identifier, phType, timbre, registers));
 	}
 }

@@ -19,8 +19,7 @@ import com.adagio.language.musicnotes.notealterations.DoubleSharpAlteration;
 import com.adagio.language.musicnotes.notealterations.FlatAlteration;
 import com.adagio.language.musicnotes.notealterations.SharpAlteration;
 
-
-@Prefix("(?i)DEFINE CHORD")
+@Prefix({"(?i)Define","(?i)Chord"})
 public class ChordDefinition extends Definition implements IModel {
 	
 	@Prefix("\"")

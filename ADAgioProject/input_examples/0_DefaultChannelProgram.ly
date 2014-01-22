@@ -34,6 +34,22 @@ s4 s4 s4 s4
 <aes c' ees'>2 <aes ces' ees'>2 
 }
 \new Staff{
+s4 s4 s4 s4 
+s4 s4 s4 s4 
+s4 s4 s4 s4 
+s4 s4 s4 s4 
+s4 s4 s4 s4 
+s4 s4 s4 s4 
+s4 s4 s4 s4 
+
+\set midiMinimumVolume = #0
+\set midiMaximumVolume = #1.0
+\set Staff.midiInstrument = #"acoustic grand"
+<a cis' e'>2\mf <a c' e'>2 
+<ais cisis' eis'>2 <ais cis' eis'>2 
+<aes c' ees'>2 <aes ces' ees'>2 
+}
+\new Staff{
 
 \tempo 4=90
 \clef treble

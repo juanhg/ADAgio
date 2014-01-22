@@ -9,6 +9,7 @@ import com.adagio.events.chords.MusicChordAddEvent;
 import com.adagio.events.chords.MusicChordEvent;
 import com.adagio.events.definitions.InstrumentDefinitionEvent;
 import com.adagio.events.definitions.MusicTempoDefinitionEvent;
+import com.adagio.events.definitions.RhythmDefinitionEvent;
 import com.adagio.events.notes.MusicNoteNameEvent;
 import com.adagio.events.notes.MusicNoteToAbsoluteEvent;
 import com.adagio.events.statements.MusicDefinedTempoStatementEvent;
@@ -64,4 +65,5 @@ public interface MusicEventListener extends EventListener {
 	
 	public void tempoDefinition(MusicTempoDefinitionEvent e);
 	public void instrumentDefinition(InstrumentDefinitionEvent e);
+	public void rhythmDefinition(RhythmDefinitionEvent e);
 }

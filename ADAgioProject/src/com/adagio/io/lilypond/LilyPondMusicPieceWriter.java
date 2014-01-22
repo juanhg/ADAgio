@@ -20,6 +20,7 @@ import com.adagio.events.chords.MusicChordAddEvent;
 import com.adagio.events.chords.MusicChordEvent;
 import com.adagio.events.definitions.InstrumentDefinitionEvent;
 import com.adagio.events.definitions.MusicTempoDefinitionEvent;
+import com.adagio.events.definitions.RhythmDefinitionEvent;
 import com.adagio.events.notes.MusicNoteNameEvent;
 import com.adagio.events.notes.MusicNoteToAbsoluteEvent;
 import com.adagio.events.statements.MusicDefinedTempoStatementEvent;
@@ -28,6 +29,9 @@ import com.adagio.events.statements.MusicRelativeStatementEvent;
 import com.adagio.events.statements.MusicTimeStatementEvent;
 import com.adagio.events.statements.MusicUndefinedTempoStatementEvent;
 import com.adagio.instruments.Instrument;
+import com.adagio.instruments.LimitedPolyphonicInstrument;
+import com.adagio.instruments.MonophonicInstrument;
+import com.adagio.instruments.PolyphonicInstrument;
 import com.adagio.io.MusicPieceWriter;
 import com.adagio.language.MusicPiece;
 import com.adagio.language.bars.BarItem;
@@ -35,10 +39,13 @@ import com.adagio.language.bars.chords.Chord;
 import com.adagio.language.bars.chords.intervals.Interval;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.figures.Figure;
+import com.adagio.language.instruments.features.LimitedPolyphonicType;
+import com.adagio.language.instruments.features.MonophonicType;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 import com.adagio.language.tempos.Tempo;
 import com.adagio.language.times.Time;
+import com.adagio.rhythms.Rhythm;
 
 public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicEventListener {
 
@@ -66,6 +73,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	//Data base of instruments
 	private InstrumentsDB instrumentsDB;
 	
+	//Data base of rhythms
+	private RhythmDB rhythmDB;
+	
 	private boolean hasTempoChanged;
 	private boolean hasTimeChanged;
 	private boolean hasClefChanged;
@@ -82,6 +92,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		temposDB = new TemposDB();
 		channelsDB = new ChannelsDB();
 		instrumentsDB = new InstrumentsDB();
+		rhythmDB = new RhythmDB();
 		hasTempoChanged = hasTimeChanged = hasClefChanged = true;
 		
 		//add the default channel
@@ -731,7 +742,45 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public void instrumentDefinition(InstrumentDefinitionEvent e) {
-		this.instrumentsDB.addInstrument(e.getIdentifier(), e.getInstrument());
+		
+		Instrument instrument;
+		
+		
+		if(e.getPhType().getClass().equals(MonophonicType.class)){
+			if(e.getRegisters() != null && e.getRegisters().length > 0){
+				instrument = new MonophonicInstrument(e.getTimbre(), e.getRegisters());
+			}
+			else{
+				instrument = new MonophonicInstrument(e.getTimbre());
+			}
+		}
+		else if(e.getPhType().getClass().equals(LimitedPolyphonicType.class)){
+			if(e.getRegisters() != null && e.getRegisters().length > 0){
+				instrument = new LimitedPolyphonicInstrument(e.getTimbre(), e.getRegisters());
+			}
+			else{
+				instrument = new LimitedPolyphonicInstrument(e.getTimbre());
+			}
+		}
+		else{
+			if(e.getRegisters() != null && e.getRegisters().length > 0){
+				instrument = new PolyphonicInstrument(e.getTimbre(), e.getRegisters());
+			}
+			else{
+				instrument = new PolyphonicInstrument(e.getTimbre());
+			}
+		}
+		
+		this.instrumentsDB.addInstrument(e.getIdentifier(), instrument);
+	}
+	
+	/**
+	 * Event that is launched when an instrument is defined.
+	 */
+	@Override
+	public void rhythmDefinition(RhythmDefinitionEvent e) {
+		Rhythm rhythm = new Rhythm(e.getComponents());
+		this.rhythmDB.addRhythm(e.getIdentifier(), rhythm);
 	}
 	
 	/** ----- GETTERS & SETTERS (Not events) ----- **/
@@ -815,8 +864,4 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		return figures;
 	}
 
-
-	
-
-	
 }
