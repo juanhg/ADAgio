@@ -21,8 +21,8 @@ public class ChannelStatement extends Statement implements IModel {
 
 	private ChannelIdentifier id;
 
-	@Optional
 	@Multiplicity(minimum = 1)
+	@Optional
 	private ChannelOption [] options;
 
 	@Constraint
@@ -94,8 +94,10 @@ public class ChannelStatement extends Statement implements IModel {
 				}
 			}
 			
-			for (ChannelOption current : this.options) {
-				current.Apply(id, listener);
+			if (options != null) {
+				for (ChannelOption current : this.options) {
+					current.Apply(id, listener);
+				}
 			}
 			
 		} else {

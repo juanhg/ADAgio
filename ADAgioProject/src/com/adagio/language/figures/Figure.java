@@ -44,7 +44,10 @@ public class Figure implements IModel {
 	/**
 	 * Default constructor.
 	 */
-	public Figure(){}
+	public Figure(){
+		shape = new IntegerModel(4);
+		dots = null;
+	}
 	
 	/**
 	 * Attributes constructor.
@@ -66,9 +69,11 @@ public class Figure implements IModel {
 	public Figure(int shape, int dotsNum) {
 
 		this.shape = new IntegerModel(shape);
-		this.dots = new FigureDot[dotsNum];
-		for(int i = 0; i < dotsNum; i++){
-			dots[i] = new FigureDot();
+		if(dotsNum > 0){
+			this.dots = new FigureDot[dotsNum];
+			for(int i = 0; i < dotsNum; i++){
+				dots[i] = new FigureDot();
+			}
 		}
 		if (!this.validShape()) {
 			System.err.println("Error 11: \"" + shape + "\" it's not a valid shape duration.\n");

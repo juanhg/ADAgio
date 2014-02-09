@@ -27,7 +27,8 @@ public class ADAgioCLI {
 	public static void main(String [] args){
 		try {
 	
-			String inFileName = args[6];
+			for(int i = 0; i <= 6; i++){
+			String inFileName = args[i];
 			String outFileName = inFileName.replace(".adg", ".ly");
 			ModelReader reader = new JavaModelReader(MusicPiece.class);
 			
@@ -59,11 +60,12 @@ public class ADAgioCLI {
 			
 			System.out.println("\n\nProgram: " + inFileName);
 			
-			
+			}	
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	@SuppressWarnings("resource")

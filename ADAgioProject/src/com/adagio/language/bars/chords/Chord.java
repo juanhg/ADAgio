@@ -31,6 +31,7 @@ public class Chord  extends BarItem implements IModel {
 		}
 	}
 	
+	//TODO Move this function to LilypondMusicPieceWriter
 	public Chord toAbsoluteChord(MusicEventListener listener){
 		AbsoluteMusicNote aNote;
 		aNote = this.getNote().toAbsoluteMusicNote(listener);

@@ -35,8 +35,10 @@ import com.adagio.instruments.PolyphonicInstrument;
 import com.adagio.io.MusicPieceWriter;
 import com.adagio.language.MusicPiece;
 import com.adagio.language.bars.BarItem;
+import com.adagio.language.bars.BarItemDuration;
 import com.adagio.language.bars.chords.Chord;
 import com.adagio.language.bars.chords.intervals.Interval;
+import com.adagio.language.bars.silences.Silence;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.figures.Figure;
 import com.adagio.language.instruments.features.LimitedPolyphonicType;
@@ -406,8 +408,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	public void musicPlay(MusicPlayStatementEvent e) {
 
 		Vector<BarItem> barItems = new Vector<BarItem>(Arrays.asList(e.getBar().getBarItems()));
-		Vector<Chord> absoluteChords = new Vector<Chord>();
-		Vector<Figure> barFigures = barFigures(e.getBar().getBarItems().length, time); 
+		int numBarsAdded = barFigures(barItems); 
+
+		Vector<Chord> absoluteChords = new Vector<Chord>(); 
 		String composition = "";
 
 		//We save the relative before play statement
@@ -433,7 +436,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		//this.relative = relativeBeforePlay;
 
 		composition = "";
-		int numBarsAdded = 0;
+		
 
 		Map.Entry x = null;
 		Iterator<Entry<ChannelIdentifier, Channel>> it;
@@ -478,79 +481,42 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 					((Channel) x.getValue()).setInstrumentChanged(false);
 				}
 
-				int figuresAdded = 0;
-				
 
 				if(barItems.size() > 0){
 					//The channel is used
 					((Channel) x.getValue()).setUsed(true);
 
-					if(barFigures.size() >= barItems.size()){
-						for (int i = 0; i < barFigures.size(); i++) {
+					for (int i = 0; i < barItems.size(); i++) {
 
-							if(i < barItems.size()){
-								if(barItems.get(i).getClass().equals(Chord.class)){
-									composition += translateChord(absoluteChords.get(chordsIndex),((Channel)x.getValue()).getInstrument());
-									chordsIndex++;
-								}
-								else{
-									composition += translateSilence();
-								}
-							}
-							else{
-								composition += "s";
-							}
 
-							composition += translateFigure(barFigures.elementAt(i));
-
-							if (((Channel) x.getValue()).hasVolumeChanged()) {
-								composition += "\\mf";
-								((Channel) x.getValue()).setVolumeChanged(false);
-							}
-							composition += " ";
-							figuresAdded++;
+						if(barItems.get(i).getClass().equals(Chord.class)){
+							composition += translateChord(absoluteChords.get(chordsIndex),((Channel)x.getValue()).getInstrument());
+							chordsIndex++;
 						}
-						numBarsAdded = 1;
-					}
-					else{
-						for (int i = 0; i < barItems.size() || (i%time.getBeats().intValue() != 0); i++) {
-
-							if(i < barItems.size()){
-								if(barItems.get(i).getClass().equals(Chord.class)){
-									composition += translateChord(absoluteChords.get(chordsIndex),((Channel)x.getValue()).getInstrument());
-									chordsIndex++;
-								}
-								else{
-									composition += translateSilence();
-								}
-							}
-							else{
-								composition += "s";
-							}
-
-							composition += translateFigure(barFigures.elementAt(0));
-
-							if (((Channel) x.getValue()).hasVolumeChanged()) {
-								composition += "\\mf";
-								((Channel) x.getValue()).setVolumeChanged(false);
-							}
-							composition += " ";
-							figuresAdded++;
+						else{
+							composition += translateSilence();
 						}
 
-						numBarsAdded = figuresAdded/time.getBeats().intValue();
+
+						composition += translateFigure(barItems.elementAt(i).getDuration().getFigure());
+
+						if (((Channel) x.getValue()).hasVolumeChanged()) {
+							composition += "\\mf";
+							((Channel) x.getValue()).setVolumeChanged(false);
+						}
+						composition += " ";
 					}
+					
+
+					this.channelsDB.addMusic((ChannelIdentifier) x.getKey(),composition, numBarsAdded);
+					numBarsAdded = 0;
+					composition = "";
+					chordsIndex = 0;
 				}
-
-				this.channelsDB.addMusic((ChannelIdentifier) x.getKey(),composition, numBarsAdded);
-				numBarsAdded = 0;
-				figuresAdded = 0;
-				composition = "";
-				chordsIndex = 0;
 			}
+			this.fillDisabledChannelsWithSilences();
 		}
-		this.fillDisabledChannelsWithSilences();
-	} 
+	}
 	
 	/**
 	 * Event that occurs when a channel is going to be created.
@@ -836,6 +802,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		return octave;
 	}
 		
+	//TODO remove this function
+	
 	/**
 	 * Return a string with the figures that correspond 
 	 * to the chords in the bars. If the vector is bigger
@@ -862,6 +830,36 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 			}
 		}
 		return figures;
+	}
+	
+	/**
+	 * Fill the barItem duration field of the items of the vector.
+	 * The duration depends of the actual time & number of items in a bar.
+	 * @param bar Bar with chords & silences
+	 */
+	@SuppressWarnings("unchecked")
+	public int barFigures(Vector<BarItem> items){
+		
+		int barsAdded = 1;
+		
+		double factor = time.getBeats().doubleValue()/items.size();
+		double figuresDuration = factor * time.getFigure().duration();
+		
+		if(Figure.validDuration(figuresDuration)){
+			for(int i = 0; i < items.size(); i++){
+				items.elementAt(i).setDuration(new BarItemDuration((new Figure(figuresDuration))));
+			}
+		}
+		else{
+			for(int i = 0; (i < items.size()) || (i%time.getBeats().intValue() != 0); i++){
+				if(i >= items.size()){
+					items.add(new Silence());
+					barsAdded = items.size()/time.getBeats().intValue();
+				}
+				items.elementAt(i).setDuration(new BarItemDuration(time.getFigure().clone()));
+			}
+		}
+		return barsAdded;
 	}
 
 }
