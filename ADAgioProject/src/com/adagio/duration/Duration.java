@@ -1,15 +1,15 @@
-package com.adagio.language.bars;
+package com.adagio.duration;
 
 import com.adagio.language.figures.Figure;
 
-public class BarItemDuration {
+public class Duration {
 	private Figure figure;
 	
-	public BarItemDuration(){
+	public Duration(){
 		figure = new Figure();
 	}
 	
-	public BarItemDuration(Figure figure){
+	public Duration(Figure figure){
 		this.figure = figure;
 	}
 

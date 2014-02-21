@@ -1,5 +1,6 @@
 package com.adagio.language.musicnotes;
 
+import org.modelcc.Constraint;
 import org.modelcc.IModel;
 import org.modelcc.Optional;
 
@@ -12,6 +13,16 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 	public MusicNoteName musicNoteName;
 	@Optional
 	public OctaveAlteration octave;
+	
+//	@Constraint
+//	boolean silenceRestriction(){
+//		if(musicNoteName.isSilence()){
+//			if(octave == null){
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 	
 
 	public MusicNoteName getMusicNoteName() {
@@ -53,6 +64,18 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 		return this.getMusicNoteName().toString() + this.getOctave().toString();
 	}
 	
+	public static RelativeMusicNote generateSilenceNote(){
+		RelativeMusicNote note = new RelativeMusicNote();
+		note.musicNoteName = BasicNoteName.generateSilenceNoteName();
+		note.octave = null;
+		
+		return note;
+	}
+
+	@Override
+	public boolean isSilence() {
+		return musicNoteName.isSilence();
+	}
 	
 
 }

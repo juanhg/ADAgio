@@ -4,23 +4,30 @@ import org.modelcc.IModel;
 import org.modelcc.Optional;
 import org.modelcc.Prefix;
 
+import com.adagio.duration.Duration;
 import com.adagio.events.MusicEventListener;
-import com.adagio.language.bars.BarItem;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
+import com.adagio.language.musicnotes.AlteredNoteName;
 import com.adagio.language.musicnotes.MusicNote;
+import com.adagio.language.musicnotes.RelativeMusicNote;
 
 
-public class Chord  extends BarItem implements IModel {
+public class Chord implements IModel {
 	
 	MusicNote note;
 	ChordIdentifier identifier;
+	Duration duration;
 	
 	@Optional
 	@Prefix("/")
 	MusicNote bassNote;
 
-	public Chord(){
-		
+	public Chord(){}
+	
+	public static Chord generateSilenceChord(){
+		Chord silence = new Chord(RelativeMusicNote.generateSilenceNote(),
+				                      new ChordIdentifier(""),null);
+		return silence;
 	}
 	
 	public Chord(MusicNote note, ChordIdentifier identifier, MusicNote bassNote){
@@ -67,4 +74,17 @@ public class Chord  extends BarItem implements IModel {
 	public void setBassNote(MusicNote bassNote) {
 		this.bassNote = bassNote;
 	}
+
+	public Duration getDuration() {
+		return duration;
+	}
+
+	public void setDuration(Duration duration) {
+		this.duration = duration;
+	}
+	
+	public boolean isSilence(){
+		return this.note.isSilence();
+	}
+	
 }

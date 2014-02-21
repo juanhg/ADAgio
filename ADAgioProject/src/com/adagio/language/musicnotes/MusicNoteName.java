@@ -11,4 +11,5 @@ public abstract class MusicNoteName implements IModel {
 	public abstract MusicNoteName clone();
 	public abstract boolean equals(Object o);
 	public abstract String toString();
+	public abstract boolean isSilence();
 }

@@ -1,5 +1,6 @@
 package com.adagio.language.musicnotes;
 
+import org.modelcc.Constraint;
 import org.modelcc.IModel;
 import org.modelcc.Priority;
 
@@ -11,6 +12,14 @@ public class AlteredNoteName extends MusicNoteName implements IModel {
 
 	BasicNoteName basicNoteName;
 	Alteration alteration;
+	
+//	@Constraint
+//	boolean basicNoteIsNotASilence(){
+//		if(basicNoteName.isSilence()){
+//			return false;
+//		}
+//		return true;
+//	}
 	
 	public AlteredNoteName(){}
 	
@@ -68,6 +77,11 @@ public class AlteredNoteName extends MusicNoteName implements IModel {
 	@Override
 	public String toString() {
 		return this.getBasicNoteName().toString() + this.getAlteration().toString();
+	}
+
+	@Override
+	public boolean isSilence() {
+		return basicNoteName.isSilence();
 	}
 	
 	

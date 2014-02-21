@@ -136,71 +136,79 @@ public class Interval implements IModel {
 	 */
 	public AbsoluteMusicNote Apply(MusicNote note, MusicEventListener listener){
 		
-		AbsoluteMusicNote aNote = listener.toAbsolute(new MusicNoteToAbsoluteEvent(this,note));
-
-		int octave = aNote.getOctave().intValue();
-		BasicNoteName bName = (BasicNoteName) aNote.getMusicNoteName().getBaseNoteName().clone();
-		MusicNoteName noteName = aNote.getMusicNoteName().clone();
-	
 		AbsoluteMusicNote result = null;
-		int aux = 0;
-		int semitones = this.semitones();
-		int semitones2Notes = 0;
-		
-		// Generating the new octave value
-		octave += this.octaveAlterations(aNote.getMusicNoteName());
-		
-		// Generating the new noteName
-		aux = (BasicNoteName.nameToInt(bName) + number.intValue());
-		bName.setValue(( BasicNoteName.intToName((aux-1)%7).getValue()));
-		noteName.getBaseNoteName().setValue(bName.getValue());
-		//bName.setValue((data.intToName((aux-1)%7).getValue()));
-		
-		
-		// Fixing the alteration
-		semitones2Notes = aNote.semitonesTill(new AbsoluteMusicNote(new IntegerModel(octave),bName));
-		aux = semitones - semitones2Notes;
-		
-		while(aux > 2){
-			aux -= bName.semitonesToNextNote();
-			if(bName.getBaseNoteName().getValue().equals("B")){
-				octave++;
+
+		//if is not a silence...
+		if(note.getMusicNoteName().isSilence() == false){
+			AbsoluteMusicNote aNote = note.toAbsoluteMusicNote(listener);
+
+			int octave = aNote.getOctave().intValue();
+			BasicNoteName bName = (BasicNoteName) aNote.getMusicNoteName().getBaseNoteName().clone();
+			MusicNoteName noteName = aNote.getMusicNoteName().clone();
+
+
+			int aux = 0;
+			int semitones = this.semitones();
+			int semitones2Notes = 0;
+
+			// Generating the new octave value
+			octave += this.octaveAlterations(aNote.getMusicNoteName());
+
+			// Generating the new noteName
+			aux = (BasicNoteName.nameToInt(bName) + number.intValue());
+			bName.setValue(( BasicNoteName.intToName((aux-1)%7).getValue()));
+			noteName.getBaseNoteName().setValue(bName.getValue());
+			//bName.setValue((data.intToName((aux-1)%7).getValue()));
+
+
+			// Fixing the alteration
+			semitones2Notes = aNote.semitonesTill(new AbsoluteMusicNote(new IntegerModel(octave),bName));
+			aux = semitones - semitones2Notes;
+
+			while(aux > 2){
+				aux -= bName.semitonesToNextNote();
+				if(bName.getBaseNoteName().getValue().equals("B")){
+					octave++;
+				}
+				bName = (BasicNoteName) bName.next().clone();
+				System.err.println("Warning 2: Can't apply interval \"" + this.toString() 
+						+"\" to the note \""+ note.toString()+"\". The note generated is estimated.");
 			}
-			bName = (BasicNoteName) bName.next().clone();
-			System.err.println("Warning 2: Can't apply interval \"" + this.toString() 
-					+"\" to the note \""+ note.toString()+"\". The note generated is estimated.");
-		}
-		
-		while(aux < -2){
-			aux += bName.semitonesToPreviousNote();
-			if(bName.getBaseNoteName().getValue().equals("C")){
-				octave--;
+
+			while(aux < -2){
+				aux += bName.semitonesToPreviousNote();
+				if(bName.getBaseNoteName().getValue().equals("C")){
+					octave--;
+				}
+				bName = (BasicNoteName) bName.previous().clone();
+				System.err.println("Warning 2 : Can't apply interval \"" + this.toString() 
+						+"\" to the note \""+ note.toString()+"\". The note generated is estimated.");
 			}
-			bName = (BasicNoteName) bName.previous().clone();
-			System.err.println("Warning 2 : Can't apply interval \"" + this.toString() 
-					+"\" to the note \""+ note.toString()+"\". The note generated is estimated.");
+
+			if(aux == 1){
+				result = new AbsoluteMusicNote(octave,bName.getValue(),new SharpAlteration());
+			}
+			else if (aux == 2){
+				//Adding a DoubleSharp
+				result = new AbsoluteMusicNote(octave,bName.getValue(),new DoubleSharpAlteration());
+			}
+			else if (aux == -1){
+				//Adding a Flat
+				result = new AbsoluteMusicNote(octave,bName.getValue(),new FlatAlteration());
+			}
+			else if (aux == -2){
+				//Adding a DoubleFlat
+				result = new AbsoluteMusicNote(octave,bName.getValue(),new DoubleFlatAlteration());
+			}
+			else if(aux == 0){
+				// No changes
+				result = new AbsoluteMusicNote(new IntegerModel(octave), bName);
+			}
 		}
-		
-		if(aux == 1){
-			result = new AbsoluteMusicNote(octave,bName.getValue(),new SharpAlteration());
+		else{
+			result = AbsoluteMusicNote.generateSilenceNote();
 		}
-		else if (aux == 2){
-			//Adding a DoubleSharp
-			result = new AbsoluteMusicNote(octave,bName.getValue(),new DoubleSharpAlteration());
-		}
-		else if (aux == -1){
-			//Adding a Flat
-			result = new AbsoluteMusicNote(octave,bName.getValue(),new FlatAlteration());
-		}
-		else if (aux == -2){
-			//Adding a DoubleFlat
-			result = new AbsoluteMusicNote(octave,bName.getValue(),new DoubleFlatAlteration());
-		}
-		else if(aux == 0){
-			// No changes
-			result = new AbsoluteMusicNote(new IntegerModel(octave), bName);
-		}
-		
+
 		return result;
 	}
 	

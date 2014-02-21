@@ -105,7 +105,9 @@ public class Figure implements IModel {
 		
 		if(figDur == duration){
 			this.shape = figure.shape;
-			this.dots = new FigureDot[dotsNum];
+			if(dotsNum > 0){
+				this.dots = new FigureDot[dotsNum];
+			}
 			for(int i = 0; i < dotsNum; i++){
 				dots[i] = new FigureDot();
 			}
@@ -170,6 +172,13 @@ public class Figure implements IModel {
 		return dots;
 	}
 
+	public int getNumDots(){
+		if (dots == null){
+			return 0;
+		}
+		return dots.length;
+	}
+	
 	public void setDots(FigureDot[] dots) {
 		this.dots = dots;
 	}

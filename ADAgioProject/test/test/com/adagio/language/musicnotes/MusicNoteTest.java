@@ -57,7 +57,13 @@ public class MusicNoteTest {
     assertAmbiguityFree(parser,"A#");
     assertAmbiguityFree(parser,"4Ax");
     assertAmbiguityFree(parser,"A''");
-    assertAmbiguityFree(parser,"B,");
+    assertAmbiguityFree(parser,"B");
+    assertAmbiguityFree(parser,"R");
+    assertAmbiguityFree(parser,"S");
+    assertAmbiguityFree(parser,"R");
+    assertAmbiguityFree(parser,"r");
+    assertAmbiguityFree(parser,"s");
+    assertAmbiguityFree(parser,"_");
   }
 
   // Comprobamos que las siguientes notas son inválidas (por la octava, restricción custom con @Constraint).
@@ -82,8 +88,6 @@ public class MusicNoteTest {
     assertInvalid(parser,"O");
     assertInvalid(parser,"P");
     assertInvalid(parser,"Q");
-    assertInvalid(parser,"R");
-    assertInvalid(parser,"S");
     assertInvalid(parser,"T");
     assertInvalid(parser,"U");
     assertInvalid(parser,"V");

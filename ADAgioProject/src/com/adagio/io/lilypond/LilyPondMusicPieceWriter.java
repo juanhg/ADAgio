@@ -12,6 +12,7 @@ import java.util.Vector;
 import org.modelcc.types.IntegerModel;
 
 import com.adagio.channels.Channel;
+import com.adagio.duration.Duration;
 import com.adagio.events.MusicEventListener;
 import com.adagio.events.channels.MusicChannelIdentifierEvent;
 import com.adagio.events.channels.MusicChannelInstrumentEvent;
@@ -22,7 +23,6 @@ import com.adagio.events.definitions.InstrumentDefinitionEvent;
 import com.adagio.events.definitions.MusicTempoDefinitionEvent;
 import com.adagio.events.definitions.RhythmDefinitionEvent;
 import com.adagio.events.notes.MusicNoteNameEvent;
-import com.adagio.events.notes.MusicNoteToAbsoluteEvent;
 import com.adagio.events.statements.MusicDefinedTempoStatementEvent;
 import com.adagio.events.statements.MusicPlayStatementEvent;
 import com.adagio.events.statements.MusicRelativeStatementEvent;
@@ -34,16 +34,14 @@ import com.adagio.instruments.MonophonicInstrument;
 import com.adagio.instruments.PolyphonicInstrument;
 import com.adagio.io.MusicPieceWriter;
 import com.adagio.language.MusicPiece;
-import com.adagio.language.bars.BarItem;
-import com.adagio.language.bars.BarItemDuration;
 import com.adagio.language.bars.chords.Chord;
 import com.adagio.language.bars.chords.intervals.Interval;
-import com.adagio.language.bars.silences.Silence;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.figures.Figure;
 import com.adagio.language.instruments.features.LimitedPolyphonicType;
 import com.adagio.language.instruments.features.MonophonicType;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
+import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 import com.adagio.language.tempos.Tempo;
 import com.adagio.language.times.Time;
@@ -155,9 +153,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	}
 	
 		
-	public String translateSilence(){
-		return "s";
-	}
+//	public String translateSilence(){
+//		return "s";
+//	}
 	
 	/**
 	 * Receives a chord with an absolute-fundamental-note and translates it. Depend of
@@ -166,48 +164,56 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 * Note: Need that the bassNote as a AbsoluteMusicNote
 	 */
 	public String translateChord(Chord chord, Instrument instrument){
+
 		String composition = "";
-		List<Interval> intervals = this.chordsDB.getIntervals(chord.getIdentifier());
-		List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
-		AbsoluteMusicNote bassNote = (AbsoluteMusicNote) chord.getBassNote();
-		
-	    //Recollects the notes result to apply the interval to the fundamental note
-		for(int i = 0; i < intervals.size();i++){
-			aNotes.add(intervals.get(i).Apply(chord.getNote(), this));		
-		}
-		
-		if (bassNote != null) {
-			// If the bass note is higher than any other, reduces its octave
-			for (int i = 0; i < aNotes.size(); i++) {
-				if (bassNote.isHigher(aNotes.get(i))) {
-					bassNote.setOctave(bassNote.getOctave().intValue() - 1);
-				}
+
+		if(chord.isSilence() == false){
+
+
+			List<Interval> intervals = this.chordsDB.getIntervals(chord.getIdentifier());
+			List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
+			AbsoluteMusicNote bassNote = (AbsoluteMusicNote) chord.getBassNote();
+
+			//Recollects the notes result to apply the interval to the fundamental note
+			for(int i = 0; i < intervals.size();i++){
+				aNotes.add(intervals.get(i).Apply(chord.getNote(), this));		
 			}
 
-			// If bassNote NoteName is equal than any in the interval, this last
-			// is removed.
-			for (int i = 0; i < aNotes.size(); i++) {
-				if (bassNote.getMusicNoteName().equals(
-						aNotes.get(i).getMusicNoteName())) {
-					aNotes.remove(i);
+			if (bassNote != null) {
+				// If the bass note is higher than any other, reduces its octave
+				for (int i = 0; i < aNotes.size(); i++) {
+					if (bassNote.isHigher(aNotes.get(i))) {
+						bassNote.setOctave(bassNote.getOctave().intValue() - 1);
+					}
+				}
+
+				// If bassNote NoteName is equal than any in the interval, this last
+				// is removed.
+				for (int i = 0; i < aNotes.size(); i++) {
+					if (bassNote.getMusicNoteName().equals(
+							aNotes.get(i).getMusicNoteName())) {
+						aNotes.remove(i);
+					}
+				}
+				aNotes.add(0,bassNote);
+			}
+
+			//The instrument transports the notes to his register
+			aNotes = instrument.aNotesToInstrumentRegister(aNotes);
+
+			composition += "<";
+			for(int i = 0; i < aNotes.size(); i++){
+				composition += translateAbsoluteMusicNote(aNotes.get(i));
+
+				if(i != aNotes.size()-1){
+					composition += " ";
 				}
 			}
-			aNotes.add(0,bassNote);
+			composition += ">";
 		}
-		
-		//The instrument transports the notes to his register
-		aNotes = instrument.aNotesToInstrumentRegister(aNotes);
-		
-		composition += "<";
-		for(int i = 0; i < aNotes.size(); i++){
-			composition += translateAbsoluteMusicNote(aNotes.get(i));
-			
-			if(i != aNotes.size()-1){
-				composition += " ";
-			}
+		else{
+			composition = BasicNoteName.silencePattern;
 		}
-		composition += ">";
-		
 		return composition;
 	}
 	
@@ -407,7 +413,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	@Override
 	public void musicPlay(MusicPlayStatementEvent e) {
 
-		Vector<BarItem> barItems = new Vector<BarItem>(Arrays.asList(e.getBar().getBarItems()));
+		Vector<Chord> barItems = new Vector<Chord>(Arrays.asList(e.getBar().getBarChords()));
 		int numBarsAdded = barFigures(barItems); 
 
 		Vector<Chord> absoluteChords = new Vector<Chord>(); 
@@ -421,7 +427,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 			if(barItems.get(i).getClass().equals(Chord.class)){
 				if (this.chordsDB.exists(((Chord)barItems.get(i)).getIdentifier())) {
 					absoluteChords.add(((Chord)barItems.get(i)).toAbsoluteChord(this));
-					this.relative = (AbsoluteMusicNote) absoluteChords.get(i).getNote();
+					this.relative = (AbsoluteMusicNote) absoluteChords.get(absoluteChords.size()-1).getNote();
 				} else {
 					System.err.println("Error 1: The chord identifier \""
 							+ ((Chord)barItems.get(i)).getIdentifier().getValue()
@@ -488,15 +494,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 
 					for (int i = 0; i < barItems.size(); i++) {
 
-
-						if(barItems.get(i).getClass().equals(Chord.class)){
-							composition += translateChord(absoluteChords.get(chordsIndex),((Channel)x.getValue()).getInstrument());
-							chordsIndex++;
-						}
-						else{
-							composition += translateSilence();
-						}
-
+						composition += translateChord(absoluteChords.get(chordsIndex),((Channel)x.getValue()).getInstrument());
+						chordsIndex++;
 
 						composition += translateFigure(barItems.elementAt(i).getDuration().getFigure());
 
@@ -509,13 +508,13 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 					
 
 					this.channelsDB.addMusic((ChannelIdentifier) x.getKey(),composition, numBarsAdded);
-					numBarsAdded = 0;
+
 					composition = "";
 					chordsIndex = 0;
 				}
 			}
-			this.fillDisabledChannelsWithSilences();
 		}
+		this.fillDisabledChannelsWithSilences();
 	}
 	
 	/**
@@ -559,13 +558,13 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	}
 
 	
-	/**
-	 * Event that occurs when a translation to AbsoluteMusicNote is needed
-	 */
-	@Override
-	public AbsoluteMusicNote toAbsolute(MusicNoteToAbsoluteEvent e) {
-		return e.getNote().toAbsoluteMusicNote(this);
-	}
+//	/**
+//	 * Event that occurs when a translation to AbsoluteMusicNote is needed
+//	 */
+//	@Override
+//	public AbsoluteMusicNote toAbsolute(MusicNoteToAbsoluteEvent e) {
+//		return e.getNote().toAbsoluteMusicNote(this);
+//	}
 
 	/**
 	 * Event that look for a chord in chordsDB
@@ -838,7 +837,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 * @param bar Bar with chords & silences
 	 */
 	@SuppressWarnings("unchecked")
-	public int barFigures(Vector<BarItem> items){
+	public int barFigures(Vector<Chord> items){
 		
 		int barsAdded = 1;
 		
@@ -847,16 +846,16 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		
 		if(Figure.validDuration(figuresDuration)){
 			for(int i = 0; i < items.size(); i++){
-				items.elementAt(i).setDuration(new BarItemDuration((new Figure(figuresDuration))));
+				items.elementAt(i).setDuration(new Duration((new Figure(figuresDuration))));
 			}
 		}
 		else{
 			for(int i = 0; (i < items.size()) || (i%time.getBeats().intValue() != 0); i++){
 				if(i >= items.size()){
-					items.add(new Silence());
+					items.add(Chord.generateSilenceChord());
 					barsAdded = items.size()/time.getBeats().intValue();
 				}
-				items.elementAt(i).setDuration(new BarItemDuration(time.getFigure().clone()));
+				items.elementAt(i).setDuration(new Duration(time.getFigure().clone()));
 			}
 		}
 		return barsAdded;

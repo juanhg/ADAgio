@@ -13,4 +13,6 @@ public abstract class MusicNote implements IModel {
 	public abstract AbsoluteMusicNote toAbsoluteMusicNote(MusicEventListener listener);
 	public abstract String getBasicNoteNameString();
 	public abstract String toString();
+	public abstract MusicNoteName getMusicNoteName();
+	public abstract boolean isSilence();
 }

@@ -46,7 +46,7 @@ public interface MusicEventListener extends EventListener {
 	public void setTempo(MusicUndefinedTempoStatementEvent e);
 	
 	/** ----- NOTE EVENTS ----- **/
-	public AbsoluteMusicNote toAbsolute(MusicNoteToAbsoluteEvent e);
+//	public AbsoluteMusicNote toAbsolute(MusicNoteToAbsoluteEvent e);
 	public int alterationFromReference(MusicNoteNameEvent e);
 	
 	

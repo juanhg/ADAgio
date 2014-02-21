@@ -32,19 +32,19 @@ public class FigureTest {
 	public void DurationConstructorTest() {
 		testFigure = new Figure(1.5);
 		assertEquals(4,testFigure.getShape().intValue());
-		assertEquals(1,testFigure.getDots().length);
+		assertEquals(1,testFigure.getNumDots());
 		
 		testFigure = new Figure(3.5);
 		assertEquals(2,testFigure.getShape().intValue());
-		assertEquals(2,testFigure.getDots().length);
+		assertEquals(2,testFigure.getNumDots());
 		
 		testFigure = new Figure(0.125);
 		assertEquals(32,testFigure.getShape().intValue());
-		assertEquals(0,testFigure.getDots().length);
+		assertEquals(0,testFigure.getNumDots());
 		
 		testFigure = new Figure(0.109375);
 		assertEquals(64,testFigure.getShape().intValue());
-		assertEquals(2,testFigure.getDots().length);
+		assertEquals(2,testFigure.getNumDots());
 		
 	}
 	

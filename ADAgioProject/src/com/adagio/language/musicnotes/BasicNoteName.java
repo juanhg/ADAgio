@@ -10,7 +10,7 @@ import org.modelcc.Value;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 
 @Priority(value = 2)
-@Pattern(regExp="A|B|C|D|E|F|G")
+@Pattern(regExp="A|B|C|D|E|F|G|_|S|s|r|R")
 public class BasicNoteName extends MusicNoteName implements IModel {
 
 	@Value
@@ -39,6 +39,8 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 	public static final int E = 4;
 	public static final int F = 5;
 	public static final int G = 6;
+	
+	public static final String silencePattern = "s";
 	
 	
 	public BasicNoteName(){
@@ -82,7 +84,7 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 	}
 	
 	/**
-	 * Return the int value of a BasicNoteName
+	 * Return the int value of a BasicNoteName. -1 if is a silence
 	 * @param bName
 	 * @return
 	 */
@@ -146,20 +148,36 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 		return bName;
 	}
 	
-	/*
+	/**
 	 * Calculate the number of semitones between a note and the next
+	 * @return the number of semitones between a note an the next. 
+	 * Integer.MIN_VALUE if is a silence.
 	 */
 	public int semitonesToNextNote(){
+		
+		if(this.isSilence()){
+			return Integer.MIN_VALUE;
+		}
+		
 		if(this.getValue().equals("E") || this.getValue().equals("B")){
 			return 1;
 		}
 		else{
 			return 2;
 		}
-			
 	}
 	
+	/**
+	 * Calculate the number of semitones between a note and the previous one
+	 * @return the number of semitones between a note an the previous one. 
+	 * Integer.MIN_VALUE if is a silence.
+	 */
 	public int semitonesToPreviousNote(){
+		
+		if(this.isSilence()){
+			return Integer.MIN_VALUE;
+		}
+		
 		if(this.getValue().equals("C") || this.getValue().equals("F")){
 			return 1;
 		}
@@ -169,11 +187,16 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 	}
 	
 	/**
-	 * Calculate the immediate superior note Name
-	 * @return The next BasicNoteName
+	 * Calculate the immediate superior note Name. 
+	 * @return The next BasicNoteName, or a silence, if the actual note is one.
 	 */
 	public BasicNoteName next(){
 		int intValue = nameToInt(this.getBaseNoteName());
+		
+		if(isSilence()){
+			return new BasicNoteName(silencePattern);
+		}
+		
 		intValue++;
 		intValue = intValue%7;
 		return intToName(intValue);
@@ -181,10 +204,15 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 	
 	/**
 	 * Calculate the immediate inferior note Name
-	 * @return The next BasicNoteName
+	 * @return The next BasicNoteName, or a silence, if the actual note is one.
 	 */
 	public BasicNoteName previous(){
 		int intValue = nameToInt(this.getBaseNoteName());
+		
+		if(isSilence()){
+			return new BasicNoteName(silencePattern);
+		}
+		
 		intValue--;
 		if(intValue < 0){
 			intValue = 7 + intValue;
@@ -196,7 +224,8 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 	 * Calculate the shortest distance between two notes
 	 * @param note1 Previous note
 	 * @param note2 Next note
-	 * @return Int value in the range [-3,3]
+	 * @return Int value in the range [-3,3]. Or Integer.MAX_VALUE if
+	 * any note is a silence
 	 */
 	public int shortestDistance(BasicNoteName note2){
 				
@@ -205,6 +234,10 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 		int result2 = 0;
 		int data1 = 0;
 		int data2 = 0;
+		
+		if(this.isSilence() || note2.isSilence()){
+			return Integer.MAX_VALUE;
+		}
 				
 		data1 = nameToInt(this);
 		data2 = nameToInt(note2);
@@ -235,11 +268,16 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 	/**
 	 * Distance between two notes in the scale C-D-E-F-G-A-B (same octave)
 	 * @param name
-	 * @return Integer with positive or negative distance
+	 * @return Integer with positive or negative distance. Or Integer.MAX_VALUE if
+	 * any note is a silence
 	 */
 	int distance(BasicNoteName name){
 		int data1 = 0;
 		int data2 = 0;
+		
+		if(this.isSilence() || name.isSilence()){
+			return Integer.MAX_VALUE;
+		}
 				
 		data1 = nameToInt(this);
 		data2 = nameToInt(name);
@@ -275,5 +313,20 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 	@Override
 	public String toString() {
 		return this.value;
+	}
+	
+	/**
+	 * @return True if the "note" is a silence. False in other case.
+	 */
+	public boolean isSilence(){
+		if(value.equals("_") || value.equals("r") || value.equals("R") 
+				|| value.equals("S") || value.equals("s") ){
+			return true;
+		}
+		return false;
+	}
+	
+	public static BasicNoteName generateSilenceNoteName(){
+		return new BasicNoteName(silencePattern);
 	}
 }

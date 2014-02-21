@@ -22,6 +22,7 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	
 	MusicNoteName musicNoteName;
 	
+	
 	//------CONSTRUCTORS------//
 	public AbsoluteMusicNote(){}
 	
@@ -281,6 +282,16 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	public String toString() {
 		return this.getOctave().toString() +  this.getMusicNoteName().toString();
 	}
+	
+	public static AbsoluteMusicNote generateSilenceNote(){
+		return new AbsoluteMusicNote(0, BasicNoteName.silencePattern);
+	}
+
+	@Override
+	public boolean isSilence() {
+		return this.musicNoteName.isSilence();
+	}
+	
 	
 	
 }
