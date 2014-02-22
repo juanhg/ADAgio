@@ -66,7 +66,15 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 
 	@Override
 	public String toString() {
-		return this.getMusicNoteName().toString() + this.getOctave().toString();
+		String composition = "";
+		composition += musicNoteName.toString();
+		if(octave != null){
+			composition += octave.toString();
+		}
+		if(duration != null){
+			composition += duration.toString();
+		}
+		return composition;
 	}
 	
 	@Override

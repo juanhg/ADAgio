@@ -41,7 +41,6 @@ import com.adagio.language.figures.Figure;
 import com.adagio.language.instruments.features.LimitedPolyphonicType;
 import com.adagio.language.instruments.features.MonophonicType;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
-import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 import com.adagio.language.tempos.Tempo;
 import com.adagio.language.times.Time;
@@ -133,7 +132,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		Map.Entry e = null;
 		Iterator<Entry<ChannelIdentifier, Channel>> it;
 		
-		composition += this.version() + "\n";
+		composition += this.getVersion() + "\n";
 		composition += "\\score {\n";
 		composition += " <<\n";
 		
@@ -148,30 +147,28 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		}
 		
 		composition += ">> \n";
-		composition += this.midiTail();
+		composition += this.getMidiTail();
 		return composition;
 	}
 	
-		
-//	public String translateSilence(){
-//		return "s";
-//	}
 	
 	/**
-	 * Receives a chord with an absolute-fundamental-note and translates it. Depend of
-	 * the instrument that will play the chord, the translation is diferent.
-	 * The instrument try to brings the chord to his register.
-	 * Note: Need that the bassNote as a AbsoluteMusicNote
+	 * Display the chord, applying all the intervals to the base note.
+	 * @param chord Chord to be displayed
+	 * @return List of AbsoluteMusicNotes that are the result of apply the
+	 * intervals of the chord. List of one silence-AbsoluteMusicNote if
+	 * the the chord is a silence-Chord
 	 */
-	public String translateChord(Chord chord, Instrument instrument){
+	private List<AbsoluteMusicNote> displayChord(Chord chord){
 
-		String composition = "";
+		List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
 
-		if(chord.isSilence() == false){
-
+		if(chord.isSilence()){
+			aNotes.add(AbsoluteMusicNote.genSilence());
+		}
+		else{
 
 			List<Interval> intervals = this.chordsDB.getIntervals(chord.getIdentifier());
-			List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
 			AbsoluteMusicNote bassNote = (AbsoluteMusicNote) chord.getBassNote();
 
 			//Recollects the notes result to apply the interval to the fundamental note
@@ -197,24 +194,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 				}
 				aNotes.add(0,bassNote);
 			}
-
-			//The instrument transports the notes to his register
-			aNotes = instrument.aNotesToInstrumentRegister(aNotes);
-
-			composition += "<";
-			for(int i = 0; i < aNotes.size(); i++){
-				composition += translateAbsoluteMusicNote(aNotes.get(i));
-
-				if(i != aNotes.size()-1){
-					composition += " ";
-				}
-			}
-			composition += ">";
 		}
-		else{
-			composition = BasicNoteName.silencePattern;
-		}
-		return composition;
+		return aNotes;
 	}
 	
 	/**
@@ -264,6 +245,20 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		else if (value.equals("bb")){
 			composition = "eses";
 		}
+		return composition;
+	}
+	
+	public String translateSilence(AbsoluteMusicNote silence){
+		String composition = "";
+		
+		if(silence.isSilence()){
+			composition = "s";
+		}
+		else{
+			System.err.println("Error 17: The note is not a silence");
+			System.exit(-17);
+		}
+		
 		return composition;
 	}
 	
@@ -388,7 +383,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	/**
 	 * @return String-tail needed to create the midi file
 	 */
-	private String midiTail(){
+	private String getMidiTail(){
 		String composition = "";
 		
 		composition += "\\layout{ }\n";
@@ -403,7 +398,46 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		return composition;
 	}
 	
-	private String version(){
+	
+	private String getChannelHeaders(Channel actualChannel){
+		String composition = "";
+		// To format composition...
+		if(this.hasClefChanged 
+				|| this.hasTempoChanged || this.hasTimeChanged
+				|| actualChannel.hasVolumeChanged()
+				|| actualChannel.hasInstrumentChanged())
+		{
+			composition += "\n";
+		}
+
+		// \Tempo...
+		if(this.hasTempoChanged){
+			composition += this.translateTempo(this.tempo) + "\n";
+			this.hasTempoChanged = false;
+		}
+		// \Clef...
+		if(this.hasClefChanged){
+			composition += this.translateClef(clef) + "\n";
+			this.hasClefChanged = false;
+		}
+		// \Time...
+		if(this.hasTimeChanged){
+			composition += this.translateTime(this.time) + "\n";
+			this.hasTimeChanged = false;
+		}
+		// \set midiMaximunVolumen...
+		if(actualChannel.hasVolumeChanged()){
+			composition += this.translateVolume(actualChannel.getVolume()) + "\n";
+		}
+		// \set Staff.midiInstrument...
+		if(actualChannel.hasInstrumentChanged()){
+			composition += this.translateInstrument(actualChannel.getInstrument()) + "\n"; 
+			actualChannel.setInstrumentChanged(false);
+		}
+		return composition;
+	}
+	
+	private String getVersion(){
 		return "\\version \"2.16.2\"";
 	}
 
@@ -412,6 +446,12 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void musicPlay(MusicPlayStatementEvent e) {
+
+		List<AbsoluteMusicNote> chordDisplayed, chordInstrument;
+		List<List<AbsoluteMusicNote>> listChordsDisplayed, listChordsInstrument;
+		Instrument channelInstrument;
+		
+		Channel actualChannel;
 
 		Vector<Chord> barItems = new Vector<Chord>(Arrays.asList(e.getBar().getBarChords()));
 		int numBarsAdded = barFigures(barItems); 
@@ -439,86 +479,81 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 
 		}
 
+		//Display the chords
+		listChordsDisplayed = new ArrayList<List<AbsoluteMusicNote>>();
+		for(Chord current: absoluteChords){
+			chordDisplayed = new ArrayList<AbsoluteMusicNote>();
+			chordDisplayed = this.displayChord(current);
+			listChordsDisplayed.add(chordDisplayed);
+		}
+
 		// (Erase this if don't want to reset relative after play)
 		//we recover the relative
 		//this.relative = relativeBeforePlay;
 
 		composition = "";
-		
+
 
 		Map.Entry x = null;
 		Iterator<Entry<ChannelIdentifier, Channel>> it;
 
 		it = this.channelsDB.getChannelMap().entrySet().iterator();
-		int chordsIndex = 0;
+
+		//For each channel
 		while (it.hasNext()) {
 			x = (Map.Entry) it.next();
-			if (((Channel) x.getValue()).isEnable()) {
+			//If the channel is enabled
+			
+			actualChannel = ((Channel) x.getValue());
+			if (actualChannel.isEnable()) {
 
-				// To format composition...
-				if(this.hasClefChanged 
-						|| this.hasTempoChanged || this.hasTimeChanged
-						|| ((Channel) x.getValue()).hasVolumeChanged()
-						|| ((Channel) x.getValue()).hasInstrumentChanged())
-				{
-					composition += "\n";
+				composition += getChannelHeaders(actualChannel);
+				
+				//The channel is used
+				actualChannel.setUsed(true);
+				
+				
+				//Apply the instrument to the notes chords displayed
+				channelInstrument = actualChannel.getInstrument();
+				listChordsInstrument = new ArrayList<List<AbsoluteMusicNote>>();
+				for(List<AbsoluteMusicNote> current: listChordsDisplayed){
+					chordInstrument = new ArrayList<AbsoluteMusicNote>();
+					chordInstrument = channelInstrument.apply(current);
+					listChordsInstrument.add(chordInstrument);
 				}
-
-				// \Tempo...
-				if(this.hasTempoChanged){
-					composition += this.translateTempo(this.tempo) + "\n";
-					this.hasTempoChanged = false;
-				}
-				// \Clef...
-				if(this.hasClefChanged){
-					composition += this.translateClef(clef) + "\n";
-					this.hasClefChanged = false;
-				}
-				// \Time...
-				if(this.hasTimeChanged){
-					composition += this.translateTime(this.time) + "\n";
-					this.hasTimeChanged = false;
-				}
-				// \set midiMaximunVolumen...
-				if(((Channel) x.getValue()).hasVolumeChanged()){
-					composition += this.translateVolume(((Channel) x.getValue()).getVolume()) + "\n";
-				}
-				// \set Staff.midiInstrument...
-				if(((Channel) x.getValue()).hasInstrumentChanged()){
-					composition += this.translateInstrument(((Channel) x.getValue()).getInstrument()) + "\n"; 
-					((Channel) x.getValue()).setInstrumentChanged(false);
-				}
-
-
-				if(barItems.size() > 0){
-					//The channel is used
-					((Channel) x.getValue()).setUsed(true);
-
-					for (int i = 0; i < barItems.size(); i++) {
-
-						composition += translateChord(absoluteChords.get(chordsIndex),((Channel)x.getValue()).getInstrument());
-						chordsIndex++;
-
-						composition += translateFigure(barItems.elementAt(i).getDuration().getFigure());
-
-						if (((Channel) x.getValue()).hasVolumeChanged()) {
-							composition += "\\mf";
-							((Channel) x.getValue()).setVolumeChanged(false);
+				
+				//Translate the chords displayed and transported to the register
+				//of the instrument of the actual channel
+				for(int i = 0; i < listChordsInstrument.size(); i++){
+				
+			        if(listChordsInstrument.get(i).get(0).isSilence()){
+			        	composition += "s";
+			        }
+			        else{
+			        	String auxComposition = "";
+			        	for(AbsoluteMusicNote current: listChordsInstrument.get(i)){
+							auxComposition += " " + translateAbsoluteMusicNote(current);
 						}
-						composition += " ";
-					}
+						composition += "<" + auxComposition + ">";
+			        }
 					
-
-					this.channelsDB.addMusic((ChannelIdentifier) x.getKey(),composition, numBarsAdded);
-
-					composition = "";
-					chordsIndex = 0;
+					composition += translateFigure(barItems.elementAt(i).getDuration().getFigure());
+					
+					if (actualChannel.hasVolumeChanged()) {
+						composition += "\\mf";
+						actualChannel.setVolumeChanged(false);
+					}
+					composition += " ";
 				}
+				
+				this.channelsDB.addMusic((ChannelIdentifier) x.getKey(),composition, numBarsAdded);
+				composition = "";
+
 			}
 		}
 		this.fillDisabledChannelsWithSilences();
 	}
-	
+
 	/**
 	 * Event that occurs when a channel is going to be created.
 	 * DISABLES the default channel.

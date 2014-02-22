@@ -33,7 +33,7 @@ public class LimitedPolyphonicInstrumentTest extends InitTest {
 		expected.add(C1);
 		expected.add(E1);
 		expected.add(G1);
-		result = acousticGuitar.aNotesToInstrumentRegister(aNotes);
+		result = acousticGuitar.apply(aNotes);
 		assertEquals(expected, result);
 		aNotes.clear();
 		expected.clear();
@@ -46,7 +46,7 @@ public class LimitedPolyphonicInstrumentTest extends InitTest {
 		expected.add(E0);
 		expected.add(G1Sharp);
 		expected.add(F1);
-		result = acousticGuitar.aNotesToInstrumentRegister(aNotes);
+		result = acousticGuitar.apply(aNotes);
 		assertEquals(expected, result);
 		aNotes.clear();
 		expected.clear();

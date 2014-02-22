@@ -31,7 +31,7 @@ public class MonophonicInstrumentTest extends InitTest {
 		aNotes.add(G0);
 
 		expected.add(C2);
-		result = maleVoice.aNotesToInstrumentRegister(aNotes);
+		result = maleVoice.apply(aNotes);
 		assertEquals(expected, result);
 		aNotes.clear();
 		expected.clear();
@@ -42,7 +42,7 @@ public class MonophonicInstrumentTest extends InitTest {
 		aNotes.add(Gm1);
 
 		expected.add(C3);
-		result = femaleVoice.aNotesToInstrumentRegister(aNotes);
+		result = femaleVoice.apply(aNotes);
 		assertEquals(expected, result);
 		aNotes.clear();
 		expected.clear();
@@ -53,7 +53,7 @@ public class MonophonicInstrumentTest extends InitTest {
 		aNotes.add(C3Sharp);
 
 		expected.add(F2Sharp);
-		result = flute.aNotesToInstrumentRegister(aNotes);
+		result = flute.apply(aNotes);
 		assertEquals(expected, result);
 		aNotes.clear();
 		expected.clear();
@@ -64,7 +64,7 @@ public class MonophonicInstrumentTest extends InitTest {
 		aNotes.add(Gm1);
 		
 		expected.add(E0);
-		result = flute.aNotesToInstrumentRegister(aNotes);
+		result = flute.apply(aNotes);
 		assertEquals(expected, result);
 		aNotes.clear();
 		expected.clear();
@@ -75,7 +75,7 @@ public class MonophonicInstrumentTest extends InitTest {
 		aNotes.add(D7);
 
 		expected.add(C3);
-		result = flute.aNotesToInstrumentRegister(aNotes);
+		result = flute.apply(aNotes);
 		assertEquals(expected, result);
 		expected.clear();
 		aNotes.clear();
@@ -84,7 +84,7 @@ public class MonophonicInstrumentTest extends InitTest {
 		aNotes.add(G4);
 
 		expected.add(G2);
-		result = flute.aNotesToInstrumentRegister(aNotes);
+		result = flute.apply(aNotes);
 		assertEquals(expected, result);
 		
 	}

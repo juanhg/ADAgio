@@ -6,7 +6,7 @@ import com.adagio.events.MusicEventListener;
 
 public abstract class MusicNote implements IModel {
 	
-	private Duration duration;
+	protected Duration duration;
 	
 	/**
 	 * Obtain the AbsoluteMusicNote-form of the note 

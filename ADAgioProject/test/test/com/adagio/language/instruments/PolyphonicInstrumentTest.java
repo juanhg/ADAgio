@@ -34,7 +34,7 @@ public class PolyphonicInstrumentTest extends InitTest {
 		expected.add(C1);
 		expected.add(E1);
 		expected.add(G1);
-		result = realPiano.aNotesToInstrumentRegister(aNotes);
+		result = realPiano.apply(aNotes);
 		assertEquals(expected, result);
 		aNotes.clear();
 		expected.clear();
@@ -47,7 +47,7 @@ public class PolyphonicInstrumentTest extends InitTest {
 		expected.add(C1);
 		expected.add(E1);
 		expected.add(G1);
-		result = realPiano.aNotesToInstrumentRegister(aNotes);
+		result = realPiano.apply(aNotes);
 		assertEquals(expected, result);
 		aNotes.clear();
 		expected.clear();
@@ -60,7 +60,7 @@ public class PolyphonicInstrumentTest extends InitTest {
 		expected.add(F2Sharp);
 		expected.add(A2);
 		expected.add(C3Sharp);
-		result = realPiano.aNotesToInstrumentRegister(aNotes);
+		result = realPiano.apply(aNotes);
 		assertEquals(expected, result);	
 		aNotes.clear();
 		expected.clear();
@@ -73,7 +73,7 @@ public class PolyphonicInstrumentTest extends InitTest {
 		expected.add(C2);
 		expected.add(E2);
 		expected.add(G2);
-		result = polyInstrument.aNotesToInstrumentRegister(aNotes);
+		result = polyInstrument.apply(aNotes);
 		assertEquals(expected, result);
 		aNotes.clear();
 		expected.clear();

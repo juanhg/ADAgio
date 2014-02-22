@@ -15,12 +15,13 @@ public class Chord implements IModel {
 	
 	MusicNote note;
 	ChordIdentifier identifier;
-	Duration duration;
 	
 	@Optional
 	@Prefix("/")
 	MusicNote bassNote;
 
+	Duration duration;
+	
 	public Chord(){}
 	
 	/**
@@ -88,6 +89,18 @@ public class Chord implements IModel {
 	
 	public boolean isSilence(){
 		return this.note.isSilence();
+	}
+	
+	public String toString(){
+		String composition = "";
+		composition += note.toString() + identifier.value;
+		if(bassNote != null){
+			composition += "/" +  bassNote.toString(); 
+		}
+		if(duration != null){
+			composition += duration.toString();
+		}
+		return composition;
 	}
 	
 }

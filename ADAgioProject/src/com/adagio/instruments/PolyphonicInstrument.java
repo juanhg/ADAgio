@@ -30,7 +30,7 @@ public class PolyphonicInstrument extends Instrument implements IModel {
 	 */
 	
 	@Override
-	public List<AbsoluteMusicNote> aNotesToInstrumentRegister(List<AbsoluteMusicNote> aNotes) {
+	public List<AbsoluteMusicNote> apply(List<AbsoluteMusicNote> aNotes) {
 		List<AbsoluteMusicNote> transportedANotes = new ArrayList<AbsoluteMusicNote>();
 		
 		for(AbsoluteMusicNote current: aNotes){

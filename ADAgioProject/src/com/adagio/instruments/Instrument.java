@@ -68,8 +68,18 @@ public abstract class Instrument{
 	 * @param aNotes List of AbsoluteMusicNote(s) to transport. 
 	 * @return A List of AbsoluteMusicNotes inside (or close, if is not posible inside) the registers of the instrument
 	 */
-	public abstract List<AbsoluteMusicNote> aNotesToInstrumentRegister(List<AbsoluteMusicNote> aNotes);
+	public abstract List<AbsoluteMusicNote> apply(List<AbsoluteMusicNote> aNotes);
 	
+	@Override
+	public String toString(){
+		String composition = "";
+		composition += timbre.toString() + ": ";
+		
+		for(Register current: registers){
+			composition += current.toString() + " ";
+		}
+		return composition;
+	}
 	
 	
 }

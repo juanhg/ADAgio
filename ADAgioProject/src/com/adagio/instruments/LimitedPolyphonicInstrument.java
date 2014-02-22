@@ -28,7 +28,7 @@ public class LimitedPolyphonicInstrument extends Instrument implements IModel {
 	 * Assigns the lower note to the lower register. Later, assing the other notes 
 	 * to the other not-used-registers.
 	 */
-	public List<AbsoluteMusicNote> aNotesToInstrumentRegister(List<AbsoluteMusicNote> aNotes) {
+	public List<AbsoluteMusicNote> apply(List<AbsoluteMusicNote> aNotes) {
 		
 		List<AbsoluteMusicNote> aNotesCopy = new ArrayList<AbsoluteMusicNote>();
 		List<AbsoluteMusicNote> transportedANotes = new ArrayList<AbsoluteMusicNote>();
@@ -43,8 +43,9 @@ public class LimitedPolyphonicInstrument extends Instrument implements IModel {
 		//Assign the lower note, to the lower register
 		lowerNotePos = AbsoluteMusicNote.lowerNotePosition(aNotesCopy);
 		transportedANotes.add(this.selectRegister(aNotesCopy.get(lowerNotePos)).aNoteToRegister(aNotesCopy.get(lowerNotePos).clone()));
-		aNotesCopy.remove(lowerNotePos);
 		this.selectRegister(aNotesCopy.get(lowerNotePos)).setUsed(true);
+		aNotesCopy.remove(lowerNotePos);
+	
 
 		//Assign the other notes notes to the registers
 		for(int i = 0; i < aNotesCopy.size() && this.notUsedRegisters() > 0; i++){

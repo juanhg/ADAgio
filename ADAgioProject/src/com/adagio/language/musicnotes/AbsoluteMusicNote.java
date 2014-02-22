@@ -288,7 +288,12 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 
 	@Override
 	public String toString() {
-		return this.getOctave().toString() +  this.getMusicNoteName().toString();
+		String composition = "";
+		composition += this.getOctave().toString() +  this.getMusicNoteName().toString();
+		if(duration != null){
+			composition += duration.toString();
+		}
+		return composition;
 	}
 	
 	@Override

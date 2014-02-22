@@ -64,6 +64,8 @@ public class Register implements IModel {
 	 */
 	public boolean belong(AbsoluteMusicNote aNote){
 		
+		if(aNote.isSilence()){ return true; }
+		
 		int semitonesToHigher = aNote.semitonesTill(this.higherNote);
 		int semitonesToLower = aNote.semitonesTill(this.lowerNote);
 		
@@ -84,8 +86,14 @@ public class Register implements IModel {
 	 */
 	public AbsoluteMusicNote aNoteToRegister(AbsoluteMusicNote aNote){
 		AbsoluteMusicNote aNoteTransported = aNote.clone();
+		
+		if(aNote.isSilence()){
+			return aNoteTransported;
+		}
+		
 		int semitonesToHigher = aNoteTransported.semitonesTill(this.higherNote);
 		int semitonesToLower = aNoteTransported.semitonesTill(this.lowerNote);
+		
 		
 		while(semitonesToLower > 0){
 			aNoteTransported.increaseOctave();
@@ -128,6 +136,11 @@ public class Register implements IModel {
 
 	public AbsoluteMusicNote getLowerNote() {
 		return lowerNote;
+	}
+	
+	@Override
+	public String toString(){
+		return "" + lowerNote + "-" + higherNote;
 	}
 	
 	

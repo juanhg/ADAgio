@@ -216,6 +216,17 @@ public class Figure implements IModel {
 		return true;
 	}
 	
+	@Override
+	public String toString(){
+		String composition = "";
+		composition += shape.toString();
+		if(dots != null){
+			for(FigureDot current: dots){
+				composition += current.toString(); 
+			}
+		}
+		return composition;
+	}
 	
 	
 }

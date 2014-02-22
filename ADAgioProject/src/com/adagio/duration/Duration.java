@@ -21,4 +21,9 @@ public class Duration {
 		this.figure = figure;
 	}
 	
+	@Override
+	public String toString(){
+		return figure.toString();
+	}
+	
 }

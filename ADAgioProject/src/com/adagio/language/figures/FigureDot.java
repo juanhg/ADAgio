@@ -52,6 +52,9 @@ public class FigureDot implements IModel {
 		return true;
 	}
 	
-	
+	@Override 
+	public String toString(){
+		return ".";
+	}
 	
 }
