@@ -7,7 +7,6 @@ import org.modelcc.Prefix;
 import com.adagio.duration.Duration;
 import com.adagio.events.MusicEventListener;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
-import com.adagio.language.musicnotes.AlteredNoteName;
 import com.adagio.language.musicnotes.MusicNote;
 import com.adagio.language.musicnotes.RelativeMusicNote;
 
@@ -24,8 +23,12 @@ public class Chord implements IModel {
 
 	public Chord(){}
 	
-	public static Chord generateSilenceChord(){
-		Chord silence = new Chord(RelativeMusicNote.generateSilenceNote(),
+	/**
+	 * Generate a Chord that represents a silence
+	 * @return Silence-Chord
+	 */
+	public static Chord genSilence(){
+		Chord silence = new Chord(RelativeMusicNote.genSilence(),
 				                      new ChordIdentifier(""),null);
 		return silence;
 	}

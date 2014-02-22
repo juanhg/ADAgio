@@ -176,7 +176,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 
 			//Recollects the notes result to apply the interval to the fundamental note
 			for(int i = 0; i < intervals.size();i++){
-				aNotes.add(intervals.get(i).Apply(chord.getNote(), this));		
+				aNotes.add(intervals.get(i).apply(chord.getNote(), this));		
 			}
 
 			if (bassNote != null) {
@@ -424,17 +424,19 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 
 		// Translates to absoluteMusicNote
 		for (int i = 0; i < barItems.size(); i++) {
-			if(barItems.get(i).getClass().equals(Chord.class)){
-				if (this.chordsDB.exists(((Chord)barItems.get(i)).getIdentifier())) {
-					absoluteChords.add(((Chord)barItems.get(i)).toAbsoluteChord(this));
+			if (this.chordsDB.exists(((Chord)barItems.get(i)).getIdentifier())) {
+				Chord auxChord = ((Chord)barItems.get(i)).toAbsoluteChord(this);
+				absoluteChords.add(auxChord);
+				if(auxChord.isSilence() == false){
 					this.relative = (AbsoluteMusicNote) absoluteChords.get(absoluteChords.size()-1).getNote();
-				} else {
-					System.err.println("Error 1: The chord identifier \""
-							+ ((Chord)barItems.get(i)).getIdentifier().getValue()
-							+ "\" is not defined");
-					System.exit(1);
 				}
+			} else {
+				System.err.println("Error 1: The chord identifier \""
+						+ ((Chord)barItems.get(i)).getIdentifier().getValue()
+						+ "\" is not defined");
+				System.exit(1);
 			}
+
 		}
 
 		// (Erase this if don't want to reset relative after play)
@@ -765,39 +767,45 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	/**
 	 * Obtains the alteration produces in a MusicNoteName because of the reference
 	 * @return A integer value, that means the octave-alteration produces.
+	 * If is a silence, returns the relative-octave alteration
 	 */
 	@Override
 	public int alterationFromReference(MusicNoteNameEvent e) {
+
 		boolean up = false;
 		boolean down = false;
-			
+
 		String rNoteName = this.relative.getBasicNoteNameString();
 		int octave = this.relative.getOctave().intValue();
-		
-		int distance = this.relative.getMusicNoteName().getBaseNoteName().shortestDistance(e.getMusicNoteName().getBaseNoteName());
-		
-		if(distance == 3 && (rNoteName.equals("A") || rNoteName.equals("B")|| rNoteName.equals("G"))){
-			up = true;
+
+		if(e.getMusicNoteName().isSilence() == false){
+
+			int distance = this.relative.getMusicNoteName().getBaseNoteName().shortestDistance(e.getMusicNoteName().getBaseNoteName());
+
+			if(distance == 3 && (rNoteName.equals("A") || rNoteName.equals("B")|| rNoteName.equals("G"))){
+				up = true;
+			}
+			else if(distance == 2 && (rNoteName.equals("A") || rNoteName.equals("B"))){
+				up = true;
+			}
+			else if(distance == 1 && (rNoteName.equals("B"))){
+				up = true;
+			}
+			else if(distance == -3 && (rNoteName.equals("C") || rNoteName.equals("D") || rNoteName.equals("E"))){
+				down = true;
+			}
+			else if(distance == -2 && (rNoteName.equals("C") || rNoteName.equals("D"))){
+				down = true;
+			}
+			else if(distance == -1 && (rNoteName.equals("C"))){
+				down = true;
+			}
+
+			if(up){ octave++;}
+			else if(down){ octave--;}
+
 		}
-		else if(distance == 2 && (rNoteName.equals("A") || rNoteName.equals("B"))){
-			up = true;
-		}
-		else if(distance == 1 && (rNoteName.equals("B"))){
-			up = true;
-		}
-		else if(distance == -3 && (rNoteName.equals("C") || rNoteName.equals("D") || rNoteName.equals("E"))){
-			down = true;
-		}
-		else if(distance == -2 && (rNoteName.equals("C") || rNoteName.equals("D"))){
-			down = true;
-		}
-		else if(distance == -1 && (rNoteName.equals("C"))){
-			down = true;
-		}
-		
-		if(up){ octave++;}
-		else if(down){ octave--;}
-		
+
 		return octave;
 	}
 		
@@ -836,7 +844,6 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 * The duration depends of the actual time & number of items in a bar.
 	 * @param bar Bar with chords & silences
 	 */
-	@SuppressWarnings("unchecked")
 	public int barFigures(Vector<Chord> items){
 		
 		int barsAdded = 1;
@@ -852,7 +859,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		else{
 			for(int i = 0; (i < items.size()) || (i%time.getBeats().intValue() != 0); i++){
 				if(i >= items.size()){
-					items.add(Chord.generateSilenceChord());
+					items.add(Chord.genSilence());
 					barsAdded = items.size()/time.getBeats().intValue();
 				}
 				items.elementAt(i).setDuration(new Duration(time.getFigure().clone()));

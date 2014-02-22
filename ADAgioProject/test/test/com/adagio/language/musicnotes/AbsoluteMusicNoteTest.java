@@ -9,6 +9,10 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.modelcc.io.java.JavaModelReader;
+import org.modelcc.metamodel.Model;
+import org.modelcc.parser.Parser;
+import org.modelcc.parser.ParserFactory;
 
 import test.com.adagio.InitTest;
 
@@ -16,13 +20,19 @@ import com.adagio.language.musicnotes.AbsoluteMusicNote;
 
 public class AbsoluteMusicNoteTest extends InitTest {
 		
-	@Before
-	  public void setUp() throws Exception {
-		super.setUp();
-	  }
-	
 
-	@Test
+	Model model;
+	Parser<AbsoluteMusicNote> parser;
+
+	@SuppressWarnings("unchecked")
+	@Before
+	public void setUp() throws Exception {
+		super.setUp();
+		model = JavaModelReader.read(AbsoluteMusicNote.class);
+		parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
+	}
+
+
 	public void isHigherTest() {
 		
 		assertTrue(A3.isHigher(A2));
@@ -89,5 +99,13 @@ public class AbsoluteMusicNoteTest extends InitTest {
 		aNotes.add(Bm4);
 		assertEquals(2, AbsoluteMusicNote.lowerNotePosition(aNotes));
 	}
-
+	
+	@Test
+	public void toAbsoluteTest(){
+		AbsoluteMusicNote result = super.SRelative.toAbsoluteMusicNote(listener);
+		assertTrue(result.isSilence());
+		
+		result = S0.toAbsoluteMusicNote(listener);
+		assertTrue(result.isSilence());
+	}
 }

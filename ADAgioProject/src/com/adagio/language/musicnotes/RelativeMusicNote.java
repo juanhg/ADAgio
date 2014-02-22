@@ -14,15 +14,20 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 	@Optional
 	public OctaveAlteration octave;
 	
-//	@Constraint
-//	boolean silenceRestriction(){
-//		if(musicNoteName.isSilence()){
-//			if(octave == null){
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
+	@Constraint
+	boolean silenceRestriction(){
+		if(musicNoteName.isSilence()){
+			if(octave == null){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		else{
+			return true;
+		}
+	}
 	
 
 	public MusicNoteName getMusicNoteName() {
@@ -64,17 +69,21 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 		return this.getMusicNoteName().toString() + this.getOctave().toString();
 	}
 	
-	public static RelativeMusicNote generateSilenceNote(){
-		RelativeMusicNote note = new RelativeMusicNote();
-		note.musicNoteName = BasicNoteName.generateSilenceNoteName();
-		note.octave = null;
-		
-		return note;
-	}
-
 	@Override
 	public boolean isSilence() {
 		return musicNoteName.isSilence();
+	}
+
+	/**
+	 * Generates a RelativeMusicNote that represents a silence
+	 * @return Silence-RelativeMusicNote
+	 */
+	public static RelativeMusicNote genSilence() {
+		RelativeMusicNote note = new RelativeMusicNote();
+		note.musicNoteName = BasicNoteName.genSilence();
+		note.octave = null;
+		
+		return note;
 	}
 	
 

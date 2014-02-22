@@ -11,13 +11,11 @@ import com.adagio.events.definitions.InstrumentDefinitionEvent;
 import com.adagio.events.definitions.MusicTempoDefinitionEvent;
 import com.adagio.events.definitions.RhythmDefinitionEvent;
 import com.adagio.events.notes.MusicNoteNameEvent;
-import com.adagio.events.notes.MusicNoteToAbsoluteEvent;
 import com.adagio.events.statements.MusicDefinedTempoStatementEvent;
 import com.adagio.events.statements.MusicPlayStatementEvent;
 import com.adagio.events.statements.MusicRelativeStatementEvent;
 import com.adagio.events.statements.MusicTimeStatementEvent;
 import com.adagio.events.statements.MusicUndefinedTempoStatementEvent;
-import com.adagio.language.musicnotes.AbsoluteMusicNote;
 
 public interface MusicEventListener extends EventListener {
 		

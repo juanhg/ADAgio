@@ -40,7 +40,7 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 	public static final int F = 5;
 	public static final int G = 6;
 	
-	public static final String silencePattern = "s";
+	public static final String silencePattern = "S";
 	
 	
 	public BasicNoteName(){
@@ -326,7 +326,11 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 		return false;
 	}
 	
-	public static BasicNoteName generateSilenceNoteName(){
+	/**
+	 * Generate a basicNoteName that represents a silence
+	 * @return Silence-BasicNoteName
+	 */
+	public static BasicNoteName genSilence(){
 		return new BasicNoteName(silencePattern);
 	}
 }

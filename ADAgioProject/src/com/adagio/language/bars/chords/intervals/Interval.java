@@ -7,7 +7,6 @@ import org.modelcc.IModel;
 import org.modelcc.types.IntegerModel;
 
 import com.adagio.events.MusicEventListener;
-import com.adagio.events.notes.MusicNoteToAbsoluteEvent;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.MusicNote;
@@ -134,7 +133,7 @@ public class Interval implements IModel {
 	 * @return And absolute note with the result of apply the interval to the note. Always is 
 	 * higher than the fundamental one
 	 */
-	public AbsoluteMusicNote Apply(MusicNote note, MusicEventListener listener){
+	public AbsoluteMusicNote apply(MusicNote note, MusicEventListener listener){
 		
 		AbsoluteMusicNote result = null;
 
@@ -206,7 +205,7 @@ public class Interval implements IModel {
 			}
 		}
 		else{
-			result = AbsoluteMusicNote.generateSilenceNote();
+			result = AbsoluteMusicNote.genSilence();
 		}
 
 		return result;

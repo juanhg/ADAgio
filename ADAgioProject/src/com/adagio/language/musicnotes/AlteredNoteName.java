@@ -13,13 +13,13 @@ public class AlteredNoteName extends MusicNoteName implements IModel {
 	BasicNoteName basicNoteName;
 	Alteration alteration;
 	
-//	@Constraint
-//	boolean basicNoteIsNotASilence(){
-//		if(basicNoteName.isSilence()){
-//			return false;
-//		}
-//		return true;
-//	}
+	@Constraint
+	boolean basicNoteIsNotASilence(){
+		if(basicNoteName.isSilence()){
+			return false;
+		}
+		return true;
+	}
 	
 	public AlteredNoteName(){}
 	

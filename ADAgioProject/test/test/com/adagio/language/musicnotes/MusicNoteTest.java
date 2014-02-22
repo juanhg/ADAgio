@@ -105,6 +105,11 @@ public class MusicNoteTest {
     assertInvalid(parser,"g");
     assertInvalid(parser,"h");
     
+    assertInvalid(parser,"2S");
+    assertInvalid(parser,"sb");
+    assertInvalid(parser,"r#");
+    assertInvalid(parser,"_,");
+    
   }  
 
   // Comprobamos si la información leída de una nota es correcta:

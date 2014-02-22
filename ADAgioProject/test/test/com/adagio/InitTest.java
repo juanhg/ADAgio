@@ -6,18 +6,23 @@ import com.adagio.instruments.Instrument;
 import com.adagio.instruments.LimitedPolyphonicInstrument;
 import com.adagio.instruments.MonophonicInstrument;
 import com.adagio.instruments.PolyphonicInstrument;
+import com.adagio.io.lilypond.LilyPondMusicPieceWriter;
+import com.adagio.language.bars.chords.Chord;
 import com.adagio.language.bars.chords.intervals.Interval;
 import com.adagio.language.instruments.features.Register;
 import com.adagio.language.instruments.features.Timbre;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.BasicNoteName;
+import com.adagio.language.musicnotes.RelativeMusicNote;
 import com.adagio.language.musicnotes.notealterations.DoubleFlatAlteration;
 import com.adagio.language.musicnotes.notealterations.SharpAlteration;
 
 public class InitTest {
 	
+	public LilyPondMusicPieceWriter listener;
+	
 	// BasicNoteNames
-	public BasicNoteName A, B, C, D, E, F, G;
+	public BasicNoteName A, B, C, D, E, F, G, S;
 	
 	// AbsoluteMusicNotes
 	public AbsoluteMusicNote A0, A1, A2, A3, A4, A5, A6, A7, A8, A100;
@@ -38,7 +43,10 @@ public class InitTest {
 	public AbsoluteMusicNote C1Sharp, C3Sharp;
 	public AbsoluteMusicNote F0Sharp, F2Sharp;
 	public AbsoluteMusicNote G0Sharp, G1Sharp;
+	public AbsoluteMusicNote S0;
 	
+	//Relatives Music Notes
+	public RelativeMusicNote SRelative;
 	
 	// Intervals
 	public Interval perfect1, perfect4, perfect5, perfect8;
@@ -48,7 +56,9 @@ public class InitTest {
 	public Interval doubleDiminished7, doubleDiminished5, doubleDiminished14;
 	public Interval minor2, minor3, minor6, minor7;
 	public Interval major2, major3, major6, major7;
-			
+	
+	// Chord
+	public Chord silenceChord;		
 	
 	// Registers
 	public Register r1, r2, r3, r4, r5, r6;
@@ -60,6 +70,9 @@ public class InitTest {
 	@Before
 	  public void setUp() throws Exception {
 		
+		//Listener
+		listener = new LilyPondMusicPieceWriter();
+		
 		//BasicNoteNames
 		A = new BasicNoteName("A");
 		B = new BasicNoteName("B");
@@ -68,6 +81,7 @@ public class InitTest {
 		E = new BasicNoteName("E");
 		F = new BasicNoteName("F");
 		G = new BasicNoteName("G");
+		S = new BasicNoteName("S");
 		
 		// AbsoluteMusicNotes
 		A0 = new AbsoluteMusicNote(0,"A");
@@ -178,6 +192,11 @@ public class InitTest {
 		G0Sharp = new AbsoluteMusicNote(0, "G", new SharpAlteration());
 		G1Sharp = new AbsoluteMusicNote(1, "G", new SharpAlteration());
 		
+		S0 = AbsoluteMusicNote.genSilence();
+		
+		//RelativeNotes
+		SRelative = RelativeMusicNote.genSilence();
+		
 		// Intervals
 		perfect1 = new Interval("P",1);
 		diminished2 = new Interval("d",2);
@@ -212,6 +231,9 @@ public class InitTest {
 		augmented14 = new Interval("A",14);
 		doubleAugmented14 = new Interval("AA",14);
 		doubleDiminished14 = new Interval("dd", 14);
+		
+		//Chords
+		silenceChord = Chord.genSilence();
 		
 		// Registers
 		r1 = new Register();

@@ -77,43 +77,43 @@ public class IntervalTest extends InitTest {
 		// P5(-3C) --> -3G
 		note = Cm3;
 		expected = Gm3;
-		result = perfect5.Apply(note, listener);
+		result = perfect5.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// P5(-3G) --> -2D
 		note = result;
 		expected = Dm2;
-		result = perfect5.Apply(note, listener);
+		result = perfect5.apply(note, listener);
 		assertEquals(expected,result);
 
 		// P5(-2D) --> -2A
 		note = result;
 		expected = Am2;
-		result = perfect5.Apply(note, listener);
+		result = perfect5.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// P5(-2A) --> -1E
 		note = result;
 		expected = Em1;
-		result = perfect5.Apply(note, listener);
+		result = perfect5.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// P5(-1E) --> -1B
 		note = result;
 		expected = Bm1;
-		result = perfect5.Apply(note, listener);
+		result = perfect5.apply(note, listener);
 		assertEquals(expected,result);	
 		
 		// P5(-1B) --> 0F#
 		note = result;
 		expected = F0Sharp;
-		result = perfect5.Apply(note, listener);
+		result = perfect5.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// P5(0F#) --> 1C#
 		note = result;
 		expected = C1Sharp;
-		result = perfect5.Apply(note, listener);
+		result = perfect5.apply(note, listener);
 		assertEquals(expected,result);
 		
 		
@@ -122,7 +122,7 @@ public class IntervalTest extends InitTest {
 		// P4(-3C) --> -3F
 		note = Cm3;
 		expected = Fm3;
-		result = perfect4.Apply(note, listener);
+		result = perfect4.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// P5(-3F) --> -3Bb
@@ -130,7 +130,7 @@ public class IntervalTest extends InitTest {
 		bNoteName = new BasicNoteName("B");
 		alteration = new FlatAlteration();
 		expected = new AbsoluteMusicNote(new IntegerModel(-3), new AlteredNoteName(bNoteName, alteration));
-		result = perfect4.Apply(note, listener);
+		result = perfect4.apply(note, listener);
 		assertEquals(expected,result);
 
 		// P5(-3Bb) --> -2Eb
@@ -138,7 +138,7 @@ public class IntervalTest extends InitTest {
 		bNoteName = new BasicNoteName("E");
 		alteration = new FlatAlteration();
 		expected = new AbsoluteMusicNote(new IntegerModel(-2), new AlteredNoteName(bNoteName, alteration));
-		result = perfect4.Apply(note, listener);
+		result = perfect4.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// P5(-2Eb) --> -2Ab
@@ -146,7 +146,7 @@ public class IntervalTest extends InitTest {
 		bNoteName = new BasicNoteName("A");
 		alteration = new FlatAlteration();
 		expected = new AbsoluteMusicNote(new IntegerModel(-2), new AlteredNoteName(bNoteName, alteration));
-		result = perfect4.Apply(note, listener);
+		result = perfect4.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// P5(-2Ab) --> -1Db
@@ -154,7 +154,7 @@ public class IntervalTest extends InitTest {
 		bNoteName = new BasicNoteName("D");
 		alteration = new FlatAlteration();
 		expected = new AbsoluteMusicNote(new IntegerModel(-1), new AlteredNoteName(bNoteName, alteration));
-		result = perfect4.Apply(note, listener);
+		result = perfect4.apply(note, listener);
 		assertEquals(expected,result);
 
 		// P5(-1Db) --> -1Gb
@@ -162,7 +162,7 @@ public class IntervalTest extends InitTest {
 		bNoteName = new BasicNoteName("G");
 		alteration = new FlatAlteration();
 		expected = new AbsoluteMusicNote(new IntegerModel(-1), new AlteredNoteName(bNoteName, alteration));
-		result = perfect4.Apply(note, listener);
+		result = perfect4.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// P5(-1Gb) --> 0Cb
@@ -170,7 +170,7 @@ public class IntervalTest extends InitTest {
 		bNoteName = new BasicNoteName("C");
 		alteration = new FlatAlteration();
 		expected = new AbsoluteMusicNote(new IntegerModel(0), new AlteredNoteName(bNoteName, alteration));
-		result = perfect4.Apply(note, listener);
+		result = perfect4.apply(note, listener);
 		assertEquals(expected,result);
 
 		/* OTHERS */
@@ -178,13 +178,13 @@ public class IntervalTest extends InitTest {
 		// P1(0C) --> 0C
 		expected = new AbsoluteMusicNote(0,"C");
 		note = new AbsoluteMusicNote(0,"C");
-		result = perfect1.Apply(note, listener);
+		result = perfect1.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// M3(0C) --> 0E
 		note = new AbsoluteMusicNote(0,"C");
 		expected = new AbsoluteMusicNote(0,"E");
-		result = major3.Apply(note, listener);
+		result = major3.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// m3(0C#) --> 0E
@@ -192,7 +192,7 @@ public class IntervalTest extends InitTest {
 		alteration = new SharpAlteration();
 		note = new AbsoluteMusicNote(new IntegerModel(0), new AlteredNoteName(bNoteName, alteration));
 		expected = new AbsoluteMusicNote(0,"E");
-		result = minor3.Apply(note, listener);
+		result = minor3.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// P5(0C#) --> 0G#
@@ -201,7 +201,7 @@ public class IntervalTest extends InitTest {
 		note = new AbsoluteMusicNote(new IntegerModel(0), new AlteredNoteName(bNoteName, alteration));
 		bNoteName = new BasicNoteName("G");
 		expected =new AbsoluteMusicNote(new IntegerModel(0), new AlteredNoteName(bNoteName, alteration));
-		result = perfect5.Apply(note, listener);
+		result = perfect5.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// M3(0E#) --> 0G##
@@ -211,7 +211,7 @@ public class IntervalTest extends InitTest {
 		bNoteName = new BasicNoteName("G");
 		alteration = new DoubleSharpAlteration();
 		expected =new AbsoluteMusicNote(new IntegerModel(0), new AlteredNoteName(bNoteName, alteration));
-		result = major3.Apply(note, listener);
+		result = major3.apply(note, listener);
 		assertEquals(expected,result);
 		
 		
@@ -222,13 +222,13 @@ public class IntervalTest extends InitTest {
 		bNoteName = new BasicNoteName("E");
 		alteration = new SharpAlteration();
 		expected =new AbsoluteMusicNote(new IntegerModel(1), new AlteredNoteName(bNoteName, alteration));
-		result = perfect5.Apply(note, listener);
+		result = perfect5.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// d5(0B) --> 1F
 		note = new AbsoluteMusicNote(0, "B");
 		expected =new AbsoluteMusicNote(1,"F");
-		result = diminished5.Apply(note, listener);
+		result = diminished5.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// d5(0Cb) --> 0Gbb
@@ -238,7 +238,7 @@ public class IntervalTest extends InitTest {
 		bNoteName = new BasicNoteName("G");
 		alteration = new DoubleFlatAlteration();
 		expected =new AbsoluteMusicNote(new IntegerModel(0), new AlteredNoteName(bNoteName, alteration));
-		result = diminished5.Apply(note, listener);
+		result = diminished5.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// A3(0B#) --> E#
@@ -247,7 +247,7 @@ public class IntervalTest extends InitTest {
 		note = new AbsoluteMusicNote(new IntegerModel(0), new AlteredNoteName(bNoteName, alteration));
 		bNoteName = new BasicNoteName("E");
 		expected =new AbsoluteMusicNote(new IntegerModel(1), new AlteredNoteName(bNoteName, alteration));
-		result = augmented3.Apply(note, listener);
+		result = augmented3.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// AA3(0B#) --> E##
@@ -257,7 +257,7 @@ public class IntervalTest extends InitTest {
 		bNoteName = new BasicNoteName("E");
 		alteration = new DoubleSharpAlteration();
 		expected =new AbsoluteMusicNote(new IntegerModel(1), new AlteredNoteName(bNoteName, alteration));
-		result = doubleAugmented3.Apply(note, listener);
+		result = doubleAugmented3.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// A14(0C) --> 2B#
@@ -265,7 +265,7 @@ public class IntervalTest extends InitTest {
 		bNoteName = new BasicNoteName("B");
 		alteration = new SharpAlteration();
 		expected = new AbsoluteMusicNote(new IntegerModel(1), new AlteredNoteName(bNoteName, alteration));
-		result = augmented14.Apply(note, listener);
+		result = augmented14.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// AA14(0C) --> 1B##
@@ -273,7 +273,7 @@ public class IntervalTest extends InitTest {
 		bNoteName = new BasicNoteName("B");
 		alteration = new DoubleSharpAlteration();
 		expected = new AbsoluteMusicNote(new IntegerModel(1), new AlteredNoteName(bNoteName, alteration));
-		result = doubleAugmented14.Apply(note, listener);
+		result = doubleAugmented14.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// AA14(0C#) --> 2C##
@@ -283,7 +283,7 @@ public class IntervalTest extends InitTest {
 		bNoteName = new BasicNoteName("C");
 		alteration = new DoubleSharpAlteration();
 		expected = new AbsoluteMusicNote(new IntegerModel(2), new AlteredNoteName(bNoteName, alteration));
-		result = doubleAugmented14.Apply(note, listener);
+		result = doubleAugmented14.apply(note, listener);
 		assertEquals(expected,result);
 		
 		// dd14(4A) --> 6Gb
@@ -291,8 +291,19 @@ public class IntervalTest extends InitTest {
 		bNoteName = new BasicNoteName("G");
 		alteration = new DoubleFlatAlteration();
 		expected = new AbsoluteMusicNote(new IntegerModel(6), new AlteredNoteName(bNoteName, alteration));
-		result = doubleDiminished14.Apply(note, listener);
+		result = doubleDiminished14.apply(note, listener);
 		assertEquals(expected,result);
+		
+		// P5(S0) --> S0
+		expected = S0.clone();
+		result = perfect5.apply(S0, listener);
+		assertEquals(expected,result);
+		
+		// dd14(S0) --> S0
+		expected = S0.clone();
+		result = doubleDiminished14.apply(S0, listener);
+		assertEquals(expected,result);
+		
 		
 	}
 	

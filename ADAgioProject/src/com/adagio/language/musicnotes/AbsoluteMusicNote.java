@@ -2,6 +2,7 @@ package com.adagio.language.musicnotes;
 
 import java.util.List;
 
+import org.modelcc.Constraint;
 import org.modelcc.IModel;
 import org.modelcc.types.IntegerModel;
 
@@ -22,6 +23,13 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	
 	MusicNoteName musicNoteName;
 	
+	@Constraint
+	public boolean silenceRestriction(){
+		if(musicNoteName.isSilence()){
+			return false;
+		}
+		return true;
+	}
 	
 	//------CONSTRUCTORS------//
 	public AbsoluteMusicNote(){}
@@ -283,13 +291,17 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 		return this.getOctave().toString() +  this.getMusicNoteName().toString();
 	}
 	
-	public static AbsoluteMusicNote generateSilenceNote(){
-		return new AbsoluteMusicNote(0, BasicNoteName.silencePattern);
-	}
-
 	@Override
 	public boolean isSilence() {
 		return this.musicNoteName.isSilence();
+	}
+
+	/**
+	 * Generates an AbsoluteMusicNote that represents a silence
+	 * @return Silence-AbsoluteMusicNote
+	 */
+	public static AbsoluteMusicNote genSilence() {
+		return new AbsoluteMusicNote(0, BasicNoteName.silencePattern);
 	}
 	
 	
