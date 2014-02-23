@@ -267,25 +267,27 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 		return this;
 	}
 
-	@Override
-	public boolean equals (Object o){
+//	@Override
+//	public boolean equals (Object o){
+//
+//		if(o instanceof AbsoluteMusicNote){
+//
+//			AbsoluteMusicNote aNote = (AbsoluteMusicNote) o;
+//
+//			if(this.getClass().equals(aNote.getClass())){
+//				if(this.getOctave().intValue() == aNote.getOctave().intValue() 
+//						&&	this.getMusicNoteName().equals(aNote.getMusicNoteName()))
+//				{
+//					return true;
+//				}
+//
+//			}
+//		}
+//		return false;
+//	}
 
-		if(o instanceof AbsoluteMusicNote){
-
-			AbsoluteMusicNote aNote = (AbsoluteMusicNote) o;
-
-			if(this.getClass().equals(aNote.getClass())){
-				if(this.getOctave().intValue() == aNote.getOctave().intValue() 
-						&&	this.getMusicNoteName().equals(aNote.getMusicNoteName()))
-				{
-					return true;
-				}
-
-			}
-		}
-		return false;
-	}
-
+	
+	
 	@Override
 	public String toString() {
 		String composition = "";
@@ -296,10 +298,45 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 		return composition;
 	}
 	
+	//TODO care, doesn't include de octave
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((musicNoteName == null) ? 0 : musicNoteName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbsoluteMusicNote other = (AbsoluteMusicNote) obj;
+		if (musicNoteName == null) {
+			if (other.musicNoteName != null)
+				return false;
+		} else if (!musicNoteName.equals(other.musicNoteName))
+			return false;
+		if (octave == null) {
+			if (other.octave != null)
+				return false;
+		} else if (!(octave.intValue() == other.octave.intValue()))
+			return false;
+		return true;
+	}
+	
+	
+
 	@Override
 	public boolean isSilence() {
 		return this.musicNoteName.isSilence();
 	}
+
 
 	/**
 	 * Generates an AbsoluteMusicNote that represents a silence
@@ -308,6 +345,7 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	public static AbsoluteMusicNote genSilence() {
 		return new AbsoluteMusicNote(0, BasicNoteName.silencePattern);
 	}
+	
 	
 	
 	

@@ -59,22 +59,6 @@ public class AlteredNoteName extends MusicNoteName implements IModel {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-
-		if(o instanceof AlteredNoteName){
-			AlteredNoteName name = (AlteredNoteName) o;
-			if (this.getClass().equals(name.getClass())) {
-				if (this.getBaseNoteName().equals(name.getBaseNoteName())
-						&& this.alteration.getValue().equals(
-								name.getAlteration().getValue())) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	@Override
 	public String toString() {
 		return this.getBasicNoteName().toString() + this.getAlteration().toString();
 	}
@@ -83,7 +67,37 @@ public class AlteredNoteName extends MusicNoteName implements IModel {
 	public boolean isSilence() {
 		return basicNoteName.isSilence();
 	}
-	
-	
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((alteration == null) ? 0 : alteration.hashCode());
+		result = prime * result
+				+ ((basicNoteName == null) ? 0 : basicNoteName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AlteredNoteName other = (AlteredNoteName) obj;
+		if (alteration == null) {
+			if (other.alteration != null)
+				return false;
+		} else if (!alteration.equals(other.alteration))
+			return false;
+		if (basicNoteName == null) {
+			if (other.basicNoteName != null)
+				return false;
+		} else if (!basicNoteName.equals(other.basicNoteName))
+			return false;
+		return true;
+	}
 }

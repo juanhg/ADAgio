@@ -6,4 +6,6 @@ public abstract class Alteration implements IModel {
 	public abstract String getValue();
 	public abstract String toString();
 	public abstract Alteration clone();
+	public abstract int hashCode();
+	public abstract boolean equals(Object o);
 }

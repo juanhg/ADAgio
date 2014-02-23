@@ -12,4 +12,6 @@ public abstract class OctaveAlteration implements IModel {
 	public abstract int toInt();
 	
 	public abstract String toString();
+	public abstract int hashCode();
+	public abstract boolean equals(Object o);
 }

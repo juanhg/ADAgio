@@ -142,7 +142,43 @@ public class Register implements IModel {
 	public String toString(){
 		return "" + lowerNote + "-" + higherNote;
 	}
-	
-	
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((higherNote == null) ? 0 : higherNote.hashCode());
+		result = prime * result
+				+ ((lowerNote == null) ? 0 : lowerNote.hashCode());
+		result = prime * result + (used ? 1231 : 1237);
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Register other = (Register) obj;
+		if (higherNote == null) {
+			if (other.higherNote != null)
+				return false;
+		} else if (!higherNote.equals(other.higherNote))
+			return false;
+		if (lowerNote == null) {
+			if (other.lowerNote != null)
+				return false;
+		} else if (!lowerNote.equals(other.lowerNote))
+			return false;
+		if (used != other.used)
+			return false;
+		return true;
+	}
 	
 }

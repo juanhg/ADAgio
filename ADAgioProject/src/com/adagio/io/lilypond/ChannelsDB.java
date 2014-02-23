@@ -42,7 +42,7 @@ public class ChannelsDB {
 
 	/**
 	 * Add a new channel with the id given. If the channel has been "erased",
-	 * actives it again.
+	 * activates it again.
 	 * 
 	 * @param id Channel identifier
 	 */
@@ -148,23 +148,8 @@ public class ChannelsDB {
 		}
 	}
 	
-	/**
-	 * Obtain a string that is equal than the original, without the last close-bracket
-	 * @param music
-	 * @return A string if the original has '}'. Null in other case.
-	 */
-	private String deleteLastBracket(String music){
-		String noBracket = null;
-		
-		for(int i = music.length()-1; i >= 0; i--){
-			if(music.charAt(i) == '}'){
-				noBracket = music.substring(0, i);
-			}
-		}
-		
-		return noBracket;
-	}
 	
+
 	
 	/**
 	 * Add a music string to the channel, and increments the duration of the channel;
@@ -178,12 +163,7 @@ public class ChannelsDB {
 		String composition = "";
 		
 		if(!this.isErased(id)){
-			if(!(getChannel(id).getMusic().equals(""))){
-				//Deletes the last "}"
-				channelsMap.get(id).setMusic(deleteLastBracket(channelsMap.get(id).getMusic()));
-			}
 			composition += music;
-			composition += "\n}\n";
 			
 			channelsMap.get(id).addMusic(composition);
 			channelsMap.get(id).addNumBars(numBars);

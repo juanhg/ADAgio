@@ -86,6 +86,9 @@ public class LilyPondMusicPieceWritterTest extends InitTest {
 		listener.getChordsDB().addChord(add2, intervals);
 	}
 	
+	
+	//TODO Substitute this tests with displayChord test
+	
 	@Test
 	public void translateChordTest() {
 		

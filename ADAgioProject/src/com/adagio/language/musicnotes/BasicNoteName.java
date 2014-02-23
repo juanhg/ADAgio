@@ -297,24 +297,37 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 		}
 		return data2-data1;
 	}
-
-	@Override
-	public boolean equals(Object o) {
-		if(o instanceof BasicNoteName){
-			BasicNoteName name = (BasicNoteName) o;
-			if(this.getClass().equals(name.getClass())){
-				return this.value.equals(name.getBaseNoteName().value);
-			}
-		}
-		return false;
-
-	}
-
+	
 	@Override
 	public String toString() {
 		return this.value;
 	}
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BasicNoteName other = (BasicNoteName) obj;
+		if (value == null) {
+			if (other.value != null)
+				return false;
+		} else if (!value.equals(other.value))
+			return false;
+		return true;
+	}
+
 	/**
 	 * @return True if the "note" is a silence. False in other case.
 	 */

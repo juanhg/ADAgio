@@ -41,6 +41,7 @@ import com.adagio.language.figures.Figure;
 import com.adagio.language.instruments.features.LimitedPolyphonicType;
 import com.adagio.language.instruments.features.MonophonicType;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
+import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 import com.adagio.language.tempos.Tempo;
 import com.adagio.language.times.Time;
@@ -142,7 +143,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 			e = (Map.Entry) it.next();
 			//Only print the channel if has been used.
 			if(((Channel) e.getValue()).isUsed()){
+				composition += "\\new Staff{\n";
 				composition += ((Channel) e.getValue()).getMusic();
+				composition += "\n}\n";
 			}
 		}
 		
@@ -316,8 +319,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	}
 	
 	public String translateVolume(int volume){
-		String composition = "\\set midiMinimumVolume = #" + 0 + "\n";
-		composition += "\\set midiMaximumVolume = #" + ((double)volume)/100;
+		String composition = "\\set Staff.midiMinimumVolume = #" + 0 + "\n";
+		composition += "\\set Staff.midiMaximumVolume = #" + ((double)volume)/100;
 		return composition;
 	}
 	
@@ -329,57 +332,66 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	}
 	
 	/**
-	 * Fills a channel with silences until reaches the maxDuration of channelsDB
-	 * @param id Identifier of the channel
+	 * Receives a chord with an absolute-fundamental-note and translates it. Depend of
+	 * the instrument that will play the chord, the translation is different.
+	 * The instrument try to brings the chord to his register.
+	 * Note: Need that the bassNote as a AbsoluteMusicNote
 	 */
-	private void fillChannelWithSilences(ChannelIdentifier id) {
-		int maxDuration = this.channelsDB.maxNumBars();
-		int auxDuration = 0;
-		int difference = 0;
-		Vector<Figure> silenceFigures = barFigures(this.time.getBeats().intValue(), time);
+	public String translateChord(Chord chord, Instrument instrument){
 
 		String composition = "";
 
-		if (this.channelsDB.exists(id)) {
-			auxDuration = this.channelsDB.getChannel(id).getNumBars();
-			difference = maxDuration - auxDuration;
+		if(chord.isSilence() == false){
 
-			if (difference > 0) {
-				for (int i = difference; i > 0; i--) {
-					for(int j = 0; j < silenceFigures.size(); j++){
-						composition += "s" + translateFigure(silenceFigures.elementAt(j)) + " ";
+
+			List<Interval> intervals = this.chordsDB.getIntervals(chord.getIdentifier());
+			List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
+			AbsoluteMusicNote bassNote = (AbsoluteMusicNote) chord.getBassNote();
+
+			//Recollects the notes result to apply the interval to the fundamental note
+			for(int i = 0; i < intervals.size();i++){
+				aNotes.add(intervals.get(i).apply(chord.getNote(), this));		
+			}
+
+			if (bassNote != null) {
+				// If the bass note is higher than any other, reduces its octave
+				for (int i = 0; i < aNotes.size(); i++) {
+					if (bassNote.isHigher(aNotes.get(i))) {
+						bassNote.setOctave(bassNote.getOctave().intValue() - 1);
 					}
 				}
-				this.channelsDB.addMusic(id, composition, difference);
+
+				// If bassNote NoteName is equal than any in the interval, this last
+				// is removed.
+				for (int i = 0; i < aNotes.size(); i++) {
+					if (bassNote.getMusicNoteName().equals(
+							aNotes.get(i).getMusicNoteName())) {
+						aNotes.remove(i);
+					}
+				}
+				aNotes.add(0,bassNote);
 			}
-		} else {
-			System.err.println("Error 10: Channel \"" + id.toString()
-					+ "\" doesn't exist. " + "Can't be filled with zeros.");
 
-		}
-	}
-	
-	/**
-	 * Fills all the disabled channels with silences until reach the maxDuration
-	 * @param id Identifier of the DB
-	 */
-	@SuppressWarnings("rawtypes")
-	private void fillDisabledChannelsWithSilences(){
-		Map.Entry e = null;
-		Iterator<Entry<ChannelIdentifier, Channel>> it;
-		
-		it = this.channelsDB.getChannelMap().entrySet().iterator();
-		if (it.hasNext()) {
+			//The instrument transports the notes to his register
+			aNotes = instrument.apply(aNotes);
 
-			while (it.hasNext()) {
-				e = (Map.Entry) it.next();
-				if(!((Channel)e.getValue()).isEnable()){
-					this.fillChannelWithSilences((ChannelIdentifier)e.getKey());
+			composition += "<";
+			for(int i = 0; i < aNotes.size(); i++){
+				composition += translateAbsoluteMusicNote(aNotes.get(i));
+
+				if(i != aNotes.size()-1){
+					composition += " ";
 				}
 			}
+			composition += ">";
 		}
+		else{
+			composition = BasicNoteName.silencePattern.toLowerCase();
+		}
+		return composition;
 	}
-			
+	
+		
 	/**
 	 * @return String-tail needed to create the midi file
 	 */
@@ -448,7 +460,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	public void musicPlay(MusicPlayStatementEvent e) {
 
 		List<AbsoluteMusicNote> chordDisplayed, chordInstrument;
-		List<List<AbsoluteMusicNote>> listChordsDisplayed, listChordsInstrument;
+		List<List<AbsoluteMusicNote>> listChordsDisplayed, listChordsInstrument, listChordsVoices;
 		Instrument channelInstrument;
 		
 		Channel actualChannel;
@@ -522,30 +534,27 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 					listChordsInstrument.add(chordInstrument);
 				}
 				
-				//Translate the chords displayed and transported to the register
-				//of the instrument of the actual channel
-				for(int i = 0; i < listChordsInstrument.size(); i++){
+				listChordsVoices = reorderforVoices(listChordsInstrument);
 				
-			        if(listChordsInstrument.get(i).get(0).isSilence()){
-			        	composition += "s";
-			        }
-			        else{
-			        	String auxComposition = "";
-			        	for(AbsoluteMusicNote current: listChordsInstrument.get(i)){
-							auxComposition += " " + translateAbsoluteMusicNote(current);
+				composition += "<<\n";
+				
+				for(List<AbsoluteMusicNote> currentList: listChordsVoices){
+					composition += "{";
+					for(int i = 0; i < currentList.size(); i++){
+						composition += " ";
+						composition += translateAbsoluteMusicNote(currentList.get(i));
+						composition += translateFigure(barItems.get(i).getDuration().getFigure());
+						
+						if (i == 0 && actualChannel.hasVolumeChanged()){
+							composition += "\\mf ";
 						}
-						composition += "<" + auxComposition + ">";
-			        }
-					
-					composition += translateFigure(barItems.elementAt(i).getDuration().getFigure());
-					
-					if (actualChannel.hasVolumeChanged()) {
-						composition += "\\mf";
-						actualChannel.setVolumeChanged(false);
 					}
-					composition += " ";
+					composition += " } \\\\ ";
 				}
+				composition += ">>\n";
 				
+				actualChannel.setVolumeChanged(false);
+								
 				this.channelsDB.addMusic((ChannelIdentifier) x.getKey(),composition, numBarsAdded);
 				composition = "";
 
@@ -554,6 +563,37 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		this.fillDisabledChannelsWithSilences();
 	}
 
+	
+	public List<List<AbsoluteMusicNote>> reorderforVoices(List<List<AbsoluteMusicNote>> listANotes ){
+		List<List<AbsoluteMusicNote>> notesReady = new ArrayList<List<AbsoluteMusicNote>>();
+		int maxSize = 0;
+
+		for(List<AbsoluteMusicNote> current: listANotes){
+			if(current.size() > maxSize){
+				maxSize = current.size();
+			}
+		}
+
+		for(List<AbsoluteMusicNote> current: listANotes){
+			while(current.size() < maxSize){
+				current.add(AbsoluteMusicNote.genSilence());
+			}
+		}
+
+		List<AbsoluteMusicNote> auxANotes;
+
+
+		for(int i = 0; i < listANotes.get(0).size(); i++){
+			auxANotes = new ArrayList<AbsoluteMusicNote>();
+			for(int j = 0; j < listANotes.size(); j++){
+				auxANotes.add(listANotes.get(j).get(i));
+			}
+			notesReady.add(auxANotes);
+		}
+	
+		return notesReady;
+	}
+	
 	/**
 	 * Event that occurs when a channel is going to be created.
 	 * DISABLES the default channel.
@@ -579,6 +619,58 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 			         .setNumBars(this.channelsDB.getChannelMap()
 					.get(LilyPondMusicPieceWriter.SILENCES_PATTERN_CHANNEL_IDENTIFIER)
 					.getNumBars());
+		}
+	}
+	
+	/**
+	 * Fills a channel with silences until reaches the maxDuration of channelsDB
+	 * @param id Identifier of the channel
+	 */
+	private void fillChannelWithSilences(ChannelIdentifier id) {
+		int maxDuration = this.channelsDB.maxNumBars();
+		int auxDuration = 0;
+		int difference = 0;
+		Vector<Figure> silenceFigures = barFigures(this.time.getBeats().intValue(), time);
+
+		String composition = "";
+
+		if (this.channelsDB.exists(id)) {
+			auxDuration = this.channelsDB.getChannel(id).getNumBars();
+			difference = maxDuration - auxDuration;
+
+			if (difference > 0) {
+				for (int i = difference; i > 0; i--) {
+					for(int j = 0; j < silenceFigures.size(); j++){
+						composition += "s" + translateFigure(silenceFigures.elementAt(j)) + " ";
+					}
+				}
+				this.channelsDB.addMusic(id, composition, difference);
+			}
+		} else {
+			System.err.println("Error 10: Channel \"" + id.toString()
+					+ "\" doesn't exist. " + "Can't be filled with zeros.");
+
+		}
+	}
+	
+	/**
+	 * Fills all the disabled channels with silences until reach the maxDuration
+	 * @param id Identifier of the DB
+	 */
+	@SuppressWarnings("rawtypes")
+	private void fillDisabledChannelsWithSilences(){
+		Map.Entry e = null;
+		Iterator<Entry<ChannelIdentifier, Channel>> it;
+		
+		it = this.channelsDB.getChannelMap().entrySet().iterator();
+		if (it.hasNext()) {
+
+			while (it.hasNext()) {
+				e = (Map.Entry) it.next();
+				if(!((Channel)e.getValue()).isEnable()){
+					this.fillChannelWithSilences((ChannelIdentifier)e.getKey());
+				}
+			}
 		}
 	}
 

@@ -93,6 +93,41 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 		
 		return note;
 	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((musicNoteName == null) ? 0 : musicNoteName.hashCode());
+		result = prime * result + ((octave == null) ? 0 : octave.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RelativeMusicNote other = (RelativeMusicNote) obj;
+		if (musicNoteName == null) {
+			if (other.musicNoteName != null)
+				return false;
+		} else if (!musicNoteName.equals(other.musicNoteName))
+			return false;
+		if (octave == null) {
+			if (other.octave != null)
+				return false;
+		} else if (!octave.equals(other.octave))
+			return false;
+		return true;
+	}
+	
 	
 
 }

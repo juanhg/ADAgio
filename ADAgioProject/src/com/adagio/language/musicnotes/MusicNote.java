@@ -18,6 +18,8 @@ public abstract class MusicNote implements IModel {
 	public abstract String toString();
 	public abstract MusicNoteName getMusicNoteName();
 	public abstract boolean isSilence();
+	public abstract int hashCode();
+	public abstract boolean equals(Object o);
 	
 	public Duration getDuration() {
 		return duration;
@@ -25,4 +27,6 @@ public abstract class MusicNote implements IModel {
 	public void setDuration(Duration duration) {
 		this.duration = duration;
 	}
+	
+	
 }

@@ -1,5 +1,6 @@
 package com.adagio.instruments;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.adagio.language.instruments.features.Register;
@@ -80,6 +81,32 @@ public abstract class Instrument{
 		}
 		return composition;
 	}
-	
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(registers);
+		result = prime * result + ((timbre == null) ? 0 : timbre.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Instrument other = (Instrument) obj;
+		if (!Arrays.equals(registers, other.registers))
+			return false;
+		if (timbre == null) {
+			if (other.timbre != null)
+				return false;
+		} else if (!timbre.equals(other.timbre))
+			return false;
+		return true;
+	}
 }

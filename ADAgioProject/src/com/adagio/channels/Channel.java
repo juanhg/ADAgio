@@ -27,9 +27,8 @@ public class Channel {
 		volume = VolumeModifier.MAX_VOLUME;
 		enable = true;
 		erased = false;
-		music = "\\new Staff{\n}";
+		music = "";
 		numBars = 0;
-		
 		volumeChanged = true;
 		instrumentChanged = true;
 		used = false;
@@ -99,7 +98,6 @@ public class Channel {
 	public void setInstrumentChanged(boolean instrumentChanged) {
 		this.instrumentChanged = instrumentChanged;
 	}
-	
 	
 
 	public void addMusic(String music){
