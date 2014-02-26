@@ -3,6 +3,7 @@ package com.adagio.language.rhythm;
 import org.modelcc.Constraint;
 import org.modelcc.IModel;
 import org.modelcc.Prefix;
+import org.modelcc.types.DecimalModel;
 import org.modelcc.types.NumberModel;
 
 public class RhythmComponent implements IModel {
@@ -11,8 +12,23 @@ public class RhythmComponent implements IModel {
 	@Prefix("(?i)to")
 	NumberModel finalTime;
 	
+	public RhythmComponent(){}
+	
+	public RhythmComponent(RhythmNote rNote, double initTime, double finalTime){
+		this.note = rNote;
+		this.initTime = new DecimalModel(initTime);
+		this.finalTime = new DecimalModel(finalTime);
+	}
+	
+	public RhythmComponent(double initTime, double finalTime){
+		this.note = new PositionalRhythmNote();
+		this.initTime = new DecimalModel(initTime);
+		this.finalTime = new DecimalModel(finalTime);
+	}
+	
+	
 	/**
-	 * Check if the component is between 0 and 1
+	 * Checks if the component is between 0 and 1
 	 * @return true if the times are valid. false in other case
 	 */
 	@Constraint
@@ -23,5 +39,32 @@ public class RhythmComponent implements IModel {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Checks if a instant between 0 and 1 belongs to the component
+	 * @param instant A number between 0 and 1
+	 * @return True if belongs to it. False in other case
+	 */
+	public boolean belongTo(double instant){
+		if(instant >= initTime.doubleValue() && instant < finalTime.doubleValue()){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	public double getInitTime() {
+		return initTime.doubleValue();
+	}
+
+	public double getFinalTime() {
+		return finalTime.doubleValue();
+	}
+	
+	@Override
+	public String toString(){
+		return note.toString() + " " + initTime.doubleValue() + "-" + finalTime.doubleValue();
 	}
 }

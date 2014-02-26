@@ -10,7 +10,7 @@ public class RhythmIdentifier implements IModel {
 
 	@Value
 	private String value;
-
+	
 	@Setup
 	public void setup() {
 		value = value.toLowerCase();

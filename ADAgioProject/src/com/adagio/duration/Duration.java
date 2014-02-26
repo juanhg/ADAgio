@@ -26,4 +26,11 @@ public class Duration {
 		return figure.toString();
 	}
 	
+	public Duration clone(){
+		Duration duration = new Duration();
+		duration.figure = this.figure.clone();
+		
+		return duration;
+	}
+	
 }

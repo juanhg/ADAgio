@@ -6,6 +6,7 @@ import org.modelcc.Constraint;
 import org.modelcc.IModel;
 import org.modelcc.types.IntegerModel;
 
+import com.adagio.duration.Duration;
 import com.adagio.events.MusicEventListener;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 
@@ -51,6 +52,12 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 		this.setMusicNoteName(noteName);
 	}
 	
+	public AbsoluteMusicNote(int octave, String noteName, Duration duration){
+		this.setOctave(octave);
+		this.setMusicNoteName(noteName);
+		this.duration = duration;
+	}
+	
 	public AbsoluteMusicNote(int octave, String noteName, Alteration alteration){
 		this.octave = new IntegerModel(octave);
 		this.musicNoteName = new AlteredNoteName(new BasicNoteName(noteName), alteration);
@@ -60,8 +67,12 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	
 	public AbsoluteMusicNote clone(){
 		AbsoluteMusicNote aMusicNote = new AbsoluteMusicNote();
-		aMusicNote.setMusicNoteName(this.musicNoteName.clone());
-		aMusicNote.setOctave(this.octave);
+		aMusicNote.musicNoteName = this.musicNoteName.clone();
+		aMusicNote.octave = this.octave;
+		if(duration != null){
+			aMusicNote.duration = this.duration.clone();
+		}
+		
 		return aMusicNote;
 	}
 		
@@ -266,27 +277,6 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	public AbsoluteMusicNote toAbsoluteMusicNote(MusicEventListener listener) {
 		return this;
 	}
-
-//	@Override
-//	public boolean equals (Object o){
-//
-//		if(o instanceof AbsoluteMusicNote){
-//
-//			AbsoluteMusicNote aNote = (AbsoluteMusicNote) o;
-//
-//			if(this.getClass().equals(aNote.getClass())){
-//				if(this.getOctave().intValue() == aNote.getOctave().intValue() 
-//						&&	this.getMusicNoteName().equals(aNote.getMusicNoteName()))
-//				{
-//					return true;
-//				}
-//
-//			}
-//		}
-//		return false;
-//	}
-
-	
 	
 	@Override
 	public String toString() {
@@ -342,8 +332,8 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	 * Generates an AbsoluteMusicNote that represents a silence
 	 * @return Silence-AbsoluteMusicNote
 	 */
-	public static AbsoluteMusicNote genSilence() {
-		return new AbsoluteMusicNote(0, BasicNoteName.silencePattern);
+	public static AbsoluteMusicNote genSilence(Duration duration) {
+		return new AbsoluteMusicNote(0, BasicNoteName.silencePattern, duration.clone());
 	}
 	
 	

@@ -1,7 +1,11 @@
 package test.com.adagio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 
+import com.adagio.duration.Duration;
 import com.adagio.instruments.Instrument;
 import com.adagio.instruments.LimitedPolyphonicInstrument;
 import com.adagio.instruments.MonophonicInstrument;
@@ -16,6 +20,8 @@ import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.RelativeMusicNote;
 import com.adagio.language.musicnotes.notealterations.DoubleFlatAlteration;
 import com.adagio.language.musicnotes.notealterations.SharpAlteration;
+import com.adagio.language.rhythm.RhythmComponent;
+import com.adagio.rhythms.Rhythm;
 
 public class InitTest {
 	
@@ -67,6 +73,11 @@ public class InitTest {
 	// Instruments
 	public Instrument maleVoice, femaleVoice, realPiano, acousticGuitar, flute, polyInstrument, perfectInstrument;
 	
+	public RhythmComponent rComp0, rComp1, rComp2, rComp3, rComp4;
+	public List<RhythmComponent> listRComp1, listRComp2;
+	public Rhythm rhythm1, rhythm2;
+	
+	@SuppressWarnings("serial")
 	@Before
 	  public void setUp() throws Exception {
 		
@@ -192,7 +203,7 @@ public class InitTest {
 		G0Sharp = new AbsoluteMusicNote(0, "G", new SharpAlteration());
 		G1Sharp = new AbsoluteMusicNote(1, "G", new SharpAlteration());
 		
-		S0 = AbsoluteMusicNote.genSilence();
+		S0 = AbsoluteMusicNote.genSilence(new Duration());
 		
 		//RelativeNotes
 		SRelative = RelativeMusicNote.genSilence();
@@ -271,5 +282,30 @@ public class InitTest {
 		realPiano = new PolyphonicInstrument(new Timbre("piano"), realPianoR);
 		acousticGuitar = new LimitedPolyphonicInstrument(new Timbre("acousticguitar"), acousticGuitarR);
 		perfectInstrument = new PolyphonicInstrument(new Timbre(), perfectInstrumentR);
+		
+		rComp0 = new RhythmComponent(0, 1);
+		rComp1 = new RhythmComponent(0, 0.50);
+		rComp2 = new RhythmComponent(0.50, 0.75);
+		rComp3 = new RhythmComponent(0.50, 0.75);
+		rComp4 = new RhythmComponent(0.75, 1);
+		
+		listRComp1 = new ArrayList<RhythmComponent>(){{
+			add(rComp1);
+			add(rComp2);
+			add(rComp3);
+			add(rComp4);
+		}};
+		
+		rhythm1 = new Rhythm(listRComp1);
+		
+		listRComp2 = new ArrayList<RhythmComponent>(){{
+			add(rComp0);
+			add(rComp2);
+			add(rComp3);
+			add(rComp4);
+		}};
+		
+		rhythm2 = new Rhythm(listRComp2);
+	
 	  }
 }

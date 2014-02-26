@@ -27,6 +27,7 @@ public class RhythmDefinitionTest {
 	
 	@Test
 	public void rhythmDefinitionsValidTest() {
+		assertAmbiguityFree(parser, "Define Rhythm \"ritmoBase\" Note 0 to 0.50 Note 0.50 to 0.75 Note 0.50 to 0.75 Note 0.75 to 1");
 		assertAmbiguityFree(parser, "Define Rhythm \"ritmoRock\" Note 0 to 0.25 Note 0.25 to 1");
 		assertAmbiguityFree(parser, "Define Rhythm \"ritmoPop\" 1A# 0.0 to 0.75 Note 0.75 to 1");
 		assertAmbiguityFree(parser, "Define Rhythm \"A\" 4Cbb 0.0 to 0.75");

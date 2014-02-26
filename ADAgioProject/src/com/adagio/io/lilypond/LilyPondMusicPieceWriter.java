@@ -167,7 +167,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
 
 		if(chord.isSilence()){
-			aNotes.add(AbsoluteMusicNote.genSilence());
+			aNotes.add(AbsoluteMusicNote.genSilence(chord.getDuration()));
 		}
 		else{
 
@@ -176,7 +176,10 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 
 			//Recollects the notes result to apply the interval to the fundamental note
 			for(int i = 0; i < intervals.size();i++){
-				aNotes.add(intervals.get(i).apply(chord.getNote(), this));		
+				aNotes.add(intervals.get(i).apply(chord.getNote(), this));
+				if(chord.getDuration() != null){
+					aNotes.get(i).setDuration(chord.getDuration().clone());
+				}
 			}
 
 			if (bassNote != null) {
@@ -223,7 +226,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 				composition += ",";
 			}
 		}
-				
+		composition += translateFigure(aNote.getDuration().getFigure());		
 		return composition;
 	}
 	
@@ -543,7 +546,6 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 					for(int i = 0; i < currentList.size(); i++){
 						composition += " ";
 						composition += translateAbsoluteMusicNote(currentList.get(i));
-						composition += translateFigure(barItems.get(i).getDuration().getFigure());
 						
 						if (i == 0 && actualChannel.hasVolumeChanged()){
 							composition += "\\mf ";
@@ -567,6 +569,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	public List<List<AbsoluteMusicNote>> reorderforVoices(List<List<AbsoluteMusicNote>> listANotes ){
 		List<List<AbsoluteMusicNote>> notesReady = new ArrayList<List<AbsoluteMusicNote>>();
 		int maxSize = 0;
+		
+		Duration duration = listANotes.get(0).get(0).getDuration();
 
 		for(List<AbsoluteMusicNote> current: listANotes){
 			if(current.size() > maxSize){
@@ -576,7 +580,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 
 		for(List<AbsoluteMusicNote> current: listANotes){
 			while(current.size() < maxSize){
-				current.add(AbsoluteMusicNote.genSilence());
+				current.add(AbsoluteMusicNote.genSilence(duration));
 			}
 		}
 

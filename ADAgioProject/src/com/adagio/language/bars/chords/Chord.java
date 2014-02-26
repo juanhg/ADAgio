@@ -42,6 +42,15 @@ public class Chord implements IModel {
 		}
 	}
 	
+	public Chord(MusicNote note, ChordIdentifier identifier, MusicNote bassNote, Duration duration){
+		this.note = note;
+		this.identifier = identifier;
+		if(bassNote != null){
+			this.bassNote = bassNote;
+		}
+		this.duration = duration;
+	}
+	
 	//TODO Move this function to LilypondMusicPieceWriter
 	public Chord toAbsoluteChord(MusicEventListener listener){
 		AbsoluteMusicNote aNote;
@@ -51,7 +60,12 @@ public class Chord implements IModel {
 		if (this.getBassNote() != null) {
 			bassNote = this.getBassNote().toAbsoluteMusicNote(listener);
 		}
-		return (new Chord(aNote, this.getIdentifier(), bassNote));
+		if(duration == null){
+			return (new Chord(aNote, identifier, bassNote));
+		}
+		else{
+			return (new Chord(aNote, identifier, bassNote, duration));
+		}
 	}
 	
 	

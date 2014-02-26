@@ -56,6 +56,9 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 		}
 		result.setMusicNoteName(musicNoteName);
 		result.setOctave(nAlterations);
+//		if(duration != null){
+//			result.setDuration(duration.clone());
+//		}
 		return result;
 	}
 
@@ -126,6 +129,18 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 		} else if (!octave.equals(other.octave))
 			return false;
 		return true;
+	}
+
+
+	@Override
+	public RelativeMusicNote clone() {
+		RelativeMusicNote rNote = new RelativeMusicNote();
+		rNote.musicNoteName = this.musicNoteName.clone();
+		rNote.octave = this.octave.clone();
+		if(this.duration != null){
+			rNote.duration = this.duration.clone();
+		}
+		return null;
 	}
 	
 	

@@ -205,7 +205,7 @@ public class Interval implements IModel {
 			}
 		}
 		else{
-			result = AbsoluteMusicNote.genSilence();
+			result = AbsoluteMusicNote.genSilence(note.getDuration());
 		}
 
 		return result;

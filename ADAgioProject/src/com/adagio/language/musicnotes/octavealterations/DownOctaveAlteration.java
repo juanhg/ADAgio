@@ -10,6 +10,12 @@ public class DownOctaveAlteration extends OctaveAlteration implements IModel {
 	@Value
 	String value;
 		
+	public DownOctaveAlteration(){}
+	
+	public DownOctaveAlteration(String value){
+		this.value = value;
+	}
+	
 	public String getValue() {
 		return value;
 	}
@@ -51,6 +57,11 @@ public class DownOctaveAlteration extends OctaveAlteration implements IModel {
 		} else if (!value.equals(other.value))
 			return false;
 		return true;
+	}
+
+	@Override
+	public DownOctaveAlteration clone() {
+		return new DownOctaveAlteration(value);
 	}
 	
 	
