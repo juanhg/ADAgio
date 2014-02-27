@@ -21,11 +21,16 @@ import com.adagio.language.musicnotes.RelativeMusicNote;
 import com.adagio.language.musicnotes.notealterations.DoubleFlatAlteration;
 import com.adagio.language.musicnotes.notealterations.SharpAlteration;
 import com.adagio.language.rhythm.RhythmComponent;
+import com.adagio.language.times.Time;
 import com.adagio.rhythms.Rhythm;
 
 public class InitTest {
 	
+	//Listener
 	public LilyPondMusicPieceWriter listener;
+	
+	//Times
+	public Time time4_4, time2_4, time1_4, time2_1;
 	
 	// BasicNoteNames
 	public BasicNoteName A, B, C, D, E, F, G, S;
@@ -76,6 +81,7 @@ public class InitTest {
 	public RhythmComponent rComp0, rComp1, rComp2, rComp3, rComp4;
 	public List<RhythmComponent> listRComp1, listRComp2;
 	public Rhythm rhythm1, rhythm2;
+
 	
 	@SuppressWarnings("serial")
 	@Before
@@ -83,6 +89,12 @@ public class InitTest {
 		
 		//Listener
 		listener = new LilyPondMusicPieceWriter();
+		
+		//Times
+		time4_4 = new Time(4, 4);
+		time2_4 = new Time(2, 4);
+		time1_4 = new Time(1, 4);
+		time2_1 = new Time(2, 1);
 		
 		//BasicNoteNames
 		A = new BasicNoteName("A");

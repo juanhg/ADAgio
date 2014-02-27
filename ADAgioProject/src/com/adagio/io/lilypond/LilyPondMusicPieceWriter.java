@@ -16,6 +16,7 @@ import com.adagio.duration.Duration;
 import com.adagio.events.MusicEventListener;
 import com.adagio.events.channels.MusicChannelIdentifierEvent;
 import com.adagio.events.channels.MusicChannelInstrumentEvent;
+import com.adagio.events.channels.MusicChannelRhythmEvent;
 import com.adagio.events.channels.MusicChannelVolumeEvent;
 import com.adagio.events.chords.MusicChordAddEvent;
 import com.adagio.events.chords.MusicChordEvent;
@@ -43,6 +44,7 @@ import com.adagio.language.instruments.features.MonophonicType;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.notealterations.Alteration;
+import com.adagio.language.rhythm.RhythmIdentifier;
 import com.adagio.language.tempos.Tempo;
 import com.adagio.language.times.Time;
 import com.adagio.rhythms.Rhythm;
@@ -74,7 +76,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	private InstrumentsDB instrumentsDB;
 	
 	//Data base of rhythms
-	private RhythmDB rhythmDB;
+	private RhythmsDB rhythmDB;
 	
 	private boolean hasTempoChanged;
 	private boolean hasTimeChanged;
@@ -92,7 +94,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		temposDB = new TemposDB();
 		channelsDB = new ChannelsDB();
 		instrumentsDB = new InstrumentsDB();
-		rhythmDB = new RhythmDB();
+		rhythmDB = new RhythmsDB();
 		hasTempoChanged = hasTimeChanged = hasClefChanged = true;
 		
 		//add the default channel
@@ -226,7 +228,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 				composition += ",";
 			}
 		}
-		composition += translateFigure(aNote.getDuration().getFigure());		
+		if(aNote.getDuration() != null){
+			composition += translateFigure(aNote.getDuration().getFigure());
+		}
 		return composition;
 	}
 	
@@ -465,11 +469,14 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		List<AbsoluteMusicNote> chordDisplayed, chordInstrument;
 		List<List<AbsoluteMusicNote>> listChordsDisplayed, listChordsInstrument, listChordsVoices;
 		Instrument channelInstrument;
+		Rhythm actualRhythm;
 		
 		Channel actualChannel;
+		
+		int numBarsAdded = 1;
 
 		Vector<Chord> barItems = new Vector<Chord>(Arrays.asList(e.getBar().getBarChords()));
-		int numBarsAdded = barFigures(barItems); 
+//		int numBarsAdded = barFigures(barItems); 
 
 		Vector<Chord> absoluteChords = new Vector<Chord>(); 
 		String composition = "";
@@ -520,6 +527,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 			//If the channel is enabled
 			
 			actualChannel = ((Channel) x.getValue());
+			actualRhythm = actualChannel.getRhythm();
+			
 			if (actualChannel.isEnable()) {
 
 				composition += getChannelHeaders(actualChannel);
@@ -537,8 +546,13 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 					listChordsInstrument.add(chordInstrument);
 				}
 				
-				listChordsVoices = reorderforVoices(listChordsInstrument);
-				
+				if(actualRhythm != null){
+					listChordsVoices = actualRhythm.apply(listChordsInstrument, time);
+				}
+				else{
+					listChordsVoices = reorderforVoices(listChordsInstrument);
+				}
+					
 				composition += "<<\n";
 				
 				for(List<AbsoluteMusicNote> currentList: listChordsVoices){
@@ -785,7 +799,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 */
 	@Override
 	public void setChannelInstrument(MusicChannelInstrumentEvent e) {
-	
+		
 		if(this.instrumentsDB.exists(e.getInstrumentID())){
 			this.channelsDB.setInstrument(e.getId(), this.instrumentsDB.getInstrument(e.getInstrumentID()));
 			this.channelsDB.getChannel(e.getId()).setInstrumentChanged(true);
@@ -796,6 +810,26 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 					+ "\" is not defined");
 			System.exit(11);
 		}
+	}
+	
+	@Override
+	public void setChannelRhythm(MusicChannelRhythmEvent e) {
+		ChannelIdentifier channelID = e.getChannelID();
+		RhythmIdentifier rhythmID = e.getRhythmID();
+		Rhythm rhythm;
+		
+		if(this.rhythmDB.exists(rhythmID)){
+			rhythm = rhythmDB.getRhythm(rhythmID);
+			this.channelsDB.setRhythm(channelID, rhythm);
+			this.channelsDB.getChannel(channelID).setRhythmChanged(true);
+		}
+		else{
+			System.err.println("Error 11: The Rhythm identifier \""
+					+ rhythmID.getValue()
+					+ "\" is not defined");
+			System.exit(11);
+		}
+		
 	}
 	
 	/**
@@ -998,5 +1032,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		}
 		return barsAdded;
 	}
+
+
 
 }

@@ -46,6 +46,39 @@ public class FigureTest {
 		assertEquals(64,testFigure.getShape().intValue());
 		assertEquals(2,testFigure.getNumDots());
 		
+		testFigure = new Figure((new Figure(128,0)).duration());
+		assertEquals(128,testFigure.getShape().intValue());
+		assertEquals(0,testFigure.getNumDots());
+		
+	}
+	
+
+	@Test
+	public void closerFigureTest() {
+		//0.0625
+		testFigure = Figure.closerFigure(1.7);
+		assertEquals(4,testFigure.getShape().intValue());
+		assertEquals(1,testFigure.getNumDots());
+		
+		testFigure = Figure.closerFigure(3.9);
+		assertEquals(2,testFigure.getShape().intValue());
+		assertEquals(4,testFigure.getNumDots());
+		
+		testFigure = Figure.closerFigure(0.135);
+		assertEquals(32,testFigure.getShape().intValue());
+		assertEquals(0,testFigure.getNumDots());
+		
+		testFigure = Figure.closerFigure(0.159375);
+		assertEquals(32,testFigure.getShape().intValue());
+		assertEquals(0,testFigure.getNumDots());
+		
+		testFigure = Figure.closerFigure((new Figure(128,0)).duration());
+		assertEquals(128,testFigure.getShape().intValue());
+		assertEquals(0,testFigure.getNumDots());
+		
+		testFigure = Figure.closerFigure((new Figure(128,0)).duration() - 0.0005);
+		assertEquals(null, testFigure);
+		
 	}
 	
 	

@@ -6,11 +6,11 @@ import java.util.Map;
 import com.adagio.language.rhythm.RhythmIdentifier;
 import com.adagio.rhythms.Rhythm;
 
-public class RhythmDB {
+public class RhythmsDB {
 
 private Map<RhythmIdentifier, Rhythm> rhythmMap;
 	
-	public RhythmDB(){
+	public RhythmsDB(){
 		rhythmMap = new HashMap<RhythmIdentifier, Rhythm> ();
 	}
 	

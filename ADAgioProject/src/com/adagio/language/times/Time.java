@@ -18,30 +18,15 @@ public class Time implements IModel {
 		this.figure = figure.clone();
 	}
 	
-	public Time(int beats, double figureDuration){
+	public Time(int beats, int figureShape){
 		this.beats = new IntegerModel(beats);
-		figure = new Figure(figureDuration);
+		this.figure = new Figure(figureShape, 0);
 	}
 	
-	/**
-	 * Gets the default duration 
-	 * @return If figure duration and beats are divisible returns figureDuration/beats. In other
-	 *         case returns figure's shape duration
-	 */
-	public int defaultDuration() {
-
-		if (0 == (figure.getShape().intValue() % beats.intValue())) {
-			if (figure.getShape().intValue() >= beats.intValue()) {
-				return (int) figure.getShape().intValue()/beats.intValue();
-			} else {
-				return 1;
-			}
-		} else {
-			//TODO Should return figure.getShapeDuration() + ...
-			return	figure.getShape().intValue();
-		}
+	public double duration(){
+		return figure.duration()*beats.intValue();
 	}
-
+		
 	public IntegerModel getBeats() {
 		return beats;
 	}
@@ -56,5 +41,10 @@ public class Time implements IModel {
 
 	public void setFigure(Figure figure) {
 		this.figure = figure;
+	}
+	
+	@Override
+	public String toString(){
+		return this.beats.toString() + "/" + figure.toString();
 	}
 }

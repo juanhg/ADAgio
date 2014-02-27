@@ -330,9 +330,13 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 
 	/**
 	 * Generates an AbsoluteMusicNote that represents a silence
-	 * @return Silence-AbsoluteMusicNote
+	 * @return Silence-AbsoluteMusicNote. If duration is no valid -> null
 	 */
 	public static AbsoluteMusicNote genSilence(Duration duration) {
+		if(duration.getFigure().duration() <= 0){
+			System.err.println("Error (genSilence): Invalid duration value");
+			return null;
+		}
 		return new AbsoluteMusicNote(0, BasicNoteName.silencePattern, duration.clone());
 	}
 	

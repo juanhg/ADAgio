@@ -21,7 +21,10 @@ public class Figure implements IModel {
 		int result = 0;
 		boolean isValid = false;
 		
-		if(shape.intValue() >= 0) {
+		if(shape.intValue() <= 0 || shape.intValue() > 128){
+			isValid = false;
+		}
+		else{
 			for (int i = 0; result < shape.intValue(); i++) {
 				result = (int) Math.pow(2.0, i);
 				if (result == shape.intValue()) {
@@ -55,6 +58,7 @@ public class Figure implements IModel {
 	 * @param dots Vector of dots
 	 */
 	public Figure(IntegerModel shape, FigureDot [] dots){
+		
 		this.shape = shape;
 		if(dots != null){
 			this.dots= dots;
@@ -98,7 +102,7 @@ public class Figure implements IModel {
 		}
 		
 		double originalFigDur = figDur;
-		for(int i = 0; figDur < duration; i++){
+		for(int i = 0; figDur < duration && i < 8; i++){
 			figDur += originalFigDur / (Math.pow(2.0, i+1));
 			dotsNum++;
 		}
@@ -226,6 +230,42 @@ public class Figure implements IModel {
 			}
 		}
 		return composition;
+	}
+	
+	/**
+	 * Creates a figure with the specific duration if is possible. If is not
+	 * possible, create the closer and immediately lower one.
+	 * @param duration Figure's duration. (4 whole note, 2 half note, ...)
+	 * @return The figure with the specific duration or the closer lower one.
+	 * It will return null if the duration it's smaller than the duration of 128Figure
+	 */
+	public static Figure closerFigure(double duration){
+		double figDur = Double.MAX_VALUE;
+		int dotsNum = 0;
+		Figure figure = null;
+		
+		for(int i = 0; figDur > duration && i < 8; i++){
+			figure = (new Figure((int)Math.pow(2.0, i),0));
+			figDur = figure.duration();
+		}
+		
+		if(figDur > duration){
+			return null;
+		}
+		
+		double originalFigDur = figDur;
+		double lastIncrement = 0;
+		for(int i = 0; figDur < duration; i++){
+			lastIncrement = originalFigDur / (Math.pow(2.0, i+1));
+			figDur += lastIncrement;
+			dotsNum++;
+		}
+		
+		if(figDur > duration){
+			dotsNum--;
+		}
+		
+		return new Figure(figure.shape.intValue(), dotsNum);
 	}
 	
 	

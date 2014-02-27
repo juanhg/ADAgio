@@ -3,6 +3,7 @@ package com.adagio.channels;
 import com.adagio.instruments.Instrument;
 import com.adagio.instruments.PolyphonicInstrument;
 import com.adagio.language.channels.channeloptions.VolumeModifier;
+import com.adagio.rhythms.Rhythm;
 
 /**
  * @author Wungo
@@ -12,6 +13,7 @@ public class Channel {
 	private int volume;
 	private boolean enable;
 	private Instrument instrument;
+	private Rhythm rhythm;
 	
 	private boolean erased;
 	private String music;
@@ -19,6 +21,7 @@ public class Channel {
 	
 	private boolean volumeChanged;
 	private boolean instrumentChanged;
+	private boolean rhythmChanged;
 	//If music have chords, "used" will be true.
 	private boolean used;
 
@@ -116,56 +119,19 @@ public class Channel {
 		this.used = used;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (enable ? 1231 : 1237);
-		result = prime * result + (erased ? 1231 : 1237);
-		result = prime * result
-				+ ((instrument == null) ? 0 : instrument.hashCode());
-		result = prime * result + (instrumentChanged ? 1231 : 1237);
-		result = prime * result + ((music == null) ? 0 : music.hashCode());
-		result = prime * result + numBars;
-		result = prime * result + (used ? 1231 : 1237);
-		result = prime * result + volume;
-		result = prime * result + (volumeChanged ? 1231 : 1237);
-		return result;
+	public Rhythm getRhythm() {
+		return rhythm;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Channel other = (Channel) obj;
-		if (enable != other.enable)
-			return false;
-		if (erased != other.erased)
-			return false;
-		if (instrument == null) {
-			if (other.instrument != null)
-				return false;
-		} else if (!instrument.equals(other.instrument))
-			return false;
-		if (instrumentChanged != other.instrumentChanged)
-			return false;
-		if (music == null) {
-			if (other.music != null)
-				return false;
-		} else if (!music.equals(other.music))
-			return false;
-		if (numBars != other.numBars)
-			return false;
-		if (used != other.used)
-			return false;
-		if (volume != other.volume)
-			return false;
-		if (volumeChanged != other.volumeChanged)
-			return false;
-		return true;
+	public boolean isRhythmChanged() {
+		return rhythmChanged;
+	}
+
+	public void setRhythm(Rhythm rhythm) {
+		this.rhythm = rhythm;
+	}
+
+	public void setRhythmChanged(boolean rhythmChanged) {
+		this.rhythmChanged = rhythmChanged;
 	}
 }

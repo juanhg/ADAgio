@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import com.adagio.channels.Channel;
 import com.adagio.instruments.Instrument;
 import com.adagio.language.channels.ChannelIdentifier;
+import com.adagio.rhythms.Rhythm;
 
 public class ChannelsDB {
 
@@ -144,7 +145,21 @@ public class ChannelsDB {
 		}
 		else{
 			System.err.println("Error 7: Channel \"" + id.toString() + "\" doesn't exist. "
-					+ "Modifier \"volume\" can't be applied.");
+					+ "Modifier \"instrument\" can't be applied.");
+		}
+	}
+	
+	/**
+	 * Change the rhythm of the channel
+	 * @param channelID Identifier of the channel
+	 */
+	public void setRhythm(ChannelIdentifier channelID, Rhythm rhythm){
+		if(!this.isErased(channelID)){
+			channelsMap.get(channelID).setRhythm(rhythm);
+		}
+		else{
+			System.err.println("Error 7: Channel \"" + channelID.toString() + "\" doesn't exist. "
+					+ "Modifier \"rhythm\" can't be applied.");
 		}
 	}
 	

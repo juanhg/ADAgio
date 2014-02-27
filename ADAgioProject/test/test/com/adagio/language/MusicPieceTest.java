@@ -27,8 +27,10 @@ public class MusicPieceTest extends InitTest {
 	String program3 = path +  "\\3_MultiplicityProgram.adg";
 	String program4 = path + "\\4_BarsProgram.adg";
 	String program5 = path + "\\5_TimesProgram.adg";
+	String program6 = path + "\\6_SiAmanecieraProgram.adg";
+	String program7 = path + "\\7_FallsApartProgram.adg";
 	
-	String test0, test1, test2, test3, test4, test5;
+	String test0, test1, test2, test3, test4, test5, test6, test7;
 	
 
 	  @SuppressWarnings("unchecked")
@@ -44,6 +46,8 @@ public class MusicPieceTest extends InitTest {
 	    test3 = ADAgioCLI.fileToString(program3, StandardCharsets.UTF_8);
 	    test4 = ADAgioCLI.fileToString(program4, StandardCharsets.UTF_8);
 	    test5 = ADAgioCLI.fileToString(program5, StandardCharsets.UTF_8);
+	    test6 = ADAgioCLI.fileToString(program6, StandardCharsets.UTF_8);
+	    test7 = ADAgioCLI.fileToString(program7, StandardCharsets.UTF_8);
 	  }
 
 	@Test
@@ -54,6 +58,8 @@ public class MusicPieceTest extends InitTest {
 		assertAmbiguityFree(parser, test3);
 		assertAmbiguityFree(parser, test4);
 		assertAmbiguityFree(parser, test5);
+		assertAmbiguityFree(parser, test6);
+		assertAmbiguityFree(parser, test7);
 		
 	}
 

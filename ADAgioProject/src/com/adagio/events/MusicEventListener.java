@@ -4,6 +4,7 @@ import java.util.EventListener;
 
 import com.adagio.events.channels.MusicChannelIdentifierEvent;
 import com.adagio.events.channels.MusicChannelInstrumentEvent;
+import com.adagio.events.channels.MusicChannelRhythmEvent;
 import com.adagio.events.channels.MusicChannelVolumeEvent;
 import com.adagio.events.chords.MusicChordAddEvent;
 import com.adagio.events.chords.MusicChordEvent;
@@ -29,6 +30,7 @@ public interface MusicEventListener extends EventListener {
 	public boolean isErasedChannel(MusicChannelIdentifierEvent e);
 	public void setChannelVolume(MusicChannelVolumeEvent e);
 	public void setChannelInstrument(MusicChannelInstrumentEvent e);
+	public void setChannelRhythm(MusicChannelRhythmEvent e);
 	
 	/**
 	 * Recovers and erased channel
