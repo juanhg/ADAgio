@@ -288,16 +288,6 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 		return composition;
 	}
 	
-	//TODO care, doesn't include de octave
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((musicNoteName == null) ? 0 : musicNoteName.hashCode());
-		return result;
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

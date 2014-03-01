@@ -3,8 +3,8 @@ package com.adagio.instruments;
 import java.util.Arrays;
 import java.util.List;
 
-import com.adagio.language.instruments.features.Register;
-import com.adagio.language.instruments.features.Timbre;
+import com.adagio.language.instruments.Register;
+import com.adagio.language.instruments.Timbre;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 
 
@@ -80,15 +80,6 @@ public abstract class Instrument{
 			composition += current.toString() + " ";
 		}
 		return composition;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Arrays.hashCode(registers);
-		result = prime * result + ((timbre == null) ? 0 : timbre.hashCode());
-		return result;
 	}
 
 	@Override

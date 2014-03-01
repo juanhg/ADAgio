@@ -13,12 +13,14 @@ import com.adagio.instruments.PolyphonicInstrument;
 import com.adagio.io.lilypond.LilyPondMusicPieceWriter;
 import com.adagio.language.bars.chords.Chord;
 import com.adagio.language.bars.chords.intervals.Interval;
-import com.adagio.language.instruments.features.Register;
-import com.adagio.language.instruments.features.Timbre;
+import com.adagio.language.instruments.Register;
+import com.adagio.language.instruments.Timbre;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.RelativeMusicNote;
 import com.adagio.language.musicnotes.notealterations.DoubleFlatAlteration;
+import com.adagio.language.musicnotes.notealterations.DoubleSharpAlteration;
+import com.adagio.language.musicnotes.notealterations.FlatAlteration;
 import com.adagio.language.musicnotes.notealterations.SharpAlteration;
 import com.adagio.language.rhythm.RhythmComponent;
 import com.adagio.language.times.Time;
@@ -51,9 +53,12 @@ public class InitTest {
 	public AbsoluteMusicNote Fm3;
 	public AbsoluteMusicNote Gm1, Gm3, Gm5;
 	public AbsoluteMusicNote A5Sharp, A2Sharp, A3bb,  A4bb;
-	public AbsoluteMusicNote C1Sharp, C3Sharp;
+	public AbsoluteMusicNote B3Sharp, B4Sharp, B4Flat;
+	public AbsoluteMusicNote E3Sharp;
+	public AbsoluteMusicNote C1Sharp, C3Sharp, C4DoubleSharp, C4DoubleFlat;
+	public AbsoluteMusicNote D5Sharp, D5Flat;
 	public AbsoluteMusicNote F0Sharp, F2Sharp;
-	public AbsoluteMusicNote G0Sharp, G1Sharp;
+	public AbsoluteMusicNote G0Sharp, G1Sharp, G3DoubleSharp, G4Sharp, G4Flat;
 	public AbsoluteMusicNote S0;
 	
 	//Relatives Music Notes
@@ -69,7 +74,7 @@ public class InitTest {
 	public Interval major2, major3, major6, major7;
 	
 	// Chord
-	public Chord silenceChord;		
+	public Chord silenceChord;
 	
 	// Registers
 	public Register r1, r2, r3, r4, r5, r6;
@@ -208,12 +213,23 @@ public class InitTest {
 		A5Sharp = new AbsoluteMusicNote(5, "A", new SharpAlteration());
 		A3bb = new AbsoluteMusicNote(3, "A", new DoubleFlatAlteration());
 		A4bb = new AbsoluteMusicNote(4, "A", new DoubleFlatAlteration());
+		B3Sharp = new AbsoluteMusicNote(3, "B", new SharpAlteration());
+		B4Sharp = new AbsoluteMusicNote(4, "B", new SharpAlteration());
+		B4Flat = new AbsoluteMusicNote(4, "B", new FlatAlteration());
+		E3Sharp = new AbsoluteMusicNote(3, "E", new SharpAlteration());
 		C1Sharp = new AbsoluteMusicNote(1, "C", new SharpAlteration());
 		C3Sharp = new AbsoluteMusicNote(3, "C", new SharpAlteration());
+		C4DoubleSharp  = new AbsoluteMusicNote(4, "C", new DoubleSharpAlteration());
+		C4DoubleFlat  = new AbsoluteMusicNote(4, "C", new DoubleFlatAlteration());
+		D5Sharp = new AbsoluteMusicNote(5, "D", new SharpAlteration());
+		D5Flat = new AbsoluteMusicNote(5, "D", new FlatAlteration());
 		F0Sharp = new AbsoluteMusicNote(0,"F", new SharpAlteration());
 		F2Sharp = new AbsoluteMusicNote(2, "F", new SharpAlteration());
 		G0Sharp = new AbsoluteMusicNote(0, "G", new SharpAlteration());
 		G1Sharp = new AbsoluteMusicNote(1, "G", new SharpAlteration());
+		G3DoubleSharp = new AbsoluteMusicNote(3, "G", new DoubleSharpAlteration());
+		G4Sharp = new AbsoluteMusicNote(4, "G", new SharpAlteration());
+		G4Flat = new AbsoluteMusicNote(4, "G", new FlatAlteration());
 		
 		S0 = AbsoluteMusicNote.genSilence(new Duration());
 		

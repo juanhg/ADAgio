@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.modelcc.IModel;
 
-import com.adagio.language.instruments.features.Register;
-import com.adagio.language.instruments.features.Timbre;
+import com.adagio.language.instruments.Register;
+import com.adagio.language.instruments.Timbre;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 
 public class MonophonicInstrument extends Instrument implements IModel {

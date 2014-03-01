@@ -39,10 +39,9 @@ import com.adagio.language.bars.chords.Chord;
 import com.adagio.language.bars.chords.intervals.Interval;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.figures.Figure;
-import com.adagio.language.instruments.features.LimitedPolyphonicType;
-import com.adagio.language.instruments.features.MonophonicType;
+import com.adagio.language.instruments.LimitedPolyphonicType;
+import com.adagio.language.instruments.MonophonicType;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
-import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 import com.adagio.language.rhythm.RhythmIdentifier;
 import com.adagio.language.tempos.Tempo;
@@ -54,7 +53,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	//Mode relative	
 	private AbsoluteMusicNote relative;
 		
-	//Clefe (bass,treble...)
+	//Clef (bass,treble...)
 	private String clef;
 		
 	//Time (4/4, 6/8,...)
@@ -84,6 +83,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	
 	public static final ChannelIdentifier DEFAULT_CHANNEL_IDENTIFIER = new ChannelIdentifier("defaultChannelIdentifier");
 	public static final ChannelIdentifier SILENCES_PATTERN_CHANNEL_IDENTIFIER = new ChannelIdentifier("silencesPatternChannelIdentifier");
+	public static final RhythmIdentifier DEFAULT_RHYTHM_IDENTIFIER = new RhythmIdentifier("defaultRhythm");
 	
 	public LilyPondMusicPieceWriter(){
 		relative = new AbsoluteMusicNote(2, "C");
@@ -157,54 +157,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	}
 	
 	
-	/**
-	 * Display the chord, applying all the intervals to the base note.
-	 * @param chord Chord to be displayed
-	 * @return List of AbsoluteMusicNotes that are the result of apply the
-	 * intervals of the chord. List of one silence-AbsoluteMusicNote if
-	 * the the chord is a silence-Chord
-	 */
-	private List<AbsoluteMusicNote> displayChord(Chord chord){
-
-		List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
-
-		if(chord.isSilence()){
-			aNotes.add(AbsoluteMusicNote.genSilence(chord.getDuration()));
-		}
-		else{
-
-			List<Interval> intervals = this.chordsDB.getIntervals(chord.getIdentifier());
-			AbsoluteMusicNote bassNote = (AbsoluteMusicNote) chord.getBassNote();
-
-			//Recollects the notes result to apply the interval to the fundamental note
-			for(int i = 0; i < intervals.size();i++){
-				aNotes.add(intervals.get(i).apply(chord.getNote(), this));
-				if(chord.getDuration() != null){
-					aNotes.get(i).setDuration(chord.getDuration().clone());
-				}
-			}
-
-			if (bassNote != null) {
-				// If the bass note is higher than any other, reduces its octave
-				for (int i = 0; i < aNotes.size(); i++) {
-					if (bassNote.isHigher(aNotes.get(i))) {
-						bassNote.setOctave(bassNote.getOctave().intValue() - 1);
-					}
-				}
-
-				// If bassNote NoteName is equal than any in the interval, this last
-				// is removed.
-				for (int i = 0; i < aNotes.size(); i++) {
-					if (bassNote.getMusicNoteName().equals(
-							aNotes.get(i).getMusicNoteName())) {
-						aNotes.remove(i);
-					}
-				}
-				aNotes.add(0,bassNote);
-			}
-		}
-		return aNotes;
-	}
+	
 	
 	/**
 	 * Receives and AbsoluteNote and translates it to lilyPond syntax.
@@ -339,62 +292,27 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	}
 	
 	/**
-	 * Receives a chord with an absolute-fundamental-note and translates it. Depend of
-	 * the instrument that will play the chord, the translation is different.
-	 * The instrument try to brings the chord to his register.
-	 * Note: Need that the bassNote as a AbsoluteMusicNote
+	 * Traslate a voices represented as a list of absolute notes
+	 * @param voice Voice to translate
+	 * @param channel Channel where the voice belongs
+	 * @return a String with the form { note1 note2 ... }
 	 */
-	public String translateChord(Chord chord, Instrument instrument){
-
+	public String translateVoice(List<AbsoluteMusicNote> voice, Channel channel){
 		String composition = "";
 
-		if(chord.isSilence() == false){
+		composition += "{";
+		boolean applied = false;
+		for(AbsoluteMusicNote current: voice){
+			composition += " ";
+			composition += translateAbsoluteMusicNote(current);
 
-
-			List<Interval> intervals = this.chordsDB.getIntervals(chord.getIdentifier());
-			List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
-			AbsoluteMusicNote bassNote = (AbsoluteMusicNote) chord.getBassNote();
-
-			//Recollects the notes result to apply the interval to the fundamental note
-			for(int i = 0; i < intervals.size();i++){
-				aNotes.add(intervals.get(i).apply(chord.getNote(), this));		
+			if (!current.isSilence() && !applied && channel.hasVolumeChanged()){
+				composition += "\\mf";
+				applied = true;
 			}
-
-			if (bassNote != null) {
-				// If the bass note is higher than any other, reduces its octave
-				for (int i = 0; i < aNotes.size(); i++) {
-					if (bassNote.isHigher(aNotes.get(i))) {
-						bassNote.setOctave(bassNote.getOctave().intValue() - 1);
-					}
-				}
-
-				// If bassNote NoteName is equal than any in the interval, this last
-				// is removed.
-				for (int i = 0; i < aNotes.size(); i++) {
-					if (bassNote.getMusicNoteName().equals(
-							aNotes.get(i).getMusicNoteName())) {
-						aNotes.remove(i);
-					}
-				}
-				aNotes.add(0,bassNote);
-			}
-
-			//The instrument transports the notes to his register
-			aNotes = instrument.apply(aNotes);
-
-			composition += "<";
-			for(int i = 0; i < aNotes.size(); i++){
-				composition += translateAbsoluteMusicNote(aNotes.get(i));
-
-				if(i != aNotes.size()-1){
-					composition += " ";
-				}
-			}
-			composition += ">";
 		}
-		else{
-			composition = BasicNoteName.silencePattern.toLowerCase();
-		}
+		composition += " }";
+
 		return composition;
 	}
 	
@@ -472,10 +390,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		Rhythm actualRhythm;
 		
 		Channel actualChannel;
-		
 		int numBarsAdded = 1;
 
-		Vector<Chord> barItems = new Vector<Chord>(Arrays.asList(e.getBar().getBarChords()));
+		Vector<Chord> chords = new Vector<Chord>(Arrays.asList(e.getBar().getBarChords()));
 //		int numBarsAdded = barFigures(barItems); 
 
 		Vector<Chord> absoluteChords = new Vector<Chord>(); 
@@ -483,23 +400,26 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 
 		//We save the relative before play statement
 		//AbsoluteMusicNote relativeBeforePlay = this.relative;
-
+		
 		// Translates to absoluteMusicNote
-		for (int i = 0; i < barItems.size(); i++) {
-			if (this.chordsDB.exists(((Chord)barItems.get(i)).getIdentifier())) {
-				Chord auxChord = ((Chord)barItems.get(i)).toAbsoluteChord(this);
-				absoluteChords.add(auxChord);
-				if(auxChord.isSilence() == false){
-					this.relative = (AbsoluteMusicNote) absoluteChords.get(absoluteChords.size()-1).getNote();
+		for(Chord current: chords){
+			if(chordsDB.exists(current.getIdentifier())){
+				Chord aChord = current.toAbsoluteChord(this);
+				absoluteChords.add(aChord);
+				if(!aChord.isSilence()){
+					relative = (AbsoluteMusicNote) aChord.getNote().clone();
 				}
-			} else {
+				
+			}
+			else{
 				System.err.println("Error 1: The chord identifier \""
-						+ ((Chord)barItems.get(i)).getIdentifier().getValue()
+						+ current.getIdentifier().getValue()
 						+ "\" is not defined");
 				System.exit(1);
 			}
-
 		}
+
+
 
 		//Display the chords
 		listChordsDisplayed = new ArrayList<List<AbsoluteMusicNote>>();
@@ -524,13 +444,13 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		//For each channel
 		while (it.hasNext()) {
 			x = (Map.Entry) it.next();
-			//If the channel is enabled
+		
 			
 			actualChannel = ((Channel) x.getValue());
-			actualRhythm = actualChannel.getRhythm();
 			
+			//If the channel is enabled
 			if (actualChannel.isEnable()) {
-
+				
 				composition += getChannelHeaders(actualChannel);
 				
 				//The channel is used
@@ -546,75 +466,40 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 					listChordsInstrument.add(chordInstrument);
 				}
 				
-				if(actualRhythm != null){
-					listChordsVoices = actualRhythm.apply(listChordsInstrument, time);
-				}
-				else{
-					listChordsVoices = reorderforVoices(listChordsInstrument);
-				}
-					
-				composition += "<<\n";
 				
-				for(List<AbsoluteMusicNote> currentList: listChordsVoices){
-					composition += "{";
-					for(int i = 0; i < currentList.size(); i++){
-						composition += " ";
-						composition += translateAbsoluteMusicNote(currentList.get(i));
-						
-						if (i == 0 && actualChannel.hasVolumeChanged()){
-							composition += "\\mf ";
-						}
-					}
-					composition += " } \\\\ ";
+				//Obtains and applies the rhythm
+				actualRhythm = actualChannel.getRhythm();
+				if(actualRhythm == null){
+					actualRhythm = rhythmDB.getRhythm(DEFAULT_RHYTHM_IDENTIFIER);
+				}
+				listChordsVoices = actualRhythm.apply(listChordsInstrument, time);
+			
+				
+				//Translates the voices
+				composition += "<< ";
+				for(List<AbsoluteMusicNote> voice: listChordsVoices){
+					composition += translateVoice(voice, actualChannel) + " \\\\ ";
 				}
 				composition += ">>\n";
-				
 				actualChannel.setVolumeChanged(false);
-								
+							
+				//Adds the translation to the channel 
 				this.channelsDB.addMusic((ChannelIdentifier) x.getKey(),composition, numBarsAdded);
 				composition = "";
 
 			}
 		}
+		
+		//Fill the other channels until actual max duration
 		this.fillDisabledChannelsWithSilences();
 	}
 
 	
-	public List<List<AbsoluteMusicNote>> reorderforVoices(List<List<AbsoluteMusicNote>> listANotes ){
-		List<List<AbsoluteMusicNote>> notesReady = new ArrayList<List<AbsoluteMusicNote>>();
-		int maxSize = 0;
-		
-		Duration duration = listANotes.get(0).get(0).getDuration();
 
-		for(List<AbsoluteMusicNote> current: listANotes){
-			if(current.size() > maxSize){
-				maxSize = current.size();
-			}
-		}
-
-		for(List<AbsoluteMusicNote> current: listANotes){
-			while(current.size() < maxSize){
-				current.add(AbsoluteMusicNote.genSilence(duration));
-			}
-		}
-
-		List<AbsoluteMusicNote> auxANotes;
-
-
-		for(int i = 0; i < listANotes.get(0).size(); i++){
-			auxANotes = new ArrayList<AbsoluteMusicNote>();
-			for(int j = 0; j < listANotes.size(); j++){
-				auxANotes.add(listANotes.get(j).get(i));
-			}
-			notesReady.add(auxANotes);
-		}
-	
-		return notesReady;
-	}
 	
 	/**
 	 * Event that occurs when a channel is going to be created.
-	 * DISABLES the default channel.
+	 * @post DISABLES the default channel.
 	 */
 	@Override
 	public void createChannel(MusicChannelIdentifierEvent e) {
@@ -648,7 +533,6 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		int maxDuration = this.channelsDB.maxNumBars();
 		int auxDuration = 0;
 		int difference = 0;
-		Vector<Figure> silenceFigures = barFigures(this.time.getBeats().intValue(), time);
 
 		String composition = "";
 
@@ -658,16 +542,14 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 
 			if (difference > 0) {
 				for (int i = difference; i > 0; i--) {
-					for(int j = 0; j < silenceFigures.size(); j++){
-						composition += "s" + translateFigure(silenceFigures.elementAt(j)) + " ";
-					}
+					composition += "s" + translateFigure(new Figure(time.duration()));
 				}
+				composition += "\n";
 				this.channelsDB.addMusic(id, composition, difference);
 			}
 		} else {
 			System.err.println("Error 10: Channel \"" + id.toString()
 					+ "\" doesn't exist. " + "Can't be filled with zeros.");
-
 		}
 	}
 	
@@ -714,7 +596,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 //	}
 
 	/**
-	 * Event that look for a chord in chordsDB
+	 * Event that looks for a chord in chordsDB
 	 * @return true if is defined. False in other case
 	 */
 	@Override
@@ -915,20 +797,6 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		this.rhythmDB.addRhythm(e.getIdentifier(), rhythm);
 	}
 	
-	/** ----- GETTERS & SETTERS (Not events) ----- **/
-	
-
-	public ChordsDB getChordsDB() {
-		return chordsDB;
-	}
-	
-	public ChannelsDB getChannelsDB() {
-		return channelsDB;
-	}
-	
-	
-	/** ----- OTHERS ----- **/
-
 	/**
 	 * Obtains the alteration produces in a MusicNoteName because of the reference
 	 * @return A integer value, that means the octave-alteration produces.
@@ -973,65 +841,131 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 
 		return octave;
 	}
-		
-	//TODO remove this function
 	
-	/**
-	 * Return a string with the figures that correspond 
-	 * to the chords in the bars. If the vector is bigger
-	 * than the number of chords, the rest of the figures 
-	 * will be silences.
-	 * @param bar Bar with chords
-	 * @param numChords Number of chords in the bar
-	 * @return
-	 */
+	/** ----- GETTERS & SETTERS (Not events) ----- **/
+	
 
-	public Vector<Figure> barFigures(int numChords, Time time){
-		Vector<Figure> figures = new Vector<Figure>();
-		double factor = time.getBeats().doubleValue()/numChords;
-		double figuresDuration = factor * time.getFigure().duration();
-		
-		if(Figure.validDuration(figuresDuration)){
-			for(int i = 0; i < numChords; i++){
-				figures.add(new Figure(figuresDuration));
-			}
-		}
-		else{
-			for(int i = 0; i < time.getBeats().intValue(); i++){
-				figures.add(time.getFigure().clone());
-			}
-		}
-		return figures;
+	public ChordsDB getChordsDB() {
+		return chordsDB;
 	}
 	
+	public ChannelsDB getChannelsDB() {
+		return channelsDB;
+	}
+	
+	
+	/** ----- OTHERS ----- **/
+	
 	/**
-	 * Fill the barItem duration field of the items of the vector.
-	 * The duration depends of the actual time & number of items in a bar.
-	 * @param bar Bar with chords & silences
+	 * Display the chord, applying all the intervals to the base note.
+	 * @param chord Chord to be displayed
+	 * @return List of AbsoluteMusicNotes that are the result of apply the
+	 * intervals of the chord. List of one silence-AbsoluteMusicNote if
+	 * the the chord is a silence-Chord
 	 */
-	public int barFigures(Vector<Chord> items){
-		
-		int barsAdded = 1;
-		
-		double factor = time.getBeats().doubleValue()/items.size();
-		double figuresDuration = factor * time.getFigure().duration();
-		
-		if(Figure.validDuration(figuresDuration)){
-			for(int i = 0; i < items.size(); i++){
-				items.elementAt(i).setDuration(new Duration((new Figure(figuresDuration))));
-			}
+	public List<AbsoluteMusicNote> displayChord(Chord chord){
+
+		List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
+
+		if(chord.isSilence()){
+			aNotes.add(AbsoluteMusicNote.genSilence(new Duration(new Figure(time.duration()))));
 		}
 		else{
-			for(int i = 0; (i < items.size()) || (i%time.getBeats().intValue() != 0); i++){
-				if(i >= items.size()){
-					items.add(Chord.genSilence());
-					barsAdded = items.size()/time.getBeats().intValue();
+
+			List<Interval> intervals = this.chordsDB.getIntervals(chord.getIdentifier());
+			AbsoluteMusicNote bassNote = (AbsoluteMusicNote) chord.getBassNote();
+
+			//Recollects the notes result to apply the interval to the fundamental note
+			for(int i = 0; i < intervals.size();i++){
+				aNotes.add(intervals.get(i).apply(chord.getNote(), this));
+				if(chord.getDuration() != null){
+					aNotes.get(i).setDuration(chord.getDuration().clone());
 				}
-				items.elementAt(i).setDuration(new Duration(time.getFigure().clone()));
+			}
+
+			if (bassNote != null) {
+				// If the bass note is higher than any other, reduces its octave
+				for (int i = 0; i < aNotes.size(); i++) {
+					if (bassNote.isHigher(aNotes.get(i))) {
+						bassNote.setOctave(bassNote.getOctave().intValue() - 1);
+					}
+				}
+
+				// If bassNote NoteName is equal than any in the interval, this last
+				// is removed.
+				for (int i = 0; i < aNotes.size(); i++) {
+					if (bassNote.getMusicNoteName().equals(
+							aNotes.get(i).getMusicNoteName())) {
+						aNotes.remove(i);
+					}
+				}
+				aNotes.add(0,bassNote);
 			}
 		}
-		return barsAdded;
+		return aNotes;
 	}
+
+	
+//	/**
+//	 * Fill the barItem duration field of the items of the vector.
+//	 * The duration depends of the actual time & number of items in a bar.
+//	 * @param bar Bar with chords & silences
+//	 */
+//	public int barFigures(Vector<Chord> items){
+//		
+//		int barsAdded = 1;
+//		
+//		double factor = time.getBeats().doubleValue()/items.size();
+//		double figuresDuration = factor * time.getFigure().duration();
+//		
+//		if(Figure.validDuration(figuresDuration)){
+//			for(int i = 0; i < items.size(); i++){
+//				items.elementAt(i).setDuration(new Duration((new Figure(figuresDuration))));
+//			}
+//		}
+//		else{
+//			for(int i = 0; (i < items.size()) || (i%time.getBeats().intValue() != 0); i++){
+//				if(i >= items.size()){
+//					items.add(Chord.genSilence());
+//					barsAdded = items.size()/time.getBeats().intValue();
+//				}
+//				items.elementAt(i).setDuration(new Duration(time.getFigure().clone()));
+//			}
+//		}
+//		return barsAdded;
+//	}
+	
+//	public List<List<AbsoluteMusicNote>> reorderforVoices(List<List<AbsoluteMusicNote>> listANotes ){
+//	List<List<AbsoluteMusicNote>> notesReady = new ArrayList<List<AbsoluteMusicNote>>();
+//	int maxSize = 0;
+//	
+//	Duration duration = listANotes.get(0).get(0).getDuration();
+//
+//	for(List<AbsoluteMusicNote> current: listANotes){
+//		if(current.size() > maxSize){
+//			maxSize = current.size();
+//		}
+//	}
+//
+//	for(List<AbsoluteMusicNote> current: listANotes){
+//		while(current.size() < maxSize){
+//			current.add(AbsoluteMusicNote.genSilence(duration));
+//		}
+//	}
+//
+//	List<AbsoluteMusicNote> auxANotes;
+//
+//
+//	for(int i = 0; i < listANotes.get(0).size(); i++){
+//		auxANotes = new ArrayList<AbsoluteMusicNote>();
+//		for(int j = 0; j < listANotes.size(); j++){
+//			auxANotes.add(listANotes.get(j).get(i));
+//		}
+//		notesReady.add(auxANotes);
+//	}
+//
+//	return notesReady;
+//}
 
 
 

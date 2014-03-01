@@ -1,4 +1,4 @@
-package com.adagio.language.instruments.features;
+package com.adagio.language.instruments;
 
 import org.modelcc.IModel;
 import org.modelcc.Pattern;

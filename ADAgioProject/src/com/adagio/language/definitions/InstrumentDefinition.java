@@ -12,11 +12,11 @@ import org.modelcc.Suffix;
 import com.adagio.events.MusicEventListener;
 import com.adagio.events.definitions.InstrumentDefinitionEvent;
 import com.adagio.language.instruments.InstrumentIdentifier;
-import com.adagio.language.instruments.features.MonophonicType;
-import com.adagio.language.instruments.features.PhoneticType;
-import com.adagio.language.instruments.features.PolyphonicType;
-import com.adagio.language.instruments.features.Register;
-import com.adagio.language.instruments.features.Timbre;
+import com.adagio.language.instruments.MonophonicType;
+import com.adagio.language.instruments.PhoneticType;
+import com.adagio.language.instruments.PolyphonicType;
+import com.adagio.language.instruments.Register;
+import com.adagio.language.instruments.Timbre;
 
 @Prefix({"(?i)Define", "(?i)Instrument"})
 @FreeOrder

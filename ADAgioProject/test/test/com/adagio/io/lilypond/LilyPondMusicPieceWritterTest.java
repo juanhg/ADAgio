@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -89,42 +88,81 @@ public class LilyPondMusicPieceWritterTest extends InitTest {
 	
 	//TODO Substitute this tests with displayChord test
 	
+	@SuppressWarnings("serial")
 	@Test
-	public void translateChordTest() {
+	public void displayChordTest() {
+		List<AbsoluteMusicNote> expected;
 		
 		//0CM --> <c e g>
+		expected = new ArrayList<AbsoluteMusicNote>(){{
+			add(C0);
+			add(E0);
+			add(G0);
+		}};
+		
 		fundamental = new AbsoluteMusicNote(0, "C");
 		chord = new Chord(fundamental,M,bass);
-		assertEquals("<c e g>", listener.translateChord(chord, perfectInstrument));
+		assertEquals(expected, listener.displayChord(chord));
 		
 		//0Dm --> <d f a>
+		expected = new ArrayList<AbsoluteMusicNote>(){{
+			add(D0);
+			add(F0);
+			add(A0);
+		}};
 		fundamental = new AbsoluteMusicNote(0, "D");
 		chord = new Chord(fundamental,m,bass);
-		assertEquals("<d f a>", listener.translateChord(chord, perfectInstrument));
+		assertEquals(expected, listener.displayChord(chord));
 		
 		//3E#M --> <eis''' gisis''' bis'''>
+		expected = new ArrayList<AbsoluteMusicNote>(){{
+			add(E3Sharp);
+			add(G3DoubleSharp);
+			add(B3Sharp);
+		}};
+		
 		bNoteName = new BasicNoteName("E");
 		alteration = new SharpAlteration();
 		fundamental = new AbsoluteMusicNote(new IntegerModel(3), new AlteredNoteName(bNoteName, alteration));
 		chord = new Chord(fundamental,M,bass);
-		assertEquals("<eis''' gisis''' bis'''>", listener.translateChord(chord, perfectInstrument));
+		assertEquals(expected, listener.displayChord(chord));
 		
+		
+	
 		//2F#m -->  <fis'' a'' cis'''>
+		expected = new ArrayList<AbsoluteMusicNote>(){{
+			add(F2Sharp);
+			add(A2);
+			add(C3Sharp);
+		}};
+		
 		bNoteName = new BasicNoteName("F");
 		alteration = new SharpAlteration();
 		fundamental = new AbsoluteMusicNote(new IntegerModel(2), new AlteredNoteName(bNoteName, alteration));
 		chord = new Chord(fundamental,m,bass);
-		assertEquals("<fis'' a'' cis'''>", listener.translateChord(chord, perfectInstrument));
+		assertEquals(expected, listener.displayChord(chord));
 		
 		//2F#m/2A -->  <a' fis'' cis'''>
+		expected = new ArrayList<AbsoluteMusicNote>(){{
+			add(A1);
+			add(F2Sharp);
+			add(C3Sharp);
+		}};
 		bass = new AbsoluteMusicNote(2,"A");
 		bNoteName = new BasicNoteName("F");
 		alteration = new SharpAlteration();
 		fundamental = new AbsoluteMusicNote(new IntegerModel(2), new AlteredNoteName(bNoteName, alteration));
 		chord = new Chord(fundamental,m,bass);
-		assertEquals("<a' fis'' cis'''>", listener.translateChord(chord, perfectInstrument));
+		assertEquals(expected, listener.displayChord(chord));
 		
 		//4GbM/4Cbb -->   <ceses'''' ges'''' bes'''' des'''''>
+		expected = new ArrayList<AbsoluteMusicNote>(){{
+			add(C4DoubleFlat);
+			add(G4Flat);
+			add(B4Flat);
+			add(D5Flat);
+		}};
+		
 		bNoteName = new BasicNoteName("C");
 		alteration = new DoubleFlatAlteration();
 		bass = new AbsoluteMusicNote(new IntegerModel(4), new AlteredNoteName(bNoteName, alteration));
@@ -132,7 +170,7 @@ public class LilyPondMusicPieceWritterTest extends InitTest {
 		alteration = new FlatAlteration();
 		fundamental = new AbsoluteMusicNote(new IntegerModel(4), new AlteredNoteName(bNoteName, alteration));
 		chord = new Chord(fundamental,M,bass);
-		assertEquals("<ceses'''' ges'''' bes'''' des'''''>", listener.translateChord(chord, perfectInstrument));
+		assertEquals(expected, listener.displayChord(chord));
 	}
 	
 	@Test
@@ -177,31 +215,4 @@ public class LilyPondMusicPieceWritterTest extends InitTest {
 		assertEquals("\\time 4/2..", listener.translateTime(time));
 	}
 	
-	@Test
-	public void barFiguresTest(){
-		// TIME 4/4 - 4 chords
-		Vector<Figure> figures = new Vector<Figure>();
-		figures = listener.barFigures(4, new Time(new IntegerModel(4), new Figure(4,0)));
-		assertEquals(4, figures.size());
-		assertEquals(new Figure(4,0), figures.elementAt(0));
-		
-		// TIME 3/4 - 2 chords
-		figures = new Vector<Figure>();
-		figures = listener.barFigures(2, new Time(new IntegerModel(3), new Figure(4,0)));
-		assertEquals(2, figures.size());
-		assertEquals(new Figure(4, 1), figures.elementAt(0));
-		
-		// TIME 4/4 - 3 chords
-		figures = new Vector<Figure>();
-		figures = listener.barFigures(3, new Time(new IntegerModel(4), new Figure(4,0)));
-		assertEquals(4, figures.size());
-		assertEquals(new Figure(4, 0), figures.elementAt(0));
-		
-		// TIME 4/4 - 8 chords
-		figures = new Vector<Figure>();
-		figures = listener.barFigures(8, new Time(new IntegerModel(4), new Figure(4,0)));
-		assertEquals(8, figures.size());
-		assertEquals(new Figure(8,0), figures.elementAt(0));
-	}
-
 }

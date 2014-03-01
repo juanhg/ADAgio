@@ -1,4 +1,4 @@
-package com.adagio.language.instruments.features;
+package com.adagio.language.instruments;
 
 import org.modelcc.Constraint;
 import org.modelcc.IModel;
@@ -142,20 +142,6 @@ public class Register implements IModel {
 	public String toString(){
 		return "" + lowerNote + "-" + higherNote;
 	}
-
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((higherNote == null) ? 0 : higherNote.hashCode());
-		result = prime * result
-				+ ((lowerNote == null) ? 0 : lowerNote.hashCode());
-		result = prime * result + (used ? 1231 : 1237);
-		return result;
-	}
-
 
 	@Override
 	public boolean equals(Object obj) {

@@ -11,6 +11,12 @@ public class RhythmIdentifier implements IModel {
 	@Value
 	private String value;
 	
+	public RhythmIdentifier(){}
+	
+	public RhythmIdentifier(String string) {
+		value = string.toLowerCase();
+	}
+
 	@Setup
 	public void setup() {
 		value = value.toLowerCase();

@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.modelcc.IModel;
 
-import com.adagio.language.instruments.features.Register;
-import com.adagio.language.instruments.features.Timbre;
+import com.adagio.language.instruments.Register;
+import com.adagio.language.instruments.Timbre;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 
 public class LimitedPolyphonicInstrument extends Instrument implements IModel {
@@ -86,27 +86,7 @@ public class LimitedPolyphonicInstrument extends Instrument implements IModel {
 		}	
 		return this.lowerNotUsedRegister();
 	}
-	
-//	/**
-//	 * Gets the lower register of the instrument
-//	 * @return The lower register of the instrument
-//	 */
-//	private Register lowerRegister(){
-//		int referenceSemitones = 0;
-//		int semitones = 0;
-//		int lowerPos = 0;
-//		
-//		for(int i = 0; i < this.registers.length; i++){
-//			semitones = registers[0].getLowerNote().semitonesTill(registers[i].getLowerNote());
-//			if(referenceSemitones > semitones){
-//				referenceSemitones = semitones;
-//				lowerPos = i;
-//			}
-//		}
-//		
-//		return registers[lowerPos];
-//	}
-	
+		
 	/**
 	 * Gets the lower not used register of the instrument
 	 * @return The lower not used register of the instrument

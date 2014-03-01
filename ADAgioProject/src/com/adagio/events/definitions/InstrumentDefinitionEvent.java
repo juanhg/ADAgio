@@ -3,9 +3,9 @@ package com.adagio.events.definitions;
 import java.util.EventObject;
 
 import com.adagio.language.instruments.InstrumentIdentifier;
-import com.adagio.language.instruments.features.PhoneticType;
-import com.adagio.language.instruments.features.Register;
-import com.adagio.language.instruments.features.Timbre;
+import com.adagio.language.instruments.PhoneticType;
+import com.adagio.language.instruments.Register;
+import com.adagio.language.instruments.Timbre;
 
 public class InstrumentDefinitionEvent extends EventObject {
 
