@@ -27,9 +27,9 @@ DEFINE INSTRUMENT "piano" POLYPHONIC TIMBRE piano;
 
 DEFINE INSTRUMENT "acousticguitar" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE acousticguitar;
 
-Define Rhythm "defaultRhythm"  Note 0 to 0.50 Note 0.50 to 0.75 Note 0.50 to 0.75 Note 0.75 to 1;
-Define Rhythm "basicRhythm1" Note 0 to 0.50 Note 0.50 to 0.75 Note 0.50 to 0.75 Note 0.75 to 1;
-Define Rhythm "basicRhythm2" Note 0 to 1 Note 0.50 to 0.75 Note 0.50 to 0.75 Note 0.75 to 1;
-Define Rhythm "basicRhythm3" Note 0 to 0.50 Note 0.50 to 0.75 Note 0.75 to 1;
-Define Rhythm "basicRhythm4" Note 0 to 1 Note 0.50 to 0.75 Note 0.75 to 1;
-Define Rhythm "basicRhythm5" Note 0 to 0.33 Note 0.33 to 0.66 Note 0.66 to 1;
+Define Rhythm "defaultRhythm"  Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;
+Define Rhythm "basicRhythm1" Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;
+Define Rhythm "basicRhythm2" Note1 0 to 1 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;
+Define Rhythm "basicRhythm3" Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.75 to 1;
+Define Rhythm "basicRhythm4" Note1 0 to 1 Note2 0.50 to 0.75 Note3 0.75 to 1;
+Define Rhythm "basicRhythm5" Note1 0 to 0.33 Note2 0.33 to 0.66 Note3 0.66 to 1;

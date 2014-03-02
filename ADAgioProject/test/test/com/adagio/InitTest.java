@@ -83,9 +83,9 @@ public class InitTest {
 	// Instruments
 	public Instrument maleVoice, femaleVoice, realPiano, acousticGuitar, flute, polyInstrument, perfectInstrument;
 	
-	public RhythmComponent rComp0, rComp1, rComp2, rComp3, rComp4;
-	public List<RhythmComponent> listRComp1, listRComp2;
-	public Rhythm rhythm1, rhythm2;
+	public RhythmComponent rComp0, rComp1, rComp2, rComp3, rComp4, rComp5, rComp6;
+	public List<RhythmComponent> listRComp1, listRComp2, listRComp3, listRComp4;
+	public Rhythm rhythm1, rhythm2, rhythm3, rhythm4;
 
 	
 	@SuppressWarnings("serial")
@@ -311,11 +311,13 @@ public class InitTest {
 		acousticGuitar = new LimitedPolyphonicInstrument(new Timbre("acousticguitar"), acousticGuitarR);
 		perfectInstrument = new PolyphonicInstrument(new Timbre(), perfectInstrumentR);
 		
-		rComp0 = new RhythmComponent(0, 1);
-		rComp1 = new RhythmComponent(0, 0.50);
-		rComp2 = new RhythmComponent(0.50, 0.75);
-		rComp3 = new RhythmComponent(0.50, 0.75);
-		rComp4 = new RhythmComponent(0.75, 1);
+		rComp0 = new RhythmComponent(1, 0, 1);
+		rComp1 = new RhythmComponent(1, 0, 0.50);
+		rComp2 = new RhythmComponent(2, 0.50, 0.75);
+		rComp3 = new RhythmComponent(3, 0.50, 0.75);
+		rComp4 = new RhythmComponent(4, 0.75, 1);
+		rComp5 = new RhythmComponent(2, 0.5, 1);
+		rComp6 = new RhythmComponent(A3bb, 0.66, 1);
 		
 		listRComp1 = new ArrayList<RhythmComponent>(){{
 			add(rComp1);
@@ -334,6 +336,21 @@ public class InitTest {
 		}};
 		
 		rhythm2 = new Rhythm(listRComp2);
+		
+		listRComp3 = new ArrayList<RhythmComponent>(){{
+			add(rComp1);
+			add(rComp5);
+		}};
 	
+		rhythm3 = new Rhythm(listRComp3);
+		
+		listRComp4 = new ArrayList<RhythmComponent>(){{
+			add(rComp1);
+			add(rComp2);
+			add(rComp3);
+			add(rComp6);
+		}};
+	
+		rhythm4 = new Rhythm(listRComp4);
 	  }
 }

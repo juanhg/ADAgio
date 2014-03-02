@@ -38,29 +38,43 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	public AbsoluteMusicNote(AbsoluteMusicNote aNote){
 		this.octave = new IntegerModel(aNote.octave.intValue());
 		this.musicNoteName = aNote.getMusicNoteName().clone();
+		this.optional = false;
+		this.duration = null;
+		this.ligatured = false;
 	}
 
 	public AbsoluteMusicNote(IntegerModel octave, MusicNoteName musicNoteName) {
 		super();
 		this.octave = octave;
 		this.musicNoteName = musicNoteName;
+		this.optional = false;
+		this.duration = null;
+		this.ligatured = false;
 	}
 
 	
 	public AbsoluteMusicNote(int octave, String noteName){
 		this.setOctave(octave);
 		this.setMusicNoteName(noteName);
+		this.optional = false;
+		this.duration = null;
+		this.ligatured = false;
 	}
 	
 	public AbsoluteMusicNote(int octave, String noteName, Duration duration){
 		this.setOctave(octave);
 		this.setMusicNoteName(noteName);
 		this.duration = duration;
+		this.optional = false;
+		this.ligatured = false;
 	}
 	
 	public AbsoluteMusicNote(int octave, String noteName, Alteration alteration){
 		this.octave = new IntegerModel(octave);
 		this.musicNoteName = new AlteredNoteName(new BasicNoteName(noteName), alteration);
+		this.optional = false;
+		this.duration = null;
+		this.ligatured = false;
 	}
 
 	//------------------------//

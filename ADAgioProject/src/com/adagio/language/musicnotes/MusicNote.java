@@ -7,6 +7,8 @@ import com.adagio.events.MusicEventListener;
 public abstract class MusicNote implements IModel {
 	
 	protected Duration duration;
+	protected boolean optional; 
+	protected boolean ligatured;
 	
 	/**
 	 * Obtain the AbsoluteMusicNote-form of the note 
@@ -27,6 +29,20 @@ public abstract class MusicNote implements IModel {
 	public void setDuration(Duration duration) {
 		this.duration = duration;
 	}
+	public boolean isOptional() {
+		return optional;
+	}
+	public void setOptional(boolean optional) {
+		this.optional = optional;
+	}
+	public boolean isLigatured() {
+		return ligatured;
+	}
+	public void setLigatured(boolean ligatured) {
+		this.ligatured = ligatured;
+	}
+	
+	
 	
 	
 }

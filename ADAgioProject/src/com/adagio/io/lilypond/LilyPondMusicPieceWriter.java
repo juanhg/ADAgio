@@ -472,7 +472,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 				if(actualRhythm == null){
 					actualRhythm = rhythmDB.getRhythm(DEFAULT_RHYTHM_IDENTIFIER);
 				}
-				listChordsVoices = actualRhythm.apply(listChordsInstrument, time);
+				listChordsVoices = actualRhythm.apply(listChordsInstrument, time, this);
 			
 				
 				//Translates the voices

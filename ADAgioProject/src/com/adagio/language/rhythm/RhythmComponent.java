@@ -6,6 +6,8 @@ import org.modelcc.Prefix;
 import org.modelcc.types.DecimalModel;
 import org.modelcc.types.NumberModel;
 
+import com.adagio.language.musicnotes.AbsoluteMusicNote;
+
 public class RhythmComponent implements IModel {
 	RhythmNote note;
 	NumberModel initTime;
@@ -26,6 +28,17 @@ public class RhythmComponent implements IModel {
 		this.finalTime = new DecimalModel(finalTime);
 	}
 	
+	public RhythmComponent(int notePosition, double initTime, double finalTime){
+		this.note = new PositionalRhythmNote(notePosition);
+		this.initTime = new DecimalModel(initTime);
+		this.finalTime = new DecimalModel(finalTime);
+	}
+	
+	public RhythmComponent(AbsoluteMusicNote note, double initTime, double finalTime){
+		this.note = new AbsoluteRhythmNote(note);
+		this.initTime = new DecimalModel(initTime);
+		this.finalTime = new DecimalModel(finalTime);
+	}
 	
 	/**
 	 * Checks if the component is between 0 and 1
@@ -67,4 +80,10 @@ public class RhythmComponent implements IModel {
 	public String toString(){
 		return note.toString() + " " + initTime.doubleValue() + "-" + finalTime.doubleValue();
 	}
+
+	public RhythmNote getNote() {
+		return note;
+	}
+	
+	
 }

@@ -1,24 +1,38 @@
 package com.adagio.language.rhythm;
 
 import org.modelcc.IModel;
-import org.modelcc.Pattern;
-import org.modelcc.Value;
+import org.modelcc.Prefix;
+import org.modelcc.types.UnsignedIntegerModel;
 
+import com.adagio.language.musicnotes.MusicNote;
 
-@Pattern(regExp = "(?i)Note")
 public class PositionalRhythmNote extends RhythmNote implements IModel{
      
-	@Value 
-	String value;
-	//UnsignedIntegerModel position;
+
+	@Prefix("(?i)Note")
+	UnsignedIntegerModel notePosition;	
 	
-	public PositionalRhythmNote() {
-		
+	public PositionalRhythmNote() {}
+	
+	public PositionalRhythmNote(int notePosition) {
+		this.notePosition = new UnsignedIntegerModel(notePosition);
 	}
 
 	@Override
 	public String toString() {
-		return "NOTE";
+		return "NOTE"+notePosition.toString();
 	}
+
+	@Override
+	public int getNotePosition() {
+		return notePosition.intValue();
+	}
+
+	@Override
+	public MusicNote getMusicNote() {
+		return null;
+	}
+	
+	
 }
 

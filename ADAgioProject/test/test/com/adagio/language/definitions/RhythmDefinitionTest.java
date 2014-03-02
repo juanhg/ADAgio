@@ -27,19 +27,20 @@ public class RhythmDefinitionTest {
 	
 	@Test
 	public void rhythmDefinitionsValidTest() {
-		assertAmbiguityFree(parser, "Define Rhythm \"ritmoBase\" Note 0 to 0.50 Note 0.50 to 0.75 Note 0.50 to 0.75 Note 0.75 to 1");
-		assertAmbiguityFree(parser, "Define Rhythm \"ritmoRock\" Note 0 to 0.25 Note 0.25 to 1");
-		assertAmbiguityFree(parser, "Define Rhythm \"ritmoPop\" 1A# 0.0 to 0.75 Note 0.75 to 1");
+		assertAmbiguityFree(parser, "Define Rhythm \"ritmoBase\" Note1 0 to 0.50");
+		assertAmbiguityFree(parser, "Define Rhythm \"ritmoBase\" Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1");
+		assertAmbiguityFree(parser, "Define Rhythm \"ritmoRock\" Note1 0 to 0.25 Note2 0.25 to 1");
+		assertAmbiguityFree(parser, "Define Rhythm \"ritmoPop\" 1A# 0.0 to 0.75 Note2 0.75 to 1");
 		assertAmbiguityFree(parser, "Define Rhythm \"A\" 4Cbb 0.0 to 0.75");
 	}
 	
 	@Test
 	public void rhythmDefinitionsInvalidTest() {
-		assertInvalid(parser, "DEFINE Rhtythm \"ritmoRock\" Note 0 to 0.25 Note 0.25 to 1");
+		assertInvalid(parser, "DEFINE Rhtythm \"ritmoRock\" Note1 0 to 0.25 Note2 0.25 to 1");
 		assertInvalid(parser, "Define Rhythm \"ritmoPop\"");
-		assertInvalid(parser, "Define Rhythm \"ritmoPop\" 1A# 0.3 to 0.2 Note 0.2 to 4");
-		assertInvalid(parser, "Define Rhythm \"ritmoPop\" 1A# 0.0 to 0.75 Note 0.75 to 1.1");
-		assertInvalid(parser, "Define Rhythm \"ritmoPop\" Note -1 to 0.75 Note 0.75 to 1");
+		assertInvalid(parser, "Define Rhythm \"ritmoPop\" 1A# 0.3 to 0.2 Note2 0.2 to 4");
+		assertInvalid(parser, "Define Rhythm \"ritmoPop\" 1A# 0.0 to 0.75 Note2 0.75 to 1.1");
+		assertInvalid(parser, "Define Rhythm \"ritmoPop\" Note -1 to 0.75 Note2 0.75 to 1");
 	}
 
 }
