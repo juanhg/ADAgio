@@ -310,6 +310,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 				composition += "\\mf";
 				applied = true;
 			}
+			if(current.isLigatured()){
+				composition += "~";
+			}
 		}
 		composition += " }";
 

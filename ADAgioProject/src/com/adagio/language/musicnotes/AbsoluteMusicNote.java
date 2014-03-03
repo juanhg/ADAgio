@@ -83,6 +83,7 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 		AbsoluteMusicNote aMusicNote = new AbsoluteMusicNote();
 		aMusicNote.musicNoteName = this.musicNoteName.clone();
 		aMusicNote.octave = this.octave;
+		aMusicNote.ligatured = this.ligatured;
 		if(duration != null){
 			aMusicNote.duration = this.duration.clone();
 		}
@@ -299,6 +300,9 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 		if(duration != null){
 			composition += duration.toString();
 		}
+		if(ligatured){
+			composition += "~";
+		}
 		return composition;
 	}
 	
@@ -342,6 +346,14 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 			return null;
 		}
 		return new AbsoluteMusicNote(0, BasicNoteName.silencePattern, duration.clone());
+	}
+	
+	/**
+	 * Generates an AbsoluteMusicNote that represents a silence
+	 * @return Silence note without duration
+	 */
+	public static AbsoluteMusicNote genSilence() {
+		return new AbsoluteMusicNote(0, BasicNoteName.silencePattern);
 	}
 	
 	

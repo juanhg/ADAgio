@@ -236,7 +236,8 @@ public class Figure implements IModel {
 	 * Creates a figure with the specific duration if is possible. If is not
 	 * possible, create the closer and immediately lower one.
 	 * @param duration Figure's duration. (4 whole note, 2 half note, ...)
-	 * @return The figure with the specific duration or the closer lower one.
+	 * @return The figure with the specific duration or the closer lower one, with
+	 * a maximum of 2 dots
 	 * It will return null if the duration it's smaller than the duration of 128Figure
 	 */
 	public static Figure closerFigure(double duration){
@@ -255,7 +256,7 @@ public class Figure implements IModel {
 		
 		double originalFigDur = figDur;
 		double lastIncrement = 0;
-		for(int i = 0; figDur < duration; i++){
+		for(int i = 0; figDur < duration && dotsNum < 2; i++){
 			lastIncrement = originalFigDur / (Math.pow(2.0, i+1));
 			figDur += lastIncrement;
 			dotsNum++;

@@ -68,19 +68,6 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 	}
 
 	@Override
-	public String toString() {
-		String composition = "";
-		composition += musicNoteName.toString();
-		if(octave != null){
-			composition += octave.toString();
-		}
-		if(duration != null){
-			composition += duration.toString();
-		}
-		return composition;
-	}
-	
-	@Override
 	public boolean isSilence() {
 		return musicNoteName.isSilence();
 	}
@@ -119,18 +106,33 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 		return true;
 	}
 
-
 	@Override
 	public RelativeMusicNote clone() {
 		RelativeMusicNote rNote = new RelativeMusicNote();
 		rNote.musicNoteName = this.musicNoteName.clone();
 		rNote.octave = this.octave.clone();
+		rNote.ligatured = this.ligatured;
 		if(this.duration != null){
 			rNote.duration = this.duration.clone();
 		}
 		return null;
 	}
 	
+	@Override
+	public String toString() {
+		String composition = "";
+		composition += musicNoteName.toString();
+		if(octave != null){
+			composition += octave.toString();
+		}
+		if(duration != null){
+			composition += duration.toString();
+		}
+		if(ligatured){
+			composition += "~";
+		}
+		return composition;
+	}
 	
 
 }

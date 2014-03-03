@@ -8,7 +8,10 @@ import org.junit.Test;
 
 import test.com.adagio.InitTest;
 
+import com.adagio.duration.Duration;
+import com.adagio.language.figures.Figure;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
+import com.adagio.rhythms.Rhythm;
 
 public class RhythmTest extends InitTest {
 
@@ -113,6 +116,15 @@ public class RhythmTest extends InitTest {
 //		assertEquals(A0, rhythm1.selectNoteforVoice(chordsAsLists4, 3));
 //	}
 	
+	@Test
+	public void genLigaturedNotesTest() {
+		List<AbsoluteMusicNote> result;
+		
+		result = Rhythm.genLigaturedNotes(A1, 8);
+		result = Rhythm.genLigaturedNotes(A1, 16);
+		result = Rhythm.genLigaturedNotes(A1, 3.3);
+	}
+	
 		
 	@Test
 	public void assignNotesTest() {
@@ -132,8 +144,7 @@ public class RhythmTest extends InitTest {
 	public void applyRhythmTest() {
 		List<List<AbsoluteMusicNote>> result;
 		
-		//TODO fix this bug
-//		result = rhythm1.apply(chordsAsLists1, time2_1, listener);
+		result = rhythm1.apply(chordsAsLists1, time2_1, listener);
 		
 		//[0E2][0S2, 0G4][0S2, 0B4][0S2., 0E4][0S1]
 		result = rhythm1.apply(chordsAsLists1, time4_4, listener);

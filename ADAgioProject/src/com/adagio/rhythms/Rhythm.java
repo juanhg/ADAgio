@@ -187,13 +187,9 @@ public class Rhythm {
 	public List<List<AbsoluteMusicNote>> apply(List<List<AbsoluteMusicNote>> chordsAsLists, Time time, LilyPondMusicPieceWriter listener){
 		List<List<AbsoluteMusicNote>> voices = new ArrayList<List<AbsoluteMusicNote>>();
 		List<Map<Integer, List<AbsoluteMusicNote>>> assignations = new ArrayList<Map<Integer, List<AbsoluteMusicNote>>>();
-		List<AbsoluteMusicNote> voice, notesForComponent, silences;
+		List<AbsoluteMusicNote> voice, notesForComponent;
 		double initTime, finalTime, silencesHeadDuration, noteDuration, timeDuration;
 		int position, chordIndex;
-		AbsoluteMusicNote silence = new AbsoluteMusicNote();
-		AbsoluteMusicNote aNote;
-		Duration duration;
-		Figure closer = new Figure();
 
 		timeDuration = time.duration();
 
@@ -230,32 +226,16 @@ public class Rhythm {
 				//We add silences in the head of the voice
 				//in order to set correctly the note in the bar
 				voice = new ArrayList<AbsoluteMusicNote>();
-				while(silence != null && closer != null){
-					closer = Figure.closerFigure(silencesHeadDuration);
-					if(closer != null){
-						duration = new Duration(closer);
-						silence = AbsoluteMusicNote.genSilence(duration);
-						if(silence != null){
-							voice.add(silence);
-							silencesHeadDuration -= closer.duration();
-						}
-					}
-				}
+				voice = genLigaturedNotes(AbsoluteMusicNote.genSilence(), silencesHeadDuration);
 
-				//We add a figure to the note.
-				aNote = currentNote.clone();
-				closer = Figure.closerFigure(noteDuration);
-				duration = new Duration(closer);
-				aNote.setDuration(duration);
-				voice.add(aNote);
+				//We add a the note (or succession of ligatured notes)
+				voice.addAll(genLigaturedNotes(currentNote, noteDuration));
 				voices.add(voice);
 			}
 		}
 
 		//We add a ghost-voice with a full-bar silence
-		voice = new ArrayList<AbsoluteMusicNote>();
-		duration = new Duration(new Figure(timeDuration));
-		voice.add(AbsoluteMusicNote.genSilence(duration));
+		voice = genLigaturedNotes(AbsoluteMusicNote.genSilence(), timeDuration);
 		voices.add(voice);
 
 		return voices;
@@ -340,6 +320,35 @@ public class Rhythm {
 			}
 		}
 		return -1;
+	}
+	
+	public static List<AbsoluteMusicNote> genLigaturedNotes(AbsoluteMusicNote note, double duration){
+		List<AbsoluteMusicNote> ligaturedNotes = new ArrayList<AbsoluteMusicNote>();
+		Figure closer = new Figure();
+		double currentDuration = duration;
+		AbsoluteMusicNote aNote = new AbsoluteMusicNote(note);
+		Duration noteDuration;
+
+		while(closer != null){
+			closer = Figure.closerFigure(currentDuration);
+			if(closer != null){
+				noteDuration = new Duration(closer);
+				aNote.setDuration(noteDuration);
+				ligaturedNotes.add(aNote.clone());
+				currentDuration -= closer.duration();
+			}
+		}
+		
+		for(int i = 0; i < ligaturedNotes.size(); i++){
+			if(i != ligaturedNotes.size()-1){
+				ligaturedNotes.get(i).setLigatured(true);
+			}
+			else{
+				ligaturedNotes.get(i).setLigatured(false);
+			}
+		}
+
+		return ligaturedNotes;
 	}
 	
 	@Override

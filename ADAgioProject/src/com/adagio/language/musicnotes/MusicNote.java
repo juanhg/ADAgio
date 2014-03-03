@@ -1,8 +1,12 @@
 package com.adagio.language.musicnotes;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.modelcc.IModel;
 
 import com.adagio.duration.Duration;
 import com.adagio.events.MusicEventListener;
+import com.adagio.language.figures.Figure;
 
 public abstract class MusicNote implements IModel {
 	
