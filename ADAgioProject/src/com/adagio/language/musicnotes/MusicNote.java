@@ -1,12 +1,7 @@
 package com.adagio.language.musicnotes;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.modelcc.IModel;
 
 import com.adagio.duration.Duration;
-import com.adagio.events.MusicEventListener;
-import com.adagio.language.figures.Figure;
 
 public abstract class MusicNote implements IModel {
 	
@@ -16,10 +11,10 @@ public abstract class MusicNote implements IModel {
 	
 	/**
 	 * Obtain the AbsoluteMusicNote-form of the note 
-	 * @param data
+	 * @param relative The absolute music note set as the relative of the music piece
 	 * @return A AbsolutMusicNote that contains the equivalent of the absolute or relative note.
 	 */
-	public abstract AbsoluteMusicNote toAbsoluteMusicNote(MusicEventListener listener);
+	public abstract AbsoluteMusicNote toAbsoluteMusicNote(AbsoluteMusicNote relative);
 	public abstract String getBasicNoteNameString();
 	public abstract String toString();
 	public abstract MusicNoteName getMusicNoteName();

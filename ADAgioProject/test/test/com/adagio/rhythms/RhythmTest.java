@@ -8,8 +8,6 @@ import org.junit.Test;
 
 import test.com.adagio.InitTest;
 
-import com.adagio.duration.Duration;
-import com.adagio.language.figures.Figure;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.rhythms.Rhythm;
 
@@ -87,34 +85,6 @@ public class RhythmTest extends InitTest {
 		chordsAsLists5.add(chordAsList);
 	}
 	
-//	@Test
-//	public void selectNoteForVoiceTest() {
-//				
-//		assertEquals(E0, rhythm1.selectNoteforVoice(chordsAsLists1, 0));
-//		assertEquals(G0, rhythm1.selectNoteforVoice(chordsAsLists1, 1));
-//		assertEquals(B0, rhythm1.selectNoteforVoice(chordsAsLists1, 2));
-//		assertEquals(E0, rhythm1.selectNoteforVoice(chordsAsLists1, 3));
-//			
-//		assertEquals(C0, rhythm1.selectNoteforVoice(chordsAsLists2, 0));
-//		assertEquals(E0, rhythm1.selectNoteforVoice(chordsAsLists2, 1));
-//		assertEquals(G0, rhythm1.selectNoteforVoice(chordsAsLists2, 2));
-//		assertEquals(C0, rhythm1.selectNoteforVoice(chordsAsLists2, 3));
-//			
-//		assertEquals(C0, rhythm1.selectNoteforVoice(chordsAsLists3, 0));
-//		assertEquals(G0, rhythm1.selectNoteforVoice(chordsAsLists3, 1));
-//		assertEquals(B0, rhythm1.selectNoteforVoice(chordsAsLists3, 2));
-//		assertEquals(E0, rhythm1.selectNoteforVoice(chordsAsLists3, 3));
-//		
-//		assertEquals(C0, rhythm2.selectNoteforVoice(chordsAsLists3, 0));
-//		assertEquals(G0, rhythm2.selectNoteforVoice(chordsAsLists3, 1));
-//		assertEquals(B0, rhythm2.selectNoteforVoice(chordsAsLists3, 2));
-//		assertEquals(E0, rhythm2.selectNoteforVoice(chordsAsLists3, 3));
-//				
-//		assertEquals(C0, rhythm1.selectNoteforVoice(chordsAsLists4, 0));
-//		assertEquals(G0, rhythm1.selectNoteforVoice(chordsAsLists4, 1));
-//		assertEquals(B0, rhythm1.selectNoteforVoice(chordsAsLists4, 2));
-//		assertEquals(A0, rhythm1.selectNoteforVoice(chordsAsLists4, 3));
-//	}
 	
 	@Test
 	public void genLigaturedNotesTest() {
@@ -144,27 +114,27 @@ public class RhythmTest extends InitTest {
 	public void applyRhythmTest() {
 		List<List<AbsoluteMusicNote>> result;
 		
-		result = rhythm1.apply(chordsAsLists1, time2_1, listener);
+		result = rhythm1.apply(chordsAsLists1, time2_1, C2);
 		
 		//[0E2][0S2, 0G4][0S2, 0B4][0S2., 0E4][0S1]
-		result = rhythm1.apply(chordsAsLists1, time4_4, listener);
+		result = rhythm1.apply(chordsAsLists1, time4_4, C2);
 		
 		//[0E4][0S4, 0G8][0S4, 0B8][0S4., 0E8][0S2]
-		result = rhythm1.apply(chordsAsLists1, time2_4, listener);
+		result = rhythm1.apply(chordsAsLists1, time2_4, C2);
 		
 		//[0C8][0S8, 0E16][0S8, 0G16][0S8., OC16][0S4]
-		result = rhythm1.apply(chordsAsLists2, time1_4, listener);
+		result = rhythm1.apply(chordsAsLists2, time1_4, C2);
 		
 		//[0C2][0S2, 0G4][0S2, 0B4][0S2., 0E4][0S1]
-		result = rhythm1.apply(chordsAsLists3, time4_4, listener);
+		result = rhythm1.apply(chordsAsLists3, time4_4, C2);
 		
 		//[0C2][0S4, 0G8][0S4, 0B8][0S4., 0A8][0S2]
-		result = rhythm2.apply(chordsAsLists4, time2_4, listener);
+		result = rhythm2.apply(chordsAsLists4, time2_4, C2);
 		
 		//[0C2][0G2][0S2, 0B2][0S1]
-		result = rhythm3.apply(chordsAsLists5, time4_4, listener);
+		result = rhythm3.apply(chordsAsLists5, time4_4, C2);
 		
 		//[0C2][0S2, 0G4][0S2, 0B4][]
-		result = rhythm4.apply(chordsAsLists3, time4_4, listener);
+		result = rhythm4.apply(chordsAsLists3, time4_4, C2);
 	}
 }

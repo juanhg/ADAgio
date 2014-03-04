@@ -27,12 +27,12 @@ public class ADAgioCLI {
 	public static void main(String [] args){
 		try {
 	
-			for(int i = 6; i <= 6; i++){
+			for(int i = 2; i <= 2; i++){
 			String inFileName = args[i];
 			String outFileName = inFileName.replace(".adg", ".ly");
 			ModelReader reader = new JavaModelReader(MusicPiece.class);
 			
-			//Read the de Music Lore information and mix it with input.
+			//Read the Music Lore information and mix it with input.
 			InputStream inStream = ADAgioCLI.class.getResourceAsStream("./MusicTheory.mth");
 			String musicTheory = streamToString(inStream);
 			String inputProgram = fileToString(inFileName, StandardCharsets.UTF_8);

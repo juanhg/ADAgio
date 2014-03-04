@@ -18,7 +18,7 @@ public class ChordTest extends InitTest {
 	 
 	@Test
 	public void toAbsoluteTest() {
-		Chord result = silenceChord.toAbsoluteChord(listener);
+		Chord result = silenceChord.toAbsoluteChord(C2);
 		assertTrue(result.isSilence());
 	}
 

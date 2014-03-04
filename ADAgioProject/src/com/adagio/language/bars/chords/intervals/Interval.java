@@ -6,7 +6,6 @@ import java.util.Map;
 import org.modelcc.IModel;
 import org.modelcc.types.IntegerModel;
 
-import com.adagio.events.MusicEventListener;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.MusicNote;
@@ -126,6 +125,8 @@ public class Interval implements IModel {
 		return increment;
 	}
 		
+	//TODO Check if to display the chord, the relative notes are correct 
+	
 	/**
 	 * Applies the interval to the note
 	 * @param note
@@ -133,13 +134,13 @@ public class Interval implements IModel {
 	 * @return And absolute note with the result of apply the interval to the note. Always is 
 	 * higher than the fundamental one
 	 */
-	public AbsoluteMusicNote apply(MusicNote note, MusicEventListener listener){
+	public AbsoluteMusicNote apply(MusicNote note, AbsoluteMusicNote relative){
 		
 		AbsoluteMusicNote result = null;
 
 		//if is not a silence...
 		if(note.getMusicNoteName().isSilence() == false){
-			AbsoluteMusicNote aNote = note.toAbsoluteMusicNote(listener);
+			AbsoluteMusicNote aNote = note.toAbsoluteMusicNote(relative);
 
 			int octave = aNote.getOctave().intValue();
 			BasicNoteName bName = (BasicNoteName) aNote.getMusicNoteName().getBaseNoteName().clone();

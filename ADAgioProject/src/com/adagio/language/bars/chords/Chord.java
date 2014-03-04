@@ -52,13 +52,13 @@ public class Chord implements IModel {
 	}
 	
 	//TODO Move this function to LilypondMusicPieceWriter
-	public Chord toAbsoluteChord(MusicEventListener listener){
+	public Chord toAbsoluteChord(AbsoluteMusicNote relative){
 		AbsoluteMusicNote aNote;
-		aNote = this.getNote().toAbsoluteMusicNote(listener);
+		aNote = this.getNote().toAbsoluteMusicNote(relative);
 
 		// We add the bassNote as an absoluteMusicNote
 		if (this.getBassNote() != null) {
-			bassNote = this.getBassNote().toAbsoluteMusicNote(listener);
+			bassNote = this.getBassNote().toAbsoluteMusicNote(relative);
 		}
 		if(duration == null){
 			return (new Chord(aNote, identifier, bassNote));

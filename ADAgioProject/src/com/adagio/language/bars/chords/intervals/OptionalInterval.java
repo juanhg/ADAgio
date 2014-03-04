@@ -3,7 +3,6 @@ import org.modelcc.IModel;
 import org.modelcc.Prefix;
 import org.modelcc.Suffix;
 
-import com.adagio.events.MusicEventListener;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.MusicNote;
 
@@ -27,8 +26,8 @@ public class OptionalInterval extends Interval implements IModel {
 	 * @return And absolute note with the result of apply the interval to the note. Always is 
 	 * higher than the fundamental one. The optional flat of the note is set to true
 	 */
-	public AbsoluteMusicNote apply(MusicNote note, MusicEventListener listener){
-		AbsoluteMusicNote result = super.apply(note, listener);
+	public AbsoluteMusicNote apply(MusicNote note, AbsoluteMusicNote relative){
+		AbsoluteMusicNote result = super.apply(note, relative);
 		result.setOptional(true);
 		
 		return result;

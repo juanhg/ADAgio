@@ -102,7 +102,7 @@ public class LilyPondMusicPieceWritterTest extends InitTest {
 		
 		fundamental = new AbsoluteMusicNote(0, "C");
 		chord = new Chord(fundamental,M,bass);
-		assertEquals(expected, listener.displayChord(chord));
+		assertEquals(expected, listener.displayChord(chord, C0));
 		
 		//0Dm --> <d f a>
 		expected = new ArrayList<AbsoluteMusicNote>(){{
@@ -112,7 +112,7 @@ public class LilyPondMusicPieceWritterTest extends InitTest {
 		}};
 		fundamental = new AbsoluteMusicNote(0, "D");
 		chord = new Chord(fundamental,m,bass);
-		assertEquals(expected, listener.displayChord(chord));
+		assertEquals(expected, listener.displayChord(chord, C0));
 		
 		//3E#M --> <eis''' gisis''' bis'''>
 		expected = new ArrayList<AbsoluteMusicNote>(){{
@@ -125,7 +125,7 @@ public class LilyPondMusicPieceWritterTest extends InitTest {
 		alteration = new SharpAlteration();
 		fundamental = new AbsoluteMusicNote(new IntegerModel(3), new AlteredNoteName(bNoteName, alteration));
 		chord = new Chord(fundamental,M,bass);
-		assertEquals(expected, listener.displayChord(chord));
+		assertEquals(expected, listener.displayChord(chord, C0));
 		
 		
 	
@@ -140,7 +140,7 @@ public class LilyPondMusicPieceWritterTest extends InitTest {
 		alteration = new SharpAlteration();
 		fundamental = new AbsoluteMusicNote(new IntegerModel(2), new AlteredNoteName(bNoteName, alteration));
 		chord = new Chord(fundamental,m,bass);
-		assertEquals(expected, listener.displayChord(chord));
+		assertEquals(expected, listener.displayChord(chord, C0));
 		
 		//2F#m/2A -->  <a' fis'' cis'''>
 		expected = new ArrayList<AbsoluteMusicNote>(){{
@@ -153,7 +153,7 @@ public class LilyPondMusicPieceWritterTest extends InitTest {
 		alteration = new SharpAlteration();
 		fundamental = new AbsoluteMusicNote(new IntegerModel(2), new AlteredNoteName(bNoteName, alteration));
 		chord = new Chord(fundamental,m,bass);
-		assertEquals(expected, listener.displayChord(chord));
+		assertEquals(expected, listener.displayChord(chord, C0));
 		
 		//4GbM/4Cbb -->   <ceses'''' ges'''' bes'''' des'''''>
 		expected = new ArrayList<AbsoluteMusicNote>(){{
@@ -170,7 +170,7 @@ public class LilyPondMusicPieceWritterTest extends InitTest {
 		alteration = new FlatAlteration();
 		fundamental = new AbsoluteMusicNote(new IntegerModel(4), new AlteredNoteName(bNoteName, alteration));
 		chord = new Chord(fundamental,M,bass);
-		assertEquals(expected, listener.displayChord(chord));
+		assertEquals(expected, listener.displayChord(chord, C0));
 	}
 	
 	@Test

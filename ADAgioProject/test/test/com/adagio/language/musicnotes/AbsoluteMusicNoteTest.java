@@ -102,10 +102,10 @@ public class AbsoluteMusicNoteTest extends InitTest {
 	
 	@Test
 	public void toAbsoluteTest(){
-		AbsoluteMusicNote result = super.SRelative.toAbsoluteMusicNote(listener);
+		AbsoluteMusicNote result = super.SRelative.toAbsoluteMusicNote(C2);
 		assertTrue(result.isSilence());
 		
-		result = S0.toAbsoluteMusicNote(listener);
+		result = S0.toAbsoluteMusicNote(C2);
 		assertTrue(result.isSilence());
 	}
 }

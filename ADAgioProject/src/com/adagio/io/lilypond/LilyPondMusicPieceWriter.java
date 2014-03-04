@@ -23,7 +23,6 @@ import com.adagio.events.chords.MusicChordEvent;
 import com.adagio.events.definitions.InstrumentDefinitionEvent;
 import com.adagio.events.definitions.MusicTempoDefinitionEvent;
 import com.adagio.events.definitions.RhythmDefinitionEvent;
-import com.adagio.events.notes.MusicNoteNameEvent;
 import com.adagio.events.statements.MusicDefinedTempoStatementEvent;
 import com.adagio.events.statements.MusicPlayStatementEvent;
 import com.adagio.events.statements.MusicRelativeStatementEvent;
@@ -407,7 +406,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		// Translates to absoluteMusicNote
 		for(Chord current: chords){
 			if(chordsDB.exists(current.getIdentifier())){
-				Chord aChord = current.toAbsoluteChord(this);
+				Chord aChord = current.toAbsoluteChord(relative);
 				absoluteChords.add(aChord);
 				if(!aChord.isSilence()){
 					relative = (AbsoluteMusicNote) aChord.getNote().clone();
@@ -425,10 +424,12 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 
 
 		//Display the chords
+		AbsoluteMusicNote relativeToDisplay;
 		listChordsDisplayed = new ArrayList<List<AbsoluteMusicNote>>();
 		for(Chord current: absoluteChords){
+			relativeToDisplay = (AbsoluteMusicNote) current.getNote();
 			chordDisplayed = new ArrayList<AbsoluteMusicNote>();
-			chordDisplayed = this.displayChord(current);
+			chordDisplayed = this.displayChord(current, relativeToDisplay);
 			listChordsDisplayed.add(chordDisplayed);
 		}
 
@@ -475,7 +476,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 				if(actualRhythm == null){
 					actualRhythm = rhythmDB.getRhythm(DEFAULT_RHYTHM_IDENTIFIER);
 				}
-				listChordsVoices = actualRhythm.apply(listChordsInstrument, time, this);
+				listChordsVoices = actualRhythm.apply(listChordsInstrument, time, relative);
 			
 				
 				//Translates the voices
@@ -800,50 +801,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		this.rhythmDB.addRhythm(e.getIdentifier(), rhythm);
 	}
 	
-	/**
-	 * Obtains the alteration produces in a MusicNoteName because of the reference
-	 * @return A integer value, that means the octave-alteration produces.
-	 * If is a silence, returns the relative-octave alteration
-	 */
-	@Override
-	public int alterationFromReference(MusicNoteNameEvent e) {
-
-		boolean up = false;
-		boolean down = false;
-
-		String rNoteName = this.relative.getBasicNoteNameString();
-		int octave = this.relative.getOctave().intValue();
-
-		if(e.getMusicNoteName().isSilence() == false){
-
-			int distance = this.relative.getMusicNoteName().getBaseNoteName().shortestDistance(e.getMusicNoteName().getBaseNoteName());
-
-			if(distance == 3 && (rNoteName.equals("A") || rNoteName.equals("B")|| rNoteName.equals("G"))){
-				up = true;
-			}
-			else if(distance == 2 && (rNoteName.equals("A") || rNoteName.equals("B"))){
-				up = true;
-			}
-			else if(distance == 1 && (rNoteName.equals("B"))){
-				up = true;
-			}
-			else if(distance == -3 && (rNoteName.equals("C") || rNoteName.equals("D") || rNoteName.equals("E"))){
-				down = true;
-			}
-			else if(distance == -2 && (rNoteName.equals("C") || rNoteName.equals("D"))){
-				down = true;
-			}
-			else if(distance == -1 && (rNoteName.equals("C"))){
-				down = true;
-			}
-
-			if(up){ octave++;}
-			else if(down){ octave--;}
-
-		}
-
-		return octave;
-	}
+	
 	
 	/** ----- GETTERS & SETTERS (Not events) ----- **/
 	
@@ -866,7 +824,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 * intervals of the chord. List of one silence-AbsoluteMusicNote if
 	 * the the chord is a silence-Chord
 	 */
-	public List<AbsoluteMusicNote> displayChord(Chord chord){
+	public List<AbsoluteMusicNote> displayChord(Chord chord, AbsoluteMusicNote relativeD){
 
 		List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
 
@@ -880,7 +838,8 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 
 			//Recollects the notes result to apply the interval to the fundamental note
 			for(int i = 0; i < intervals.size();i++){
-				aNotes.add(intervals.get(i).apply(chord.getNote(), this));
+
+				aNotes.add(intervals.get(i).apply(chord.getNote(), relativeD));
 				if(chord.getDuration() != null){
 					aNotes.get(i).setDuration(chord.getDuration().clone());
 				}

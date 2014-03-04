@@ -62,7 +62,7 @@ public class FigureTest {
 		
 		testFigure = Figure.closerFigure(3.9);
 		assertEquals(2,testFigure.getShape().intValue());
-		assertEquals(4,testFigure.getNumDots());
+		assertEquals(2,testFigure.getNumDots());
 		
 		testFigure = Figure.closerFigure(0.135);
 		assertEquals(32,testFigure.getShape().intValue());

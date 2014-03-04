@@ -4,8 +4,6 @@ import org.modelcc.Constraint;
 import org.modelcc.IModel;
 import org.modelcc.Optional;
 
-import com.adagio.events.MusicEventListener;
-import com.adagio.events.notes.MusicNoteNameEvent;
 import com.adagio.language.musicnotes.octavealterations.OctaveAlteration;
 
 public class RelativeMusicNote extends MusicNote implements IModel {
@@ -47,10 +45,10 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 	}
 
 	@Override
-	public AbsoluteMusicNote toAbsoluteMusicNote(MusicEventListener listener) {
+	public AbsoluteMusicNote toAbsoluteMusicNote(AbsoluteMusicNote relative) {
 		int nAlterations = 0;
 		AbsoluteMusicNote result = new AbsoluteMusicNote();
-		nAlterations += listener.alterationFromReference(new MusicNoteNameEvent(this,musicNoteName));
+		nAlterations += alterationFromReference(relative);
 		if(octave != null){
 			nAlterations += octave.toInt();
 		}
@@ -104,6 +102,50 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 		} else if (!octave.equals(other.octave))
 			return false;
 		return true;
+	}
+	
+	/**
+	 * Obtains the alteration produces in a MusicNoteName because of the reference
+	 * @return A integer value, that means the octave-alteration produces.
+	 * If is a silence, returns the relative-octave alteration
+	 */
+	public int alterationFromReference(AbsoluteMusicNote relative) {
+
+		boolean up = false;
+		boolean down = false;
+
+		String rNoteName = relative.getBasicNoteNameString();
+		int octave = relative.getOctave().intValue();
+
+		if(this.getMusicNoteName().isSilence() == false){
+
+			int distance = relative.getMusicNoteName().getBaseNoteName().shortestDistance(this.getMusicNoteName().getBaseNoteName());
+
+			if(distance == 3 && (rNoteName.equals("A") || rNoteName.equals("B")|| rNoteName.equals("G"))){
+				up = true;
+			}
+			else if(distance == 2 && (rNoteName.equals("A") || rNoteName.equals("B"))){
+				up = true;
+			}
+			else if(distance == 1 && (rNoteName.equals("B"))){
+				up = true;
+			}
+			else if(distance == -3 && (rNoteName.equals("C") || rNoteName.equals("D") || rNoteName.equals("E"))){
+				down = true;
+			}
+			else if(distance == -2 && (rNoteName.equals("C") || rNoteName.equals("D"))){
+				down = true;
+			}
+			else if(distance == -1 && (rNoteName.equals("C"))){
+				down = true;
+			}
+
+			if(up){ octave++;}
+			else if(down){ octave--;}
+
+		}
+
+		return octave;
 	}
 
 	@Override

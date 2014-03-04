@@ -1,5 +1,6 @@
 *.class
 
+*.ly
 ADAgioProject/ADAgio.jar 
 ADAgioProject/bin
 ADAgioProject/.metadata

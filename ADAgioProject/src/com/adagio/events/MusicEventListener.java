@@ -11,7 +11,6 @@ import com.adagio.events.chords.MusicChordEvent;
 import com.adagio.events.definitions.InstrumentDefinitionEvent;
 import com.adagio.events.definitions.MusicTempoDefinitionEvent;
 import com.adagio.events.definitions.RhythmDefinitionEvent;
-import com.adagio.events.notes.MusicNoteNameEvent;
 import com.adagio.events.statements.MusicDefinedTempoStatementEvent;
 import com.adagio.events.statements.MusicPlayStatementEvent;
 import com.adagio.events.statements.MusicRelativeStatementEvent;
@@ -46,8 +45,7 @@ public interface MusicEventListener extends EventListener {
 	public void setTempo(MusicUndefinedTempoStatementEvent e);
 	
 	/** ----- NOTE EVENTS ----- **/
-//	public AbsoluteMusicNote toAbsolute(MusicNoteToAbsoluteEvent e);
-	public int alterationFromReference(MusicNoteNameEvent e);
+
 	
 	
 	/** ----- CHORDS EVENTS ----- **/
