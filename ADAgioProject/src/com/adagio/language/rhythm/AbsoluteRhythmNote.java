@@ -2,7 +2,6 @@ package com.adagio.language.rhythm;
 
 import org.modelcc.IModel;
 
-import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.MusicNote;
 
 public class AbsoluteRhythmNote extends RhythmNote implements IModel{
@@ -10,7 +9,7 @@ public class AbsoluteRhythmNote extends RhythmNote implements IModel{
 
     public AbsoluteRhythmNote(){}
     
-    public AbsoluteRhythmNote(AbsoluteMusicNote aNote){
+    public AbsoluteRhythmNote(MusicNote aNote){
     	note = aNote;
     }
     

@@ -60,7 +60,7 @@ public class Rhythm {
 		}
 		
 		//Copy the list of notes as a HashMap
-		for(int i=0; i < aNotes.size(); i++){
+		for(int i=0; i < aNotes2.size(); i++){
 			remainNotes.put(i, aNotes2.get(i).clone());
 		}
 		
@@ -99,6 +99,7 @@ public class Rhythm {
 		List<AbsoluteMusicNote> voice, notesForComponent;
 		double initTime, finalTime, silencesHeadDuration, noteDuration, timeDuration;
 		int position, chordIndex;
+		AbsoluteMusicNote currentRelative = relative.clone();
 
 		timeDuration = time.duration();
 
@@ -125,8 +126,8 @@ public class Rhythm {
 			//If the component is absolute
 			else{
 				//generates the note 
-				//TODO make this note relative to the last displayed, and ERASE RELATIVE FROM PARAMETERS
-				AbsoluteMusicNote aRhythmNote = currentComponent.getNote().getMusicNote().toAbsoluteMusicNote(relative);
+				//TODO check that the relative is correctly applied
+				AbsoluteMusicNote aRhythmNote = currentComponent.getNote().getMusicNote().toAbsoluteMusicNote(currentRelative);
 				notesForComponent = new ArrayList<AbsoluteMusicNote>();
 				notesForComponent.add(aRhythmNote);
 			}
@@ -141,6 +142,8 @@ public class Rhythm {
 				//We add a the note (or succession of ligatured notes)
 				voice.addAll(genLigaturedNotes(currentNote, noteDuration));
 				voices.add(voice);
+				
+				currentRelative = currentNote.clone();
 			}
 		}
 

@@ -52,6 +52,13 @@ public class Figure implements IModel {
 		dots = null;
 	}
 	
+	public Figure(Figure figure){
+		this.shape = figure.shape;
+		if(figure.dots != null){
+			this.dots = Arrays.copyOf(figure.dots, figure.dots.length);
+		}
+	}
+	
 	/**
 	 * Attributes constructor.
 	 * @param shape duration of the shape 

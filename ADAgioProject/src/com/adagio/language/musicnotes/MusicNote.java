@@ -19,7 +19,27 @@ public abstract class MusicNote implements IModel {
 	public abstract String toString();
 	public abstract MusicNoteName getMusicNoteName();
 	public abstract boolean isSilence();
-	public abstract boolean equals(Object o);
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MusicNote other = (MusicNote) obj;
+		if (duration == null) {
+			if (other.duration != null)
+				return false;
+		} else if (!duration.equals(other.duration))
+			return false;
+		if (ligatured != other.ligatured)
+			return false;
+		if (optional != other.optional)
+			return false;
+		return true;
+	}
 	public abstract MusicNote clone();
 	
 	public Duration getDuration() {
@@ -40,6 +60,8 @@ public abstract class MusicNote implements IModel {
 	public void setLigatured(boolean ligatured) {
 		this.ligatured = ligatured;
 	}
+	
+	
 	
 	
 	

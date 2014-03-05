@@ -6,7 +6,7 @@ import org.modelcc.Prefix;
 import org.modelcc.types.DecimalModel;
 import org.modelcc.types.NumberModel;
 
-import com.adagio.language.musicnotes.AbsoluteMusicNote;
+import com.adagio.language.musicnotes.MusicNote;
 
 public class RhythmComponent implements IModel {
 	RhythmNote note;
@@ -34,7 +34,7 @@ public class RhythmComponent implements IModel {
 		this.finalTime = new DecimalModel(finalTime);
 	}
 	
-	public RhythmComponent(AbsoluteMusicNote note, double initTime, double finalTime){
+	public RhythmComponent(MusicNote note, double initTime, double finalTime){
 		this.note = new AbsoluteRhythmNote(note);
 		this.initTime = new DecimalModel(initTime);
 		this.finalTime = new DecimalModel(finalTime);

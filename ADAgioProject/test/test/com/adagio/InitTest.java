@@ -1,8 +1,5 @@
 package test.com.adagio;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 
 import com.adagio.duration.Duration;
@@ -22,9 +19,7 @@ import com.adagio.language.musicnotes.notealterations.DoubleFlatAlteration;
 import com.adagio.language.musicnotes.notealterations.DoubleSharpAlteration;
 import com.adagio.language.musicnotes.notealterations.FlatAlteration;
 import com.adagio.language.musicnotes.notealterations.SharpAlteration;
-import com.adagio.language.rhythm.RhythmComponent;
 import com.adagio.language.times.Time;
-import com.adagio.rhythms.Rhythm;
 
 public class InitTest {
 	
@@ -63,6 +58,7 @@ public class InitTest {
 	
 	//Relatives Music Notes
 	public RelativeMusicNote SRelative;
+	public RelativeMusicNote rA;
 	
 	// Intervals
 	public Interval perfect1, perfect4, perfect5, perfect8;
@@ -83,12 +79,7 @@ public class InitTest {
 	// Instruments
 	public Instrument maleVoice, femaleVoice, realPiano, acousticGuitar, flute, polyInstrument, perfectInstrument;
 	
-	public RhythmComponent rComp0, rComp1, rComp2, rComp3, rComp4, rComp5, rComp6;
-	public List<RhythmComponent> listRComp1, listRComp2, listRComp3, listRComp4;
-	public Rhythm rhythm1, rhythm2, rhythm3, rhythm4;
-
 	
-	@SuppressWarnings("serial")
 	@Before
 	  public void setUp() throws Exception {
 		
@@ -235,6 +226,7 @@ public class InitTest {
 		
 		//RelativeNotes
 		SRelative = RelativeMusicNote.genSilence();
+		rA = new RelativeMusicNote(A, null);
 		
 		// Intervals
 		perfect1 = new Interval("P",1);
@@ -310,47 +302,5 @@ public class InitTest {
 		realPiano = new PolyphonicInstrument(new Timbre("piano"), realPianoR);
 		acousticGuitar = new LimitedPolyphonicInstrument(new Timbre("acousticguitar"), acousticGuitarR);
 		perfectInstrument = new PolyphonicInstrument(new Timbre(), perfectInstrumentR);
-		
-		rComp0 = new RhythmComponent(1, 0, 1);
-		rComp1 = new RhythmComponent(1, 0, 0.50);
-		rComp2 = new RhythmComponent(2, 0.50, 0.75);
-		rComp3 = new RhythmComponent(3, 0.50, 0.75);
-		rComp4 = new RhythmComponent(4, 0.75, 1);
-		rComp5 = new RhythmComponent(2, 0.5, 1);
-		rComp6 = new RhythmComponent(A3bb, 0.66, 1);
-		
-		listRComp1 = new ArrayList<RhythmComponent>(){{
-			add(rComp1);
-			add(rComp2);
-			add(rComp3);
-			add(rComp4);
-		}};
-		
-		rhythm1 = new Rhythm(listRComp1);
-		
-		listRComp2 = new ArrayList<RhythmComponent>(){{
-			add(rComp0);
-			add(rComp2);
-			add(rComp3);
-			add(rComp4);
-		}};
-		
-		rhythm2 = new Rhythm(listRComp2);
-		
-		listRComp3 = new ArrayList<RhythmComponent>(){{
-			add(rComp1);
-			add(rComp5);
-		}};
-	
-		rhythm3 = new Rhythm(listRComp3);
-		
-		listRComp4 = new ArrayList<RhythmComponent>(){{
-			add(rComp1);
-			add(rComp2);
-			add(rComp3);
-			add(rComp6);
-		}};
-	
-		rhythm4 = new Rhythm(listRComp4);
 	  }
 }

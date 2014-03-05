@@ -12,7 +12,15 @@ public class Duration {
 	public Duration(Figure figure){
 		this.figure = figure;
 	}
+	
+	public Duration(int shape, int numDots){
+		figure = new Figure(shape, numDots);
+	}
 
+	public double duration(){
+		return figure.duration();
+	}
+	
 	public Figure getFigure() {
 		return figure;
 	}
@@ -32,5 +40,24 @@ public class Duration {
 		
 		return duration;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Duration other = (Duration) obj;
+		if (figure == null) {
+			if (other.figure != null)
+				return false;
+		} else if (!figure.equals(other.figure))
+			return false;
+		return true;
+	}
+	
+	
 	
 }

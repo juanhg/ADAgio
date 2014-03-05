@@ -23,6 +23,7 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	
 	MusicNoteName musicNoteName;
 	
+	
 	@Constraint
 	public boolean silenceRestriction(){
 		if(musicNoteName.isSilence()){
@@ -68,6 +69,22 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 		this.ligatured = false;
 	}
 	
+	public AbsoluteMusicNote(int octave, String noteName, Duration duration, boolean ligature){
+		this.setOctave(octave);
+		this.setMusicNoteName(noteName);
+		this.duration = duration;
+		this.ligatured = ligature;
+		this.optional = false;
+	}
+	
+	public AbsoluteMusicNote(int octave, String noteName, Duration duration, boolean ligature, boolean optional){
+		this.setOctave(octave);
+		this.setMusicNoteName(noteName);
+		this.duration = duration;
+		this.ligatured = ligature;
+		this.optional = optional;
+	}
+	
 	public AbsoluteMusicNote(int octave, String noteName, Alteration alteration){
 		this.octave = new IntegerModel(octave);
 		this.musicNoteName = new AlteredNoteName(new BasicNoteName(noteName), alteration);
@@ -83,6 +100,7 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 		aMusicNote.musicNoteName = this.musicNoteName.clone();
 		aMusicNote.octave = this.octave;
 		aMusicNote.ligatured = this.ligatured;
+		aMusicNote.optional = this.optional;
 		if(duration != null){
 			aMusicNote.duration = this.duration.clone();
 		}
@@ -302,30 +320,40 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 		if(ligatured){
 			composition += "~";
 		}
+		if(optional){
+			composition = "(" +  composition + ")";
+		}
 		return composition;
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
+		if(!super.equals(obj)){
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		AbsoluteMusicNote other = (AbsoluteMusicNote) obj;
-		if (musicNoteName == null) {
-			if (other.musicNoteName != null)
+		}
+		else{
+			if (this == obj)
+				return true;
+			if (obj == null)
 				return false;
-		} else if (!musicNoteName.equals(other.musicNoteName))
-			return false;
-		if (octave == null) {
-			if (other.octave != null)
+			if (getClass() != obj.getClass())
 				return false;
-		} else if (!(octave.intValue() == other.octave.intValue()))
-			return false;
+			AbsoluteMusicNote other = (AbsoluteMusicNote) obj;
+			if (musicNoteName == null) {
+				if (other.musicNoteName != null)
+					return false;
+			} else if (!musicNoteName.equals(other.musicNoteName))
+				return false;
+			if (octave == null) {
+				if (other.octave != null)
+					return false;
+			} else if (!(octave.intValue() == other.octave.intValue()))
+				return false;
+		}
 		return true;
 	}
+	
+	
 	
 	
 
@@ -340,7 +368,7 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 	 * @return Silence-AbsoluteMusicNote. If duration is no valid -> null
 	 */
 	public static AbsoluteMusicNote genSilence(Duration duration) {
-		if(duration.getFigure().duration() <= 0){
+		if(duration.duration() <= 0){
 			System.err.println("Error (genSilence): Invalid duration value");
 			return null;
 		}

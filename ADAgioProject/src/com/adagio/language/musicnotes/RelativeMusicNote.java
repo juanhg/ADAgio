@@ -10,12 +10,12 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 	
 	public MusicNoteName musicNoteName;
 	@Optional
-	public OctaveAlteration octave;
+	public OctaveAlteration octaveAlteration;
 	
 	@Constraint
 	boolean silenceRestriction(){
 		if(musicNoteName.isSilence()){
-			if(octave == null){
+			if(octaveAlteration == null){
 				return true;
 			}
 			else{
@@ -25,6 +25,13 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 		else{
 			return true;
 		}
+	}
+
+	public RelativeMusicNote(){}
+	
+	public RelativeMusicNote(MusicNoteName musicNoteName, OctaveAlteration octaveAlteration){
+		this.musicNoteName = musicNoteName;
+		this.octaveAlteration = octaveAlteration;
 	}
 	
 
@@ -37,11 +44,11 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 	}
 
 	public OctaveAlteration getOctave() {
-		return octave;
+		return octaveAlteration;
 	}
 
 	public void setOctave(OctaveAlteration octave) {
-		this.octave = octave;
+		this.octaveAlteration = octave;
 	}
 
 	@Override
@@ -49,8 +56,8 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 		int nAlterations = 0;
 		AbsoluteMusicNote result = new AbsoluteMusicNote();
 		nAlterations += alterationFromReference(relative);
-		if(octave != null){
-			nAlterations += octave.toInt();
+		if(octaveAlteration != null){
+			nAlterations += octaveAlteration.toInt();
 		}
 		result.setMusicNoteName(musicNoteName);
 		result.setOctave(nAlterations);
@@ -77,30 +84,36 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 	public static RelativeMusicNote genSilence() {
 		RelativeMusicNote note = new RelativeMusicNote();
 		note.musicNoteName = BasicNoteName.genSilence();
-		note.octave = null;
+		note.octaveAlteration = null;
 		
 		return note;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
+
+		if(!super.equals(obj)){
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		RelativeMusicNote other = (RelativeMusicNote) obj;
-		if (musicNoteName == null) {
-			if (other.musicNoteName != null)
+		}
+		else{
+			if (this == obj)
+				return true;
+			if (obj == null)
 				return false;
-		} else if (!musicNoteName.equals(other.musicNoteName))
-			return false;
-		if (octave == null) {
-			if (other.octave != null)
+			if (getClass() != obj.getClass())
 				return false;
-		} else if (!octave.equals(other.octave))
-			return false;
+			RelativeMusicNote other = (RelativeMusicNote) obj;
+			if (musicNoteName == null) {
+				if (other.musicNoteName != null)
+					return false;
+			} else if (!musicNoteName.equals(other.musicNoteName))
+				return false;
+			if (octaveAlteration == null) {
+				if (other.octaveAlteration != null)
+					return false;
+			} else if (!octaveAlteration.equals(other.octaveAlteration))
+				return false;
+		}
 		return true;
 	}
 	
@@ -152,8 +165,9 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 	public RelativeMusicNote clone() {
 		RelativeMusicNote rNote = new RelativeMusicNote();
 		rNote.musicNoteName = this.musicNoteName.clone();
-		rNote.octave = this.octave.clone();
+		rNote.octaveAlteration = this.octaveAlteration.clone();
 		rNote.ligatured = this.ligatured;
+		rNote.optional = this.optional;
 		if(this.duration != null){
 			rNote.duration = this.duration.clone();
 		}
@@ -164,14 +178,17 @@ public class RelativeMusicNote extends MusicNote implements IModel {
 	public String toString() {
 		String composition = "";
 		composition += musicNoteName.toString();
-		if(octave != null){
-			composition += octave.toString();
+		if(octaveAlteration != null){
+			composition += octaveAlteration.toString();
 		}
 		if(duration != null){
 			composition += duration.toString();
 		}
 		if(ligatured){
 			composition += "~";
+		}
+		if(optional){
+			composition = "(" +  composition + ")";
 		}
 		return composition;
 	}

@@ -143,6 +143,7 @@ public class Register implements IModel {
 		return "" + lowerNote + "-" + higherNote;
 	}
 
+	//TODO cuidao, equal de absoluteMusicNotes!!
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

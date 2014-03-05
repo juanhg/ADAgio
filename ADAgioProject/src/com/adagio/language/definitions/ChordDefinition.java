@@ -67,58 +67,41 @@ public class ChordDefinition extends Definition implements IModel {
 	}
 	
 	private boolean beginWithNumber(){
-		if(identifier.getValue().substring(0, 1).equals("0")){
+		
+		int head = Character.getNumericValue(identifier.getValue().charAt(0));
+		
+		if(head >= 0 && head <= 9){
 			return true;
 		}
-		else if(identifier.getValue().substring(0, 1).equals("1")){
-			return true;
-		}
-		else if(identifier.getValue().substring(0, 1).equals("2")){
-			return true;
-		}
-		else if(identifier.getValue().substring(0, 1).equals("3")){
-			return true;
-		}
-		else if(identifier.getValue().substring(0, 1).equals("4")){
-			return true;
-		}
-		else if(identifier.getValue().substring(0, 1).equals("5")){
-			return true;
-		}
-		else if(identifier.getValue().substring(0, 1).equals("6")){
-			return true;
-		}
-		else if(identifier.getValue().substring(0, 1).equals("7")){
-			return true;
-		}
-		else if(identifier.getValue().substring(0, 1).equals("0")){
-			return true;
-		}
-		else if(identifier.getValue().substring(0, 1).equals("0")){
-			return true;
-		}
+		
 		return false;
 	}
 	
 	boolean beginWithAlteration(){
-		if(identifier.getValue().substring(0, 1).equals(FlatAlteration.getPatern())){
+		
+		String head = String.valueOf(identifier.getValue().charAt(0));
+		
+		if(head.equals(FlatAlteration.getPatern())){
 			return true;
 		}
-		else if (identifier.getValue().substring(0, 1).equals(DoubleFlatAlteration.getPatern())){
+		else if (head.equals(DoubleFlatAlteration.getPatern())){
 			return true;
 		}
-		else if (identifier.getValue().substring(0, 1).equals(SharpAlteration.getPatern())){
+		else if (head.equals(SharpAlteration.getPatern())){
 			return true;
 		}
-		else if (identifier.getValue().substring(0, 1).equals(DoubleSharpAlteration.getPatern())){
+		else if (head.equals(DoubleSharpAlteration.getPatern())){
 			return true;
 		}
 		return false;
 	}
 	
 	boolean beginWithBasicNoteName(){
+		
+		String head = String.valueOf(identifier.getValue().charAt(0));
+		
 		for(int i = 0; i < BasicNoteName.getPattern().size(); i++){
-			if(identifier.getValue().substring(0,1).equals(BasicNoteName.getPattern().elementAt(i))){
+			if(head.equals(BasicNoteName.getPattern().elementAt(i))){
 				return true;
 			}
 		}
