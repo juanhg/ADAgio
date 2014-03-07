@@ -26,59 +26,59 @@ public class ADAgioCLI {
 
 	public static void main(String [] args){
 		try {
-	
-			for(int i = 0; i <= 7; i++){
-			String inFileName = args[i];
-			String outFileName = inFileName.replace(".adg", ".ly");
-			ModelReader reader = new JavaModelReader(MusicPiece.class);
-			
-			//Read the Music Lore information and mix it with input.
-			InputStream inStream = ADAgioCLI.class.getResourceAsStream("./MusicTheory.mth");
-			String musicTheory = streamToString(inStream);
-			String inputProgram = fileToString(inFileName, StandardCharsets.UTF_8);
-			String finalInput = musicTheory + inputProgram;
-		
 
-			// Read the language model.
-			Model model = reader.read();
+			for(String current: args){
+				String inFileName = current;
+				String outFileName = inFileName.replace(".adg", ".ly");
+				ModelReader reader = new JavaModelReader(MusicPiece.class);
 
-			Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
-			ignore.add(new RegExpPatternRecognizer("#.*\n"));
-			ignore.add(new RegExpPatternRecognizer("( |\n|\t|\r)+"));
+				//Read the Music Lore information and mix it with input.
+				InputStream inStream = ADAgioCLI.class.getResourceAsStream("./MusicTheory.mth");
+				String musicTheory = streamToString(inStream);
+				String inputProgram = fileToString(inFileName, StandardCharsets.UTF_8);
+				String finalInput = musicTheory + inputProgram;
 
-			// Generate a parser from the model.
-			@SuppressWarnings("unchecked")
-			Parser<MusicPiece> parser = ParserFactory.create(model,ignore);
 
-			// Parse an input string.
-			MusicPiece result = parser.parse(finalInput);
-			
-			System.out.println("Fichero: " + inFileName);
-			PrintWriter out = (new PrintWriter(outFileName));
-			LilyPondMusicPieceWriter.writeMusicPiece(result,out);
-			out.close();
-			
-			System.out.println("\n\nProgram: " + inFileName);
-			
+				// Read the language model.
+				Model model = reader.read();
+
+				Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
+				ignore.add(new RegExpPatternRecognizer("#.*\n"));
+				ignore.add(new RegExpPatternRecognizer("( |\n|\t|\r)+"));
+
+				// Generate a parser from the model.
+				@SuppressWarnings("unchecked")
+				Parser<MusicPiece> parser = ParserFactory.create(model,ignore);
+
+				// Parse an input string.
+				MusicPiece result = parser.parse(finalInput);
+
+				System.out.println("Fichero: " + inFileName);
+				PrintWriter out = (new PrintWriter(outFileName));
+				LilyPondMusicPieceWriter.writeMusicPiece(result,out);
+				out.close();
+
+				System.out.println("\n\nProgram: " + inFileName);
+
 			}	
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	@SuppressWarnings("resource")
 	static String streamToString(java.io.InputStream is) {
-	    java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-	    return s.hasNext() ? s.next() : "";
+		java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+		return s.hasNext() ? s.next() : "";
 	}
-	
+
 	public static String fileToString(String path, Charset encoding) 
-			  throws IOException 
+			throws IOException 
 			{
-			  byte[] encoded = Files.readAllBytes(Paths.get(path));
-			  return encoding.decode(ByteBuffer.wrap(encoded)).toString();
+		byte[] encoded = Files.readAllBytes(Paths.get(path));
+		return encoding.decode(ByteBuffer.wrap(encoded)).toString();
 			}
-	
+
 }
