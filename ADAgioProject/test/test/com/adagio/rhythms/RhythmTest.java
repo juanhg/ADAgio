@@ -275,13 +275,13 @@ public class RhythmTest extends InitTest {
 		Map<Integer, List<AbsoluteMusicNote>> result;
 		
 		//[0C, 0E, 0G] --> Note1 (0C, 0G) Note2 (0E)
-		result = rhythm3.assignNotes(chordsAsLists2.get(0));
+		result = rhythm3.assignNotes(chordsAsLists2.get(0), realPiano);
 		
 		//[0E, 0G, 0B] --> Note1 (0E, 0B) Note2 (0G)
-		result = rhythm3.assignNotes(chordsAsLists1.get(0));
+		result = rhythm3.assignNotes(chordsAsLists1.get(0), realPiano);
 		
 		//[0C, 0E, 0G] --> Note1 (0C) Note2 (0E) Note3 (0G) Note4 (OC)
-		result = rhythm1.assignNotes(chordsAsLists2.get(0));
+		result = rhythm1.assignNotes(chordsAsLists2.get(0), perfectInstrument);
 	}
 	
 	@SuppressWarnings("serial")
@@ -316,7 +316,7 @@ public class RhythmTest extends InitTest {
 		expected.add(voice);
 		
 		//[0E2][0S2, 0G4][0S2, 0B4][0S2., 0E4][0S1]
-		result = rhythm1.apply(chordsAsLists1, time4_4, C2);
+		result = rhythm1.apply(chordsAsLists1, realPiano, time4_4, C2);
 		assertEquals(expected, result);
 		expected.clear();
 		
@@ -347,7 +347,7 @@ public class RhythmTest extends InitTest {
 				
 
 		//[0C4][0S4, 0G8][0S4, 0B8][0S4., 0E8][0S2]
-		result = rhythm1.apply(chordsAsLists3, time2_4, C2);
+		result = rhythm1.apply(chordsAsLists3, realPiano, time2_4, C2);
 		assertEquals(expected, result );
 		expected.clear();
 		
@@ -377,7 +377,7 @@ public class RhythmTest extends InitTest {
 		expected.add(voice);
 		
 		//[0C2][0S4, 0G8][0S4, 0B8][0S4., 0A8][0S2]
-		result = rhythm2.apply(chordsAsLists4, time2_4, C2);
+		result = rhythm2.apply(chordsAsLists4, realPiano, time2_4, C2);
 		assertEquals(expected, result);
 		expected.clear();
 		
@@ -401,7 +401,7 @@ public class RhythmTest extends InitTest {
 		expected.add(voice);
 
 		//[0C2][0G2][0S2, 0B2][0S1]
-		result = rhythm3.apply(chordsAsLists5, time4_4, C2);
+		result = rhythm3.apply(chordsAsLists5, realPiano, time4_4, C2);
 		assertEquals(expected, result);
 		expected.clear();
 		
@@ -431,7 +431,7 @@ public class RhythmTest extends InitTest {
 		expected.add(voice);
 		
 		//[0E1][0S1, 0G2][0S1, 0B2][0S1., 0E2][0S1~, 0S1]
-		result = rhythm1.apply(chordsAsLists1, time2_1, C2);
+		result = rhythm1.apply(chordsAsLists1, realPiano, time2_1, C2);
 		assertEquals(expected, result);
 		expected.clear();
 
@@ -442,7 +442,7 @@ public class RhythmTest extends InitTest {
 		}};
 		
 		//[[0E4~, 0E16~, 0E64], [0S4~, 0S16~, 0S64, 0G4~, 0G16~, 0G64], [0S2~, 0S8~, 0S32, 0B4~, 0B16~, 0B64..], [0S1]]
-		result = rhythm5.apply(chordsAsLists1, time4_4, C2);
+		result = rhythm5.apply(chordsAsLists1, realPiano, time4_4, C2);
 		assertEquals(voice, result.get(0));
 		voice.clear();
 		
@@ -452,23 +452,23 @@ public class RhythmTest extends InitTest {
 		}};
 		
 		//[0C2][0S2, 0E4][0S2, 5A2][0S2, 0G4][S1]
-		result = rhythm4.apply(chordsAsLists2, time4_4, C2);
+		result = rhythm4.apply(chordsAsLists2, realPiano, time4_4, C2);
 		assertEquals(voice, result.get(2));
 		voice.clear();
 		
 		//[[0C2], [0G2], [0S2, 0G2], [0C2], [0G2], [0S1]]
-		result = rhythm6.apply(chordsAsLists3, time4_4, C2);
+		result = rhythm6.apply(chordsAsLists3, realPiano, time4_4, C2);
 		assertEquals(result.get(0), result.get(3));
 		assertEquals(6,result.size());
 		
 		//Checking behavior with Optional-notes (Must delete it)
-		result = rhythm6.apply(chordsAsLists6, time4_4, C2);
+		result = rhythm6.apply(chordsAsLists6, realPiano, time4_4, C2);
 		assertEquals(result.get(0), result.get(2));
 		assertEquals(4,result.size());
 		
 		
 		//Checking behavior with Optional-notes (Must use it)
-		result = rhythm1.apply(chordsAsLists6, time4_4, C2);
+		result = rhythm1.apply(chordsAsLists6, realPiano, time4_4, C2);
 		assertEquals(5,result.size());
 		
 		//Checking behavior with relativeComponents
@@ -477,7 +477,7 @@ public class RhythmTest extends InitTest {
 		}};
 		
 		//[[5C4], [0S4, 5G8], [5A2], [0S4, 5B8], [0S2]]
-		result = rhythm7.apply(chordsAsLists7, time2_4, C2);
+		result = rhythm7.apply(chordsAsLists7, realPiano, time2_4, C2);
 		assertEquals(voice,result.get(2));
 		voice.clear();
 		
@@ -486,14 +486,14 @@ public class RhythmTest extends InitTest {
 		}};
 		
 		//[[5C4], [0S4, 5G8], [5A2], [0S4, 5B8], [0S2]]
-		result = rhythm8.apply(chordsAsLists7, time2_4, super.C2);
+		result = rhythm8.apply(chordsAsLists7, realPiano, time2_4, super.C2);
 		assertEquals(voice,result.get(0));
 		voice.clear();
 		
 		//[0E4][0S4, 0G8][0S4, 0B8][0S4., 0E8][0S2]
-		result = rhythm1.apply(chordsAsLists1, time2_4, C2);
+		result = rhythm1.apply(chordsAsLists1, realPiano, time2_4, C2);
 		
 		//[0C8][0S8, 0E16][0S8, 0G16][0S8., OC16][0S4]
-		result = rhythm1.apply(chordsAsLists2, time1_4, C2);
+		result = rhythm1.apply(chordsAsLists2, realPiano, time1_4, C2);
 	}
 }

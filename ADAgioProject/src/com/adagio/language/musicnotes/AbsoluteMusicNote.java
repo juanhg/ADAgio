@@ -204,8 +204,20 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 		return result;
 	}
 	
+	public void increaseOctave(int increment){
+		for(int i = 0; i < increment; i++){
+			this.increaseOctave();
+		}
+	}
+	
 	public void increaseOctave(){
 		this.setOctave(this.getOctave().intValue()+1);
+	}
+	
+	public void decreaseOctave(int increment){
+		for(int i = 0; i < increment; i++){
+			this.decreaseOctave();
+		}
 	}
 	
 	public void decreaseOctave(){

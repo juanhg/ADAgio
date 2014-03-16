@@ -476,7 +476,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 				if(actualRhythm == null){
 					actualRhythm = rhythmDB.getRhythm(DEFAULT_RHYTHM_IDENTIFIER);
 				}
-				listChordsVoices = actualRhythm.apply(listChordsInstrument, time, relative);
+				listChordsVoices = actualRhythm.apply(listChordsInstrument, channelInstrument, time, relative);
 			
 				
 				//Translates the voices
@@ -537,6 +537,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		int maxDuration = this.channelsDB.maxNumBars();
 		int auxDuration = 0;
 		int difference = 0;
+		List<AbsoluteMusicNote> silences;
 
 		String composition = "";
 
@@ -546,7 +547,10 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 
 			if (difference > 0) {
 				for (int i = difference; i > 0; i--) {
-					composition += "s" + translateFigure(new Figure(time.duration()));
+					silences = Rhythm.genLigaturedNotes(AbsoluteMusicNote.genSilence(), time.duration());
+					for(AbsoluteMusicNote currentSilence: silences){
+						composition += translateAbsoluteMusicNote(currentSilence);
+					}
 				}
 				composition += "\n";
 				this.channelsDB.addMusic(id, composition, difference);

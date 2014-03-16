@@ -71,6 +71,20 @@ public abstract class Instrument{
 	 */
 	public abstract List<AbsoluteMusicNote> apply(List<AbsoluteMusicNote> aNotes);
 	
+	/**
+	 * Checks if an AbsoluteNote belong to the registers of the instrument
+	 * @param aNote AbsoluteNote to check
+	 * @return True if the AbsoluteNote belong to a register. False in other case.
+	 */
+	public boolean belong(AbsoluteMusicNote aNote){
+		for(Register current: registers){
+			if(current.belong(aNote)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	@Override
 	public String toString(){
 		String composition = "";

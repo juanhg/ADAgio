@@ -1,0 +1,27 @@
+Define Rhythm "guitarrhythm"
+  Note1 0 to 0.48
+  Note2 0.02 to 0.49
+  Note3 0.04 to 0.49
+  Note4 0.06 to 0.50
+  Note5 0.08 to 0.50
+  Note6 0.1 to 0.50
+
+  Note1 0.50 to 0.73
+  Note2 0.52 to 0.73
+  Note3 0.54 to 0.73
+  Note4 0.56 to 0.74 
+  Note5 0.58 to 0.74
+  Note6 0.60 to 0.74
+ 
+  Note6 0.75 to 0.96
+  Note5 0.77 to 0.97
+  Note4 0.79 to 0.97
+  Note3 0.81 to 0.97
+  Note2 0.83 to 0.98
+  Note1 0.85 to 0.99;
+
+time 4/4;
+  
+channel guitarra instrument=acousticguitar rhythm=guitarrhythm;
+play | Am | F | C' | G |;
+play | Am | F | C' | G |;

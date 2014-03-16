@@ -25,9 +25,15 @@ import com.adagio.language.MusicPiece;
 public class ADAgioCLI {
 
 	public static void main(String [] args){
+		int i = 0;
+		
 		try {
 
 			for(String current: args){
+				if( i == 8){
+					System.out.println();
+				}
+				i++;
 				String inFileName = current;
 				String outFileName = inFileName.replace(".adg", ".ly");
 				ModelReader reader = new JavaModelReader(MusicPiece.class);

@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import com.adagio.duration.Duration;
+import com.adagio.instruments.Instrument;
 import com.adagio.language.figures.Figure;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.rhythm.RhythmComponent;
@@ -35,16 +36,18 @@ public class Rhythm {
 	 * @return A Map: key (component position) value (list of notes that assigned to that component)
 	 */
 	@SuppressWarnings("rawtypes")
-	public Map<Integer, List<AbsoluteMusicNote>> assignNotes(List<AbsoluteMusicNote> aNotes){
+	public Map<Integer, List<AbsoluteMusicNote>> assignNotes(List<AbsoluteMusicNote> aNotes, Instrument instrument){
 		Map<Integer, List<AbsoluteMusicNote>> assignation = new HashMap<Integer, List<AbsoluteMusicNote>>(); 
 		Map<Integer, AbsoluteMusicNote> remainNotes = new HashMap<Integer, AbsoluteMusicNote>();
 		List<AbsoluteMusicNote> componentNotes = null;
 		List<AbsoluteMusicNote> aNotes2 = new ArrayList<AbsoluteMusicNote>();
 		AbsoluteMusicNote aNote = null;
+		AbsoluteMusicNote aNoteIncreased = null;
 		int position = -1;
 		int noteIndex = 0;
 		int optionalIndex = -1;
 		int emptiestKey = 0;
+		int octaveIncrement = 0;
 		
 		//Clone the original notes
 		for(AbsoluteMusicNote current: aNotes){
@@ -70,8 +73,18 @@ public class Rhythm {
 			//If is a positional component
 			if(position > 0){
 				noteIndex = (position-1)%aNotes.size();
+				octaveIncrement = (position-1)/aNotes.size();
 				componentNotes = new ArrayList<AbsoluteMusicNote>();
-				componentNotes.add(aNotes2.get(noteIndex));
+				
+				//If the note is repeated, increase the octave
+				aNote = aNotes2.get(noteIndex);
+				aNoteIncreased = aNote.clone();
+				aNoteIncreased.increaseOctave(octaveIncrement);
+				if(instrument.belong(aNoteIncreased)){
+					aNote = aNoteIncreased;
+				}
+				
+				componentNotes.add(aNote);
 				assignation.put(position, componentNotes);
 				remainNotes.remove(noteIndex);
 			}
@@ -93,7 +106,7 @@ public class Rhythm {
 		return assignation;
 	}
 	
-	public List<List<AbsoluteMusicNote>> apply(List<List<AbsoluteMusicNote>> chordsAsLists, Time time, AbsoluteMusicNote relative){
+	public List<List<AbsoluteMusicNote>> apply(List<List<AbsoluteMusicNote>> chordsAsLists, Instrument instrument, Time time, AbsoluteMusicNote relative){
 		List<List<AbsoluteMusicNote>> voices = new ArrayList<List<AbsoluteMusicNote>>();
 		List<Map<Integer, List<AbsoluteMusicNote>>> assignations = new ArrayList<Map<Integer, List<AbsoluteMusicNote>>>();
 		List<AbsoluteMusicNote> voice, notesForComponent;
@@ -107,7 +120,7 @@ public class Rhythm {
 		// (C E G) --> Note1 (C G), Note2(E)
 		// (C E G D) --> Note1 (C, G) Note2(E D)
 		for(List<AbsoluteMusicNote> current: chordsAsLists){
-			assignations.add(assignNotes(current));
+			assignations.add(assignNotes(current, instrument));
 		}
 
 		for(RhythmComponent currentComponent: components){
