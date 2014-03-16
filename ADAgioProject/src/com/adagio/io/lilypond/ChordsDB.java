@@ -11,6 +11,7 @@ public class ChordsDB {
 
 	private Map<ChordIdentifier,List<Interval>> chordsMap;
 	
+	
 	public ChordsDB(){
 		chordsMap = new HashMap<ChordIdentifier,List<Interval>>();
 	}
