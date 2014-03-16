@@ -3,6 +3,7 @@ package com.adagio;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -28,47 +29,62 @@ public class ADAgioCLI {
 		int i = 0;
 		
 		try {
+			
+			System.out.println();
+			
+			if(args.length == 0){
+				System.out.println(".adg file is required: ");
+				System.out.println("java -jar ADAgio.jar <file.adg>");
+				System.out.println("java -jar ADAgio.jar <file1.adg> ... <fileN.adg>");
+				System.exit(0);
+			}
+			
+			ModelReader reader = new JavaModelReader(MusicPiece.class);
+			
+			// Read the language model.
+			Model model = reader.read();
 
+			Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
+			ignore.add(new RegExpPatternRecognizer("#.*\n"));
+			ignore.add(new RegExpPatternRecognizer("( |\n|\t|\r)+"));
+
+			// Generate a parser from the model.
+			@SuppressWarnings("unchecked")
+			Parser<MusicPiece> parser = ParserFactory.create(model,ignore);
+			
+
+			//Read the Music Lore information and mix it with input.
+			InputStream inStream = ADAgioCLI.class.getResourceAsStream("MusicTheory.mth");
+			if(inStream == null){
+				System.err.println("Error reading MusicTheory");
+			}
+			String musicTheory = streamToString(inStream);
+			
 			for(String current: args){
-				if( i == 8){
+				if( i == 9){
 					System.out.println();
 				}
 				i++;
-				String inFileName = current;
-				String outFileName = inFileName.replace(".adg", ".ly");
-				ModelReader reader = new JavaModelReader(MusicPiece.class);
+				
+				System.out.println("Processing " +  relativePath(current) + "...");
+				String outFileName = current.replace(".adg", ".ly");
 
-				//Read the Music Lore information and mix it with input.
-				InputStream inStream = ADAgioCLI.class.getResourceAsStream("./MusicTheory.mth");
-				String musicTheory = streamToString(inStream);
-				String inputProgram = fileToString(inFileName, StandardCharsets.UTF_8);
+				String inputProgram = fileToString(current, StandardCharsets.UTF_8);
 				String finalInput = musicTheory + inputProgram;
-
-
-				// Read the language model.
-				Model model = reader.read();
-
-				Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
-				ignore.add(new RegExpPatternRecognizer("#.*\n"));
-				ignore.add(new RegExpPatternRecognizer("( |\n|\t|\r)+"));
-
-				// Generate a parser from the model.
-				@SuppressWarnings("unchecked")
-				Parser<MusicPiece> parser = ParserFactory.create(model,ignore);
-
+				
 				// Parse an input string.
 				MusicPiece result = parser.parse(finalInput);
 
-				System.out.println("Fichero: " + inFileName);
 				PrintWriter out = (new PrintWriter(outFileName));
 				LilyPondMusicPieceWriter.writeMusicPiece(result,out);
 				out.close();
 
-				System.out.println("\n\nProgram: " + inFileName);
+				System.out.println("Generated " + relativePath(outFileName) + "\n");
 
 			}	
 
 		} catch (Exception e) {
+			System.err.println("Syntax error");
 			e.printStackTrace();
 		}
 
@@ -86,5 +102,17 @@ public class ADAgioCLI {
 		byte[] encoded = Files.readAllBytes(Paths.get(path));
 		return encoding.decode(ByteBuffer.wrap(encoded)).toString();
 			}
+	
+	public static String relativePath(String path){
+		
+		if(path.lastIndexOf("\\") > -1 && path.lastIndexOf("\\") < path.length()){
+			return path.substring(path.lastIndexOf("\\")+1, path.length());
+		}
+		else if(path.lastIndexOf("/") > -1 && path.lastIndexOf("/") < path.length()){
+			return path.substring(path.lastIndexOf("/")+1, path.length());
+		}
+		
+		return path;
+	}
 
 }

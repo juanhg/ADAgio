@@ -41,12 +41,16 @@ public class RhythmTest extends InitTest {
 	final AbsoluteMusicNote A8 = new AbsoluteMusicNote(0, "A", new Duration(8,0));
 	final AbsoluteMusicNote A5_2 = new AbsoluteMusicNote(5, "A", new Duration(2,0));
 	final AbsoluteMusicNote A1_2 = new AbsoluteMusicNote(1, "A", new Duration(2,0));
+	final AbsoluteMusicNote A1_8 = new AbsoluteMusicNote(1, "A", new Duration(8,0));
 	
 	final AbsoluteMusicNote E1 = new AbsoluteMusicNote(0, "E", new Duration(1,0));
 	final AbsoluteMusicNote E2 = new AbsoluteMusicNote(0, "E", new Duration(2,0));
 	final AbsoluteMusicNote E4 = new AbsoluteMusicNote(0, "E", new Duration(4,0));
+	final AbsoluteMusicNote E1_4 = new AbsoluteMusicNote(1, "E", new Duration(4,0));
+	final AbsoluteMusicNote E1_2 = new AbsoluteMusicNote(1, "E", new Duration(2,0));
 	final AbsoluteMusicNote E4l = new AbsoluteMusicNote(0, "E", new Duration(4,0),true);
 	final AbsoluteMusicNote E8 = new AbsoluteMusicNote(0, "E", new Duration(8,0));
+	final AbsoluteMusicNote E1_8 = new AbsoluteMusicNote(1, "E", new Duration(8,0));
 	final AbsoluteMusicNote E16l = new AbsoluteMusicNote(0, "E", new Duration(16,0), true);
 	final AbsoluteMusicNote E64 = new AbsoluteMusicNote(0, "E", new Duration(64,0));
 	
@@ -307,7 +311,7 @@ public class RhythmTest extends InitTest {
 		expected.add(voice);
 		voice = new ArrayList<AbsoluteMusicNote>(){{
 			add(S2p);
-			add(E4);
+			add(E1_4);
 		}};
 		expected.add(voice);
 		voice = new ArrayList<AbsoluteMusicNote>(){{
@@ -315,7 +319,7 @@ public class RhythmTest extends InitTest {
 		}};
 		expected.add(voice);
 		
-		//[0E2][0S2, 0G4][0S2, 0B4][0S2., 0E4][0S1]
+		//[0E2][0S2, 0G4][0S2, 0B4][0S2., 1E4][0S1]
 		result = rhythm1.apply(chordsAsLists1, realPiano, time4_4, C2);
 		assertEquals(expected, result);
 		expected.clear();
@@ -337,7 +341,7 @@ public class RhythmTest extends InitTest {
 		expected.add(voice);
 		voice = new ArrayList<AbsoluteMusicNote>(){{
 			add(S4p);
-			add(E8);
+			add(E1_8);
 		}};
 		expected.add(voice);
 		voice = new ArrayList<AbsoluteMusicNote>(){{
@@ -346,7 +350,7 @@ public class RhythmTest extends InitTest {
 		expected.add(voice);
 				
 
-		//[0C4][0S4, 0G8][0S4, 0B8][0S4., 0E8][0S2]
+		//[0C4][0S4, 0G8][0S4, 0B8][0S4., 1E8][0S2]
 		result = rhythm1.apply(chordsAsLists3, realPiano, time2_4, C2);
 		assertEquals(expected, result );
 		expected.clear();
@@ -368,7 +372,7 @@ public class RhythmTest extends InitTest {
 		expected.add(voice);
 		voice = new ArrayList<AbsoluteMusicNote>(){{
 			add(S4p);
-			add(A8);
+			add(A1_8);
 		}};
 		expected.add(voice);
 		voice = new ArrayList<AbsoluteMusicNote>(){{
@@ -376,7 +380,7 @@ public class RhythmTest extends InitTest {
 		}};
 		expected.add(voice);
 		
-		//[0C2][0S4, 0G8][0S4, 0B8][0S4., 0A8][0S2]
+		//[0C2][0S4, 0G8][0S4, 0B8][0S4., 1A8][0S2]
 		result = rhythm2.apply(chordsAsLists4, realPiano, time2_4, C2);
 		assertEquals(expected, result);
 		expected.clear();
@@ -421,7 +425,7 @@ public class RhythmTest extends InitTest {
 		expected.add(voice);
 		voice = new ArrayList<AbsoluteMusicNote>(){{
 			add(S1p);
-			add(E2);
+			add(E1_2);
 		}};
 		expected.add(voice);
 		voice = new ArrayList<AbsoluteMusicNote>(){{
@@ -430,7 +434,7 @@ public class RhythmTest extends InitTest {
 		}};
 		expected.add(voice);
 		
-		//[0E1][0S1, 0G2][0S1, 0B2][0S1., 0E2][0S1~, 0S1]
+		//[0E1][0S1, 0G2][0S1, 0B2][0S1., 1E2][0S1~, 0S1]
 		result = rhythm1.apply(chordsAsLists1, realPiano, time2_1, C2);
 		assertEquals(expected, result);
 		expected.clear();
