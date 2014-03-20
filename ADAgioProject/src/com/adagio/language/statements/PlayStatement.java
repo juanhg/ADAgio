@@ -10,7 +10,6 @@ import com.adagio.events.statements.MusicPlayStatementEvent;
 import com.adagio.language.bars.Bar;
 
 @Prefix("(?i)play")
-
 public class PlayStatement extends Statement implements IModel {
 
 	

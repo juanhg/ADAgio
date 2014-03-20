@@ -89,6 +89,9 @@ public class PlayStatementTest extends InitTest {
 	@Test
 	public void playSentenceValidtest() {
 		assertAmbiguityFree(parser,"PLAY | 3D#m |");
+		assertAmbiguityFree(parser,"PLAY  3D#m |");
+		assertAmbiguityFree(parser,"PLAY | 3D#m ");
+		assertAmbiguityFree(parser,"PLAY 3D#m");
 		assertAmbiguityFree(parser,"PLAY | 3Dbm |");
 		assertAmbiguityFree(parser,"PLAY | 3D#m# |");
 		assertAmbiguityFree(parser,"PLAY | A#M |");

@@ -1,6 +1,6 @@
 package test.com.adagio.rhythms;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,6 @@ import org.junit.Test;
 import test.com.adagio.InitTest;
 
 import com.adagio.duration.Duration;
-import com.adagio.language.figures.Figure;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.rhythm.RhythmComponent;
 import com.adagio.rhythms.Rhythm;
