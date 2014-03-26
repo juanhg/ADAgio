@@ -1,6 +1,11 @@
 package test.com.adagio;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Before;
+import org.modelcc.lexer.recognizer.PatternRecognizer;
+import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 
 import com.adagio.duration.Duration;
 import com.adagio.instruments.Instrument;
@@ -78,13 +83,15 @@ public class InitTest {
 	
 	// Instruments
 	public Instrument maleVoice, femaleVoice, realPiano, acousticGuitar, flute, polyInstrument, perfectInstrument;
-	
+	public Set<PatternRecognizer> ignore;
 	
 	@Before
 	  public void setUp() throws Exception {
 		
 		//Listener
 		listener = new LilyPondMusicPieceWriter();
+		ignore = new HashSet<PatternRecognizer>();
+		ignore.add(new RegExpPatternRecognizer("#.*\n"));
 		
 		//Times
 		time4_4 = new Time(4, 4);

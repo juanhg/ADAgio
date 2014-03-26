@@ -12,7 +12,6 @@ import com.adagio.language.bars.Bar;
 @Prefix("(?i)play")
 public class PlayStatement extends Statement implements IModel {
 
-	
 	@Prefix("\\|?")
 	@Suffix("\\|?")
 	@Separator("\\|")

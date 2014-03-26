@@ -10,9 +10,11 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
+import test.com.adagio.InitTest;
+
 import com.adagio.language.definitions.RhythmDefinition;
 
-public class RhythmDefinitionTest {
+public class RhythmDefinitionTest extends InitTest {
 
 
 	Model model;
@@ -21,8 +23,9 @@ public class RhythmDefinitionTest {
 	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception {
+		super.setUp();
 		model = JavaModelReader.read(RhythmDefinition.class);
-		parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
+		parser = ParserFactory.create(model,ignore);
 	}
 	
 	@Test
@@ -32,6 +35,7 @@ public class RhythmDefinitionTest {
 		assertAmbiguityFree(parser, "Define Rhythm \"ritmoRock\" Note1 0 to 0.25 Note2 0.25 to 1");
 		assertAmbiguityFree(parser, "Define Rhythm \"ritmoPop\" 1A# 0.0 to 0.75 Note2 0.75 to 1");
 		assertAmbiguityFree(parser, "Define Rhythm \"A\" 4Cbb 0.0 to 0.75");
+		assertAmbiguityFree(parser, "Define Rhythm \"ritmoBase\" Note1 0           to 0.50 Note2 0.50 to 0.75 	Note3 0.50 to 0.75 Note4 0.75 to 1");
 	}
 	
 	@Test

@@ -10,7 +10,7 @@ import com.adagio.language.figures.Figure;
 public class Tempo implements IModel{
 	
 	Figure figure;
-	@Prefix("=")
+	@Prefix({"[ |\n|\r|\t]*","=", "[ |\n|\r|\t]*"})
 	IntegerModel bps;
 	
 	public Tempo(){}

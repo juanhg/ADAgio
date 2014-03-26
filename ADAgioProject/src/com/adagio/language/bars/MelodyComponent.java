@@ -6,8 +6,10 @@ import com.adagio.language.figures.Figure;
 import com.adagio.language.musicnotes.MusicNote;
 
 public class MelodyComponent implements IModel {
+	
 	MusicNote note;
 	Figure figure;
+	
 	public MusicNote getNote() {
 		return note;
 	}
