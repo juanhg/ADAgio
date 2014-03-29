@@ -42,7 +42,7 @@ public class MusicPieceTest extends InitTest {
 		
 		super.setUp();
 	    model = JavaModelReader.read(MusicPiece.class);
-	    parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
+	    parser = ParserFactory.create(model,ignore);
 	    test0 = ADAgioCLI.fileToString(program0, StandardCharsets.UTF_8);
 	    test1 = ADAgioCLI.fileToString(program1, StandardCharsets.UTF_8);
 	    test2 = ADAgioCLI.fileToString(program2, StandardCharsets.UTF_8);

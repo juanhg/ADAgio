@@ -1,25 +1,25 @@
-DEFINE TEMPO "estrofa" 4=55;
-DEFINE TEMPO "estribillo" 4=50;
+DEFINE TEMPO "estrofa" 4=55
+DEFINE TEMPO "estribillo" 4=50
 
-channel piano volume=80 rhythm=basicRhythm1;
-channel violin volume=60 disable instrument=violin rhythm=basicRhythm2;
+channel piano volume=80 rhythm=basicRhythm1
+channel violin volume=60 disable instrument=violin rhythm=basicRhythm2
 
-TIME 4/4;
-TEMPO estrofa;
-RELATIVE 1C;
-PLAY G# B E | G# B E | G# F E;
+TIME 4/4
+TEMPO estrofa
+RELATIVE 1C
+PLAY G# B E | G# B E | G# F E
 
-Channel violin enable;  
-TEMPO ESTRIBILLO;    
-RELATIVE 1C;
-PLAY E F# G | E F# E | E F# E |  E F# G;
+Channel violin enable  
+TEMPO ESTRIBILLO    
+RELATIVE 1C
+PLAY E F# G | E F# E | E F# E |  E F# G
 
-Channel violin volume=40;
-TEMPO estrofa;
-RELATIVE 1C;
-PLAY G# B E | G# B E | G# F E;
+Channel violin volume=40
+TEMPO estrofa
+RELATIVE 1C
+PLAY G# B E | G# B E | G# F E
 
-Channel violin volume=50;  
-TEMPO ESTRIBILLO;    
-RELATIVE 1C;
-PLAY E F# G# | E F# E | E F# E |  E F# G#;
+Channel violin volume=50  
+TEMPO ESTRIBILLO    
+RELATIVE 1C
+PLAY E F# G# | E F# E | E F# E |  E F# G#

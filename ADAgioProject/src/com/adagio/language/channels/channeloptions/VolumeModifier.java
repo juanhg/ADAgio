@@ -11,7 +11,7 @@ import com.adagio.language.channels.ChannelIdentifier;
 
 public class VolumeModifier extends StatusModifier implements IModel{
 
-	@Prefix({"(?i)VOLUME", "[ |\n|\r|\t]*","=", "[ |\n|\r|\t]*"})
+	@Prefix({"(?i)VOLUME", "( |\\n|\\r|\\t)*","=", "( |\\n|\\r|\\t)*"})
 	IntegerModel volume;
 	
 	public static final String PATTERN = "VOLUME";

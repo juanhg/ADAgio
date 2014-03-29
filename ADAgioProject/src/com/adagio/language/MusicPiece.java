@@ -11,8 +11,15 @@ import com.adagio.language.statements.Statement;
  * @author Wungo
  */
 public class MusicPiece implements IModel {
+	
+	@Prefix("( |\\n|\\r|\\t)*")
+	@Separator("( |\\n|\\r|\\t)+")
 	@Multiplicity(minimum = 0)
 	Definition[] definitions;
+	
+	@Prefix("( |\\n|\\r|\\t)*")
+	@Suffix("( |\\n|\\r|\\t)*")
+	@Separator("( |\\n|\\r|\\t)+")
 	@Multiplicity(minimum = 0)
 	Statement[] statements;
 	

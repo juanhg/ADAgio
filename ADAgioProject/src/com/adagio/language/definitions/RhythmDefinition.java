@@ -12,15 +12,15 @@ import com.adagio.language.rhythm.RhythmComponent;
 import com.adagio.language.rhythm.RhythmIdentifier;
 
 
-@Prefix({"(?i)Define", "[ |\n|\r|\t]+","(?i)Rhythm"})
+@Prefix({"(?i)Define", "( |\\n|\\r|\\t)+","(?i)Rhythm"})
 public class RhythmDefinition extends Definition implements IModel{
 	
-	@Prefix({"[ |\n|\r|\t]+", "\""})
+	@Prefix({"( |\\n|\\r|\\t)+", "\""})
 	@Suffix("\"")
 	RhythmIdentifier identifier; 
 	
-	@Prefix("[ |\n|\r|\t]+")
-	@Separator("[ |\n|\r|\t]+")
+	@Prefix("( |\\n|\\r|\\t)+")
+	@Separator("( |\\n|\\r|\\t)+")
 	@Multiplicity(minimum = 1)
 	RhythmComponent components [];
 

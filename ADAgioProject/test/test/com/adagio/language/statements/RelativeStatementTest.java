@@ -1,6 +1,7 @@
 package test.com.adagio.language.statements;
 
 import static org.modelcc.test.ModelAssert.assertAmbiguityFree;
+import static org.modelcc.test.ModelAssert.assertInvalid;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,12 +10,12 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
+import test.com.adagio.InitTest;
+
 import com.adagio.language.statements.RelativeStatement;
 
-import static org.modelcc.test.ModelAssert.*;
 
-
-public class RelativeStatementTest {
+public class RelativeStatementTest extends InitTest {
 
 	  Model model;
 	  Parser<RelativeStatement> parser;
@@ -22,12 +23,13 @@ public class RelativeStatementTest {
 	  @SuppressWarnings("unchecked")
 	@Before
 	  public void setUp() throws Exception {
+		super.setUp();
 	    model = JavaModelReader.read(RelativeStatement.class);
-	    parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
+	    parser = ParserFactory.create(model,ignore);
 	  }
 	
 	@Test
-	public void relativeSetencesValidTest() {
+	public void relativeStatementValidTest() {
 	    assertAmbiguityFree(parser,"RELATIVE 0C");
 	    assertAmbiguityFree(parser,"RELATIVE 1C");
 	    assertAmbiguityFree(parser,"RELaTiVE 2C");

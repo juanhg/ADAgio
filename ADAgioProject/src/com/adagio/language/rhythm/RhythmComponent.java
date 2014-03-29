@@ -10,9 +10,9 @@ import com.adagio.language.musicnotes.MusicNote;
 
 public class RhythmComponent implements IModel {
 	RhythmNote note;
-	@Prefix("[ |\n|\r|\t]+")
+	@Prefix("( |\\n|\\r|\\t)+")
 	NumberModel initTime;
-	@Prefix({"[ |\n|\r|\t]+", "(?i)to", "[ |\n|\r|\t]+"})
+	@Prefix({"( |\\n|\\r|\\t)+", "(?i)to", "( |\\n|\\r|\\t)+"})
 	NumberModel finalTime;
 	
 	public RhythmComponent(){}

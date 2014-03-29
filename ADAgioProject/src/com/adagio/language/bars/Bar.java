@@ -8,7 +8,7 @@ import com.adagio.language.bars.chords.Chord;
 
 public class Bar implements IModel {
 	
-	@Separator("[ |\n|\r|\t]+")
+	@Separator("( |\\n|\\r|\\t)+")
 	@Multiplicity(minimum = 1)
 	Chord [] barChords;
 

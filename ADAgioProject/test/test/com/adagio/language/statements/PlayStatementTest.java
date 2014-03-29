@@ -3,9 +3,6 @@ package test.com.adagio.language.statements;
 import static org.modelcc.test.ModelAssert.assertAmbiguityFree;
 import static org.modelcc.test.ModelAssert.assertInvalid;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.modelcc.io.java.JavaModelReader;
@@ -16,16 +13,7 @@ import org.modelcc.parser.ParserFactory;
 
 import test.com.adagio.InitTest;
 
-import com.adagio.io.lilypond.LilyPondMusicPieceWriter;
-import com.adagio.language.bars.chords.Chord;
-import com.adagio.language.bars.chords.ChordIdentifier;
-import com.adagio.language.bars.chords.intervals.Interval;
-import com.adagio.language.bars.chords.intervals.OptionalInterval;
-import com.adagio.language.musicnotes.AbsoluteMusicNote;
-import com.adagio.language.musicnotes.BasicNoteName;
-import com.adagio.language.musicnotes.notealterations.Alteration;
 import com.adagio.language.statements.PlayStatement;
-import com.adagio.language.statements.TestStatement;
 
 public class PlayStatementTest extends InitTest {
 

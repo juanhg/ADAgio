@@ -29,7 +29,7 @@ public class AbsoluteMusicNoteTest extends InitTest {
 	public void setUp() throws Exception {
 		super.setUp();
 		model = JavaModelReader.read(AbsoluteMusicNote.class);
-		parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
+	    parser = ParserFactory.create(model,ignore);
 	}
 
 

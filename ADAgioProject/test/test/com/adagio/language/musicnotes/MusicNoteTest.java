@@ -1,5 +1,21 @@
 package test.com.adagio.language.musicnotes;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.modelcc.test.ModelAssert.assertAmbiguityFree;
+import static org.modelcc.test.ModelAssert.assertInvalid;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.modelcc.io.java.JavaModelReader;
+import org.modelcc.metamodel.Model;
+import org.modelcc.parser.Parser;
+import org.modelcc.parser.ParserFactory;
+
+import test.com.adagio.InitTest;
+
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.AlteredNoteName;
 import com.adagio.language.musicnotes.BasicNoteName;
@@ -14,17 +30,7 @@ import com.adagio.language.musicnotes.octavealterations.DownOctaveAlteration;
 import com.adagio.language.musicnotes.octavealterations.OctaveAlteration;
 import com.adagio.language.musicnotes.octavealterations.UpOctaveAlteration;
 
-import static org.junit.Assert.*;
-import static org.modelcc.test.ModelAssert.*;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.modelcc.io.java.JavaModelReader;
-import org.modelcc.metamodel.Model;
-import org.modelcc.parser.Parser;
-import org.modelcc.parser.ParserFactory;
-
-public class MusicNoteTest { 
+public class MusicNoteTest extends InitTest { 
 
   Model model;
   Parser<MusicNote> parser;
@@ -32,8 +38,9 @@ public class MusicNoteTest {
   @SuppressWarnings("unchecked")
 @Before
   public void setUp() throws Exception {
+	 super.setUp();
     model = JavaModelReader.read(MusicNote.class);
-    parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
+    parser = ParserFactory.create(model,ignore);
   }
 
   // Comprobamos que las siguientes notas son válidas y se leen sin ambigüedades.

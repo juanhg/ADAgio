@@ -1,74 +1,74 @@
 
  
-Define Rhythm "completo" Note1 0 to 1;
+Define Rhythm "completo" Note1 0 to 1
   
-channel guitarra instrument=acousticguitar rhythm=SMIntro disable;
-channel flute instrument=flute rhythm=completo;
-Relative 1C;
+channel guitarra instrument=acousticguitar rhythm=SMIntro disable
+channel flute instrument=flute rhythm=completo
+Relative 1C
 
-time 1/4;
-play B | G | A | D';
+time 1/4
+play B | G | A | D'
 
-Relative 0C;
-time 4/4;
-channel guitarra enable;
-channel flute disable;
-play Em;
+Relative 0C
+time 4/4
+channel guitarra enable
+channel flute disable
+play Em
 
-Relative 1C;
-time 1/4;
-channel guitarra disable;
-channel flute enable;
-play B | G | A | D';
+Relative 1C
+time 1/4
+channel guitarra disable
+channel flute enable
+play B | G | A | D'
 
-Relative 0C;
-time 4/4;
-channel guitarra enable;
-channel flute disable;
-play G;
+Relative 0C
+time 4/4
+channel guitarra enable
+channel flute disable
+play G
 
-Relative 1C;
-time 1/4;
-channel guitarra disable;
-channel flute enable;
-play B | G | A | D';
+Relative 1C
+time 1/4
+channel guitarra disable
+channel flute enable
+play B | G | A | D'
 
-Relative 0C;
-time 4/4;
-channel guitarra enable;
-channel flute disable;
-play D;
+Relative 0C
+time 4/4
+channel guitarra enable
+channel flute disable
+play D
 
-Relative 1C;
-time 1/4;
-channel guitarra disable;
-channel flute enable;
-play B | G | A | D';
+Relative 1C
+time 1/4
+channel guitarra disable
+channel flute enable
+play B | G | A | D'
 
-Relative 0C;
-time 4/4;
-channel guitarra enable;
-channel flute disable;
-play C;
+Relative 0C
+time 4/4
+channel guitarra enable
+channel flute disable
+play C
 
-Relative 0C;
-channel flute disable;
-channel guitarra rhythm=SM1;
-play | Em | G | D | C;
-play | Em | G | D | C;
+Relative 0C
+channel flute disable
+channel guitarra rhythm=SM1
+play | Em | G | D | C
+play | Em | G | D | C
 
 
-channel guitarra rhythm=SM2;
-time 4/2;
-play | Em | G | D | C;
-play | Em | G | D | C;
+channel guitarra rhythm=SM2
+time 4/2
+play | Em | G | D | C
+play | Em | G | D | C
 
-channel guitarra rhythm=SM1;
-time 4/4;
-play | Em | G | D | C;
-play | Em | G | D | C;
+channel guitarra rhythm=SM1
+time 4/4
+play | Em | G | D | C
+play | Em | G | D | C
 
-channel guitarra rhythm=SM2;
-time 4/2;
-play | Em | G | D | C;
-play | Em | G | D | C;
+channel guitarra rhythm=SM2
+time 4/2
+play | Em | G | D | C
+play | Em | G | D | C

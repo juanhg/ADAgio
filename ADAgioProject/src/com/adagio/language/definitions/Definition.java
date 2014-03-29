@@ -6,7 +6,6 @@ import org.modelcc.Suffix;
 
 import com.adagio.events.MusicEventListener;
 
-@Suffix("[\n][ |\n|\r|\t]+")
 public abstract class Definition implements IModel {
 
 	/**

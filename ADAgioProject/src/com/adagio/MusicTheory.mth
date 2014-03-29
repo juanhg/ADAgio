@@ -1,38 +1,38 @@
-DEFINE CHORD "" NOTES P1 M3 P5;
-DEFINE CHORD "m" NOTES P1 m3 P5;
-DEFINE CHORD "add2" NOTES P1 M2 (M3) P5;
+DEFINE CHORD "" NOTES P1 M3 P5
+DEFINE CHORD "m" NOTES P1 m3 P5
+DEFINE CHORD "add2" NOTES P1 M2 (M3) P5
 
-DEFINE TEMPO "larghissimo" 4=10;
-DEFINE TEMPO "largo" 4=20;
-DEFINE TEMPO "grave" 4=40;
-DEFINE TEMPO "lento" 4=50;
-DEFINE TEMPO "larguetto" 4=63;
-DEFINE TEMPO "adagio" 4=70;
-DEFINE TEMPO "adagietto" 4=75;
-DEFINE TEMPO "andante" 4=88;
-DEFINE TEMPO "moderato"4=92;
-DEFINE TEMPO "allegro" 4=135;
-DEFINE TEMPO "allegrissimo" 4=145;
-DEFINE TEMPO "presto" 4=185;
-DEFINE TEMPO "prestissimo" 4=210;
+DEFINE TEMPO "larghissimo" 4=10
+DEFINE TEMPO "largo" 4=20
+DEFINE TEMPO "grave" 4=40
+DEFINE TEMPO "lento" 4=50
+DEFINE TEMPO "larguetto" 4=63
+DEFINE TEMPO "adagio" 4=70
+DEFINE TEMPO "adagietto" 4=75
+DEFINE TEMPO "andante" 4=88
+DEFINE TEMPO "moderato" 4=92
+DEFINE TEMPO "allegro" 4=135
+DEFINE TEMPO "allegrissimo" 4=145
+DEFINE TEMPO "presto" 4=185
+DEFINE TEMPO "prestissimo" 4=210
 
-DEFINE INSTRUMENT "malevoice" MONOPHONIC TIMBRE voice REGISTERS 2C to 5C;
-DEFINE INSTRUMENT "femalevoice" MONOPHONIC TIMBRE voice REGISTERS 3C to 6C;
-DEFINE INSTRUMENT "voice" MONOPHONIC TIMBRE voice;
-DEFINE INSTRUMENT "flute" MONOPHONIC TIMBRE flute REGISTERS 1C To 4C;
+DEFINE INSTRUMENT "malevoice" MONOPHONIC TIMBRE voice REGISTERS 2C to 5C
+DEFINE INSTRUMENT "femalevoice" MONOPHONIC TIMBRE voice REGISTERS 3C to 6C
+DEFINE INSTRUMENT "voice" MONOPHONIC TIMBRE voice
+DEFINE INSTRUMENT "flute" MONOPHONIC TIMBRE flute REGISTERS 1C To 4C
 
-DEFINE INSTRUMENT "violin" POLYPHONIC TIMBRE violin;
-DEFINE INSTRUMENT "realpiano" POLYPHONIC REGISTERS 0A to 8C TIMBRE piano;
-DEFINE INSTRUMENT "piano" POLYPHONIC TIMBRE piano;
+DEFINE INSTRUMENT "violin" POLYPHONIC TIMBRE violin
+DEFINE INSTRUMENT "realpiano" POLYPHONIC REGISTERS 0A to 8C TIMBRE piano
+DEFINE INSTRUMENT "piano" POLYPHONIC TIMBRE piano
 
-DEFINE INSTRUMENT "acousticguitar" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE acousticguitar;
+DEFINE INSTRUMENT "acousticguitar" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE acousticguitar
 
-Define Rhythm "defaultRhythm"  Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;
-Define Rhythm "basicRhythm1" Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;
-Define Rhythm "basicRhythm2" Note1 0 to 1 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;
-Define Rhythm "basicRhythm3" Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.75 to 1;
-Define Rhythm "basicRhythm4" Note1 0 to 1 Note2 0.50 to 0.75 Note3 0.75 to 1;
-Define Rhythm "basicRhythm5" Note1 0 to 0.33 Note2 0.33 to 0.66 Note3 0.66 to 1;
+Define Rhythm "defaultRhythm"  Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1
+Define Rhythm "basicRhythm1" Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1
+Define Rhythm "basicRhythm2" Note1 0 to 1 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1
+Define Rhythm "basicRhythm3" Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.75 to 1
+Define Rhythm "basicRhythm4" Note1 0 to 1 Note2 0.50 to 0.75 Note3 0.75 to 1
+Define Rhythm "basicRhythm5" Note1 0 to 0.33 Note2 0.33 to 0.66 Note3 0.66 to 1
 
 Define Rhythm "SMIntro"
   Note1 0 to 0.48
@@ -61,7 +61,7 @@ Define Rhythm "SMIntro"
   Note4 0.89 to 0.98
   Note3 0.89 to 0.98
   Note2 0.89 to 0.98
-  Note1 0.90 to 1;
+  Note1 0.90 to 1
   
   Define Rhythm "SM1"
   Note1 0 to 0.30
@@ -72,7 +72,7 @@ Define Rhythm "SMIntro"
   Note3 0.51 to 0.97
   Note4 0.51 to 0.98 
   Note5 0.52 to 0.98
-  Note6 0.52 to 1;
+  Note6 0.52 to 1
   
   Define Rhythm "SM2"
   Note1 0.01 to 0.23
@@ -129,4 +129,5 @@ Define Rhythm "SMIntro"
   Note3 0.89 to 0.99
   Note4 0.89 to 0.99 
   Note5 0.89 to 0.99
-  Note6 0.90 to 1;
+  Note6 0.90 to 1
+

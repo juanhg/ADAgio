@@ -8,9 +8,11 @@ import org.modelcc.types.UnsignedIntegerModel;
 @Priority(precedes=PlayStatement.class)
 public class RepeatStatement extends Statement implements IModel {
 	
-	@Suffix("(?i)times")
+	@Prefix("( |\\n|\\r|\\t)+")
+	@Suffix({"( |\\n|\\r|\\t)+", "(?i)times"})
 	UnsignedIntegerModel times;
 	
+	@Separator("( |\\n|\\r|\\t)+")
 	@Multiplicity(minimum = 0)
 	BlockStatement [] sentences;
 	

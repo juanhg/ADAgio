@@ -1,8 +1,8 @@
-CHANNEL piano;
-TIME 3/4;
-RELATIVE 2C;
-PLAY | Am Am Am | Am Am Am Am Am | Am Am;
+CHANNEL piano
+TIME 3/4
+RELATIVE 2C
+PLAY | Am Am Am | Am Am Am Am Am | Am Am
 
-Time 4/4;
-CHANNEL flauta;
-PLAY | B Bm B Am | Bm Bm;
+Time 4/4
+CHANNEL flauta
+PLAY | B Bm B Am | Bm Bm
