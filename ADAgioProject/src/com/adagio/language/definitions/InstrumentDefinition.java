@@ -28,6 +28,7 @@ public class InstrumentDefinition extends Definition implements IModel {
 	InstrumentIdentifier identifier;
 	
 	@Position(element="identifier", position=Position.AFTER)
+	
 	PhoneticType phType;
 	
 	@Optional

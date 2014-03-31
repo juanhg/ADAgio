@@ -1,4 +1,4 @@
-package com.adagio.rhythms;
+package com.adagio.structures;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,12 +9,11 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.adagio.duration.Duration;
-import com.adagio.instruments.Instrument;
 import com.adagio.language.figures.Figure;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.rhythm.RhythmComponent;
 import com.adagio.language.times.Time;
+import com.adagio.structures.instruments.Instrument;
 
 public class Rhythm {
 

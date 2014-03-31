@@ -11,8 +11,6 @@ import java.util.Vector;
 
 import org.modelcc.types.IntegerModel;
 
-import com.adagio.channels.Channel;
-import com.adagio.duration.Duration;
 import com.adagio.events.MusicEventListener;
 import com.adagio.events.channels.MusicChannelIdentifierEvent;
 import com.adagio.events.channels.MusicChannelInstrumentEvent;
@@ -28,10 +26,6 @@ import com.adagio.events.statements.MusicPlayStatementEvent;
 import com.adagio.events.statements.MusicRelativeStatementEvent;
 import com.adagio.events.statements.MusicTimeStatementEvent;
 import com.adagio.events.statements.MusicUndefinedTempoStatementEvent;
-import com.adagio.instruments.Instrument;
-import com.adagio.instruments.LimitedPolyphonicInstrument;
-import com.adagio.instruments.MonophonicInstrument;
-import com.adagio.instruments.PolyphonicInstrument;
 import com.adagio.io.MusicPieceWriter;
 import com.adagio.language.MusicPiece;
 import com.adagio.language.bars.chords.Chord;
@@ -45,7 +39,13 @@ import com.adagio.language.musicnotes.notealterations.Alteration;
 import com.adagio.language.rhythm.RhythmIdentifier;
 import com.adagio.language.tempos.Tempo;
 import com.adagio.language.times.Time;
-import com.adagio.rhythms.Rhythm;
+import com.adagio.structures.Channel;
+import com.adagio.structures.Duration;
+import com.adagio.structures.Rhythm;
+import com.adagio.structures.instruments.Instrument;
+import com.adagio.structures.instruments.LimitedPolyphonicInstrument;
+import com.adagio.structures.instruments.MonophonicInstrument;
+import com.adagio.structures.instruments.PolyphonicInstrument;
 
 public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicEventListener {
 
@@ -497,7 +497,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		}
 
 		//Fill the other channels until actual max duration
-		this.fillDisabledChannelsWithSilences();
+		this.fillAllChannelsWithSilences();
 	}
 
 
@@ -580,6 +580,25 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 				if(!((Channel)e.getValue()).isEnable()){
 					this.fillChannelWithSilences((ChannelIdentifier)e.getKey());
 				}
+			}
+		}
+	}
+	
+	/**
+	 * Fills all the channels with silences until reach the maxDuration
+	 * @param id Identifier of the DB
+	 */
+	@SuppressWarnings("rawtypes")
+	private void fillAllChannelsWithSilences(){
+		Map.Entry e = null;
+		Iterator<Entry<ChannelIdentifier, Channel>> it;
+
+		it = this.channelsDB.getChannelMap().entrySet().iterator();
+		if (it.hasNext()) {
+
+			while (it.hasNext()) {
+				e = (Map.Entry) it.next();
+					this.fillChannelWithSilences((ChannelIdentifier)e.getKey());
 			}
 		}
 	}

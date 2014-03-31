@@ -1,9 +1,8 @@
-package com.adagio.channels;
+package com.adagio.structures;
 
-import com.adagio.instruments.Instrument;
-import com.adagio.instruments.PolyphonicInstrument;
 import com.adagio.language.channels.channeloptions.VolumeModifier;
-import com.adagio.rhythms.Rhythm;
+import com.adagio.structures.instruments.Instrument;
+import com.adagio.structures.instruments.PolyphonicInstrument;
 
 /**
  * @author Wungo

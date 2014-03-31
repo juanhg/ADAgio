@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.adagio.language.rhythm.RhythmIdentifier;
-import com.adagio.rhythms.Rhythm;
+import com.adagio.structures.Rhythm;
 
 public class RhythmsDB {
 

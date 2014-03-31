@@ -1,29 +1,24 @@
 package com.adagio.language.statements;
 
-import org.modelcc.Associativity;
-import org.modelcc.AssociativityType;
 import org.modelcc.IModel;
 import org.modelcc.Multiplicity;
 import org.modelcc.Prefix;
 import org.modelcc.Separator;
 import org.modelcc.Suffix;
 
-import com.adagio.events.MusicEventListener;
 import com.adagio.language.channels.ChannelIdentifier;
 
 @Prefix("(?i)Lyrics")
-public class LyricsStatement extends Statement implements IModel {
+public class LyricsComponent extends PlayComponent implements IModel {
 
-
+	ChannelIdentifier identifier;
+	
 	@Separator("\\|")
 	@Multiplicity(minimum = 1)
 	@Suffix("\\|?")
 	Verse [] verses;
 
-	@Override
-	public void run(MusicEventListener listener) {
 
-	}
 
 	@Override
 	public String toString(){
@@ -36,5 +31,29 @@ public class LyricsStatement extends Statement implements IModel {
 			}
 		}
 		return composition;
+	}
+
+
+
+	public ChannelIdentifier getIdentifier() {
+		return identifier;
+	}
+
+
+
+	public Verse[] getVerses() {
+		return verses;
+	}
+
+
+
+	@Override
+	public boolean isMelody() {
+		return false;
+	}
+
+	@Override
+	public boolean isLyrics() {
+		return true;
 	}
 }

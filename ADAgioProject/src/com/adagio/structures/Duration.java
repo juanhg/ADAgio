@@ -1,4 +1,4 @@
-package com.adagio.duration;
+package com.adagio.structures;
 
 import com.adagio.language.figures.Figure;
 

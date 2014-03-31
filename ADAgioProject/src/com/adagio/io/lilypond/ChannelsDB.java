@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.adagio.channels.Channel;
-import com.adagio.instruments.Instrument;
 import com.adagio.language.channels.ChannelIdentifier;
-import com.adagio.rhythms.Rhythm;
+import com.adagio.structures.Channel;
+import com.adagio.structures.Rhythm;
+import com.adagio.structures.instruments.Instrument;
 
 public class ChannelsDB {
 

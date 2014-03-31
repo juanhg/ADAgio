@@ -10,10 +10,10 @@ import org.junit.Test;
 
 import test.com.adagio.InitTest;
 
-import com.adagio.duration.Duration;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.rhythm.RhythmComponent;
-import com.adagio.rhythms.Rhythm;
+import com.adagio.structures.Duration;
+import com.adagio.structures.Rhythm;
 
 public class RhythmTest extends InitTest {
 

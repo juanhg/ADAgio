@@ -4,10 +4,10 @@ import org.modelcc.IModel;
 import org.modelcc.Optional;
 import org.modelcc.Prefix;
 
-import com.adagio.duration.Duration;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.MusicNote;
 import com.adagio.language.musicnotes.RelativeMusicNote;
+import com.adagio.structures.Duration;
 
 
 public class Chord implements IModel {

@@ -95,11 +95,52 @@ public class PlayStatementTest extends InitTest {
 		assertAmbiguityFree(parser,"PLAY | 3Dbm |");
 		assertAmbiguityFree(parser,"PLAY | 3D#m# |");
 		assertAmbiguityFree(parser,"PLAY | A#M |");
+		assertAmbiguityFree(parser,"PLAY | A B | C "
+				                 + "melody voz  C4 | B2 - 4A4 |");
+		assertAmbiguityFree(parser,"PLAY | A B | C "
+                					+ "melody voz  C4 | B2 - 4A4 |"
+									+ "lyrics voz | hola - amigo | mio");
+		assertAmbiguityFree(parser,"PLAY | A B | C "
+				+ "melody voz  C4 | B2 - 4A4 |"
+				+ "lyrics voz | hola - amigo | mio "
+				+ "melody voz3  C4 | B2 - 4A4 |");
+		assertAmbiguityFree(parser,"PLAY | A B | C "
+				+ "melody voz1  C4 | B2 - 4A4 |"
+				+ "melody voz3  C4 | B2 - 4A4 |"
+				+ " lyrics voz1 | hola - amigo | mio"
+				+ " lyrics voz3 | hola - amigo | mio");
+		assertAmbiguityFree(parser,"PLAY | A B | C "
+				+ "melody voz  C4 | B2 - 4A4 |"
+				+ "lyrics voz | hola - amigo | mio "
+				+ "melody voz3  C4 | B2 - 4A4 |"
+				+ "melody voz4  C4 | B2 - 4A4 |"
+				+ "melody voz5  C4 | B2 - 4A4 |");
+		
 	}
 	
 	@Test
 	public void playSentenceInvalidtest() {
-		assertInvalid(parser,"PLAY");
+		assertInvalid(parser,"PLAY | A B | C "
+				+ "melody voz1  C4 | B2 - 4A4 |"
+				+ "melody voz3  C4 | B2 - 4A4 |"
+				+ " lyrics voz1 | hola - amigo | mio"
+				+ " lyrics voz2 | hola - amigo | mio");
+		
+		assertInvalid(parser,"PLAY | A B | C "
+				+ "melody voz3  C4 | B2 - 4A4 |"
+				+ "melody voz3  C4 | B2 - 4A4 |"
+				+ " lyrics voz1 | hola - amigo | mio"
+				+ " lyrics voz3 | hola - amigo | mio");
+		assertInvalid(parser,"PLAY | A B | C "
+				+ "melody voz1  C4 | B2 - 4A4 |"
+				+ "melody voz2  C4 | B2 - 4A4 |"
+				+ " lyrics voz1 | hola - amigo | mio"
+				+ " lyrics voz1 | hola - amigo | mio");
+		assertInvalid(parser,"PLAY | A B | C "
+				+ "melody voz1  C4 | B2 - 4A4 |"
+				+ "melody voz2  C4 | B2 - 4A4 |"
+				+ " lyrics voz1 | hola - amigo | mio"
+				+ " lyrics voz3 | hola - amigo | mio");
 	}
 	
 	  @Test

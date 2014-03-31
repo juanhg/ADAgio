@@ -3,8 +3,8 @@ package com.adagio.io.lilypond;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.adagio.instruments.Instrument;
 import com.adagio.language.instruments.InstrumentIdentifier;
+import com.adagio.structures.instruments.Instrument;
 
 public class InstrumentsDB {
 	private Map<InstrumentIdentifier,Instrument> instrumentMap;

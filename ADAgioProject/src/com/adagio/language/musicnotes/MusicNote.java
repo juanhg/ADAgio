@@ -1,7 +1,7 @@
 package com.adagio.language.musicnotes;
 import org.modelcc.IModel;
 
-import com.adagio.duration.Duration;
+import com.adagio.structures.Duration;
 
 public abstract class MusicNote implements IModel {
 	

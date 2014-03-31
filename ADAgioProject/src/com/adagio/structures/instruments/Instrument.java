@@ -1,4 +1,4 @@
-package com.adagio.instruments;
+package com.adagio.structures.instruments;
 
 import java.util.Arrays;
 import java.util.List;

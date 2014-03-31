@@ -2,11 +2,6 @@ package test.com.adagio;
 
 import org.junit.Before;
 
-import com.adagio.duration.Duration;
-import com.adagio.instruments.Instrument;
-import com.adagio.instruments.LimitedPolyphonicInstrument;
-import com.adagio.instruments.MonophonicInstrument;
-import com.adagio.instruments.PolyphonicInstrument;
 import com.adagio.io.lilypond.LilyPondMusicPieceWriter;
 import com.adagio.language.bars.chords.Chord;
 import com.adagio.language.bars.chords.intervals.Interval;
@@ -20,6 +15,11 @@ import com.adagio.language.musicnotes.notealterations.DoubleSharpAlteration;
 import com.adagio.language.musicnotes.notealterations.FlatAlteration;
 import com.adagio.language.musicnotes.notealterations.SharpAlteration;
 import com.adagio.language.times.Time;
+import com.adagio.structures.Duration;
+import com.adagio.structures.instruments.Instrument;
+import com.adagio.structures.instruments.LimitedPolyphonicInstrument;
+import com.adagio.structures.instruments.MonophonicInstrument;
+import com.adagio.structures.instruments.PolyphonicInstrument;
 
 public class InitTest {
 	

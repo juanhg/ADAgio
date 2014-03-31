@@ -6,12 +6,11 @@ import org.modelcc.Prefix;
 import org.modelcc.Separator;
 import org.modelcc.Suffix;
 
-import com.adagio.events.MusicEventListener;
 import com.adagio.language.bars.MelodyBar;
 import com.adagio.language.channels.ChannelIdentifier;
 
 @Prefix("(?i)Melody")
-public class MelodyStatement extends Statement implements IModel {
+public class MelodyComponent extends PlayComponent implements IModel {
 	
 	ChannelIdentifier identifier;
 	
@@ -21,15 +20,25 @@ public class MelodyStatement extends Statement implements IModel {
 	@Multiplicity(minimum = 1)
 	MelodyBar [] mBars;
 	
-	@Override
-	public void run(MusicEventListener listener) {
-		
-	}
 	
 	public MelodyBar [] getMBars(){
 		return mBars;
 	}
 	
+	
+	
+	public ChannelIdentifier getIdentifier() {
+		return identifier;
+	}
+
+
+
+	public void setIdentifier(ChannelIdentifier identifier) {
+		this.identifier = identifier;
+	}
+
+
+
 	@Override
 	public String toString(){
 		String composition = "";
@@ -41,5 +50,15 @@ public class MelodyStatement extends Statement implements IModel {
 			}
 		}
 		return composition;
+	}
+
+	@Override
+	public boolean isMelody() {
+		return true;
+	}
+
+	@Override
+	public boolean isLyrics() {
+		return false;
 	}
 }

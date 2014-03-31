@@ -6,8 +6,8 @@ import org.modelcc.Constraint;
 import org.modelcc.IModel;
 import org.modelcc.types.IntegerModel;
 
-import com.adagio.duration.Duration;
 import com.adagio.language.musicnotes.notealterations.Alteration;
+import com.adagio.structures.Duration;
 
 public class AbsoluteMusicNote extends MusicNote implements IModel {
 	  
