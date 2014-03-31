@@ -35,8 +35,8 @@ public class InstrumentDefinition extends Definition implements IModel {
 	Timbre timbre;
 	
 	@Optional
-	@Separator({"( |\\n|\\r|\\t)*", ",", "( |\\n|\\r|\\t)*"})
 	@Prefix({"( |\\n|\\r|\\t)+", "(?i)Registers", "( |\\n|\\r|\\t)+"})
+	@Separator({"( |\\n|\\r|\\t)*", ",", "( |\\n|\\r|\\t)*"})	
 	Register registers[];
 	
 	@Constraint

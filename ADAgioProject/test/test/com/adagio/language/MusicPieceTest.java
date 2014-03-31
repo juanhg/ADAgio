@@ -32,8 +32,9 @@ public class MusicPieceTest extends InitTest {
 	String program8 = path + "\\8_GuitarraProgram.adg";
 	String program9 = path + "\\9_SMProgram.adg";
 	String program10 = path + "\\10_GuitarProgram.adg";
+	String program11 = path + "\\11_TestProgram.adg";
 	
-	String test0, test1, test2, test3, test4, test5, test6, test7, test8, test9, test10;
+	String test0, test1, test2, test3, test4, test5, test6, test7, test8, test9, test10, test11;
 	
 
 	  @SuppressWarnings("unchecked")
@@ -54,10 +55,13 @@ public class MusicPieceTest extends InitTest {
 	    test8 = ADAgioCLI.fileToString(program8, StandardCharsets.UTF_8);
 	    test9 = ADAgioCLI.fileToString(program9, StandardCharsets.UTF_8);
 	    test10 = ADAgioCLI.fileToString(program10, StandardCharsets.UTF_8);
+	    test11 = ADAgioCLI.fileToString(program11, StandardCharsets.UTF_8);
 	  }
 
 	@Test
-	public void MusicPieceValidTest() {
+	public void MusicPieceValidTest(){
+		
+		assertAmbiguityFree(parser, test11);
 		assertAmbiguityFree(parser, test0);
 		assertAmbiguityFree(parser, test1);
 		assertAmbiguityFree(parser, test2);

@@ -1,1 +1,13 @@
-TIME 4/4
+RELATIVE 1C;
+PLAY | A Am A# A#m | Ab Abm; 
+
+channel violin volume=70 instrument=violin rhythm = basicRhythm1;
+PLAY | B Bm B# | B#m Bb S S; 
+
+channel violin disable;
+PLAY | A Am | A# A#m | _ _ _ _ |; 
+
+channel falla;
+channel piano volume=100 rhythm =basicRhythm2;
+channel violin enable;
+PLAY | A _ Am _ |  _ A# A#m | Ab Abm _;

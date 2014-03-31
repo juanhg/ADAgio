@@ -5,6 +5,7 @@ import org.modelcc.Suffix;
 
 import com.adagio.events.MusicEventListener;
 
+@Suffix(";")
 public abstract class Statement implements IModel {
 
 	/**

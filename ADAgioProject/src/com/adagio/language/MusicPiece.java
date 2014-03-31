@@ -10,15 +10,17 @@ import com.adagio.language.statements.Statement;
  * A MusicPiece is sequence of statements. (or 0)
  * @author Wungo
  */
+
+@Prefix("( |\\n|\\r|\\t)*")
+@Suffix("( |\\n|\\r|\\t)*")
 public class MusicPiece implements IModel {
 	
-	@Prefix("( |\\n|\\r|\\t)*")
+
 	@Separator("( |\\n|\\r|\\t)+")
 	@Multiplicity(minimum = 0)
 	Definition[] definitions;
 	
 	@Prefix("( |\\n|\\r|\\t)*")
-	@Suffix("( |\\n|\\r|\\t)*")
 	@Separator("( |\\n|\\r|\\t)+")
 	@Multiplicity(minimum = 0)
 	Statement[] statements;

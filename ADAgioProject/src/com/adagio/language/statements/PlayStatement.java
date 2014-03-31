@@ -9,12 +9,12 @@ import com.adagio.events.MusicEventListener;
 import com.adagio.events.statements.MusicPlayStatementEvent;
 import com.adagio.language.bars.Bar;
 
-@Prefix({"(?i)play", "( |\\n|\\r|\\t)+"})
+@Prefix({"(?i)play"})
 public class PlayStatement extends Statement implements IModel {
 
-	@Prefix({"\\|?","( |\\n|\\r|\\t)*"})
-	@Suffix({"( |\\n|\\r|\\t)*", "\\|?"})
-	@Separator({"( |\\n|\\r|\\t)*","\\|", "( |\\n|\\r|\\t)*"})
+	@Prefix("( |\\n|\\r|\\t)+\\|?")
+	@Suffix("\\|?")
+	@Separator("\\|")
 	@Multiplicity(minimum = 1)
 	Bar [] bars;
 	

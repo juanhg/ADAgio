@@ -79,6 +79,7 @@ public class ADAgioCLI {
 				out.close();
 
 				System.out.println("Generated " + relativePath(outFileName) + "\n");
+				System.gc();
 
 			}	
 
