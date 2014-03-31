@@ -9,7 +9,6 @@ import com.adagio.language.musicnotes.AbsoluteMusicNote;
 @Prefix("(?i)relative")
 public class RelativeStatement extends Statement implements IModel {
 
-	@Prefix("( |\\n|\\r|\\t)+")
 	AbsoluteMusicNote value;
 	
 	@Override

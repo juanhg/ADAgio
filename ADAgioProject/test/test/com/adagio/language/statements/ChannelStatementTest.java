@@ -12,14 +12,12 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
-import test.com.adagio.InitTest;
-
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.channels.channeloptions.ChannelOption;
 import com.adagio.language.channels.channeloptions.DestroyCommand;
 import com.adagio.language.statements.ChannelStatement;
 
-public class ChannelStatementTest extends InitTest {
+public class ChannelStatementTest {
 
 	  Model model;
 	  Parser<ChannelStatement> parser;
@@ -27,9 +25,8 @@ public class ChannelStatementTest extends InitTest {
 	  @SuppressWarnings("unchecked")
 	@Before
 	  public void setUp() throws Exception {
-		super.setUp();
 	    model = JavaModelReader.read(ChannelStatement.class);
-	    parser = ParserFactory.create(model,ignore);
+	    parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
 	  }
 	
 	@Test
@@ -56,8 +53,8 @@ public class ChannelStatementTest extends InitTest {
 	
 	@Test
 	public void ChannelStatementReadTest1() throws Exception {
-		assertAmbiguityFree(parser, "CHANNEL GUITARRA");
-		ChannelStatement cStat = parser.parse("CHANNEL GUITARRA DESTROY");
+		assertAmbiguityFree(parser, "CHANNEL GUITARRA ");
+		ChannelStatement cStat = parser.parse("CHANNEL GUITARRA DESTROY ");
 		
 		ChannelIdentifier identifier = cStat.getId().clone();
 		assertEquals("GUITARRA", identifier.getValue());

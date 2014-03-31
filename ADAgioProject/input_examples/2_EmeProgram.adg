@@ -1,4 +1,3 @@
-
 DEFINE TEMPO "estrofa" 4=65;
 DEFINE TEMPO "estribillo" 4=70;
 

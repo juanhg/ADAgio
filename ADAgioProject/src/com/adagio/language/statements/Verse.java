@@ -1,17 +1,22 @@
 package com.adagio.language.statements;
 
 import org.modelcc.IModel;
-import org.modelcc.Pattern;
-import org.modelcc.Value;
+import org.modelcc.Separator;
 
-@Pattern(regExp = "[0-9a-zA-z-_ ]*")
 public class Verse implements IModel {
-	@Value
-	String value;
+	@Separator("\\-")
+	SubVerse [] subVerses;
 	
 	@Override
 	public String toString(){
-		return value;
+		String composition = "";
+		for(int i = 0; i < subVerses.length; i++){
+			composition += subVerses[i];
+			if(i != subVerses.length-1){
+				composition += "-";
+			}
+		}
+		return composition;
 	}
 	
 }

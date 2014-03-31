@@ -1,5 +1,7 @@
 package com.adagio.language.statements;
 
+import org.modelcc.Associativity;
+import org.modelcc.AssociativityType;
 import org.modelcc.IModel;
 import org.modelcc.Multiplicity;
 import org.modelcc.Prefix;
@@ -11,14 +13,11 @@ import com.adagio.language.channels.ChannelIdentifier;
 
 @Prefix("(?i)Lyrics")
 public class LyricsStatement extends Statement implements IModel {
-	
-	ChannelIdentifier identifier;
 
-	
-	@Suffix("\\|?")
-	@Prefix("\\|")
+
 	@Separator("\\|")
 	@Multiplicity(minimum = 1)
+	@Suffix("\\|?")
 	Verse [] verses;
 
 	@Override
@@ -29,7 +28,7 @@ public class LyricsStatement extends Statement implements IModel {
 	@Override
 	public String toString(){
 		String composition = "";
-		composition += "Melody " + identifier.toString() + " ";
+//		composition += "Lyrics " + identifier.toString() + " ";
 		for(int i = 0; i < verses.length; i++){
 			composition += verses[i].toString() + " ";
 			if(i != (verses.length-1)){

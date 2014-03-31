@@ -10,7 +10,7 @@ import com.adagio.language.instruments.InstrumentIdentifier;
 
 public class InstrumentModifier extends StatusModifier implements IModel{
 
-	@Prefix({"(?i)INSTRUMENT", "( |\\n|\\r|\\t)*", "=", "( |\\n|\\r|\\t)*"})
+	@Prefix({"(?i)INSTRUMENT","="})
 	InstrumentIdentifier instrumentID;
 	
 	public static final String PATTERN = "INSTRUMENT";

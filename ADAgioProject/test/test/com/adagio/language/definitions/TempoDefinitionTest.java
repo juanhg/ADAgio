@@ -10,12 +10,10 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
-import test.com.adagio.InitTest;
-
 import com.adagio.language.definitions.ChordDefinition;
 import com.adagio.language.definitions.TempoDefinition;
 
-public class TempoDefinitionTest extends InitTest {
+public class TempoDefinitionTest {
 	
 	Model model;
 	Parser<ChordDefinition> parser;
@@ -23,9 +21,8 @@ public class TempoDefinitionTest extends InitTest {
 	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception {
-		super.setUp();
 		model = JavaModelReader.read(TempoDefinition.class);
-		parser = ParserFactory.create(model,ignore);
+		parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
 	}
 
 	@Test
@@ -34,7 +31,6 @@ public class TempoDefinitionTest extends InitTest {
 		assertAmbiguityFree(parser,"DEFINE TEMPO \"A\" 4..=70");
 		assertAmbiguityFree(parser,"DEFINE TEMPO \"ALLEGRO\" 1=200");
 		assertAmbiguityFree(parser,"DEFINE TEMPO \"PreSto\" 8. = 50");
-		assertAmbiguityFree(parser,"DEFINE    TEMPO    \"PreSto\"			 8. = 50");
 	}
 	
 	@Test
@@ -42,6 +38,5 @@ public class TempoDefinitionTest extends InitTest {
 		assertInvalid(parser, "DEFINE TEMPO \"\" 4=50");
 		assertInvalid(parser, "DEFINE TEMPO \"andante\" 5==50");
 		assertInvalid(parser, "DEFINE TEMPO \"andante\" 4");
-		assertInvalid(parser, "DEFINETEMPO \"andante\" 4");
 	}
 }

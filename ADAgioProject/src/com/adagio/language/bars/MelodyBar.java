@@ -5,8 +5,7 @@ import org.modelcc.Multiplicity;
 import org.modelcc.Separator;
 
 public class MelodyBar implements IModel {
-	
-	@Separator("( |\\n|\\r|\\t)+")
+	@Separator("\\-")
 	@Multiplicity(minimum = 1)
 	MelodyComponent [] mComponents;
 	

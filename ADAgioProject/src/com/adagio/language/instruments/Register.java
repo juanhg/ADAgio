@@ -9,7 +9,7 @@ import com.adagio.language.musicnotes.AbsoluteMusicNote;
 public class Register implements IModel {
 
 	private AbsoluteMusicNote lowerNote;
-	@Prefix({"( |\\n|\\r|\\t)+","(?i)to", "( |\\n|\\r|\\t)+"})
+	@Prefix("(?i)to")
 	private AbsoluteMusicNote higherNote;
 	
 	//True if register has been used to play an AbsoluteMusicNote

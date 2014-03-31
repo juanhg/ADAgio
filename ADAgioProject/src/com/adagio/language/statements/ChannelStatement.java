@@ -1,11 +1,10 @@
 package com.adagio.language.statements;
 
 import org.modelcc.Constraint;
-import org.modelcc.IModel;
 import org.modelcc.Multiplicity;
 import org.modelcc.Optional;
 import org.modelcc.Prefix;
-import org.modelcc.Separator;
+import org.modelcc.IModel;
 
 import com.adagio.events.MusicEventListener;
 import com.adagio.events.channels.MusicChannelIdentifierEvent;
@@ -20,11 +19,8 @@ import com.adagio.language.channels.channeloptions.VolumeModifier;
 @Prefix("(?i)CHANNEL")
 public class ChannelStatement extends Statement implements IModel {
 
-	@Prefix("( |\\n|\\r|\\t)+")
 	private ChannelIdentifier id;
 
-	@Prefix("( |\\n|\\r|\\t)+")
-	@Separator("( |\\n|\\r|\\t)+")
 	@Multiplicity(minimum = 1)
 	@Optional
 	private ChannelOption [] options;

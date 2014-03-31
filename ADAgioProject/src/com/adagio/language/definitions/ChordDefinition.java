@@ -7,7 +7,6 @@ import org.modelcc.Constraint;
 import org.modelcc.IModel;
 import org.modelcc.Multiplicity;
 import org.modelcc.Prefix;
-import org.modelcc.Separator;
 import org.modelcc.Suffix;
 
 import com.adagio.events.MusicEventListener;
@@ -20,7 +19,7 @@ import com.adagio.language.musicnotes.notealterations.DoubleSharpAlteration;
 import com.adagio.language.musicnotes.notealterations.FlatAlteration;
 import com.adagio.language.musicnotes.notealterations.SharpAlteration;
 
-@Prefix({"(?i)Define", "( |\\n|\\r|\\t)+" ,"(?i)Chord", "( |\\n|\\r|\\t)+"})
+@Prefix({"(?i)Define","(?i)Chord"})
 public class ChordDefinition extends Definition implements IModel {
 	
 	@Prefix("\"")
@@ -54,9 +53,8 @@ public class ChordDefinition extends Definition implements IModel {
 		return allowed;
 	}
 	
-	@Prefix({"( |\\n|\\r|\\t)+","(?i)NOTES", "( |\\n|\\r|\\t)+"})
-	@Separator("( |\\n|\\r|\\t)+")
 	@Multiplicity(minimum = 1)
+	@Prefix("(?i)NOTES")
 	Interval[] intervals;
 	
 	@Override

@@ -10,11 +10,9 @@ import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserException;
 import org.modelcc.parser.ParserFactory;
 
-import test.com.adagio.InitTest;
-
 import com.adagio.language.definitions.InstrumentDefinition;
 
-public class InstrumentDefinitionTest extends InitTest {
+public class InstrumentDefinitionTest {
 
 	Model model;
 	Parser<InstrumentDefinition> parser;
@@ -22,9 +20,8 @@ public class InstrumentDefinitionTest extends InitTest {
 	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception {
-		super.setUp();
 		model = JavaModelReader.read(InstrumentDefinition.class);
-		parser = ParserFactory.create(model,ignore);
+		parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
 	}
 
 	@Test
@@ -36,7 +33,5 @@ public class InstrumentDefinitionTest extends InitTest {
 		assertAmbiguityFree(parser,"define instrument \"realpiano\" polyphonic registers -4B to 4C  timbre piano");
 		assertAmbiguityFree(parser,"define instrument \"piano\" polyphonic timbre piano");
 		assertAmbiguityFree(parser,"define instrument \"acousticguitar\" limited polyphonic registers 2E to 3G, 2A to 4C, 3D to 4F, 3G to 4A#, 3B to 5D, 4E to 6G timbre acousticguitar");
-		assertAmbiguityFree(parser,"define instrument \"acousticguitar\" limited polyphonic 	registers 2E to 3G,2A to 4C, 3D to 4F, 3G to 4A#, 3B to 5D, 4E to       6G timbre  	acousticguitar");
-
 	}
 }

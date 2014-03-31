@@ -10,11 +10,9 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
-import test.com.adagio.InitTest;
-
 import com.adagio.language.definitions.ChordDefinition;
 
-public class ChordDefinitionTest extends InitTest {
+public class ChordDefinitionTest {
 	
 	  Model model;
 	  Parser<ChordDefinition> parser;
@@ -22,9 +20,8 @@ public class ChordDefinitionTest extends InitTest {
 	  @SuppressWarnings("unchecked")
 	@Before
 	  public void setUp() throws Exception {
-		super.setUp();
 	    model = JavaModelReader.read(ChordDefinition.class);
-	    parser = ParserFactory.create(model,ignore);
+	    parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
 	  }
 	
 	@Test

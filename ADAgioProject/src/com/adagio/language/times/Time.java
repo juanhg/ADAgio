@@ -2,14 +2,13 @@ package com.adagio.language.times;
 
 import org.modelcc.IModel;
 import org.modelcc.Prefix;
-import org.modelcc.Suffix;
 import org.modelcc.types.IntegerModel;
 
 import com.adagio.language.figures.Figure;
 
 public class Time implements IModel {
 	IntegerModel beats;
-	@Prefix({"( |\\n|\\r|\\t)*", "/", "( |\\n|\\r|\\t)*"})
+	@Prefix("/")
 	Figure figure;
 	
 	public Time(){}

@@ -45,7 +45,7 @@ public class ADAgioCLI {
 
 			Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
 			ignore.add(new RegExpPatternRecognizer("#.*\n"));
-//			ignore.add(new RegExpPatternRecognizer("( |\n|\t|\r)+"));
+			ignore.add(new RegExpPatternRecognizer("( |\n|\t|\r)+"));
 
 			// Generate a parser from the model.
 			@SuppressWarnings("unchecked")
@@ -79,7 +79,6 @@ public class ADAgioCLI {
 				out.close();
 
 				System.out.println("Generated " + relativePath(outFileName) + "\n");
-				System.gc();
 
 			}	
 

@@ -18,25 +18,25 @@ import com.adagio.language.instruments.PolyphonicType;
 import com.adagio.language.instruments.Register;
 import com.adagio.language.instruments.Timbre;
 
-@Prefix({"(?i)Define", "( |\\n|\\r|\\t)+","(?i)Instrument"})
+@Prefix({"(?i)Define", "(?i)Instrument"})
 @FreeOrder
 public class InstrumentDefinition extends Definition implements IModel {
 
-	@Prefix({"( |\\n|\\r|\\t)+", "\""})
+	@Prefix("\"")
 	@Suffix("\"")
+
 	InstrumentIdentifier identifier;
 	
-	@Prefix("( |\\n|\\r|\\t)+")
 	@Position(element="identifier", position=Position.AFTER)
 	PhoneticType phType;
 	
 	@Optional
-	@Prefix({"( |\\n|\\r|\\t)+", "(?i)Timbre", "( |\\n|\\r|\\t)+"})
+	@Prefix("(?i)Timbre")
 	Timbre timbre;
 	
 	@Optional
-	@Prefix({"( |\\n|\\r|\\t)+", "(?i)Registers", "( |\\n|\\r|\\t)+"})
-	@Separator({"( |\\n|\\r|\\t)*", ",", "( |\\n|\\r|\\t)*"})	
+	@Separator(",")
+	@Prefix("(?i)Registers")
 	Register registers[];
 	
 	@Constraint

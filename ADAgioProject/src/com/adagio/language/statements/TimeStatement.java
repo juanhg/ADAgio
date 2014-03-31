@@ -7,7 +7,7 @@ import com.adagio.events.MusicEventListener;
 import com.adagio.events.statements.MusicTimeStatementEvent;
 import com.adagio.language.times.Time;
 
-@Prefix({"(?i)TIME", "( |\\n|\\r|\\t)+"})
+@Prefix("(?i)TIME")
 public class TimeStatement extends Statement implements IModel {
 
 	Time time;

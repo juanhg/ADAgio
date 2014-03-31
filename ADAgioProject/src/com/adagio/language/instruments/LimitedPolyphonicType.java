@@ -5,7 +5,7 @@ import org.modelcc.Pattern;
 import org.modelcc.Prefix;
 import org.modelcc.Value;
 
-@Prefix({"(?i)limited", "( |\\n|\\r|\\t)+"})
+@Prefix("(?i)limited")
 @Pattern(regExp="(?i)polyphonic")
 public class LimitedPolyphonicType extends PhoneticType implements IModel {
 	@Value

@@ -10,21 +10,19 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
-import test.com.adagio.InitTest;
-
+import com.adagio.language.definitions.ChordDefinition;
 import com.adagio.language.statements.TimeStatement;
 
-public class TimeStatementTest extends InitTest {
+public class TimeStatementTest {
 
 	Model model;
-	Parser<TimeStatement> parser;
+	Parser<ChordDefinition> parser;
 
 	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception {
-		super.setUp();
 		model = JavaModelReader.read(TimeStatement.class);
-	    parser = ParserFactory.create(model,ignore);
+		parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
 	}
 
 	@Test
