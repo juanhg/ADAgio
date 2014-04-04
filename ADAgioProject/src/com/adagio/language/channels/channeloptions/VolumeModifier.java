@@ -6,7 +6,7 @@ import org.modelcc.Prefix;
 import org.modelcc.types.IntegerModel;
 
 import com.adagio.events.MusicEventListener;
-import com.adagio.events.channels.MusicChannelVolumeEvent;
+import com.adagio.events.channels.ChannelVolumeEvent;
 import com.adagio.language.channels.ChannelIdentifier;
 
 public class VolumeModifier extends StatusModifier implements IModel{
@@ -33,7 +33,7 @@ public class VolumeModifier extends StatusModifier implements IModel{
 
 	@Override
 	public void Apply(ChannelIdentifier id, MusicEventListener listener) {
-		listener.setChannelVolume(new MusicChannelVolumeEvent(this,id,volume.intValue()));
+		listener.setChannelVolume(new ChannelVolumeEvent(this,id,volume.intValue()));
 	}
 	
 	@Override

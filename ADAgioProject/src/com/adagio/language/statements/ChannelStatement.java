@@ -7,7 +7,7 @@ import org.modelcc.Prefix;
 import org.modelcc.IModel;
 
 import com.adagio.events.MusicEventListener;
-import com.adagio.events.channels.MusicChannelIdentifierEvent;
+import com.adagio.events.channels.ChannelIdentifierEvent;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.channels.channeloptions.ChannelOption;
 import com.adagio.language.channels.channeloptions.DestroyCommand;
@@ -84,12 +84,12 @@ public class ChannelStatement extends Statement implements IModel {
 		// If channel doesn't exist && there is not a destroy command
 		// Creates the new channel in DB
 
-		if (listener.existsChannel(new MusicChannelIdentifierEvent(this,id))){ 
-			if (listener.isErasedChannel(new MusicChannelIdentifierEvent(this,id))) {
+		if (listener.existsChannel(new ChannelIdentifierEvent(this,id))){ 
+			if (listener.isErasedChannel(new ChannelIdentifierEvent(this,id))) {
 				if (options != null) {
 					if (options[0].getClass() != DestroyCommand.class) {
-						listener.recoverChannel(new MusicChannelIdentifierEvent(this,id));
-						listener.enableChannel(new MusicChannelIdentifierEvent(this,id));
+						listener.recoverChannel(new ChannelIdentifierEvent(this,id));
+						listener.enableChannel(new ChannelIdentifierEvent(this,id));
 					}
 				}
 			}
@@ -103,14 +103,14 @@ public class ChannelStatement extends Statement implements IModel {
 		} else {
 			if (options != null) {
 				if (options[0].getClass() != DestroyCommand.class) {
-					listener.createChannel(new MusicChannelIdentifierEvent(this, id));
+					listener.createChannel(new ChannelIdentifierEvent(this, id));
 				}
 				for (ChannelOption current : this.options) {
 					current.Apply(id, listener);
 				}
 			}
 			else{
-				listener.createChannel(new MusicChannelIdentifierEvent(this, id));
+				listener.createChannel(new ChannelIdentifierEvent(this, id));
 			}
 
 		}

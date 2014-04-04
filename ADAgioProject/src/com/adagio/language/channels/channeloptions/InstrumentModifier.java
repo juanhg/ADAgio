@@ -4,7 +4,7 @@ import org.modelcc.IModel;
 import org.modelcc.Prefix;
 
 import com.adagio.events.MusicEventListener;
-import com.adagio.events.channels.MusicChannelInstrumentEvent;
+import com.adagio.events.channels.ChannelInstrumentEvent;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.instruments.InstrumentIdentifier;
 
@@ -17,7 +17,7 @@ public class InstrumentModifier extends StatusModifier implements IModel{
 	
 	@Override
 	public void Apply(ChannelIdentifier id, MusicEventListener listener) {
-		listener.setChannelInstrument(new MusicChannelInstrumentEvent(this,id,instrumentID));
+		listener.setChannelInstrument(new ChannelInstrumentEvent(this,id,instrumentID));
 	}
 
 }

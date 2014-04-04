@@ -5,9 +5,18 @@ import org.modelcc.IModel;
 import com.adagio.language.figures.Figure;
 import com.adagio.language.musicnotes.MusicNote;
 
-public class MelodyComponent implements IModel {
+public class MelodyBarComponent implements IModel {
 	MusicNote note;
 	Figure figure;
+	
+	public MelodyBarComponent(){}
+	
+	public MelodyBarComponent(MusicNote note, Figure figure){
+		this.note = note;
+		this.figure = figure;
+	}
+	
+	
 	public MusicNote getNote() {
 		return note;
 	}

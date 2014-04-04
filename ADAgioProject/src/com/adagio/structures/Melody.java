@@ -18,7 +18,7 @@ public class Melody {
 	public void setIdentifier(ChannelIdentifier id) {
 		this.identifier = id;
 	}
-	public MelodyBar[] getmBars() {
+	public MelodyBar[] getMBars() {
 		return mBars;
 	}
 	public void setmBars(MelodyBar[] mBars) {

@@ -5,7 +5,7 @@ import org.modelcc.Pattern;
 import org.modelcc.Value;
 
 import com.adagio.events.MusicEventListener;
-import com.adagio.events.channels.MusicChannelIdentifierEvent;
+import com.adagio.events.channels.ChannelIdentifierEvent;
 import com.adagio.language.channels.ChannelIdentifier;
 
 @Pattern(regExp = "(?i)DESTROY")
@@ -18,6 +18,6 @@ public class DestroyCommand extends Command implements IModel {
 	
 	@Override
 	public void Apply(ChannelIdentifier id, MusicEventListener listener) {
-		listener.destroyChannel(new MusicChannelIdentifierEvent(this,id));
+		listener.destroyChannel(new ChannelIdentifierEvent(this,id));
 	}
 }

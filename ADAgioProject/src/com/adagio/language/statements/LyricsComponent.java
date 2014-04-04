@@ -23,9 +23,14 @@ public class LyricsComponent extends PlayComponent implements IModel {
 	@Override
 	public String toString(){
 		String composition = "";
-//		composition += "Lyrics " + identifier.toString() + " ";
+		composition += "Lyrics " + identifier.toString() + " ";
 		for(int i = 0; i < verses.length; i++){
-			composition += verses[i].toString() + " ";
+			if(verses[i] != null){
+				composition += verses[i].toString() + " ";
+			}
+			else{
+				composition += "null";
+			}
 			if(i != (verses.length-1)){
 				composition += "| ";
 			}

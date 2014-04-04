@@ -59,7 +59,7 @@ public class ChannelsDB {
 			}
 		}
 	}
-	
+
 	/**
 	 * Obtain the channel with the specific identifier
 	 * @param id Identifier of the channel
@@ -134,7 +134,7 @@ public class ChannelsDB {
 					+ "Modifier \"volume\" can't be applied.");
 		}
 	}
-	
+
 	/**
 	 * Change the instrument
 	 * @param id
@@ -148,7 +148,7 @@ public class ChannelsDB {
 					+ "Modifier \"instrument\" can't be applied.");
 		}
 	}
-	
+
 	/**
 	 * Change the rhythm of the channel
 	 * @param channelID Identifier of the channel
@@ -162,10 +162,10 @@ public class ChannelsDB {
 					+ "Modifier \"rhythm\" can't be applied.");
 		}
 	}
-	
-	
 
-	
+
+
+
 	/**
 	 * Add a music string to the channel, and increments the duration of the channel;
 	 * @param id
@@ -176,10 +176,10 @@ public class ChannelsDB {
 	 */
 	public void addMusic(ChannelIdentifier id, String music, int numBars){
 		String composition = "";
-		
+
 		if(!this.isErased(id)){
 			composition += music;
-			
+
 			channelsMap.get(id).addMusic(composition);
 			channelsMap.get(id).addNumBars(numBars);
 		}
@@ -188,7 +188,17 @@ public class ChannelsDB {
 					+ "Music can't be added");
 		}
 	}
-	
+
+	public void addLyrics(ChannelIdentifier id, String lyrics){
+		if(!this.isErased(id)){
+			channelsMap.get(id).addLyrics(lyrics);
+		}
+		else{
+			System.err.println("Error X: Channel \"" + id.toString() + "\" doesn't exist. "
+					+ "Lyrics can't be added");
+		}
+	}
+
 	/**
 	 * Adds the music string to the enabled channels. If there is no one active,
 	 * adds music to the default channel 
@@ -200,7 +210,7 @@ public class ChannelsDB {
 	public void addMusicToEnabled(String music, int numBars){
 		Map.Entry e = null;
 		Iterator<Entry<ChannelIdentifier, Channel>> it;
-		
+
 		it = this.channelsMap.entrySet().iterator();
 		if (it.hasNext()) {
 
@@ -212,12 +222,12 @@ public class ChannelsDB {
 			}
 		}
 		else{
-			
+
 			this.addMusic(LilyPondMusicPieceWriter.DEFAULT_CHANNEL_IDENTIFIER,music,numBars);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Obtains the max duration (in bars) of the channels in the DB
 	 * @return A int value with the duration
@@ -234,38 +244,40 @@ public class ChannelsDB {
 
 		while (it.hasNext()) {
 			e = (Map.Entry) it.next();
-			auxDuration = ((Channel) e.getValue()).getNumBars();
-			if (auxDuration > max) {
-				max = auxDuration;
+			if(((Channel) e.getValue()).isHarmony()){
+				auxDuration = ((Channel) e.getValue()).getNumBars();
+				if (auxDuration > max) {
+					max = auxDuration;
+				}
 			}
 		}
 
 		return max;
 	}
-	
-	
+
+
 	/**
 	 * @return True if there is not an enabled-channel and Default is required. Else in other case.
 	 */
 	@SuppressWarnings("rawtypes")
 	public boolean isDefaultChannelNeeded(){
-		
+
 		Map.Entry e = null;
 		Iterator<Entry<ChannelIdentifier, Channel>> it;
-		
+
 		it = this.channelsMap.entrySet().iterator();
-	
-			while (it.hasNext()) {
-				e = (Map.Entry) it.next();
-				if(((Channel)e.getValue()).isEnable()){
-					return false;
-				}
+
+		while (it.hasNext()) {
+			e = (Map.Entry) it.next();
+			if(((Channel)e.getValue()).isEnable() && ((Channel)e.getValue()).isHarmony() ){
+				return false;
 			}
-			
-			return true;
+		}
+
+		return true;
 	}
-	
-	
+
+
 	/** ----- GETTERS & SETTERS ----- **/
 
 	public Map<ChannelIdentifier, Channel> getChannelMap() {
@@ -275,6 +287,6 @@ public class ChannelsDB {
 	public void setChannelMap(Map<ChannelIdentifier, Channel> channelMap) {
 		this.channelsMap = channelMap;
 	}
-	
-	
+
+
 }

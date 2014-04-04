@@ -1,0 +1,15 @@
+channel voz1 melody;
+channel voz2 melody;
+channel guitarra enable;
+
+PLAY 			A | B | C | D
+MELODY voz1 	A2 - A2 | B2 - B2 | 
+Lyrics voz1 	hola - como | te - va |
+MELODY voz2		A4 - A4 - A4 - A4;
+
+Play C C;
+
+PLAY 			A | B | C | D
+MELODY voz1 	A2 - A2 | B2 - B2 | 
+Lyrics voz1 	hola - como | te - va |
+MELODY voz2		A4 - A4 - A4 - A4;

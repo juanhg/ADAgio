@@ -2,27 +2,17 @@ package com.adagio.language.channels.channeloptions;
 
 import org.modelcc.IModel;
 import org.modelcc.Pattern;
-import org.modelcc.Value;
 
 import com.adagio.events.MusicEventListener;
 import com.adagio.events.channels.ChannelIdentifierEvent;
 import com.adagio.language.channels.ChannelIdentifier;
 
-@Pattern(regExp="(?i)enable")
-public class EnableModifier extends StatusModifier implements IModel{
-
-	@Value
-	String value;
+@Pattern(regExp="(?i)Harmony")
+public class HarmonyModifier extends StatusModifier implements IModel {
 	
-	public static final String PATTERN = "ENABLE";
-
 	@Override
 	public void Apply(ChannelIdentifier id, MusicEventListener listener) {
-		listener.enableChannel(new ChannelIdentifierEvent(this,id));
+		listener.harmonyChannel(new ChannelIdentifierEvent(this, id));
 	}
 	
-	@Override
-	public String toString(){
-		return value;
-	}
 }

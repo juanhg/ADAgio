@@ -16,6 +16,7 @@ public class Channel {
 	
 	private boolean erased;
 	private String music;
+	private String lyrics;
 	private int numBars;
 	
 	private boolean volumeChanged;
@@ -23,17 +24,22 @@ public class Channel {
 	private boolean rhythmChanged;
 	//If music have chords, "used" will be true.
 	private boolean used;
+	private boolean melody;
+	private boolean harmony;
 
 	public Channel() {
 		instrument = new PolyphonicInstrument();
 		volume = VolumeModifier.MAX_VOLUME;
-		enable = true;
-		erased = false;
 		music = "";
+		lyrics = "";
 		numBars = 0;
 		volumeChanged = true;
 		instrumentChanged = true;
 		used = false;
+		enable = true;
+		erased = false;
+		melody = false;
+		harmony = true;
 	}
 
 	public Instrument getInstrument() {
@@ -106,6 +112,10 @@ public class Channel {
 		this.music += music;
 	}
 	
+	public void addLyrics(String lyrics){
+		this.lyrics += lyrics;
+	}
+	
 	public void addNumBars(int numBars){
 		this.numBars += numBars;
 	}
@@ -133,4 +143,28 @@ public class Channel {
 	public void setRhythmChanged(boolean rhythmChanged) {
 		this.rhythmChanged = rhythmChanged;
 	}
+
+	public boolean isMelody() {
+		return melody;
+	}
+
+	public void setMelody() {
+		this.melody = true;
+		this.harmony = false;
+	}
+
+	public boolean isHarmony() {
+		return harmony;
+	}
+
+	public void setHarmony() {
+		this.harmony = true;
+		this.melody = false;
+	}
+
+	public String getLyrics() {
+		return lyrics;
+	}
+	
+	
 }

@@ -5,7 +5,7 @@ import org.modelcc.Prefix;
 import org.modelcc.Suffix;
 
 import com.adagio.events.MusicEventListener;
-import com.adagio.events.definitions.MusicTempoDefinitionEvent;
+import com.adagio.events.definitions.TempoDefinitionEvent;
 import com.adagio.language.tempos.Tempo;
 import com.adagio.language.tempos.TempoIdentifier;
 
@@ -19,7 +19,7 @@ public class TempoDefinition extends Definition implements IModel {
 	
 	@Override
 	public void run(MusicEventListener listener) {
-		listener.tempoDefinition(new MusicTempoDefinitionEvent(this, identifier, tempo));
+		listener.tempoDefinition(new TempoDefinitionEvent(this, identifier, tempo));
 	}
 
 }

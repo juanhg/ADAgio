@@ -4,7 +4,7 @@ import org.modelcc.IModel;
 import org.modelcc.Prefix;
 
 import com.adagio.events.MusicEventListener;
-import com.adagio.events.channels.MusicChannelRhythmEvent;
+import com.adagio.events.channels.ChannelRhythmEvent;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.rhythm.RhythmIdentifier;
 
@@ -16,6 +16,6 @@ public class RhythmModifier extends StatusModifier implements IModel {
 	
 	@Override
 	public void Apply(ChannelIdentifier channelID, MusicEventListener listener) {
-		listener.setChannelRhythm(new MusicChannelRhythmEvent(this,channelID,rhythmID));
+		listener.setChannelRhythm(new ChannelRhythmEvent(this,channelID,rhythmID));
 	}
 }

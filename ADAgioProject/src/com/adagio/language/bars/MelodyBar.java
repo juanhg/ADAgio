@@ -7,16 +7,16 @@ import org.modelcc.Separator;
 public class MelodyBar implements IModel {
 	@Separator("\\-")
 	@Multiplicity(minimum = 1)
-	MelodyComponent [] mComponents;
+	MelodyBarComponent [] mComponents;
 	
-	public MelodyComponent [] getMComponents(){
+	public MelodyBarComponent [] getMComponents(){
 		return mComponents;
 	}
 	
 	@Override
 	public String toString(){
 		String composition = "";
-		for(MelodyComponent current: mComponents){
+		for(MelodyBarComponent current: mComponents){
 			composition += current.toString() + " ";
 		}
 		return composition;

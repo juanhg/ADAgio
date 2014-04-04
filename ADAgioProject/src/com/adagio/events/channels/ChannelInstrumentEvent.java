@@ -5,7 +5,7 @@ import java.util.EventObject;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.instruments.InstrumentIdentifier;
 
-public class MusicChannelInstrumentEvent extends EventObject {
+public class ChannelInstrumentEvent extends EventObject {
 	/**
 	 * 
 	 */
@@ -13,7 +13,7 @@ public class MusicChannelInstrumentEvent extends EventObject {
 	private ChannelIdentifier id;
 	private InstrumentIdentifier instrumentID;
 	
-	public MusicChannelInstrumentEvent(Object source, ChannelIdentifier id, InstrumentIdentifier instrumentID){
+	public ChannelInstrumentEvent(Object source, ChannelIdentifier id, InstrumentIdentifier instrumentID){
 		super(source);
 		this.id = id;
 		this.instrumentID = instrumentID;

@@ -116,6 +116,17 @@ public class PlayStatementTest extends InitTest {
 				+ "melody voz4  C4 | B2 - 4A4 |"
 				+ "melody voz5  C4 | B2 - 4A4 |");
 		
+		assertAmbiguityFree(parser,"play         | Em          | G        | D         | C\n"
+			+"melody flute | E2 - E2     | G2 - G2  | D2 - D2   | C2 - C2 |\n"
+			+"Lyrics flute |she - fills| my - bed | with - ga | so - line");
+		
+		assertAmbiguityFree(parser,"play         | Em          | G        | D         | C\n"
+				+"melody flute | E2 - E2     | G2 - G2  | D2 - D2   | C2 - C2 |\n"
+				+"Lyrics flute |she - fills| my - bed | with - ga | so - line|");
+		assertAmbiguityFree(parser,"play         | Em          | G        | D         | C\n"
+				+"melody flute |E2 - E2 | G2 - G2  | D2 - D2   | C2 - C2 |\n"
+				+"Lyrics          flute |she - fills| my - bed | with - ga | so - line");
+		
 	}
 	
 	@Test

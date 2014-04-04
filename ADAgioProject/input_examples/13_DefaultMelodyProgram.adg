@@ -1,0 +1,7 @@
+channel guitarra instrument=acousticguitar enable volume=50;
+
+PLAY C
+MELODY voz1 C1
+MELODY voz2 D1 | D1
+LYRICS voz1 hola
+LYRICS voz2 juan | juan;

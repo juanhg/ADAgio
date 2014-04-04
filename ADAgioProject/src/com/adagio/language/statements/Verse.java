@@ -7,16 +7,22 @@ public class Verse implements IModel {
 	@Separator("\\-")
 	SubVerse [] subVerses;
 	
+	public SubVerse[] getSubVerses() {
+		return subVerses;
+	}
+
 	@Override
 	public String toString(){
 		String composition = "";
 		for(int i = 0; i < subVerses.length; i++){
-			composition += subVerses[i];
-			if(i != subVerses.length-1){
-				composition += "-";
+			if(subVerses[i] != null){
+				composition += subVerses[i];
+				if(i != subVerses.length-1){
+					composition += "-";
+				}
 			}
 		}
 		return composition;
 	}
-	
+
 }

@@ -5,7 +5,7 @@ import java.util.EventObject;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.rhythm.RhythmIdentifier;
 
-public class MusicChannelRhythmEvent extends EventObject {
+public class ChannelRhythmEvent extends EventObject {
 	/**
 	 * 
 	 */
@@ -13,7 +13,7 @@ public class MusicChannelRhythmEvent extends EventObject {
 	private ChannelIdentifier channelID;
 	private RhythmIdentifier rhythmID;
 	
-	public MusicChannelRhythmEvent(Object source, ChannelIdentifier channelID, RhythmIdentifier rhythmID){
+	public ChannelRhythmEvent(Object source, ChannelIdentifier channelID, RhythmIdentifier rhythmID){
 		super(source);
 		this.channelID = channelID;
 		this.rhythmID = rhythmID;

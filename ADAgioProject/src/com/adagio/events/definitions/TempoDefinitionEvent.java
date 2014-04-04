@@ -4,14 +4,14 @@ import java.util.EventObject;
 import com.adagio.language.tempos.Tempo;
 import com.adagio.language.tempos.TempoIdentifier;
 
-public class MusicTempoDefinitionEvent extends EventObject {
+public class TempoDefinitionEvent extends EventObject {
 	
 	private static final long serialVersionUID = -3310742495934495209L;
 	
 	public TempoIdentifier id;
 	public Tempo tempo;
 	
-	public MusicTempoDefinitionEvent(Object source, TempoIdentifier id, Tempo tempo) {
+	public TempoDefinitionEvent(Object source, TempoIdentifier id, Tempo tempo) {
 		super(source);
 		this.id = id;
 		this.tempo = tempo;

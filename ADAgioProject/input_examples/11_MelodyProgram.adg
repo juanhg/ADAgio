@@ -1,0 +1,34 @@
+Define Rhythm "completo" Note1 0 to 1;
+  
+channel guitarra instrument=acousticguitar rhythm=SMIntro enable;
+channel flute melody instrument=flute rhythm=completo;
+Relative 1C;
+
+time 4/4;
+Relative 0C;
+Play 		  | S 					  | Em | S 					   | G  | S 					| D  | S 					 | C  |
+Melody flute  | 1B4 - 1G4 - 1A4 - 2D4 | S1 | 1B4 - 1G4 - 1A4 - 2D4 | S1 | 1B4 - 1G4 - 1A4 - 2D4 | S1 | 1B4 - 1G4 - 1A4 - 2D4 | S1 |; 
+
+Relative 0C;
+channel flute volume=50;
+channel guitarra rhythm=SM1;
+play         | Em          | G        | D         | C
+melody flute | E2 - E2     | G2 - G2  | D2 - D2   | C2 - C2 |
+lyrics flute | she - fills | my - bed | with - ga | so - line |;
+
+play | Em | G | D | C;
+
+channel guitarra rhythm=SM2;
+time 4/2;
+play | Em | G | D | C;
+play | Em | G | D | C;
+
+channel guitarra rhythm=SM1;
+time 4/4;
+play | Em | G | D | C;
+play | Em | G | D | C;
+
+channel guitarra rhythm=SM2;
+time 4/2;
+play | Em | G | D | C;
+play | Em | G | D | C;

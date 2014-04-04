@@ -12,7 +12,7 @@ import org.modelcc.types.IntegerModel;
 
 import test.com.adagio.InitTest;
 
-import com.adagio.events.channels.MusicChannelIdentifierEvent;
+import com.adagio.events.channels.ChannelIdentifierEvent;
 import com.adagio.events.statements.MusicPlayStatementEvent;
 import com.adagio.io.lilypond.LilyPondMusicPieceWriter;
 import com.adagio.language.bars.chords.Chord;
@@ -41,7 +41,7 @@ public class LilyPondMusicPieceWritterTest extends InitTest {
 	LilyPondMusicPieceWriter listener;
 	
 	ChannelIdentifier channelID;
-	MusicChannelIdentifierEvent channelIdentifierEvent;
+	ChannelIdentifierEvent channelIdentifierEvent;
 	MusicPlayStatementEvent playStatementEvent;
 	 
 	@Before
@@ -176,7 +176,7 @@ public class LilyPondMusicPieceWritterTest extends InitTest {
 	@Test
 	public void createChannelTest(){
 		channelID = new ChannelIdentifier("piano");
-		channelIdentifierEvent = new MusicChannelIdentifierEvent(this,channelID);
+		channelIdentifierEvent = new ChannelIdentifierEvent(this,channelID);
 		listener.createChannel(channelIdentifierEvent);	
 		
 		assertTrue(listener.existsChannel(channelIdentifierEvent));	
@@ -185,7 +185,7 @@ public class LilyPondMusicPieceWritterTest extends InitTest {
 	@Test
 	public void destroyChannelTest(){
 		channelID = new ChannelIdentifier("piano");
-		channelIdentifierEvent = new MusicChannelIdentifierEvent(this,channelID);
+		channelIdentifierEvent = new ChannelIdentifierEvent(this,channelID);
 		
 		listener.createChannel(channelIdentifierEvent);	
 		assertTrue(listener.existsChannel(channelIdentifierEvent));	

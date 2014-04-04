@@ -11,11 +11,12 @@ import org.modelcc.Setup;
 import org.modelcc.Suffix;
 
 import com.adagio.events.MusicEventListener;
+import com.adagio.events.statements.MelodyLyricsEvent;
 import com.adagio.events.statements.MusicPlayStatementEvent;
 import com.adagio.language.bars.Bar;
+import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.structures.Lyrics;
 import com.adagio.structures.Melody;
-import com.sun.org.apache.bcel.internal.generic.LUSHR;
 
 @Prefix("(?i)play")
 public class PlayStatement extends Statement implements IModel {
@@ -54,6 +55,31 @@ public class PlayStatement extends Statement implements IModel {
 					lyricsList.add(lyrics);
 				}
 			}
+		}
+		
+		for(Lyrics current: lyricsList){
+			Verse [] verses = current.getVerses();
+			Verse [] aux;
+			int count = 0;
+			
+			for(int i = 0; i < verses.length; i++){
+				if(verses[i] != null){
+					count++;
+				}
+			}
+			
+			aux = new Verse[count];
+			count = 0;
+			
+			for(int i = 0; i < verses.length; i++){
+				if(verses[i] != null){
+					aux[count] = verses[i];
+					count++;
+				}
+			}
+			
+			current.setVerses(aux);
+			
 		}
 	}
 
@@ -119,9 +145,36 @@ public class PlayStatement extends Statement implements IModel {
 	 */
 	public void run(MusicEventListener listener) {
 
+		ChannelIdentifier idMelody, idLyrics;
+		Lyrics selectedLyrics = null;
+		
+		// Melody & Lyrics
+		if(playComponents != null){
+			for(Melody currentMelody: melodies){
+				for(Lyrics currentLyrics: lyricsList){
+					idMelody = currentMelody.getIdentifier();
+					idLyrics = currentLyrics.getIdentifier();
+					
+					if(idMelody.equals(idLyrics)){	
+						selectedLyrics = currentLyrics;
+						break;
+					}
+				}
+				if(selectedLyrics == null){
+					listener.melodyPlay(new MelodyLyricsEvent(this, currentMelody, null));
+				}
+				else{
+					listener.melodyLyricsPlay(new MelodyLyricsEvent(this, currentMelody, selectedLyrics));
+					selectedLyrics = null;
+				}
+			}
+		}
+		
+		
+		// Harmony
 		if(bars != null){
 			for(int i = 0; i <bars.length; i++){
-				listener.musicPlay(new MusicPlayStatementEvent(this, bars[i]));
+				listener.harmonyPlay(new MusicPlayStatementEvent(this, bars[i]));
 			}
 		}
 	}

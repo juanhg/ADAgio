@@ -41,6 +41,10 @@ public class ChannelStatementTest {
 		assertAmbiguityFree(parser,"CHANNEL a volume = 100");
 		assertAmbiguityFree(parser,"CHANNEL VIOLIN VOLUME=0");
 		assertAmbiguityFree(parser,"channel piano destroy");
+		assertAmbiguityFree(parser, "Channel voz1 melody instrument=voice");
+		assertAmbiguityFree(parser, "Channel piano harmony");
+		assertAmbiguityFree(parser,"CHANNEL GUITARRA ENABLE DISABLE VOLUME=19 INSTRUMENT=PIANO harmony");
+		assertAmbiguityFree(parser,"CHANNEL GUITARRA ENABLE DISABLE VOLUME=19 melody INSTRUMENT=PIANO");
 	}
 	
 	@Test
