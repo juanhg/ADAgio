@@ -25,6 +25,7 @@ DEFINE INSTRUMENT "violin" POLYPHONIC TIMBRE violin;
 DEFINE INSTRUMENT "realpiano" POLYPHONIC REGISTERS 0A to 8C TIMBRE piano;
 DEFINE INSTRUMENT "piano" POLYPHONIC TIMBRE piano;
 
+DEFINE INSTRUMENT "electricguitar" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE electricguitar;
 DEFINE INSTRUMENT "acousticguitar" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE acousticguitar;
 
 Define Rhythm "defaultRhythm"  Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;

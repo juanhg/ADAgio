@@ -3,6 +3,7 @@ package com.adagio.io.lilypond;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -94,6 +95,42 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	public static final ChannelIdentifier SILENCES_PATTERN_CHANNEL_IDENTIFIER = new ChannelIdentifier("silencesPatternChannelIdentifier");
 	public static final RhythmIdentifier DEFAULT_RHYTHM_IDENTIFIER = new RhythmIdentifier("defaultRhythm");
 	private final String MELODY_BAR_NAME_PATTERN = "MelodyBar";
+
+	
+	private static final Map<String, String> instrumentsTranslation;
+	static
+	{
+		instrumentsTranslation = new HashMap<String, String>();
+		instrumentsTranslation.put("voice", "lead 6 (voice)");
+		instrumentsTranslation.put("piano", "acoustic grand");
+		instrumentsTranslation.put("brightacoustic", "bright acoustic");
+		instrumentsTranslation.put("electricgrand", "electric grand");
+		instrumentsTranslation.put("electricpiano", "electric piano");
+		instrumentsTranslation.put("musicbox", "music box");
+		instrumentsTranslation.put("tubularbells", "tubullar bells");
+		instrumentsTranslation.put("drawbarorgan", "drawbar organ");
+		instrumentsTranslation.put("percussiveorgan", "percussive organ");
+		instrumentsTranslation.put("rockorgan", "rock organ");
+		instrumentsTranslation.put("reedorgan", "reed organ");
+		instrumentsTranslation.put("orchestralharp", "orchestralharp");
+		instrumentsTranslation.put("harmonicsguitar", "guitar harmonics");
+		instrumentsTranslation.put("acousticguitar", "acoustic guitar (nylon)");
+		instrumentsTranslation.put("acousticguitar2", "acoustic guitar (steel)");
+		instrumentsTranslation.put("guitar", "acoustic guitar (nylon)");
+		instrumentsTranslation.put("guitar2", "acoustic guitar (steel)");
+		instrumentsTranslation.put("electricguitar", "electric guitar (jazz)");
+		instrumentsTranslation.put("electricguitar2", "electric guitar (clean)");
+		instrumentsTranslation.put("electricguitar3", "electric guitar (muted)");
+		instrumentsTranslation.put("acousticbass", "acoustic bass");
+		instrumentsTranslation.put("bass", "acoustic bass");
+		instrumentsTranslation.put("electricbass", "electric bass (finger)");
+		instrumentsTranslation.put("electricbass2", "electric bass (pick)");
+		instrumentsTranslation.put("panflute", "pan flute");
+		instrumentsTranslation.put("altosax", "alto sax");
+		instrumentsTranslation.put("sopranosax", "soprano sax");
+		instrumentsTranslation.put("tenorbass", "tenor bass");
+		instrumentsTranslation.put("baritonebass", "baritone bass");
+	}
 	
 	public LilyPondMusicPieceWriter(){
 		relative = new AbsoluteMusicNote(2, "C");
@@ -266,33 +303,23 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		return composition;
 	}
 
+	
 	public String translateInstrument(Instrument instrument){
 
 		String composition = "\\set Staff.midiInstrument = #\"";
 		String timbre = instrument.getTimbre().getValue();
-		if(timbre.equals("piano")){
-			composition += "acoustic grand";
+		String translation = timbre;
+		
+		if(instrumentsTranslation.containsKey(timbre)){
+			translation = instrumentsTranslation.get(timbre);
 		}
-		else if(timbre.equals("violin")){
-			composition += "violin";
-		}
-		else if(timbre.equals("flute")){
-			composition += "flute";
-		}
-		else if(timbre.equals("acousticguitar")){
-			composition += "acoustic guitar (nylon)";
-		}
-		else if(timbre.equals("voice")){
-			composition += "synth voice";
-		}
-		else if(timbre.equals("clarinet")){
-			composition += "clarinet";
-		}
-
+		
+		composition += translation;
 		composition += "\"";
 		return composition;
 	}
 
+	
 	public String translateVolume(int volume){
 		String composition = "\\set Staff.midiMinimumVolume = #" + 0 + "\n";
 		composition += "\\set Staff.midiMaximumVolume = #" + ((double)volume)/100;
@@ -705,27 +732,6 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 		} else {
 			System.err.println("Error 10: Channel \"" + id.toString()
 					+ "\" doesn't exist. " + "Can't be filled with zeros.");
-		}
-	}
-
-	/**
-	 * Fills all the disabled channels with silences until reach the maxDuration
-	 * @param id Identifier of the DB
-	 */
-	@SuppressWarnings("rawtypes")
-	private void fillDisabledChannelsWithSilences(){
-		Map.Entry e = null;
-		Iterator<Entry<ChannelIdentifier, Channel>> it;
-
-		it = this.channelsDB.getChannelMap().entrySet().iterator();
-		if (it.hasNext()) {
-
-			while (it.hasNext()) {
-				e = (Map.Entry) it.next();
-				if(!((Channel)e.getValue()).isEnable()){
-					this.fillChannelWithSilences((ChannelIdentifier)e.getKey());
-				}
-			}
 		}
 	}
 

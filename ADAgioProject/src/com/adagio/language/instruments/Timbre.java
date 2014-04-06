@@ -5,7 +5,18 @@ import org.modelcc.Pattern;
 import org.modelcc.Setup;
 import org.modelcc.Value;
 
-@Pattern(regExp = "(?i)(voice|piano|violin|flute|clarinet|acousticguitar)")
+/**
+ * If you add new instruments, upgrade "instrumentsTranslation" in the writer
+ */
+@Pattern(regExp = "(?i)(voice|piano|brightAcoustic|electricGrand|electricPiano|"
+		+ "harpsichord|celesta|glockenspiel|musicBox|vibraphone|marimba|xylophone|"
+		+ "tubularBells|dulcimer|drawbarOrgan|percussiveOrgan|rockOrgan|reedOrgan|"
+		+ "accordion|harmonica|concertina|orchestralHarp|ocarina|"
+		+ "harmonicsGuitar|acousticGuitar2|guitar2|acousticguitar|guitar|electricGuitar|electricGuitar2|electricGuitar3|"
+		+ "acousticBass|bass|electricBass2|electricBass|contrasbass|"
+		+ "violin|viola|cello|flute|panFlute|clarinet|trumpet|trombone|tuba|oboe|piccolo|"
+		+ "altoSax|sopranoSax|tenorSax|baritoneSax)")
+
 public class Timbre implements IModel {
 	@Value
 	String value;
