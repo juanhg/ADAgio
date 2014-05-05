@@ -1,4 +1,4 @@
-package com.adagio.language.statements;
+package com.adagio.language.statements.simple;
 
 import org.modelcc.IModel;
 import org.modelcc.Prefix;
@@ -8,7 +8,7 @@ import com.adagio.events.statements.TimeStatementEvent;
 import com.adagio.language.times.Time;
 
 @Prefix("(?i)TIME")
-public class TimeStatement extends Statement implements IModel {
+public class TimeStatement extends SimpleStatement implements IModel {
 
 	Time time;
 	

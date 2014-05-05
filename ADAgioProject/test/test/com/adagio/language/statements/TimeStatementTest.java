@@ -11,7 +11,7 @@ import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
 import com.adagio.language.definitions.ChordDefinition;
-import com.adagio.language.statements.TimeStatement;
+import com.adagio.language.statements.simple.TimeStatement;
 
 public class TimeStatementTest {
 

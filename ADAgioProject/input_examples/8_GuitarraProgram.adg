@@ -20,8 +20,10 @@ Define Rhythm "guitarrhythm"
   Note2 0.83 to 0.98
   Note1 0.85 to 0.99;
 
-time 4/4;
+time 2/4;
   
 channel guitarra instrument=acousticguitar rhythm=guitarrhythm;
-play | Am | F | C' | G |;
-play | Am | F | C' | G |;
+
+REPEAT 4 TIMES{
+	play | Am | F | C' | G |;
+}

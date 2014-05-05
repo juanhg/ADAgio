@@ -15,7 +15,7 @@ import org.modelcc.parser.ParserFactory;
 import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.channels.channeloptions.ChannelOption;
 import com.adagio.language.channels.channeloptions.DestroyCommand;
-import com.adagio.language.statements.ChannelStatement;
+import com.adagio.language.statements.simple.ChannelStatement;
 
 public class ChannelStatementTest {
 

@@ -12,23 +12,28 @@ Melody flute  | 1B4 - 1G4 - 1A4 - 2D4 | S1 | 1B4 - 1G4 - 1A4 - 2D4 | S1 | 1B4 - 
 Relative 0C;
 channel flute volume=50;
 channel guitarra rhythm=SM1;
+
+REPEAT 2 TIMES{
 play         | Em          | G        | D         | C
 melody flute | E2 - E2     | G2 - G2  | D2 - D2   | C2 - C2 |
 lyrics flute | she - fills | my - bed | with - ga | so - line |;
+}
 
-play | Em | G | D | C;
 
 channel guitarra rhythm=SM2;
 time 4/2;
+REPEAT 2 TIMES{
 play | Em | G | D | C;
-play | Em | G | D | C;
+}
 
 channel guitarra rhythm=SM1;
 time 4/4;
+REPEAT 2 TIMES {
 play | Em | G | D | C;
-play | Em | G | D | C;
+}
 
 channel guitarra rhythm=SM2;
 time 4/2;
+REPEAT 2 TIMES{
 play | Em | G | D | C;
-play | Em | G | D | C;
+}

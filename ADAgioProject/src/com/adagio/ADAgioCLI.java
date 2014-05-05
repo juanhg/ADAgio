@@ -44,7 +44,7 @@ public class ADAgioCLI {
 			Model model = reader.read();
 
 			Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
-			ignore.add(new RegExpPatternRecognizer("#.*\n"));
+			ignore.add(new RegExpPatternRecognizer("//[^\n]*(\n|$)"));
 			ignore.add(new RegExpPatternRecognizer("( |\n|\t|\r)+"));
 
 			// Generate a parser from the model.

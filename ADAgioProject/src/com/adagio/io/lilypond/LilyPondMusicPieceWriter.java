@@ -17,11 +17,11 @@ import com.adagio.events.channels.ChannelIdentifierEvent;
 import com.adagio.events.channels.ChannelInstrumentEvent;
 import com.adagio.events.channels.ChannelRhythmEvent;
 import com.adagio.events.channels.ChannelVolumeEvent;
-import com.adagio.events.chords.AddChordEvent;
 import com.adagio.events.chords.ChordEvent;
 import com.adagio.events.definitions.InstrumentDefinitionEvent;
 import com.adagio.events.definitions.RhythmDefinitionEvent;
 import com.adagio.events.definitions.TempoDefinitionEvent;
+import com.adagio.events.definitions.chorDefinitionEvent;
 import com.adagio.events.statements.DefinedTempoStatementEvent;
 import com.adagio.events.statements.MelodyLyricsEvent;
 import com.adagio.events.statements.MusicPlayStatementEvent;
@@ -41,8 +41,8 @@ import com.adagio.language.instruments.MonophonicType;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 import com.adagio.language.rhythm.RhythmIdentifier;
-import com.adagio.language.statements.SubVerse;
-import com.adagio.language.statements.Verse;
+import com.adagio.language.statements.simple.SubVerse;
+import com.adagio.language.statements.simple.Verse;
 import com.adagio.language.tempos.Tempo;
 import com.adagio.language.times.Time;
 import com.adagio.structures.Channel;
@@ -55,7 +55,7 @@ import com.adagio.structures.instruments.PolyphonicInstrument;
 
 //TODO Ajustar el canal por defecto
 
-public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicEventListener {
+public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 
 	//Mode relative	
 	private AbsoluteMusicNote relative;
@@ -819,7 +819,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter implements MusicE
 	 * Event that happens when it's needed to add a chord in ChordsDB
 	 */
 	@Override
-	public void addChord(AddChordEvent e) {
+	public void chordDefinition(chorDefinitionEvent e) {
 		this.chordsDB.addChord(e.getId(), e.getIntervals());
 	}
 

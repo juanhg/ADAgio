@@ -8,7 +8,7 @@ Define Rhythm "r3" Note1 0 to 1 Note2 0.50 to 0.75 Note3 0.75 to 1;
 TIME 4/4;
 TEMPO estrofa;
 channel piano volume=80;
-channel flauta volume=50 instrument=flute disable rhythm=r3;
+channel flauta volume=50 instrument=flute disable rhythm=r1;
 RELATIVE 2C;
 PLAY  C  G | Dm  Am | F  G  Am;
 

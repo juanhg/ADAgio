@@ -1,7 +1,7 @@
 package com.adagio.structures;
 
 import com.adagio.language.channels.ChannelIdentifier;
-import com.adagio.language.statements.Verse;
+import com.adagio.language.statements.simple.Verse;
 
 public class Lyrics {
 	ChannelIdentifier identifier;

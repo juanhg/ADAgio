@@ -1,4 +1,4 @@
-package com.adagio.language.statements;
+package com.adagio.language.statements.simple;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +19,7 @@ import com.adagio.structures.Lyrics;
 import com.adagio.structures.Melody;
 
 @Prefix("(?i)play")
-public class PlayStatement extends Statement implements IModel {
+public class PlayStatement extends SimpleStatement implements IModel {
 
 
 	@Prefix("\\|?")

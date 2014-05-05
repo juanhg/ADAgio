@@ -23,7 +23,7 @@ import com.adagio.language.bars.chords.intervals.OptionalInterval;
 import com.adagio.language.musicnotes.AbsoluteMusicNote;
 import com.adagio.language.musicnotes.BasicNoteName;
 import com.adagio.language.musicnotes.notealterations.Alteration;
-import com.adagio.language.statements.PlayStatement;
+import com.adagio.language.statements.simple.PlayStatement;
 
 public class PlayStatementTest extends InitTest {
 

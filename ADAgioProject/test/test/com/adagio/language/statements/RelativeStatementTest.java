@@ -9,7 +9,7 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
-import com.adagio.language.statements.RelativeStatement;
+import com.adagio.language.statements.simple.RelativeStatement;
 
 import static org.modelcc.test.ModelAssert.*;
 
