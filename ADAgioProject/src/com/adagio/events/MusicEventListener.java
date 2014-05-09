@@ -10,7 +10,7 @@ import com.adagio.events.chords.ChordEvent;
 import com.adagio.events.definitions.InstrumentDefinitionEvent;
 import com.adagio.events.definitions.RhythmDefinitionEvent;
 import com.adagio.events.definitions.TempoDefinitionEvent;
-import com.adagio.events.definitions.chorDefinitionEvent;
+import com.adagio.events.definitions.ChorDefinitionEvent;
 import com.adagio.events.statements.DefinedTempoStatementEvent;
 import com.adagio.events.statements.MelodyLyricsEvent;
 import com.adagio.events.statements.MusicPlayStatementEvent;
@@ -22,7 +22,7 @@ public interface MusicEventListener extends EventListener {
 		
 	/** ----- DEFINITIONS EVENTS ----- **/
 	
-	public void chordDefinition(chorDefinitionEvent e);
+	public void chordDefinition(ChorDefinitionEvent e);
 	public void tempoDefinition(TempoDefinitionEvent e);
 	public void instrumentDefinition(InstrumentDefinitionEvent e);
 	public void rhythmDefinition(RhythmDefinitionEvent e);

@@ -6,7 +6,7 @@ import java.util.List;
 import com.adagio.language.bars.chords.ChordIdentifier;
 import com.adagio.language.bars.chords.intervals.Interval;
 
-public class chorDefinitionEvent extends EventObject {
+public class ChorDefinitionEvent extends EventObject {
 
 	/**
 	 * 
@@ -16,7 +16,7 @@ public class chorDefinitionEvent extends EventObject {
 	ChordIdentifier id;
 	List<Interval> intervals;
 	
-	public chorDefinitionEvent(Object source, ChordIdentifier id, List<Interval> intervals) {
+	public ChorDefinitionEvent(Object source, ChordIdentifier id, List<Interval> intervals) {
 		super(source);
 		this.id = id;
 		this.intervals = intervals;

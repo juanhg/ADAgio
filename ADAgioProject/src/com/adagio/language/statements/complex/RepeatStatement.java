@@ -1,6 +1,5 @@
 package com.adagio.language.statements.complex;
 import org.modelcc.IModel;
-import org.modelcc.Multiplicity;
 import org.modelcc.Prefix;
 import org.modelcc.Priority;
 import org.modelcc.Suffix;
@@ -16,12 +15,12 @@ public class RepeatStatement extends ComplexStatement implements IModel {
 	@Suffix("(?i)times")
 	UnsignedIntegerModel times;
 	
-	BlockStatement sentence;
+	BlockStatement blockStatement;
 	
 	@Override
 	public void run(MusicEventListener listener) {
 		for(int i = 0; i < times.intValue(); i++){
-				sentence.run(listener);
+				blockStatement.run(listener);
 		}
 	}
 

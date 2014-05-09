@@ -5,6 +5,7 @@ import org.modelcc.Pattern;
 import org.modelcc.Prefix;
 import org.modelcc.Value;
 
+//TODO Unificar en prefix
 @Prefix("(?i)limited")
 @Pattern(regExp="(?i)polyphonic")
 public class LimitedPolyphonicType extends PhoneticType implements IModel {

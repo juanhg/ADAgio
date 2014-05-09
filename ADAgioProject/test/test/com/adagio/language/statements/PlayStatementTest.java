@@ -63,26 +63,26 @@ public class PlayStatementTest extends InitTest {
 		intervals.add(perfect1);
 		intervals.add(minor3);
 		intervals.add(perfect5);
-		listener.getChordsDB().addChord(m, intervals);
+		listener.getChordsDB().addElement(m, intervals);
 		
 		intervals = new ArrayList<Interval>();
 		intervals.add(perfect1);
 		intervals.add(major3);
 		intervals.add(perfect5);
-		listener.getChordsDB().addChord(M, intervals);
+		listener.getChordsDB().addElement(M, intervals);
 		
 		intervals = new ArrayList<Interval>();
 		intervals.add(perfect1);
 		intervals.add(major3);
 		intervals.add(perfect5);
-		listener.getChordsDB().addChord(white, intervals);
+		listener.getChordsDB().addElement(white, intervals);
 		
 		intervals = new ArrayList<Interval>();
 		intervals.add(perfect1);
 		intervals.add(major2);
 		intervals.add(optM3);
 		intervals.add(perfect5);
-		listener.getChordsDB().addChord(add2, intervals);
+		listener.getChordsDB().addElement(add2, intervals);
 	
 	  }
 	

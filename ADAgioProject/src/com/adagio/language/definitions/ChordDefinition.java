@@ -10,7 +10,7 @@ import org.modelcc.Prefix;
 import org.modelcc.Suffix;
 
 import com.adagio.events.MusicEventListener;
-import com.adagio.events.definitions.chorDefinitionEvent;
+import com.adagio.events.definitions.ChorDefinitionEvent;
 import com.adagio.language.bars.chords.ChordIdentifier;
 import com.adagio.language.bars.chords.intervals.Interval;
 import com.adagio.language.musicnotes.BasicNoteName;
@@ -63,7 +63,7 @@ public class ChordDefinition extends Definition implements IModel {
 		for(int i = 0; i < intervals.length; i++){
 			auxInterval.add(intervals[i]);
 		}
-		listener.chordDefinition(new chorDefinitionEvent(this,identifier,auxInterval));
+		listener.chordDefinition(new ChorDefinitionEvent(this,identifier,auxInterval));
 	}
 	
 	private boolean beginWithNumber(){

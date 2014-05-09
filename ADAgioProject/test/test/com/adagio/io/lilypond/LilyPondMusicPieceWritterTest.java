@@ -69,20 +69,20 @@ public class LilyPondMusicPieceWritterTest extends InitTest {
 		intervals.add(P1);
 		intervals.add(m3);
 		intervals.add(P5);
-		listener.getChordsDB().addChord(m, intervals);
+		listener.getChordsDB().addElement(m, intervals);
 		
 		intervals = new ArrayList<Interval>();
 		intervals.add(P1);
 		intervals.add(M3);
 		intervals.add(P5);
-		listener.getChordsDB().addChord(M, intervals);
+		listener.getChordsDB().addElement(M, intervals);
 		
 		intervals = new ArrayList<Interval>();
 		intervals.add(P1);
 		intervals.add(M2);
 		intervals.add(optM3);
 		intervals.add(P5);
-		listener.getChordsDB().addChord(add2, intervals);
+		listener.getChordsDB().addElement(add2, intervals);
 	}
 	
 	
