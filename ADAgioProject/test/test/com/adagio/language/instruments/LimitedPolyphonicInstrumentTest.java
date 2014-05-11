@@ -50,45 +50,6 @@ public class LimitedPolyphonicInstrumentTest extends InitTest {
 		assertEquals(expected, result);
 		aNotes.clear();
 		expected.clear();
-		
-//		//piano(-1C,-1E,-1G) == (1C,1E,1G)
-//		aNotes.add(Cm1);
-//		aNotes.add(Em1);
-//		aNotes.add(Gm1);
-//
-//		expected.add(C1);
-//		expected.add(E1);
-//		expected.add(G1);
-//		result = realPiano.aNotesToInstrumentRegister(aNotes);
-//		assertEquals(expected, result);
-//		aNotes.clear();
-//		expected.clear();
-//		
-//		// piano(2F#, A2, C3Sharp) == (2F#, A2, C3Sharp);
-//		aNotes.add(F2Sharp);
-//		aNotes.add(A2);
-//		aNotes.add(C3Sharp);
-//	
-//		expected.add(F2Sharp);
-//		expected.add(A2);
-//		expected.add(C3Sharp);
-//		result = realPiano.aNotesToInstrumentRegister(aNotes);
-//		assertEquals(expected, result);	
-//		aNotes.clear();
-//		expected.clear();
-//		
-//		//polyInstrument(4C,4E,4G) == (2C,2E,2G)
-//		aNotes.add(C4);
-//		aNotes.add(E4);
-//		aNotes.add(G4);
-//
-//		expected.add(C2);
-//		expected.add(E2);
-//		expected.add(G2);
-//		result = polyInstrument.aNotesToInstrumentRegister(aNotes);
-//		assertEquals(expected, result);
-//		aNotes.clear();
-//		expected.clear();
 	}
 
 }

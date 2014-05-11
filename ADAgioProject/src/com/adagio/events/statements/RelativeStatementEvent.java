@@ -10,14 +10,14 @@ public class RelativeStatementEvent extends EventObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private AbsoluteMusicNote aNote;
+	private AbsoluteMusicNote relativeNote;
 	
 	public RelativeStatementEvent(Object arg0, AbsoluteMusicNote aNote) {
 		super(arg0);
-		this.aNote = aNote;
+		this.relativeNote = aNote;
 	}
 
 	public AbsoluteMusicNote getaNote() {
-		return aNote;
+		return relativeNote;
 	}
 }

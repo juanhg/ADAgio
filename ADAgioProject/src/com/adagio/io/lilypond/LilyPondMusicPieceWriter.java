@@ -76,16 +76,17 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 
 	//Data base of tempos
 	private MusicDataBase<TempoIdentifier, Tempo>temposDB;
-
-	//Data base of channels
-	private ChannelsDataBase channelsDB;
-
+	
 	//Data base of instruments
 	private MusicDataBase<InstrumentIdentifier, Instrument> instrumentsDB;
 
 	//Data base of rhythms
 	private MusicDataBase<RhythmIdentifier, Rhythm> rhythmDB;
 
+	//Data base of channels
+	private ChannelsDataBase channelsDB;
+
+	
 	private boolean hasTempoChanged;
 	private boolean hasTimeChanged;
 	private boolean hasClefChanged;
@@ -469,18 +470,14 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		List<List<AbsoluteMusicNote>> listChordsDisplayed, listChordsInstrument, listChordsVoices;
 		Instrument channelInstrument;
 		Rhythm actualRhythm;
-
 		Channel currentChannel;
-		int numBarsAdded = 1;
-
+		final int numBarsAdded = 1;
+		Vector<Chord> absoluteChords = new Vector<Chord>(); 
+		String composition = "";
+		
 		Vector<Chord> chords = new Vector<Chord>(Arrays.asList(e.getBar().getBarChords()));
 		//		int numBarsAdded = barFigures(barItems); 
 
-		Vector<Chord> absoluteChords = new Vector<Chord>(); 
-		String composition = "";
-
-		//We save the relative before play statement
-		//AbsoluteMusicNote relativeBeforePlay = this.relative;
 
 		// Translates to absoluteMusicNote
 		for(Chord current: chords){

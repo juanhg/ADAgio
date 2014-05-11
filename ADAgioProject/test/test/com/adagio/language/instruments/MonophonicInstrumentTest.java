@@ -25,6 +25,8 @@ public class MonophonicInstrumentTest extends InitTest {
 		List<AbsoluteMusicNote> expected = new ArrayList<AbsoluteMusicNote>();
 		List<AbsoluteMusicNote> result;
 
+		//TODO Revisar esto
+		
 		//maleVoice(0C,0E,0G) == (2C)
 		aNotes.add(C0);
 		aNotes.add(E0);
