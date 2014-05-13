@@ -8,11 +8,12 @@ import org.modelcc.Value;
 /**
  * If you add new instruments, upgrade "instrumentsTranslation" in the writer
  */
+
 @Pattern(regExp = "(?i)(voice|piano|brightAcoustic|electricGrand|electricPiano|"
 		+ "harpsichord|celesta|glockenspiel|musicBox|vibraphone|marimba|xylophone|"
 		+ "tubularBells|dulcimer|drawbarOrgan|percussiveOrgan|rockOrgan|reedOrgan|"
 		+ "accordion|harmonica|concertina|orchestralHarp|ocarina|"
-		+ "harmonicsGuitar|acousticGuitar2|guitar2|acousticguitar|guitar|electricGuitar|electricGuitar2|electricGuitar3|"
+		+ "harmonicsGuitar|acousticGuitar2|guitar2|acousticguitar|guitar|electricGuitar3|electricGuitar2|electricGuitar|"
 		+ "acousticBass|bass|electricBass2|electricBass|contrasbass|"
 		+ "violin|viola|cello|flute|panFlute|clarinet|trumpet|trombone|tuba|oboe|piccolo|"
 		+ "altoSax|sopranoSax|tenorSax|baritoneSax)")

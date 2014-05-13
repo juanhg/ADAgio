@@ -173,9 +173,7 @@ public class PlayStatement extends SimpleStatement implements IModel {
 		
 		// Harmony
 		if(bars != null){
-			for(int i = 0; i <bars.length; i++){
-				listener.harmonyPlay(new MusicPlayStatementEvent(this, bars[i]));
-			}
+			listener.harmonyPlay(new MusicPlayStatementEvent(this, bars));
 		}
 	}
 

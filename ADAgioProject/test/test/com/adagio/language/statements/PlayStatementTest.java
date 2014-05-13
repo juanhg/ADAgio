@@ -126,6 +126,9 @@ public class PlayStatementTest extends InitTest {
 		assertAmbiguityFree(parser,"play         | Em          | G        | D         | C\n"
 				+"melody flute |E2 - E2 | G2 - G2  | D2 - D2   | C2 - C2 |\n"
 				+"Lyrics          flute |she - fills| my - bed | with - ga | so - line");
+		assertAmbiguityFree(parser, "Play           | A   | E  | D       | G"
+                                  + "Melody voz | A1  | B1 | C1      | D1"
+                                  + "Lyrics voz  | hola - amigo| mio |");
 		
 	}
 	

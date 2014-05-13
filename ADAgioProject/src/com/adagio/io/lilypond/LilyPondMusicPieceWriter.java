@@ -29,6 +29,7 @@ import com.adagio.events.statements.TimeStatementEvent;
 import com.adagio.events.statements.UndefinedTempoStatementEvent;
 import com.adagio.io.MusicPieceWriter;
 import com.adagio.language.MusicPiece;
+import com.adagio.language.bars.Bar;
 import com.adagio.language.bars.MelodyBar;
 import com.adagio.language.bars.MelodyBarComponent;
 import com.adagio.language.bars.chords.Chord;
@@ -76,7 +77,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 
 	//Data base of tempos
 	private MusicDataBase<TempoIdentifier, Tempo>temposDB;
-	
+
 	//Data base of instruments
 	private MusicDataBase<InstrumentIdentifier, Instrument> instrumentsDB;
 
@@ -86,20 +87,20 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 	//Data base of channels
 	private ChannelsDataBase channelsDB;
 
-	
+
 	private boolean hasTempoChanged;
 	private boolean hasTimeChanged;
 	private boolean hasClefChanged;
 
 	private int melodyBarNum = 0;
 	private int lyricsNum = 0;
-	
+
 	public static final ChannelIdentifier DEFAULT_CHANNEL_IDENTIFIER = new ChannelIdentifier("defaultChannelIdentifier");
 	public static final ChannelIdentifier SILENCES_PATTERN_CHANNEL_IDENTIFIER = new ChannelIdentifier("silencesPatternChannelIdentifier");
 	public static final RhythmIdentifier DEFAULT_RHYTHM_IDENTIFIER = new RhythmIdentifier("defaultRhythm");
 	private final String MELODY_BAR_NAME_PATTERN = "MelodyBar";
 
-	
+
 	private static final Map<String, String> instrumentsTranslation;
 	static
 	{
@@ -134,7 +135,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		instrumentsTranslation.put("tenorbass", "tenor bass");
 		instrumentsTranslation.put("baritonebass", "baritone bass");
 	}
-	
+
 	public LilyPondMusicPieceWriter(){
 		relative = new AbsoluteMusicNote(2, "C");
 		clef = "treble";
@@ -306,23 +307,23 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		return composition;
 	}
 
-	
+
 	public String translateInstrument(Instrument instrument){
 
 		String composition = "\\set Staff.midiInstrument = #\"";
 		String timbre = instrument.getTimbre().getValue();
 		String translation = timbre;
-		
+
 		if(instrumentsTranslation.containsKey(timbre)){
 			translation = instrumentsTranslation.get(timbre);
 		}
-		
+
 		composition += translation;
 		composition += "\"";
 		return composition;
 	}
 
-	
+
 	public String translateVolume(int volume){
 		String composition = "\\set Staff.midiMinimumVolume = #" + 0 + "\n";
 		composition += "\\set Staff.midiMaximumVolume = #" + ((double)volume)/100;
@@ -368,13 +369,12 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		String composition = "";
 		List<MelodyBarComponent> mComponents = new ArrayList<MelodyBarComponent>(Arrays.asList(mBar.getMComponents()));
 		List<MelodyBarComponent> aMComponents = new ArrayList<MelodyBarComponent>();
-		AbsoluteMusicNote auxRelative = this.relative.clone();
 		AbsoluteMusicNote aNote;
 		boolean applied = false;
 
 		for(MelodyBarComponent current: mComponents){
-			aNote = current.getNote().toAbsoluteMusicNote(auxRelative);
-			auxRelative = aNote;
+			aNote = current.getNote().toAbsoluteMusicNote(relative);
+			relative = aNote;
 			aMComponents.add(new MelodyBarComponent(aNote, current.getFigure()));
 		}
 
@@ -392,7 +392,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 
 	public String translateVerse(Verse verse){
 		String composition = "";
-		
+
 		for(SubVerse current: verse.getSubVerses()){
 			composition += current.toString() + " ";
 		}
@@ -472,106 +472,114 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		Rhythm actualRhythm;
 		Channel currentChannel;
 		final int numBarsAdded = 1;
-		Vector<Chord> absoluteChords = new Vector<Chord>(); 
-		String composition = "";
+		Vector<Chord> absoluteChords;
+		Vector<Chord> chords;
+		String composition;
+		Bar [] bars = e.getBars();
 		
-		Vector<Chord> chords = new Vector<Chord>(Arrays.asList(e.getBar().getBarChords()));
-		//		int numBarsAdded = barFigures(barItems); 
+		//Descomentar para hacer que el play tenga mismos relative
+//		AbsoluteMusicNote auxRelative = this.relative.clone();
 
+		for(Bar currentBar: bars){
+			composition = "";
+			absoluteChords = new Vector<Chord>();
+			chords = new Vector<Chord>(Arrays.asList(currentBar.getBarChords()));
 
-		// Translates to absoluteMusicNote
-		for(Chord current: chords){
-			if(chordsDB.exists(current.getIdentifier())){
-				Chord aChord = current.toAbsoluteChord(relative);
-				absoluteChords.add(aChord);
-				if(!aChord.isSilence()){
-					relative = (AbsoluteMusicNote) aChord.getNote().clone();
+			// Translates to absoluteMusicNote
+			for(Chord current: chords){
+				if(chordsDB.exists(current.getIdentifier())){
+					Chord aChord = current.toAbsoluteChord(relative);
+					absoluteChords.add(aChord);
+					if(!aChord.isSilence()){
+						relative = (AbsoluteMusicNote) aChord.getNote().clone();
+					}
+
 				}
-
+				else{
+					System.err.println("Error 1: The chord identifier \""
+							+ current.getIdentifier().getValue()
+							+ "\" is not defined");
+					System.exit(1);
+				}
 			}
-			else{
-				System.err.println("Error 1: The chord identifier \""
-						+ current.getIdentifier().getValue()
-						+ "\" is not defined");
-				System.exit(1);
+
+
+
+			//Display the chords
+			AbsoluteMusicNote relativeToDisplay;
+			listChordsDisplayed = new ArrayList<List<AbsoluteMusicNote>>();
+			for(Chord current: absoluteChords){
+				relativeToDisplay = (AbsoluteMusicNote) current.getNote();
+				chordDisplayed = new ArrayList<AbsoluteMusicNote>();
+				chordDisplayed = this.displayChord(current, relativeToDisplay);
+				listChordsDisplayed.add(chordDisplayed);
 			}
-		}
+
+			// (Erase this if don't want to reset relative after play)
+			//we recover the relative
+			//this.relative = relativeBeforePlay;
+
+			composition = "";
 
 
+			Map.Entry x = null;
+			Iterator<Entry<ChannelIdentifier, Channel>> it;
 
-		//Display the chords
-		AbsoluteMusicNote relativeToDisplay;
-		listChordsDisplayed = new ArrayList<List<AbsoluteMusicNote>>();
-		for(Chord current: absoluteChords){
-			relativeToDisplay = (AbsoluteMusicNote) current.getNote();
-			chordDisplayed = new ArrayList<AbsoluteMusicNote>();
-			chordDisplayed = this.displayChord(current, relativeToDisplay);
-			listChordsDisplayed.add(chordDisplayed);
-		}
+			it = this.channelsDB.getChannelMap().entrySet().iterator();
 
-		// (Erase this if don't want to reset relative after play)
-		//we recover the relative
-		//this.relative = relativeBeforePlay;
-
-		composition = "";
+			//For each channel
+			while (it.hasNext()) {
+				x = (Map.Entry) it.next();
 
 
-		Map.Entry x = null;
-		Iterator<Entry<ChannelIdentifier, Channel>> it;
+				currentChannel = ((Channel) x.getValue());
 
-		it = this.channelsDB.getChannelMap().entrySet().iterator();
+				//If the channel is enabled and is an harmony channel
+				if (currentChannel.isEnable() && currentChannel.isHarmony()) {
 
-		//For each channel
-		while (it.hasNext()) {
-			x = (Map.Entry) it.next();
+					composition += getChannelHeaders(currentChannel);
 
-
-			currentChannel = ((Channel) x.getValue());
-
-			//If the channel is enabled and is an harmony channel
-			if (currentChannel.isEnable() && currentChannel.isHarmony()) {
-
-				composition += getChannelHeaders(currentChannel);
-
-				//The channel is used
-				currentChannel.setUsed(true);
+					//The channel is used
+					currentChannel.setUsed(true);
 
 
-				//Apply the instrument to the notes chords displayed
-				channelInstrument = currentChannel.getInstrument();
-				listChordsInstrument = new ArrayList<List<AbsoluteMusicNote>>();
-				for(List<AbsoluteMusicNote> current: listChordsDisplayed){
-					chordInstrument = new ArrayList<AbsoluteMusicNote>();
-					chordInstrument = channelInstrument.apply(current);
-					listChordsInstrument.add(chordInstrument);
+					//Apply the instrument to the notes chords displayed
+					channelInstrument = currentChannel.getInstrument();
+					listChordsInstrument = new ArrayList<List<AbsoluteMusicNote>>();
+					for(List<AbsoluteMusicNote> current: listChordsDisplayed){
+						chordInstrument = new ArrayList<AbsoluteMusicNote>();
+						chordInstrument = channelInstrument.apply(current);
+						listChordsInstrument.add(chordInstrument);
+					}
+
+
+					//Obtains and applies the rhythm
+					actualRhythm = currentChannel.getRhythm();
+					if(actualRhythm == null){
+						actualRhythm = rhythmDB.getElement(DEFAULT_RHYTHM_IDENTIFIER);
+					}
+					listChordsVoices = actualRhythm.apply(listChordsInstrument, channelInstrument, time, relative);
+
+
+					//Translates the voices
+					composition += "<< ";
+					for(List<AbsoluteMusicNote> voice: listChordsVoices){
+						composition += translateVoice(voice, currentChannel) + " \\\\ ";
+					}
+					composition += ">>\n";
+					currentChannel.setVolumeChanged(false);
+
+					//Adds the translation to the channel 
+					this.channelsDB.addMusic((ChannelIdentifier) x.getKey(),composition, numBarsAdded);
+					composition = "";
+
 				}
-
-
-				//Obtains and applies the rhythm
-				actualRhythm = currentChannel.getRhythm();
-				if(actualRhythm == null){
-					actualRhythm = rhythmDB.getElement(DEFAULT_RHYTHM_IDENTIFIER);
-				}
-				listChordsVoices = actualRhythm.apply(listChordsInstrument, channelInstrument, time, relative);
-
-
-				//Translates the voices
-				composition += "<< ";
-				for(List<AbsoluteMusicNote> voice: listChordsVoices){
-					composition += translateVoice(voice, currentChannel) + " \\\\ ";
-				}
-				composition += ">>\n";
-				currentChannel.setVolumeChanged(false);
-
-				//Adds the translation to the channel 
-				this.channelsDB.addMusic((ChannelIdentifier) x.getKey(),composition, numBarsAdded);
-				composition = "";
-
 			}
-		}
 
-		//Fill the other channels until actual max duration
-		this.fillAllChannelsWithSilences();
+			//Fill the other channels until actual max duration
+			this.fillAllChannelsWithSilences();
+		}
+//		this.relative = auxRelative.clone();
 	}
 
 
@@ -581,14 +589,15 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		MelodyBar [] mBars = e.getMelody().getMBars();
 		ChannelIdentifier id = e.getMelody().getIdentifier();
 		Channel currentChannel;
+		AbsoluteMusicNote auxRelative = this.relative.clone();
 
 		if(!channelsDB.exists(id)){
 			createChannel(new ChannelIdentifierEvent(this, id));
 			melodyChannel(new ChannelIdentifierEvent(this, id));
 		}
-		
+
 		currentChannel = channelsDB.getElement(id);
-		
+
 		if(currentChannel.isMelody()){
 			channelsDB.getElement(id).setUsed(true);
 
@@ -604,7 +613,9 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		else{
 			System.err.println("Error: Can't write melody in a Harmony channel");
 			System.exit(-33);
-		}	
+		}
+
+		this.relative = auxRelative.clone();
 	}
 
 	@Override
@@ -615,23 +626,24 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		Verse currentVerse = null;
 		ChannelIdentifier id = e.getMelody().getIdentifier();
 		Channel currentChannel;
+		AbsoluteMusicNote auxRelative = this.relative.clone();
 
 		String melodyComposition = "";
 		String lyricsComposition = "";
-		
+
 		if(!channelsDB.exists(id)){
 			createChannel(new ChannelIdentifierEvent(this, id));
 			melodyChannel(new ChannelIdentifierEvent(this, id));
 		}
 
 		currentChannel = channelsDB.getElement(id);
-		
+
 		if(currentChannel.isMelody()){		
-			
+
 			melodyComposition += getChannelHeaders(currentChannel);
 			//The channel is used
 			currentChannel.setUsed(true);
-			
+
 			for(int i = 0; i < mBars.length; i++){
 				currentMBar = mBars[i];
 				if(i < verses.length){
@@ -643,16 +655,16 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 					melodyComposition += "\t" + translateMelodyBar(currentMBar, currentChannel);
 					currentChannel.setVolumeChanged(false);
 					melodyComposition += "\n}\n";
-					
+
 					channelsDB.addMusic(id, melodyComposition, 1);
 					melodyComposition = "";
-					
+
 					lyricsComposition += "\\context Lyrics = \"lyrics"+ lyricsNum + "\" {\n"
 							+ "\t" + "\\lyricsto \""+ MELODY_BAR_NAME_PATTERN + melodyBarNum + "\" { ";
 					lyricsComposition += translateVerse(currentVerse);
 					lyricsComposition += " }\n";
 					lyricsComposition += "}\n";
-					
+
 					channelsDB.addLyrics(id, lyricsComposition);
 					lyricsComposition = "";
 					melodyBarNum++;
@@ -667,9 +679,11 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 			this.lyricsNum++;
 		}
 		else{
-				System.err.println("Error: Can't write melody in a Harmony channel");
-				System.exit(11);
+			System.err.println("Error: Can't write melody in a Harmony channel");
+			System.exit(11);
 		}
+
+		this.relative = auxRelative.clone();
 	}
 
 
@@ -683,7 +697,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		boolean existsPattern = this.channelsDB.exists(LilyPondMusicPieceWriter.SILENCES_PATTERN_CHANNEL_IDENTIFIER);
 
 		this.channelsDB.addElement(e.getId());
-		
+
 		if(!e.getId().getValue().equals(DEFAULT_CHANNEL_IDENTIFIER.getValue())){
 			this.channelsDB.disable(DEFAULT_CHANNEL_IDENTIFIER);
 		}

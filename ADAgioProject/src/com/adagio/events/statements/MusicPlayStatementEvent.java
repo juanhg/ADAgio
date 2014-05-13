@@ -11,16 +11,16 @@ public class MusicPlayStatementEvent extends EventObject {
 	private static final long serialVersionUID = 1L;
 	
 	// Este evento se lanza cuando se ha generado música.
-	private  Bar bar;
+	private  Bar [] bars;
 
-	public MusicPlayStatementEvent(Object source, Bar bar) {
+	public MusicPlayStatementEvent(Object source, Bar [] bars) {
 		super(source);
-		if(bar != null){
-			this.bar = bar;
+		if(bars != null){
+			this.bars = bars;
 		}
 	}
 
-	public Bar getBar() {
-		return bar;
+	public Bar [] getBars() {
+		return bars;
 	}	
 }

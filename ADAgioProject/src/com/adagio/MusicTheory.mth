@@ -16,17 +16,32 @@ DEFINE TEMPO "allegrissimo" 4=145;
 DEFINE TEMPO "presto" 4=185;
 DEFINE TEMPO "prestissimo" 4=210;
 
+DEFINE INSTRUMENT "voice" MONOPHONIC TIMBRE voice REGISTERS 2C to 6C;
 DEFINE INSTRUMENT "malevoice" MONOPHONIC TIMBRE voice REGISTERS 2C to 5C;
 DEFINE INSTRUMENT "femalevoice" MONOPHONIC TIMBRE voice REGISTERS 3C to 6C;
-DEFINE INSTRUMENT "voice" MONOPHONIC TIMBRE voice;
 DEFINE INSTRUMENT "flute" MONOPHONIC TIMBRE flute REGISTERS 1C To 4C;
 
-DEFINE INSTRUMENT "violin" POLYPHONIC TIMBRE violin;
-DEFINE INSTRUMENT "realpiano" POLYPHONIC REGISTERS 0A to 8C TIMBRE piano;
 DEFINE INSTRUMENT "piano" POLYPHONIC TIMBRE piano;
+DEFINE INSTRUMENT "electricGrand" POLYPHONIC TIMBRE electricGrand;
+DEFINE INSTRUMENT "electricPiano" POLYPHONIC TIMBRE electricPiano;
+DEFINE INSTRUMENT "tubularBells" POLYPHONIC TIMBRE tubularBells;
+DEFINE INSTRUMENT "drawBarOrgan" POLYPHONIC TIMBRE drawbarOrgan;
+DEFINE INSTRUMENT "percussiveOrgan" POLYPHONIC TIMBRE percussiveOrgan;
+DEFINE INSTRUMENT "rockOrgan" POLYPHONIC TIMBRE rockOrgan;
+DEFINE INSTRUMENT "musicBox" POLYPHONIC TIMBRE musicBox;
 
-DEFINE INSTRUMENT "electricguitar" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE electricguitar;
-DEFINE INSTRUMENT "acousticguitar" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE acousticguitar;
+DEFINE INSTRUMENT "violin" LIMITED POLYPHONIC REGISTERS 0G to 2C, 1D to 2G, 1A to 3D, 2E to 4E timbre violin;
+DEFINE INSTRUMENT "viola" LIMITED POLYPHONIC REGISTERS 0G to 2C, 1D to 2G, 1A to 3D, 2E to 4E timbre viola;
+DEFINE INSTRUMENT "cello" LIMITED POLYPHONIC REGISTERS 0G to 2C, 1D to 2G, 1A to 3D, 2E to 4E timbre cello;
+
+DEFINE INSTRUMENT "harmonicsGuitar" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE harmonicsGuitar;
+DEFINE INSTRUMENT "acousticGuitar" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE acousticguitar;
+DEFINE INSTRUMENT "acousticGuitar2" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE acousticguitar2;
+DEFINE INSTRUMENT "guitar" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE guitar;
+DEFINE INSTRUMENT "guitar2" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE guitar2;
+DEFINE INSTRUMENT "electricGuitar" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE electricguitar;
+DEFINE INSTRUMENT "electricGuitar2" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE electricguitar2;
+DEFINE INSTRUMENT "electricGuitar3" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE electricguitar3;
 
 Define Rhythm "defaultRhythm"  Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;
 Define Rhythm "basicRhythm1" Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;
@@ -88,60 +103,37 @@ Define Rhythm "SMIntro"
   Note4 0.51 to 0.98 
   Note5 0.52 to 0.98
   Note6 0.52 to 1;
-  
-  Define Rhythm "SM2"
+   
+  Define Rhythm "rStrings6"
   Note1 0.01 to 0.23
-  Note2 0.01 to 0.24
-  Note3 0.01 to 0.24
-  Note4 0.02 to 0.25
-  Note5 0.02 to 0.25
-  Note6 0.03 to 0.25
+  Note2 0.02 to 0.24
+  Note3 0.03 to 0.25
 
   Note1 0.25 to 0.36
-  Note2 0.25 to 0.36
-  Note3 0.25 to 0.36
-  Note4 0.26 to 0.37 
-  Note5 0.26 to 0.37
-  Note6 0.27 to 0.37
+  Note2 0.26 to 0.37 
+  Note3 0.27 to 0.37
   
   Note1 0.37 to 0.43
-  Note2 0.37 to 0.43
-  Note3 0.37 to 0.43
-  Note4 0.38 to 0.44 
-  Note5 0.38 to 0.44
-  Note6 0.385 to 0.44
+  Note2 0.38 to 0.44 
+  Note3 0.38 to 0.44
  
-  Note6 0.44 to 0.49
-  Note5 0.44 to 0.49
-  Note4 0.44 to 0.49
-  Note3 0.45 to 0.50
-  Note2 0.45 to 0.50
+  Note3 0.44 to 0.49
+  Note2 0.44 to 0.50
   Note1 0.45 to 0.50
   
   Note1 0.50 to 0.73
-  Note2 0.50 to 0.73
-  Note3 0.51 to 0.74
-  Note4 0.51 to 0.74 
-  Note5 0.51 to 0.74
-  Note6 0.52 to 0.74
+  Note2 0.51 to 0.74 
+  Note3 0.52 to 0.74
   
   Note1 0.74 to 0.80
-  Note2 0.74 to 0.80
-  Note3 0.75 to 0.81
-  Note4 0.75 to 0.81 
-  Note5 0.76 to 0.81
-  Note6 0.76 to 0.81
+  Note2 0.75 to 0.81
+  Note3 0.76 to 0.81
   
-  Note6 0.81 to 0.87
-  Note5 0.81 to 0.87
-  Note4 0.81 to 0.88
-  Note3 0.82 to 0.88 
-  Note2 0.82 to 0.88
-  Note1 0.83 to 0.88
+  Note3 0.81 to 0.87
+  Note2 0.82 to 0.88 
+  Note1 0.82 to 0.88
   
   Note1 0.88 to 0.98
-  Note2 0.88 to 0.99
-  Note3 0.89 to 0.99
-  Note4 0.89 to 0.99 
-  Note5 0.89 to 0.99
-  Note6 0.90 to 1;
+  Note2 0.89 to 0.99 
+  Note3 0.89 to 1;
+

@@ -4,7 +4,7 @@ import org.modelcc.IModel;
 import org.modelcc.Pattern;
 import org.modelcc.Value;
 
-@Pattern(regExp = "[a-zAz0-9_]*")
+@Pattern(regExp = "[a-zA-Z0-9_]*")
 public class SubVerse implements IModel {
 	@Value
 	String value;

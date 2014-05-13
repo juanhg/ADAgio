@@ -10,6 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.modelcc.io.ModelReader;
 import org.modelcc.io.java.JavaModelReader;
@@ -26,7 +28,7 @@ public class ADAgioCLI {
 
 	public static void main(String [] args){
 		int i = 0;
-		
+
 		try {
 			
 			System.out.println();
@@ -58,6 +60,7 @@ public class ADAgioCLI {
 				System.err.println("Error reading MusicTheory");
 			}
 			String musicTheory = streamToString(inStream);
+
 			
 			for(String current: args){
 				if( i == 9){
@@ -66,10 +69,10 @@ public class ADAgioCLI {
 				i++;
 				
 				System.out.println("Processing " +  relativePath(current) + "...");
+				
+				Linker linker = new Linker("MusicTheory.mth", current);
+				String finalInput = linker.link();
 				String outFileName = current.replace(".adg", ".ly");
-
-				String inputProgram = fileToString(current, StandardCharsets.UTF_8);
-				String finalInput = musicTheory + inputProgram;
 				
 				// Parse an input string.
 				MusicPiece result = parser.parse(finalInput);
@@ -79,7 +82,7 @@ public class ADAgioCLI {
 				out.close();
 
 				System.out.println("Generated " + relativePath(outFileName) + "\n");
-
+				System.gc();
 			}	
 
 		} catch (Exception e) {

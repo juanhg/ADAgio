@@ -33,7 +33,7 @@ public class Channel {
 		music = "";
 		lyrics = "";
 		numBars = 0;
-		volumeChanged = true;
+		volumeChanged = false;
 		instrumentChanged = true;
 		used = false;
 		enable = true;
