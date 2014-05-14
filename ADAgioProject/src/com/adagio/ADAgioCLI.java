@@ -70,8 +70,8 @@ public class ADAgioCLI {
 				
 				System.out.println("Processing " +  relativePath(current) + "...");
 				
-				Linker linker = new Linker("MusicTheory.mth", current);
-				String finalInput = linker.link();
+				String [] preprocessedFiles = AdagioPreprocessor.preprocess("MusicTheory.mth", current);
+				String finalInput = AdagioLinker.link(preprocessedFiles[0], preprocessedFiles[1]);
 				String outFileName = current.replace(".adg", ".ly");
 				
 				// Parse an input string.

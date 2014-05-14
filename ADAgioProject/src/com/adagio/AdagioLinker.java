@@ -12,32 +12,35 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Linker {
+public class AdagioLinker {
 
-	List<Map<String,String>> definitions;
+	static List<Map<String,String>> definitions;
 
-	String library;
-	String program;
+	static String library;
+	static String program;
 
-	String[] defType = {
+	static String[] defType = {
 			"chord", 
 			"tempo", 
 			"instrument", 
 			"rhythm" 		 
 	};
 
-	private final int CHORD = 0;
-	private final int TEMPO = 1;
-	private final int INSTRUMENT = 2;
-	private final int RHYTHM = 3;
+	private static final int CHORD = 0;
+	private static final int TEMPO = 1;
+	private static final int INSTRUMENT = 2;
+	private static final int RHYTHM = 3;
 
-	public Linker(String libraryPath, String programPath) throws IOException{
-		InputStream inStream = Linker.class.getResourceAsStream(libraryPath);
-		library = streamToString(inStream);
-		program = fileToString(programPath, StandardCharsets.UTF_8);
+
+
+	public static String link(String processedLibrary, String processedPath){
+		//Initialization
+		library = processedLibrary;
+		program = processedPath;
 
 		Map<String, String> instruments = new HashMap<String, String>();
 		Map<String, String> tempos = new HashMap<String, String>();
@@ -67,15 +70,15 @@ public class Linker {
 				}
 			}
 		}
-	}
-
-	public String link(){
+		
+		
+		//link process
 		String linkedProgram = "";
 
 		Map<String, String> acordes = definitions.get(CHORD);
-		Iterator it = acordes.entrySet().iterator();
+		Iterator<Entry<String, String>> it = acordes.entrySet().iterator();
 		while (it.hasNext()) {
-			Map.Entry e = (Map.Entry)it.next();
+			Map.Entry<String, String> e = (Map.Entry<String, String>)it.next();
 			linkedProgram  += e.getValue() + "\n\n";
 		}
 
@@ -133,19 +136,4 @@ public class Linker {
 		linkedProgram += "\n\n" + program;
 		return linkedProgram;
 	}
-
-	@SuppressWarnings("resource")
-	static String streamToString(java.io.InputStream is) {
-		java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-		return s.hasNext() ? s.next() : "";
-	}
-
-
-	public static String fileToString(String path, Charset encoding) 
-			throws IOException 
-			{
-		byte[] encoded = Files.readAllBytes(Paths.get(path));
-		return encoding.decode(ByteBuffer.wrap(encoded)).toString();
-			}
-
 }
