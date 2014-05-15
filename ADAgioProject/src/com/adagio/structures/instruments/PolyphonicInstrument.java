@@ -37,11 +37,12 @@ public class PolyphonicInstrument extends Instrument implements IModel {
 			transportedANotes.add(registers[0].aNoteToRegister(current));
 		}
 		
+	
 		//Fix octave to achieve that the first note is always de lower
 		if(transportedANotes.size() >= 2){
 			for(int i = 1; i < transportedANotes.size(); i++){
-				while(transportedANotes.get(0).semitonesTill(transportedANotes.get(i)) < 0){
-					transportedANotes.get(0).decreaseOctave();
+				while(transportedANotes.get(0).semitonesTill(transportedANotes.get(i)) <= 0){
+					transportedANotes.get(i).increaseOctave();
 				}
 			}
 		}

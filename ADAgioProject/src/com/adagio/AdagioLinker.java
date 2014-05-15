@@ -1,18 +1,9 @@
 package com.adagio;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,7 +55,10 @@ public class AdagioLinker {
 				Pattern idPattern = Pattern.compile("\"[^\"]*\"");
 				Matcher idMatcher = idPattern.matcher(definition);
 				if(idMatcher.find()){
-					String id = idMatcher.group().toLowerCase();
+					String id = idMatcher.group();
+					if(i != CHORD){
+						id = id.toLowerCase();
+					}
 					id = id.replaceAll("\"", "");
 					definitions.get(i).put(id, definition);
 				}
@@ -75,13 +69,31 @@ public class AdagioLinker {
 		//link process
 		String linkedProgram = "";
 
-		Map<String, String> acordes = definitions.get(CHORD);
-		Iterator<Entry<String, String>> it = acordes.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, String> e = (Map.Entry<String, String>)it.next();
-			linkedProgram  += e.getValue() + "\n\n";
+		Pattern playPattern = Pattern.compile("(?i)(play)[^;]*;", Pattern.CASE_INSENSITIVE);
+		Matcher playMatcher = playPattern.matcher(program);
+		while (playMatcher.find()) {
+			String play = playMatcher.group();
+			play = play.replaceAll("(?i)(Melody)[^;]*", "");
+			play = play.replaceAll("(?i)(Lyrics)[^;]*", "");
+			play = play.replaceAll(";", "");
+			play = play.replaceAll("(?i)Play", "");
+			
+			Pattern chordPattern = Pattern.compile("([\\-ac-qt-wyzH-QT-Z][a-zA-Z0-9]*)");
+			Matcher chordMatcher = chordPattern.matcher(play);
+			while(chordMatcher.find()){
+				String chordID = chordMatcher.group();
+				Map<String, String> mapa = definitions.get(CHORD);
+				if(mapa.containsKey(chordID)){
+					linkedProgram += mapa.get(chordID) + "\n";
+					mapa.remove(chordID);
+				}
+			}
 		}
-
+		
+		if(definitions.get(CHORD).containsKey("")){
+			linkedProgram += definitions.get(CHORD).get("") + "\n";
+		}
+		
 		Pattern instrumentPattern = Pattern.compile("(?i)(instrument)[\\s]*=[\\s]*[\\S]+", Pattern.CASE_INSENSITIVE);
 		Matcher m = instrumentPattern.matcher(program);
 		while (m.find()) {
@@ -92,11 +104,11 @@ public class AdagioLinker {
 			instrument = instrument.toLowerCase();
 			Map<String, String> mapa = definitions.get(INSTRUMENT);
 			if(mapa.containsKey(instrument)){
-				linkedProgram += mapa.get(instrument) + "\n\n";
+				linkedProgram += mapa.get(instrument) + "\n";
 				mapa.remove(instrument);
 			}
-
 		}
+	
 
 		Pattern rhythmPattern = Pattern.compile("(?i)(rhythm)[\\s]*=[\\s]*[\\S]+", Pattern.CASE_INSENSITIVE);
 		Matcher rhythmMatcher = rhythmPattern.matcher(program);
@@ -127,7 +139,7 @@ public class AdagioLinker {
 			tempo = tempo.toLowerCase();
 			Map<String, String> mapa = definitions.get(TEMPO);
 			if(mapa.containsKey(tempo)){
-				linkedProgram += mapa.get(tempo) + "\n\n";
+				linkedProgram += mapa.get(tempo) + "\n";
 				mapa.remove(tempo);
 			}
 

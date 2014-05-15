@@ -13,7 +13,7 @@ import org.modelcc.parser.ParserFactory;
 
 import test.com.adagio.InitTest;
 
-import com.adagio.ADAgioCLI;
+import com.adagio.AdagioPreprocessor;
 import com.adagio.language.MusicPiece;
 
 public class MusicPieceTest extends InitTest {
@@ -43,17 +43,17 @@ public class MusicPieceTest extends InitTest {
 		super.setUp();
 	    model = JavaModelReader.read(MusicPiece.class);
 	    parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
-	    test0 = ADAgioCLI.fileToString(program0, StandardCharsets.UTF_8);
-	    test1 = ADAgioCLI.fileToString(program1, StandardCharsets.UTF_8);
-	    test2 = ADAgioCLI.fileToString(program2, StandardCharsets.UTF_8);
-	    test3 = ADAgioCLI.fileToString(program3, StandardCharsets.UTF_8);
-	    test4 = ADAgioCLI.fileToString(program4, StandardCharsets.UTF_8);
-	    test5 = ADAgioCLI.fileToString(program5, StandardCharsets.UTF_8);
-	    test6 = ADAgioCLI.fileToString(program6, StandardCharsets.UTF_8);
-	    test7 = ADAgioCLI.fileToString(program7, StandardCharsets.UTF_8);
-	    test8 = ADAgioCLI.fileToString(program8, StandardCharsets.UTF_8);
-	    test9 = ADAgioCLI.fileToString(program9, StandardCharsets.UTF_8);
-	    test10 = ADAgioCLI.fileToString(program10, StandardCharsets.UTF_8);
+	    test0 = AdagioPreprocessor.fileToString(program0, StandardCharsets.UTF_8);
+	    test1 = AdagioPreprocessor.fileToString(program1, StandardCharsets.UTF_8);
+	    test2 = AdagioPreprocessor.fileToString(program2, StandardCharsets.UTF_8);
+	    test3 = AdagioPreprocessor.fileToString(program3, StandardCharsets.UTF_8);
+	    test4 = AdagioPreprocessor.fileToString(program4, StandardCharsets.UTF_8);
+	    test5 = AdagioPreprocessor.fileToString(program5, StandardCharsets.UTF_8);
+	    test6 = AdagioPreprocessor.fileToString(program6, StandardCharsets.UTF_8);
+	    test7 = AdagioPreprocessor.fileToString(program7, StandardCharsets.UTF_8);
+	    test8 = AdagioPreprocessor.fileToString(program8, StandardCharsets.UTF_8);
+	    test9 = AdagioPreprocessor.fileToString(program9, StandardCharsets.UTF_8);
+	    test10 = AdagioPreprocessor.fileToString(program10, StandardCharsets.UTF_8);
 	  }
 
 	@Test

@@ -1,5 +1,15 @@
 DEFINE CHORD "" NOTES P1 M3 P5;
 DEFINE CHORD "m" NOTES P1 m3 P5;
+DEFINE CHORD "a5" NOTES P1 M3 A5;
+DEFINE CHORD "d5" NOTES P1 m3 d5; 
+DEFINE CHORD "maj7" NOTES P1 M3 P5 M7;
+DEFINE CHORD "m7" NOTES P1 M3 P5 m7;
+DEFINE CHORD "-7" NOTES P1 m3 P5 m7;
+DEFINE CHORD "m7b5" NOTES P1 m3 d5 m7;
+DEFINE CHORD "mm7" NOTES P1 m3 P5 M7;
+DEFINE CHORD "mayor6" NOTES P1 M3 P5 M6;
+DEFINE CHORD "m6" NOTES P1 m3 P5 M6;
+DEFINE CHORD "us7" NOTES P1 P4 P5 m7;
 DEFINE CHORD "add2" NOTES P1 M2 (M3) P5;
 
 DEFINE TEMPO "larghissimo" 4=10;
@@ -44,11 +54,140 @@ DEFINE INSTRUMENT "electricGuitar2" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to
 DEFINE INSTRUMENT "electricGuitar3" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE electricguitar3;
 
 Define Rhythm "defaultRhythm"  Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;
+Define Rhythm "basicRhythm0" Note1 0 to 0.25 Note2 0.25 to 0.50 Note3 0.50 to 0.75 Note4 0.75 to 1;
 Define Rhythm "basicRhythm1" Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;
 Define Rhythm "basicRhythm2" Note1 0 to 1 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;
 Define Rhythm "basicRhythm3" Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.75 to 1;
 Define Rhythm "basicRhythm4" Note1 0 to 1 Note2 0.50 to 0.75 Note3 0.75 to 1;
 Define Rhythm "basicRhythm5" Note1 0 to 0.33 Note2 0.33 to 0.66 Note3 0.66 to 1;
+
+DEFINE RHYTHM "rBasic1" Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.75 to 1;
+DEFINE RHYTHM "rBasic2" Note1 0 to 0.25 Note2 0.25 to 0.50 Note3 0.50 to 1;
+DEFINE RHYTHM "rBasic3" Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.75 to 1;
+DEFINE RHYTHM "rBasic4" Note1 0 to 0.25 Note2 0.25 to 0.75 Note3 0.75 to 1;
+
+Define Rhythm "rStrings1"
+  Note1 0 to 0.48
+  Note2 0.02 to 0.49
+  Note3 0.04 to 0.49
+
+  Note1 0.50 to 0.73
+  Note2 0.52 to 0.73
+  Note3 0.54 to 0.73
+
+  Note3 0.75 to 0.97
+  Note2 0.76 to 0.98
+  Note1 0.77 to 1;
+  
+  Define Rhythm "rStrings2"
+  Note1 0 to 0.23
+  Note2 0.02 to 0.24
+  Note3 0.04 to 0.25
+
+  Note1 0.25 to 0.48
+  Note2 0.26 to 0.49
+  Note3 0.27 to 0.50
+
+  Note3 0.50 to 0.97
+  Note2 0.51 to 0.98
+  Note1 0.51 to 1;
+  
+  Define Rhythm "rStrings3"
+  Note1 0 to 0.48
+  Note2 0.01 to 0.49
+  Note3 0.01 to 0.49
+  Note4 0.02 to 0.50
+
+
+  Note1 0.50 to 0.73
+  Note2 0.50 to 0.73
+  Note3 0.51 to 0.73
+  Note4 0.51 to 0.74 
+
+  Note1 0.74 to 0.86
+  Note2 0.74 to 0.86
+  Note3 0.75 to 0.86
+  Note4 0.76 to 0.88 
+
+  Note4 0.88 to 0.97
+  Note3 0.89 to 0.98
+  Note2 0.89 to 0.98
+  Note1 0.90 to 1;
+  
+  Define Rhythm "rStrings4"
+  Note1 0 to 0.48
+  Note2 0.01 to 0.49
+  Note3 0.01 to 0.49
+  Note4 0.02 to 0.50
+
+  Note1 0.50 to 0.73
+  Note2 0.51 to 0.74
+  Note3 0.51 to 0.74
+  Note4 0.52 to 0.75 
+
+  Note4 0.75 to 0.86
+  Note3 0.76 to 0.87
+  Note2 0.76 to 0.87
+  Note1 0.77 to 0.88 
+
+  Note1 0.88 to 0.98
+  Note2 0.89 to 0.99
+  Note3 0.89 to 0.99
+  Note4 0.90 to 1;
+  
+Define Rhythm "rStrings5"
+  Note1 0 to 0.23
+  Note2 0.01 to 0.24
+  Note3 0.01 to 0.24
+  Note4 0.02 to 0.25
+
+  Note4 0.25 to 0.48
+  Note3 0.26 to 0.49
+  Note2 0.26 to 0.49
+  Note1 0.27 to 0.50 
+
+  Note1 0.50 to 0.73
+  Note2 0.51 to 0.74
+  Note3 0.51 to 0.74
+  Note4 0.52 to 0.75 
+
+  Note4 0.75 to 0.98
+  Note3 0.76 to 0.99
+  Note2 0.76 to 0.99
+  Note1 0.77 to 1;
+  
+  Define Rhythm "rStrings6"
+  Note1 0.01 to 0.23
+  Note2 0.02 to 0.24
+  Note3 0.03 to 0.25
+
+  Note1 0.25 to 0.36
+  Note2 0.26 to 0.37 
+  Note3 0.27 to 0.37
+  
+  Note1 0.37 to 0.43
+  Note2 0.38 to 0.44 
+  Note3 0.38 to 0.44
+ 
+  Note3 0.44 to 0.49
+  Note2 0.44 to 0.50
+  Note1 0.45 to 0.50
+  
+  Note1 0.50 to 0.73
+  Note2 0.51 to 0.74 
+  Note3 0.52 to 0.74
+  
+  Note1 0.74 to 0.80
+  Note2 0.75 to 0.81
+  Note3 0.76 to 0.81
+  
+  Note3 0.81 to 0.87
+  Note2 0.82 to 0.88 
+  Note1 0.82 to 0.88
+  
+  Note1 0.88 to 0.98
+  Note2 0.89 to 0.99 
+  Note3 0.89 to 1;
 
 Define Rhythm "guitarrhythm"
   Note1 0 to 0.48
@@ -62,7 +201,6 @@ Define Rhythm "guitarrhythm"
   Note3 0.75 to 0.97
   Note2 0.76 to 0.98
   Note1 0.77 to 0.99;
-
 
 Define Rhythm "SMIntro"
   Note1 0 to 0.48
@@ -104,36 +242,5 @@ Define Rhythm "SMIntro"
   Note5 0.52 to 0.98
   Note6 0.52 to 1;
    
-  Define Rhythm "rStrings6"
-  Note1 0.01 to 0.23
-  Note2 0.02 to 0.24
-  Note3 0.03 to 0.25
-
-  Note1 0.25 to 0.36
-  Note2 0.26 to 0.37 
-  Note3 0.27 to 0.37
   
-  Note1 0.37 to 0.43
-  Note2 0.38 to 0.44 
-  Note3 0.38 to 0.44
- 
-  Note3 0.44 to 0.49
-  Note2 0.44 to 0.50
-  Note1 0.45 to 0.50
-  
-  Note1 0.50 to 0.73
-  Note2 0.51 to 0.74 
-  Note3 0.52 to 0.74
-  
-  Note1 0.74 to 0.80
-  Note2 0.75 to 0.81
-  Note3 0.76 to 0.81
-  
-  Note3 0.81 to 0.87
-  Note2 0.82 to 0.88 
-  Note1 0.82 to 0.88
-  
-  Note1 0.88 to 0.98
-  Note2 0.89 to 0.99 
-  Note3 0.89 to 1;
 

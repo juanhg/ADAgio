@@ -1,17 +1,9 @@
 package com.adagio;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.modelcc.io.ModelReader;
 import org.modelcc.io.java.JavaModelReader;
@@ -59,9 +51,7 @@ public class ADAgioCLI {
 			if(inStream == null){
 				System.err.println("Error reading MusicTheory");
 			}
-			String musicTheory = streamToString(inStream);
 
-			
 			for(String current: args){
 				if( i == 9){
 					System.out.println();
@@ -91,19 +81,6 @@ public class ADAgioCLI {
 		}
 
 	}
-
-	@SuppressWarnings("resource")
-	static String streamToString(java.io.InputStream is) {
-		java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-		return s.hasNext() ? s.next() : "";
-	}
-
-	public static String fileToString(String path, Charset encoding) 
-			throws IOException 
-			{
-		byte[] encoded = Files.readAllBytes(Paths.get(path));
-		return encoding.decode(ByteBuffer.wrap(encoded)).toString();
-			}
 	
 	public static String relativePath(String path){
 		
