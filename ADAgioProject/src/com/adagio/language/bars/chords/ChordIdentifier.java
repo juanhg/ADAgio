@@ -3,17 +3,28 @@ package com.adagio.language.bars.chords;
 import org.modelcc.IModel;
 import org.modelcc.Pattern;
 import org.modelcc.Priority;
+import org.modelcc.Setup;
 import org.modelcc.Value;
 
 @Priority(value=2)
 @Pattern(regExp="([\\-ac-qt-wyzH-QT-Z][a-zA-Z0-9]*)?")
 public class ChordIdentifier implements IModel {
-	
+
 	@Value
 	String value;
-	
+
+	@Setup
+	public void setup() {
+		if(value != null){
+			value = value.toLowerCase();
+			if(value.equals("null")){
+				value = "";
+			}
+		}
+	}
+
 	public ChordIdentifier(){}
-	
+
 	public ChordIdentifier(String value){
 		//TODO No permitir asignación de valores erróneos
 		this.value = value;

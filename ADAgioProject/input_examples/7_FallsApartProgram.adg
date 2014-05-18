@@ -1,5 +1,5 @@
-DEFINE TEMPO "estrofa" 4=55;
-DEFINE TEMPO "estribillo" 4=50;
+DEFINE TEMPO estrofa 4=55;
+DEFINE TEMPO estribillo 4=50;
 
 channel piano volume=80 rhythm=basicRhythm1;
 channel violin volume=60 disable instrument=violin rhythm=basicRhythm2;

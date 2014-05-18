@@ -45,21 +45,21 @@ public class AdagioLinker {
 		definitions.add(rhythms);
 
 		for(int i = 0; i < defType.length; i++){
-			Pattern defInstrument = Pattern.compile("(?i)(Define( |\t|\\s)+" +defType[i]+"[^;]*;)", Pattern.CASE_INSENSITIVE
+			Pattern defInstrument = Pattern.compile("(?i)(Define[\\s]+" +defType[i]+"[^;]*;)", Pattern.CASE_INSENSITIVE
 					| Pattern.DOTALL);
 
 			Matcher m = defInstrument.matcher(library);
 			while (m.find()) {
-				String definition = m.group();	 
-
-				Pattern idPattern = Pattern.compile("\"[^\"]*\"");
+				String definition = m.group();
+				
+				Pattern idPattern = Pattern.compile("(?i)(Define[\\s]+" +defType[i]+"[\\s]+[\\S]+)", Pattern.CASE_INSENSITIVE
+						| Pattern.DOTALL);
 				Matcher idMatcher = idPattern.matcher(definition);
 				if(idMatcher.find()){
 					String id = idMatcher.group();
-					if(i != CHORD){
-						id = id.toLowerCase();
-					}
-					id = id.replaceAll("\"", "");
+					id = id.replaceAll("(?i)(Define)[\\s]+" +"(?i)"+ defType[i], "");
+					id = id.replaceAll("\\s", "");
+					id = id.toLowerCase();
 					definitions.get(i).put(id, definition);
 				}
 			}
@@ -90,8 +90,8 @@ public class AdagioLinker {
 			}
 		}
 		
-		if(definitions.get(CHORD).containsKey("")){
-			linkedProgram += definitions.get(CHORD).get("") + "\n";
+		if(definitions.get(CHORD).containsKey("null")){
+			linkedProgram += definitions.get(CHORD).get("null") + "\n";
 		}
 		
 		Pattern instrumentPattern = Pattern.compile("(?i)(instrument)[\\s]*=[\\s]*[\\S]+", Pattern.CASE_INSENSITIVE);
@@ -133,9 +133,9 @@ public class AdagioLinker {
 		Matcher tempoMatcher = tempoPattern.matcher(program);
 		while (tempoMatcher.find()) {
 			String tempo = tempoMatcher.group();
-			tempo = tempo.replaceAll("\\s", "");
 			tempo = tempo.replaceAll(";", "");
-			tempo = tempo.replaceAll("(?i)tempo", "");
+			tempo = tempo.replaceAll("(?i)tempo[\\s]+", "");
+					tempo = tempo.replaceAll("\\s", "");
 			tempo = tempo.toLowerCase();
 			Map<String, String> mapa = definitions.get(TEMPO);
 			if(mapa.containsKey(tempo)){

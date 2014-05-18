@@ -14,8 +14,6 @@ import com.adagio.language.rhythm.RhythmIdentifier;
 @Prefix({"(?i)Define","(?i)Rhythm"})
 public class RhythmDefinition extends Definition implements IModel{
 	
-	@Prefix("\"")
-	@Suffix("\"")
 	RhythmIdentifier identifier; 
 	
 	@Multiplicity(minimum = 1)

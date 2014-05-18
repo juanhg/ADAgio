@@ -22,8 +22,6 @@ import com.adagio.language.musicnotes.notealterations.SharpAlteration;
 @Prefix({"(?i)Define","(?i)Chord"})
 public class ChordDefinition extends Definition implements IModel {
 	
-	@Prefix("\"")
-	@Suffix("\"")
 	ChordIdentifier identifier;
 	@Constraint
 	boolean allowedIdentifier(){

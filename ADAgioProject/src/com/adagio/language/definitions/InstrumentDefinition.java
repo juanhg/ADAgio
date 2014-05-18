@@ -22,9 +22,6 @@ import com.adagio.language.instruments.Timbre;
 @FreeOrder
 public class InstrumentDefinition extends Definition implements IModel {
 
-	@Prefix("\"")
-	@Suffix("\"")
-
 	InstrumentIdentifier identifier;
 	
 	@Position(element="identifier", position=Position.AFTER)

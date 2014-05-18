@@ -1,25 +1,19 @@
-include "D:\ritmos.mth"
-
-Define Rhythm "completo" Note1 0 to 1;
-channel guitarra Instrument			=			electricGuitar rhythm=rStrings6 disable volume=50;
+Define Rhythm completo Note1 0 to 1;
+channel guitarra Instrument=electricGuitar rhythm=rStrings6 disable volume=50;
 channel guitarra2 instrument=acousticGuitar rhythm=SMIntro enable;
 channel flute melody instrument=flute;
 channel box melody instrument=musicBox;
 
-tempo 4=120;
 time 4/4;
 Relative 0C;
-Play 		  | S 					  | Em | S 					   | G  | S 					| D  | S 					 | C  |
+Play 		  | S 					  | 0Em | S 					   | G  | S 					| D  | S 					 | C  |
 Melody box    | 1B4 - 1G4 - 1A4 - 2D4 | S1 | 1B4 - 1G4 - 1A4 - 2D4 | S1 | 1B4 - 1G4 - 1A4 - 2D4 | S1 | 1B4 - 1G4 - 1A4 - 2D4 | S1 |; 
 
 channel flute volume=50;
 channel guitarra2 rhythm=SM1;
 
-include "D:\ritmos2.mth"
-
-tempo adagio;
 REPEAT 2 TIMES{
-play         | Em          | G        | D         | C
+play         | 0Em          | G        | D         | C
 melody flute | E2 - E2     | G2 - G2  | D2 - D2   | C2 - C2 |
 lyrics flute | she - fills | my - bed | with - ga | so - line |;
 }
@@ -29,19 +23,19 @@ channel guitarra2 rhythm=rStrings6;
 channel guitarra enable;
 time 4/2;
 REPEAT 2 TIMES{
-play | Em | G | D | C;
+play | 0Em | G | D | C;
 }
 
 channel guitarra disable;
 channel guitarra2 rhythm=SM1;
 time 4/4;
 REPEAT 2 TIMES {
-play | Em | G | D | C;
+play | 0Em | G | D | C;
 }
 
 channel guitarra2 rhythm=rStrings6;
 channel guitarra enable;
 time 4/2;
 REPEAT 2 TIMES{
-play | Em | G | D | C;
+play | 0Em | G | D | C;
 }

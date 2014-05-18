@@ -1,7 +1,7 @@
-DEFINE TEMPO "estrofa" 4=65;
-DEFINE TEMPO "estribillo" 4=70;
+DEFINE TEMPO estrofa 4=65;
+DEFINE TEMPO estribillo 4=70;
 
-DEFINE RHYTHM "r1" NOTE1 0.0 to 0.5 NOTE2 0.5 to 0.75 NOTE3 0.5 to 0.75 2A 0.33 to 1.0; 
+DEFINE RHYTHM r1 NOTE1 0.0 to 0.5 NOTE2 0.5 to 0.75 NOTE3 0.5 to 0.75 2A 0.33 to 1.0; 
 
 TIME 4/4;
 TEMPO estrofa;

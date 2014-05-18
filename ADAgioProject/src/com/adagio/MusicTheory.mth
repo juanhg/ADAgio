@@ -1,72 +1,83 @@
-DEFINE CHORD "" NOTES P1 M3 P5;
-DEFINE CHORD "m" NOTES P1 m3 P5;
-DEFINE CHORD "a5" NOTES P1 M3 A5;
-DEFINE CHORD "d5" NOTES P1 m3 d5; 
-DEFINE CHORD "maj7" NOTES P1 M3 P5 M7;
-DEFINE CHORD "m7" NOTES P1 M3 P5 m7;
-DEFINE CHORD "-7" NOTES P1 m3 P5 m7;
-DEFINE CHORD "m7b5" NOTES P1 m3 d5 m7;
-DEFINE CHORD "mm7" NOTES P1 m3 P5 M7;
-DEFINE CHORD "mayor6" NOTES P1 M3 P5 M6;
-DEFINE CHORD "m6" NOTES P1 m3 P5 M6;
-DEFINE CHORD "us7" NOTES P1 P4 P5 m7;
-DEFINE CHORD "add2" NOTES P1 M2 (M3) P5;
+DEFINE CHORD null NOTES P1 M3 P5;
+DEFINE CHORD m NOTES P1 m3 P5;
+DEFINE CHORD a5 NOTES P1 M3 A5;
+DEFINE CHORD d5 NOTES P1 m3 d5; 
+DEFINE CHORD maj7 NOTES P1 M3 P5 M7;
+DEFINE CHORD m7 NOTES P1 M3 P5 m7;
+DEFINE CHORD -7 NOTES P1 m3 P5 m7;
+DEFINE CHORD m7b5 NOTES P1 m3 d5 m7;
+DEFINE CHORD mm7 NOTES P1 m3 P5 M7;
+DEFINE CHORD mayor6 NOTES P1 M3 P5 M6;
+DEFINE CHORD m6 NOTES P1 m3 P5 M6;
+DEFINE CHORD us7 NOTES P1 P4 P5 m7;
+DEFINE CHORD add2 NOTES P1 M2 (M3) P5;
 
-DEFINE TEMPO "larghissimo" 4=10;
-DEFINE TEMPO "largo" 4=20;
-DEFINE TEMPO "grave" 4=40;
-DEFINE TEMPO "lento" 4=50;
-DEFINE TEMPO "larguetto" 4=63;
-DEFINE TEMPO "adagio" 4=70;
-DEFINE TEMPO "adagietto" 4=75;
-DEFINE TEMPO "andante" 4=88;
-DEFINE TEMPO "moderato"4=92;
-DEFINE TEMPO "allegro" 4=135;
-DEFINE TEMPO "allegrissimo" 4=145;
-DEFINE TEMPO "presto" 4=185;
-DEFINE TEMPO "prestissimo" 4=210;
+DEFINE TEMPO larghissimo 4=10;
+DEFINE TEMPO largo 4=20;
+DEFINE TEMPO grave 4=40;
+DEFINE TEMPO lento 4=50;
+DEFINE TEMPO larguetto 4=63;
+DEFINE TEMPO adagio 4=70;
+DEFINE TEMPO adagietto 4=75;
+DEFINE TEMPO andante 4=88;
+DEFINE TEMPO moderato4=92;
+DEFINE TEMPO allegro 4=135;
+DEFINE TEMPO allegrissimo 4=145;
+DEFINE TEMPO presto 4=185;
+DEFINE TEMPO prestissimo 4=210;
 
-DEFINE INSTRUMENT "voice" MONOPHONIC TIMBRE voice REGISTERS 2C to 6C;
-DEFINE INSTRUMENT "malevoice" MONOPHONIC TIMBRE voice REGISTERS 2C to 5C;
-DEFINE INSTRUMENT "femalevoice" MONOPHONIC TIMBRE voice REGISTERS 3C to 6C;
-DEFINE INSTRUMENT "flute" MONOPHONIC TIMBRE flute REGISTERS 1C To 4C;
+DEFINE INSTRUMENT voice MONOPHONIC TIMBRE voice REGISTERS 2C to 6C;
+DEFINE INSTRUMENT malevoice MONOPHONIC TIMBRE voice REGISTERS 2C to 5C;
+DEFINE INSTRUMENT femalevoice MONOPHONIC TIMBRE voice REGISTERS 3C to 6C;
+DEFINE INSTRUMENT flute MONOPHONIC TIMBRE flute REGISTERS 1C To 4C;
 
-DEFINE INSTRUMENT "piano" POLYPHONIC TIMBRE piano;
-DEFINE INSTRUMENT "electricGrand" POLYPHONIC TIMBRE electricGrand;
-DEFINE INSTRUMENT "electricPiano" POLYPHONIC TIMBRE electricPiano;
-DEFINE INSTRUMENT "tubularBells" POLYPHONIC TIMBRE tubularBells;
-DEFINE INSTRUMENT "drawBarOrgan" POLYPHONIC TIMBRE drawbarOrgan;
-DEFINE INSTRUMENT "percussiveOrgan" POLYPHONIC TIMBRE percussiveOrgan;
-DEFINE INSTRUMENT "rockOrgan" POLYPHONIC TIMBRE rockOrgan;
-DEFINE INSTRUMENT "musicBox" POLYPHONIC TIMBRE musicBox;
+DEFINE INSTRUMENT piano POLYPHONIC TIMBRE piano;
+DEFINE INSTRUMENT electricGrand POLYPHONIC TIMBRE electricGrand;
+DEFINE INSTRUMENT electricPiano POLYPHONIC TIMBRE electricPiano;
+DEFINE INSTRUMENT tubularBells POLYPHONIC TIMBRE tubularBells;
+DEFINE INSTRUMENT drawBarOrgan POLYPHONIC TIMBRE drawbarOrgan;
+DEFINE INSTRUMENT percussiveOrgan POLYPHONIC TIMBRE percussiveOrgan;
+DEFINE INSTRUMENT rockOrgan POLYPHONIC TIMBRE rockOrgan;
+DEFINE INSTRUMENT musicBox POLYPHONIC TIMBRE musicBox;
 
-DEFINE INSTRUMENT "violin" LIMITED POLYPHONIC REGISTERS 0G to 2C, 1D to 2G, 1A to 3D, 2E to 4E timbre violin;
-DEFINE INSTRUMENT "viola" LIMITED POLYPHONIC REGISTERS 0G to 2C, 1D to 2G, 1A to 3D, 2E to 4E timbre viola;
-DEFINE INSTRUMENT "cello" LIMITED POLYPHONIC REGISTERS 0G to 2C, 1D to 2G, 1A to 3D, 2E to 4E timbre cello;
+DEFINE INSTRUMENT violin LIMITED POLYPHONIC REGISTERS 0G to 2C, 1D to 2G, 1A to 3D, 2E to 4E timbre violin;
+DEFINE INSTRUMENT viola LIMITED POLYPHONIC REGISTERS 0G to 2C, 1D to 2G, 1A to 3D, 2E to 4E timbre viola;
+DEFINE INSTRUMENT cello LIMITED POLYPHONIC REGISTERS 0G to 2C, 1D to 2G, 1A to 3D, 2E to 4E timbre cello;
 
-DEFINE INSTRUMENT "harmonicsGuitar" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE harmonicsGuitar;
-DEFINE INSTRUMENT "acousticGuitar" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE acousticguitar;
-DEFINE INSTRUMENT "acousticGuitar2" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE acousticguitar2;
-DEFINE INSTRUMENT "guitar" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE guitar;
-DEFINE INSTRUMENT "guitar2" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE guitar2;
-DEFINE INSTRUMENT "electricGuitar" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE electricguitar;
-DEFINE INSTRUMENT "electricGuitar2" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE electricguitar2;
-DEFINE INSTRUMENT "electricGuitar3" LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE electricguitar3;
+DEFINE INSTRUMENT harmonicsGuitar LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE harmonicsGuitar;
+DEFINE INSTRUMENT acousticGuitar LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE acousticguitar;
+DEFINE INSTRUMENT acousticGuitar2 LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE acousticguitar2;
+DEFINE INSTRUMENT guitar LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE guitar;
+DEFINE INSTRUMENT guitar2 LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE guitar2;
+DEFINE INSTRUMENT electricGuitar LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE electricguitar;
+DEFINE INSTRUMENT electricGuitar2 LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE electricguitar2;
+DEFINE INSTRUMENT electricGuitar3 LIMITED POLYPHONIC REGISTERS 0E to 1G, 0A to 2C, 1D to 2F, 1G to 2A#, 1B to 3D, 2E to 3G TIMBRE electricguitar3;
 
-Define Rhythm "defaultRhythm"  Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;
-Define Rhythm "basicRhythm0" Note1 0 to 0.25 Note2 0.25 to 0.50 Note3 0.50 to 0.75 Note4 0.75 to 1;
-Define Rhythm "basicRhythm1" Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;
-Define Rhythm "basicRhythm2" Note1 0 to 1 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;
-Define Rhythm "basicRhythm3" Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.75 to 1;
-Define Rhythm "basicRhythm4" Note1 0 to 1 Note2 0.50 to 0.75 Note3 0.75 to 1;
-Define Rhythm "basicRhythm5" Note1 0 to 0.33 Note2 0.33 to 0.66 Note3 0.66 to 1;
+Define Rhythm defaultRhythm  Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;
+Define Rhythm basicRhythm0 Note1 0 to 0.25 Note2 0.25 to 0.50 Note3 0.50 to 0.75 Note4 0.75 to 1;
+Define Rhythm basicRhythm1 Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;
+Define Rhythm basicRhythm2 Note1 0 to 1 Note2 0.50 to 0.75 Note3 0.50 to 0.75 Note4 0.75 to 1;
+Define Rhythm basicRhythm3 Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.75 to 1;
+Define Rhythm basicRhythm4 Note1 0 to 1 Note2 0.50 to 0.75 Note3 0.75 to 1;
+Define Rhythm basicRhythm5 Note1 0 to 0.33 Note2 0.33 to 0.66 Note3 0.66 to 1;
 
-DEFINE RHYTHM "rBasic1" Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.75 to 1;
-DEFINE RHYTHM "rBasic2" Note1 0 to 0.25 Note2 0.25 to 0.50 Note3 0.50 to 1;
-DEFINE RHYTHM "rBasic3" Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.75 to 1;
-DEFINE RHYTHM "rBasic4" Note1 0 to 0.25 Note2 0.25 to 0.75 Note3 0.75 to 1;
+DEFINE RHYTHM rBasic1 Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.75 to 1;
+DEFINE RHYTHM rBasic2 Note1 0 to 0.25 Note2 0.25 to 0.50 Note3 0.50 to 1;
+DEFINE RHYTHM rBasic3 Note1 0 to 0.50 Note2 0.50 to 0.75 Note3 0.75 to 1;
+DEFINE RHYTHM rBasic4 Note1 0 to 0.25 Note2 0.25 to 0.75 Note3 0.75 to 1;
 
-Define Rhythm "rStrings1"
+DEFINE RHYTHM rArpe1
+	Note1 0.00 to 0.50
+	
+	Note1 0.50 to 0.75
+	Note2 0.50 to 0.75
+	Note3 0.50 to 0.75
+	
+	Note1 0.75 to 1
+	Note2 0.75 to 1
+	Note3 0.75 to 1;
+
+Define Rhythm rStrings1
   Note1 0 to 0.48
   Note2 0.02 to 0.49
   Note3 0.04 to 0.49
@@ -79,7 +90,7 @@ Define Rhythm "rStrings1"
   Note2 0.76 to 0.98
   Note1 0.77 to 1;
   
-  Define Rhythm "rStrings2"
+  Define Rhythm rStrings2
   Note1 0 to 0.23
   Note2 0.02 to 0.24
   Note3 0.04 to 0.25
@@ -92,7 +103,7 @@ Define Rhythm "rStrings1"
   Note2 0.51 to 0.98
   Note1 0.51 to 1;
   
-  Define Rhythm "rStrings3"
+  Define Rhythm rStrings3
   Note1 0 to 0.48
   Note2 0.01 to 0.49
   Note3 0.01 to 0.49
@@ -114,7 +125,7 @@ Define Rhythm "rStrings1"
   Note2 0.89 to 0.98
   Note1 0.90 to 1;
   
-  Define Rhythm "rStrings4"
+  Define Rhythm rStrings4
   Note1 0 to 0.48
   Note2 0.01 to 0.49
   Note3 0.01 to 0.49
@@ -135,7 +146,7 @@ Define Rhythm "rStrings1"
   Note3 0.89 to 0.99
   Note4 0.90 to 1;
   
-Define Rhythm "rStrings5"
+Define Rhythm rStrings5
   Note1 0 to 0.23
   Note2 0.01 to 0.24
   Note3 0.01 to 0.24
@@ -156,7 +167,7 @@ Define Rhythm "rStrings5"
   Note2 0.76 to 0.99
   Note1 0.77 to 1;
   
-  Define Rhythm "rStrings6"
+  Define Rhythm rStrings6
   Note1 0.01 to 0.23
   Note2 0.02 to 0.24
   Note3 0.03 to 0.25
@@ -189,7 +200,7 @@ Define Rhythm "rStrings5"
   Note2 0.89 to 0.99 
   Note3 0.89 to 1;
 
-Define Rhythm "guitarrhythm"
+Define Rhythm guitarrhythm
   Note1 0 to 0.48
   Note2 0.02 to 0.49
   Note3 0.04 to 0.49
@@ -202,7 +213,7 @@ Define Rhythm "guitarrhythm"
   Note2 0.76 to 0.98
   Note1 0.77 to 0.99;
 
-Define Rhythm "SMIntro"
+Define Rhythm SMIntro
   Note1 0 to 0.48
   Note2 0.02 to 0.49
   Note3 0.02 to 0.49
@@ -231,7 +242,7 @@ Define Rhythm "SMIntro"
   Note2 0.89 to 0.98
   Note1 0.90 to 1;
   
-  Define Rhythm "SM1"
+  Define Rhythm SM1
   Note1 0 to 0.30
   Note2 0.25 to 0.50
 

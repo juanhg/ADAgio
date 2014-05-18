@@ -12,8 +12,6 @@ import com.adagio.language.tempos.TempoIdentifier;
 @Prefix({"(?i)Define","(?i)Tempo"})
 public class TempoDefinition extends Definition implements IModel {
 
-	@Prefix("\"")
-	@Suffix("\"")
 	TempoIdentifier identifier;
 	Tempo tempo;
 	

@@ -1,6 +1,6 @@
 
  
-Define Rhythm "completo" Note1 0 to 1;
+Define Rhythm completo Note1 0 to 1;
   
 channel guitarra instrument=acousticguitar rhythm=SMIntro disable;
 channel flute instrument=flute rhythm=completo;
