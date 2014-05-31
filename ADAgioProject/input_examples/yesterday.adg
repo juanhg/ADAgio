@@ -1,0 +1,12 @@
+REPEAT 2 TIMES {
+	PLAY | 0F Em7 | Ap7  Dm | Bb  Cp7 
+	     | F C   | Gp7 Bb F;
+}
+
+REPEAT 2 TIMES{
+	REPEAT 2 TIMES{
+		PLAY 0Em7 Ap7 | Dm Bb | A Cp7 F;
+	}
+	PLAY | 0F Em7  | Ap7 Dm
+	     | Bb Cp7 | F C | Gp7 Bb F;
+}

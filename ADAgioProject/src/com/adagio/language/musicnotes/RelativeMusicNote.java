@@ -8,9 +8,9 @@ import com.adagio.language.musicnotes.octavealterations.OctaveAlteration;
 
 public class RelativeMusicNote extends MusicNote implements IModel {
 	
-	public MusicNoteName musicNoteName;
+	private MusicNoteName musicNoteName;
 	@Optional
-	public OctaveAlteration octaveAlteration;
+	private OctaveAlteration octaveAlteration;
 	
 	@Constraint
 	boolean silenceRestriction(){

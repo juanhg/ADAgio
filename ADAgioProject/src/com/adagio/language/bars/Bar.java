@@ -7,7 +7,7 @@ import com.adagio.language.bars.chords.Chord;
 
 public class Bar implements IModel {
 	@Multiplicity(minimum = 1)
-	Chord [] barChords;
+	private Chord [] barChords;
 
 	public Chord[] getBarChords() {
 		return barChords;

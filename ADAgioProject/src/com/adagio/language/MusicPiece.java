@@ -12,9 +12,9 @@ import com.adagio.language.statements.Statement;
  */
 public class MusicPiece implements IModel {
 	@Multiplicity(minimum = 0)
-	Definition[] definitions;
+	private Definition[] definitions;
 	@Multiplicity(minimum = 0)
-	Statement[] statements;
+	private Statement[] statements;
 	
 	/**
 	 * Charges in data the information needed to translate

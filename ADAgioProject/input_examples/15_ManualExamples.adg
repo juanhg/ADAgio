@@ -1,30 +1,30 @@
 DEFINE RHYTHM manianitas
-	Note1 0.00 to 0.50
+	NOTE1 0.00 to 0.50
 	
-	Note1 0.50 to 0.75
-	Note2 0.50 to 0.75
-	Note3 0.50 to 0.75
+	NOTE1 0.50 to 0.75
+	NOTE2 0.50 to 0.75
+	NOTE3 0.50 to 0.75
 	
-	Note1 0.75 to 1
-	Note2 0.75 to 1
-	Note3 0.75 to 1;
+	NOTE1 0.75 to 1
+	NOTE2 0.75 to 1
+	NOTE3 0.75 to 1;
 				 
-tempo 4=70;			 
-Channel guitar instrument=acousticGuitar rhythm=manianitas enable;
+TEMPO 4=70;			 
+CHANNEL guitar INSTRUMENT=acousticGuitar RHYTHM=manianitas ENABLE;
 
-play 	    | 0A          | E               | A       | D
-melody voz  | 0A2 - A2    | E2 - E2         | A2 - A2 | D2 - D2
-lyrics voz  | Estas - son | las - manianitas | que - cantaba | rey - David;
+PLAY 	    | 0A          | E               | A       | D
+MELODY voz  | 0A2 - A2    | E2 - E2         | A2 - A2 | D2 - D2
+LYRICS voz  | Estas - son | las - manianitas | que - cantaba | rey - David;
 
-play        | 0E       | A                   | E       | A
-melody voz  | 0E2 - E2 | A2 - A2             | E2 - E2 | A2 - A2
-lyrics voz  | A - las  | muchachas - bonitas | se - las | cantamos - asi;
+PLAY        | 0E       | A                   | E       | A
+MELODY voz  | 0E2 - E2 | A2 - A2             | E2 - E2 | A2 - A2
+LYRICS voz  | A - las  | muchachas - bonitas | se - las | cantamos - asi;
 
    
-play        | 0E                  | A                   | E          | A
-melody voz  | 0E2 - E2            | A2 - A2             | E2 - E2    | A2 - A2
-lyrics voz  | Despierta - mi      | bien - despierta    | mira - que | ya - amanecio;
+PLAY        | 0E                  | A                   | E          | A
+MELODY voz  | 0E2 - E2            | A2 - A2             | E2 - E2    | A2 - A2
+LYRICS voz  | Despierta - mi      | bien - despierta    | mira - que | ya - amanecio;
 
-play        | 0D        | A                   | E         | A
-melody voz  | 0D2 - D2  | A2 - A2             | E2 - E2   | A2 - A2
-lyrics voz  | Ya  - los | pajarillos - cantan | la - luna | se - mecio;
+PLAY        | 0D        | A                   | E         | A
+MELODY voz  | 0D2 - D2  | A2 - A2             | E2 - E2   | A2 - A2
+LYRICS voz  | Ya  - los | pajarillos - cantan | la - luna | se - mecio;

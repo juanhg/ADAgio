@@ -10,8 +10,8 @@ import com.adagio.language.musicnotes.notealterations.Alteration;
 @Priority(value = 1)
 public class AlteredNoteName extends MusicNoteName implements IModel {
 
-	BasicNoteName basicNoteName;
-	Alteration alteration;
+	private BasicNoteName basicNoteName;
+	private Alteration alteration;
 	
 	@Constraint
 	boolean basicNoteIsNotASilence(){

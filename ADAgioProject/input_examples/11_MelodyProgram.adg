@@ -1,41 +1,39 @@
-Define Rhythm completo Note1 0 to 1;
-channel guitarra Instrument=electricGuitar rhythm=rStrings6 disable volume=50;
-channel guitarra2 instrument=acousticGuitar rhythm=SMIntro enable;
-channel flute melody instrument=flute;
-channel box melody instrument=musicBox;
+CHANNEL guitarra INSTRUMENT=electricGuitar RHYTHM=rStrings6 VOLUME=50 DISABLE; 
+CHANNEL guitarra2 INSTRUMENT=acousticGuitar RHYTHM=rStrings7 ENABLE;
+CHANNEL flute MELODY INSTRUMENT=flute;
+CHANNEL box MELODY INSTRUMENT=musicBox;
 
-time 4/4;
-Relative 0C;
-Play 		  | S 					  | 0Em | S 					   | G  | S 					| D  | S 					 | C  |
-Melody box    | 1B4 - 1G4 - 1A4 - 2D4 | S1 | 1B4 - 1G4 - 1A4 - 2D4 | S1 | 1B4 - 1G4 - 1A4 - 2D4 | S1 | 1B4 - 1G4 - 1A4 - 2D4 | S1 |; 
+TIME 4/4;
+RELATIVE 0C;
+PLAY 		  | S 					  | 0Em | S 					   | G  | S 					| D  | S 					 | C  |
+MELODY box    | 1B4 - 1G4 - 1A4 - 2D4 | S1 | 1B4 - 1G4 - 1A4 - 2D4 | S1 | 1B4 - 1G4 - 1A4 - 2D4 | S1 | 1B4 - 1G4 - 1A4 - 2D4 | S1 |; 
 
-channel flute volume=50;
-channel guitarra2 rhythm=SM1;
+CHANNEL flute VOLUME=50;
+CHANNEL guitarra2 RHYTHM=rArpe2;
 
 REPEAT 2 TIMES{
-play         | 0Em          | G        | D         | C
-melody flute | E2 - E2     | G2 - G2  | D2 - D2   | C2 - C2 |
-lyrics flute | she - fills | my - bed | with - ga | so - line |;
+PLAY         | 0Em          | G        | D         | C
+MELODY flute | E2 - E2     | G2 - G2  | D2 - D2   | C2 - C2;
 }
 
-
-channel guitarra2 rhythm=rStrings6;
-channel guitarra enable;
-time 4/2;
+CHANNEL guitarra2 RHYTHM=rStrings6;
+CHANNEL guitarra ENABLE;
+TIME 4/2;
 REPEAT 2 TIMES{
-play | 0Em | G | D | C;
+PLAY | 0Em | G | D | C;
 }
 
-channel guitarra disable;
-channel guitarra2 rhythm=SM1;
-time 4/4;
+CHANNEL guitarra DISABLE;
+CHANNEL guitarra2 RHYTHM=rArpe2;
+TIME 4/4;
 REPEAT 2 TIMES {
-play | 0Em | G | D | C;
+PLAY | 0Em | G | D | C
+MELODY flute | E2 - E2 | G2 - G2  | D2 - D2   | C2 - C2 |;
 }
 
-channel guitarra2 rhythm=rStrings6;
-channel guitarra enable;
-time 4/2;
+CHANNEL guitarra2 RHYTHM=rStrings6;
+CHANNEL guitarra ENABLE;
+TIME 4/2;
 REPEAT 2 TIMES{
-play | 0Em | G | D | C;
+PLAY | 0Em | G | D | C;
 }

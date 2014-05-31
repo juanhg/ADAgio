@@ -61,8 +61,6 @@ public class MusicNoteTest {
     assertAmbiguityFree(parser,"R");
     assertAmbiguityFree(parser,"S");
     assertAmbiguityFree(parser,"R");
-    assertAmbiguityFree(parser,"r");
-    assertAmbiguityFree(parser,"s");
     assertAmbiguityFree(parser,"_");
   }
 

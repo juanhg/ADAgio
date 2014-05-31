@@ -150,7 +150,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 
 		//add the default channel
 		channelsDB.addElement(DEFAULT_CHANNEL_IDENTIFIER);
-		//add the pattern channe, disabled
+		//add the pattern channel, disabled
 		channelsDB.addElement(SILENCES_PATTERN_CHANNEL_IDENTIFIER);
 		channelsDB.disable(SILENCES_PATTERN_CHANNEL_IDENTIFIER);
 	}

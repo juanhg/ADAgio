@@ -7,11 +7,11 @@ import org.modelcc.Setup;
 import org.modelcc.Value;
 
 @Priority(value=2)
-@Pattern(regExp="([\\-ac-qt-wyzH-QT-Z][a-zA-Z0-9]*)?")
+@Pattern(regExp="([\\-\\+]*[ac-zH-QT-Z][a-zA-Z0-9#]*)?")
 public class ChordIdentifier implements IModel {
 
 	@Value
-	String value;
+	private String value;
 
 	@Setup
 	public void setup() {

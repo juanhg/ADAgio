@@ -10,11 +10,11 @@ import org.modelcc.Value;
 import com.adagio.language.musicnotes.notealterations.Alteration;
 
 @Priority(value = 2)
-@Pattern(regExp="A|B|C|D|E|F|G|_|S|s|r|R")
+@Pattern(regExp="A|B|C|D|E|F|G|_|S|R")
 public class BasicNoteName extends MusicNoteName implements IModel {
 
 	@Value
-	String value;
+	private String value;
 	
 	public static final int NUM_NOTES = 7;
 
@@ -153,7 +153,7 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 	 * @return the number of semitones between a note an the next. 
 	 * Integer.MIN_VALUE if is a silence.
 	 */
-	public int semitonesToNextNote(){
+	public int semitonesToNext(){
 		
 		if(this.isSilence()){
 			return Integer.MIN_VALUE;
@@ -172,7 +172,7 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 	 * @return the number of semitones between a note an the previous one. 
 	 * Integer.MIN_VALUE if is a silence.
 	 */
-	public int semitonesToPreviousNote(){
+	public int semitonesToPrevious(){
 		
 		if(this.isSilence()){
 			return Integer.MIN_VALUE;

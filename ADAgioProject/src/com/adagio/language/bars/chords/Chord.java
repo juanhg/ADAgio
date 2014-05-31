@@ -12,14 +12,14 @@ import com.adagio.structures.Duration;
 
 public class Chord implements IModel {
 	
-	MusicNote note;
-	ChordIdentifier identifier;
+	private MusicNote note;
+	private ChordIdentifier identifier;
 	
 	@Optional
 	@Prefix("/")
-	MusicNote bassNote;
+	private MusicNote bassNote;
 
-	Duration duration;
+	private Duration duration;
 	
 	public Chord(){}
 	
@@ -106,7 +106,7 @@ public class Chord implements IModel {
 	
 	public String toString(){
 		String composition = "";
-		composition += note.toString() + identifier.value;
+		composition += note.toString() + identifier.getValue();
 		if(bassNote != null){
 			composition += "/" +  bassNote.toString(); 
 		}

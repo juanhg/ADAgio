@@ -27,16 +27,16 @@ public class TempoDefinitionTest {
 
 	@Test
 	public void tempoDefinitionValidTest() {
-		assertAmbiguityFree(parser,"DEFINE TEMPO \"andante\" 4=50");
-		assertAmbiguityFree(parser,"DEFINE TEMPO \"A\" 4..=70");
-		assertAmbiguityFree(parser,"DEFINE TEMPO \"ALLEGRO\" 1=200");
-		assertAmbiguityFree(parser,"DEFINE TEMPO \"PreSto\" 8. = 50");
+		assertAmbiguityFree(parser,"DEFINE TEMPO andante 4=50");
+		assertAmbiguityFree(parser,"DEFINE TEMPO A 4..=70");
+		assertAmbiguityFree(parser,"DEFINE TEMPO ALLEGRO 1=200");
+		assertAmbiguityFree(parser,"DEFINE TEMPO PreSto 8. = 50");
 	}
 	
 	@Test
 	public void tempoDefinitionInvalidTest() {
-		assertInvalid(parser, "DEFINE TEMPO \"\" 4=50");
-		assertInvalid(parser, "DEFINE TEMPO \"andante\" 5==50");
-		assertInvalid(parser, "DEFINE TEMPO \"andante\" 4");
+		assertInvalid(parser, "DEFINE TEMPO  4=50");
+		assertInvalid(parser, "DEFINE TEMPO andante 5==50");
+		assertInvalid(parser, "DEFINE TEMPO andante 4");
 	}
 }

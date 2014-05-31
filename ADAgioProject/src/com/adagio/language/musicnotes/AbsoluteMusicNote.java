@@ -11,7 +11,7 @@ import com.adagio.structures.Duration;
 
 public class AbsoluteMusicNote extends MusicNote implements IModel {
 	  
-	IntegerModel octave;
+	private IntegerModel octave;
 	
 //	@Constraint
 //    public boolean check() {
@@ -21,7 +21,7 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 //      return false;
 //    }
 	
-	MusicNoteName musicNoteName;
+	private MusicNoteName musicNoteName;
 	
 	
 	@Constraint
@@ -281,7 +281,7 @@ public class AbsoluteMusicNote extends MusicNote implements IModel {
 		while(!aNote1.getBasicNoteNameString().equals(aNote2.getBasicNoteNameString())
 			|| aNote1.octave.intValue() != aNote2.octave.intValue()	
 		){
-			semitones += aNote1.getMusicNoteName().getBaseNoteName().semitonesToNextNote();
+			semitones += aNote1.getMusicNoteName().getBaseNoteName().semitonesToNext();
 			aNote1 = aNote1.next();
 		}
 		

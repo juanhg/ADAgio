@@ -4,8 +4,8 @@ import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.statements.simple.Verse;
 
 public class Lyrics {
-	ChannelIdentifier identifier;
-	Verse [] verses;
+	private ChannelIdentifier identifier;
+	private Verse [] verses;
 	
 	
 	public Lyrics(ChannelIdentifier identifier, Verse [] verses){

@@ -59,7 +59,9 @@ public class AdagioLinker {
 					String id = idMatcher.group();
 					id = id.replaceAll("(?i)(Define)[\\s]+" +"(?i)"+ defType[i], "");
 					id = id.replaceAll("\\s", "");
-					id = id.toLowerCase();
+					if(i != CHORD){
+						id = id.toLowerCase();
+					}
 					definitions.get(i).put(id, definition);
 				}
 			}
@@ -78,7 +80,7 @@ public class AdagioLinker {
 			play = play.replaceAll(";", "");
 			play = play.replaceAll("(?i)Play", "");
 			
-			Pattern chordPattern = Pattern.compile("([\\-ac-qt-wyzH-QT-Z][a-zA-Z0-9]*)");
+			Pattern chordPattern = Pattern.compile("([\\-\\+]*[ac-zH-QT-Z][a-zA-Z0-9]*)");
 			Matcher chordMatcher = chordPattern.matcher(play);
 			while(chordMatcher.find()){
 				String chordID = chordMatcher.group();

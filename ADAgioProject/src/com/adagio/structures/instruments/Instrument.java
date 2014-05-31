@@ -10,8 +10,8 @@ import com.adagio.language.musicnotes.AbsoluteMusicNote;
 
 public abstract class Instrument{
 
-	Timbre timbre;
-	Register registers[];
+	protected Timbre timbre;
+	protected Register registers[];
 	
 	public Instrument(){
 		timbre = new Timbre();

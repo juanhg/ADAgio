@@ -166,7 +166,7 @@ public class Interval implements IModel {
 			aux = semitones - semitones2Notes;
 
 			while(aux > 2){
-				aux -= bName.semitonesToNextNote();
+				aux -= bName.semitonesToNext();
 				if(bName.getBaseNoteName().getValue().equals("B")){
 					octave++;
 				}
@@ -176,7 +176,7 @@ public class Interval implements IModel {
 			}
 
 			while(aux < -2){
-				aux += bName.semitonesToPreviousNote();
+				aux += bName.semitonesToPrevious();
 				if(bName.getBaseNoteName().getValue().equals("C")){
 					octave--;
 				}

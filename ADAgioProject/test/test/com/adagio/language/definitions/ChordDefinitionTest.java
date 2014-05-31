@@ -26,35 +26,36 @@ public class ChordDefinitionTest {
 	
 	@Test
 	public void chordDefinitionValidTest() {
-		assertAmbiguityFree(parser,"DEFINE CHORD \"M\" NOTES P1 M3 P5");
-		assertAmbiguityFree(parser,"DEFINE CHORD \"m\" NOTES P1 m3 P5");
-		assertAmbiguityFree(parser, "DEFINE CHORD \"add2\" NOTES P1 M2 (M3) P5");
-		assertAmbiguityFree(parser,"DEFINE CHORD \"M#\" NOTES AA3 m3 P5");
-		assertAmbiguityFree(parser,"DEFINE CHORD \"Mbb\" NOTES P1 dd3 P5");
-		assertAmbiguityFree(parser,"DEFINE CHORD \"Mx\" NOTES P1 M3 P5");
-		assertAmbiguityFree(parser,"DEFINE CHORD \"M0#x\" NOTES P1 M3 P5");
-		assertAmbiguityFree(parser,"DEFINE CHORD \"\" NOTES P1 M3 P5");
+		assertAmbiguityFree(parser,"DEFINE CHORD M NOTES P1 M3 P5");
+		assertAmbiguityFree(parser,"DEFINE CHORD m NOTES P1 m3 P5");
+		assertAmbiguityFree(parser, "DEFINE CHORD add2 NOTES P1 M2 (M3) P5");
+		assertAmbiguityFree(parser,"DEFINE CHORD Mt NOTES AA3 m3 P5");
+		assertAmbiguityFree(parser,"DEFINE CHORD Mbb NOTES P1 dd3 P5");
+		assertAmbiguityFree(parser,"DEFINE CHORD Mx NOTES P1 M3 P5");
+		assertAmbiguityFree(parser,"DEFINE CHORD M0x NOTES P1 M3 P5");
+		assertAmbiguityFree(parser,"DEFINE CHORD  NOTES P1 M3 P5");
+		assertAmbiguityFree(parser,"DEFINE CHORD p7 NOTES P1 M3 P5 m7");
 		
 	}
 	
 	@Test
 	public void chordDefinitionInvalidTest() {
-		assertInvalid(parser,"DEFINE CHORD \"M\" NOTES");
+		assertInvalid(parser,"DEFINE CHORD M NOTES");
 		
 	}
 	
 	 @Test
 	  public void musicNoteInvalidOctaveTest() {
-		 assertInvalid(parser,"DEFINE CHORD \"#\" NOTES P1 m3 P5");
-		 assertInvalid(parser,"DEFINE CHORD \"x\" NOTES P1 m3 P5");
-		 assertInvalid(parser,"DEFINE CHORD \"b\" NOTES P1 m3 P5");
-		 assertInvalid(parser,"DEFINE CHORD \"bb\" NOTES P1 m3 P5");
-		 assertInvalid(parser,"DEFINE CHORD \"bbMm\" NOTES P1 m3 P5");
-		 assertInvalid(parser,"DEFINE CHORD \"xasdf\" NOTES P1 m3 P5");
-		 assertInvalid(parser,"DEFINE CHORD \"A\" NOTES P1 M3 P5");
-		 assertInvalid(parser,"DEFINE CHORD \"C\" NOTES P1 M3 P5");
-		 assertInvalid(parser,"DEFINE CHORD \"4Mayor\" NOTES P1 M3 P5");
-		 assertInvalid(parser,"DEFINE CHORD \"5Minor\" NOTES P1 M3 P5");
+		 assertInvalid(parser,"DEFINE CHORD # NOTES P1 m3 P5");
+		 assertInvalid(parser,"DEFINE CHORD x NOTES P1 m3 P5");
+		 assertInvalid(parser,"DEFINE CHORD b NOTES P1 m3 P5");
+		 assertInvalid(parser,"DEFINE CHORD bb NOTES P1 m3 P5");
+		 assertInvalid(parser,"DEFINE CHORD bbMm NOTES P1 m3 P5");
+		 assertInvalid(parser,"DEFINE CHORD xasdf NOTES P1 m3 P5");
+		 assertInvalid(parser,"DEFINE CHORD A NOTES P1 M3 P5");
+		 assertInvalid(parser,"DEFINE CHORD C NOTES P1 M3 P5");
+		 assertInvalid(parser,"DEFINE CHORD 4Mayor NOTES P1 M3 P5");
+		 assertInvalid(parser,"DEFINE CHORD 5Minor NOTES P1 M3 P5");
 	  }
 
 }

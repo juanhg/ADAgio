@@ -17,7 +17,7 @@ import com.adagio.structures.instruments.Instrument;
 
 public class Rhythm {
 
-	List<RhythmComponent> components;
+	private List<RhythmComponent> components;
 	
 	public Rhythm(){
 		components = new ArrayList<RhythmComponent>();

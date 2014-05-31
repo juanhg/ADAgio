@@ -1,4 +1,14 @@
-PLAY  A | Cm Dm _ | F Gm | A |;
-Channel violin;
-PLAY | A | Cm Dm E | F Gm ;
-Channel violin;
+DEFINE RHYTHM singleNote Note1 0 to 1; 
+DEFINE INSTRUMENT cello LIMITED POLYPHONIC REGISTERS -2G to 0C, -1D to 0G, -1A to 2D, 0E to 2E timbre cello;
+
+tempo 4=120;
+time 4/4;
+
+channel cello instrument=cello rhythm=singleNote volume=50;
+//channel violin instrument=violin rhythm=singleNote;
+
+play | -2Am | F | C | G |;
+
+channel guitar instrument=electricGuitar rhythm=rStrings4;
+
+play | -2Am | F | C | G |;

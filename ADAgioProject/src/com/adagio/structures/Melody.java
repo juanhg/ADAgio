@@ -4,8 +4,8 @@ import com.adagio.language.bars.MelodyBar;
 import com.adagio.language.channels.ChannelIdentifier;
 
 public class Melody {
-	ChannelIdentifier identifier;
-	MelodyBar [] mBars;
+	private ChannelIdentifier identifier;
+	private MelodyBar [] mBars;
 	
 	public Melody(ChannelIdentifier identifier, MelodyBar [] mBars){
 		this.identifier = identifier;
