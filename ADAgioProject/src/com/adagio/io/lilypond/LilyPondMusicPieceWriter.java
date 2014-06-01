@@ -369,15 +369,29 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		String composition = "";
 		List<MelodyBarComponent> mComponents = new ArrayList<MelodyBarComponent>(Arrays.asList(mBar.getMComponents()));
 		List<MelodyBarComponent> aMComponents = new ArrayList<MelodyBarComponent>();
+		List<AbsoluteMusicNote> aNotes = new ArrayList<AbsoluteMusicNote>();
 		AbsoluteMusicNote aNote;
 		boolean applied = false;
-
+		
+		//To Absolute;
 		for(MelodyBarComponent current: mComponents){
 			aNote = current.getNote().toAbsoluteMusicNote(relative);
 			relative = aNote;
-			aMComponents.add(new MelodyBarComponent(aNote, current.getFigure()));
+			aNotes.add(aNote);
 		}
-
+		
+		//Apply the instrument
+		for(int i = 0; i < aNotes.size(); ++i){
+			List<AbsoluteMusicNote> auxList = new ArrayList<AbsoluteMusicNote>();
+			auxList.add(aNotes.get(i));
+			auxList = channel.getInstrument().apply(auxList);
+			aNotes.set(i, auxList.get(0));
+		}
+		
+		for(int i = 0; i < mComponents.size(); i++){
+			aMComponents.add(new MelodyBarComponent(aNotes.get(i), mComponents.get(i).getFigure()));
+		}
+		
 		for(MelodyBarComponent current: aMComponents){
 			composition += translateAbsoluteMusicNote((AbsoluteMusicNote)current.getNote());
 			composition += translateFigure(current.getFigure());

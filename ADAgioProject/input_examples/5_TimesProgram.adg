@@ -1,8 +1,57 @@
-CHANNEL piano;
-TIME 3/4;
-RELATIVE 2C;
-PLAY | Am Am Am | Am Am Am Am Am | Am Am;
+DEFINE RHYTHM singleNote Note1 0 to 1;
+DEFINE INSTRUMENT cello MONOPHONIC REGISTERS -1C TO 0C TIMBRE cello;
+DEFINE INSTRUMENT violinmono MONOPHONIC REGISTERS 1C TO 2C TIMBRE violin;
+DEFINE INSTRUMENT maleVoice MONOPHONIC REGISTERS 1C TO 4C TIMBRE flute;
 
-Time 4/4;
-CHANNEL flauta;
-PLAY | B Bm B Am | Bm Bm;
+DEFINE RHYTHM introArpeggio
+  Note1 0 to 0.125
+  Note2 0.125 to 0.250
+  Note3 0.250 to 0.375
+  Note4 0.375 to 0.500
+  Note5 0.500 to 0.625
+  Note6 0.625 to 0.750
+  Note7 0.750 to 0.875
+  Note8 0.875 to 1;
+
+DEFINE RHYTHM pulsing
+  Note1 0 to 0.100
+  Note1 0.500 to 0.600;
+
+DEFINE RHYTHM pulsing4
+  Note1 0 to 0.100
+  Note1 0.250 to 0.350
+  Note1 0.500 to 0.600
+  Note1 0.750 to 0.850;
+
+DEFINE CHORD dom7 NOTES P1 M3 P5 m7;
+
+tempo 4=120;
+time 4/4;
+
+channel cello instrument=cello rhythm=singleNote volume=50;
+
+play | -2Am | F | C | G |;
+
+play | -2Am | F | C |;
+
+channel violin instrument=violin rhythm=introArpeggio volume=30;
+play | G |;
+channel violin instrument=violinmono rhythm=pulsing volume=50;
+channel guitar instrument=electricGuitar rhythm=rStrings4 volume=50;
+channel voz melody instrument=maleVoice;
+
+play       | Am            | F       | C             | G  |
+melody voz | A2 - C4. - B8 | A2 - F2 | E2 - F4. - E8 | D1 |;
+
+play       | Am            | F  | C         | G             |
+melody voz | A'2 - C4. - B8 | A1 | C2. - D4 | D2. - C8 - D8 |;
+
+relative 2C;
+play       | Am                  | F             | C        | E  | 
+melody voz | E4. - A,8 - A4 - C4 | B8 - A8 - G2. | C2. - A4 | B1 |;
+
+channel guitar rhythm=rStrings4 volume=70;
+channel violin rhythm=pulsing4 volume=70;
+channel cello rhythm=singleNote volume=40;
+
+play       | Am                  | F             | C'        | E, | ;
