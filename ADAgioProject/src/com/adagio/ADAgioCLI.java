@@ -62,7 +62,10 @@ public class ADAgioCLI {
 				
 				String [] preprocessedFiles = AdagioPreprocessor.preprocess("MusicTheory.mth", current);
 				String finalInput = AdagioLinker.link(preprocessedFiles[0], preprocessedFiles[1]);
-				String outFileName = current.replace(".adg", ".ly");
+				String outFileName = current.replaceAll("\\.adg$", ".ly");
+				if (outFileName.equals(current)) {
+					outFileName = current + ".ly";
+				}
 				
 				// Parse an input string.
 				MusicPiece result = parser.parse(finalInput);
