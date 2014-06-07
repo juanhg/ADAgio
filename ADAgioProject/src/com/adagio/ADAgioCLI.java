@@ -78,6 +78,7 @@ public class ADAgioCLI {
 		} catch (Exception e) {
 			System.err.println("Syntax error");
 			e.printStackTrace();
+			System.exit(1);
 		}
 
 	}
