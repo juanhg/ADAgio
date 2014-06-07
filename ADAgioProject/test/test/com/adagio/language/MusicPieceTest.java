@@ -42,7 +42,7 @@ public class MusicPieceTest extends InitTest {
 		
 		super.setUp();
 	    model = JavaModelReader.read(MusicPiece.class);
-	    parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
+	    parser = ParserFactory.create(model,ignore);
 	    test0 = AdagioPreprocessor.fileToString(program0, StandardCharsets.UTF_8);
 	    test1 = AdagioPreprocessor.fileToString(program1, StandardCharsets.UTF_8);
 	    test2 = AdagioPreprocessor.fileToString(program2, StandardCharsets.UTF_8);
@@ -52,7 +52,6 @@ public class MusicPieceTest extends InitTest {
 	    test6 = AdagioPreprocessor.fileToString(program6, StandardCharsets.UTF_8);
 	    test7 = AdagioPreprocessor.fileToString(program7, StandardCharsets.UTF_8);
 	    test8 = AdagioPreprocessor.fileToString(program8, StandardCharsets.UTF_8);
-	    test9 = AdagioPreprocessor.fileToString(program9, StandardCharsets.UTF_8);
 	    test10 = AdagioPreprocessor.fileToString(program10, StandardCharsets.UTF_8);
 	  }
 
@@ -67,7 +66,6 @@ public class MusicPieceTest extends InitTest {
 		assertAmbiguityFree(parser, test6);
 		assertAmbiguityFree(parser, test7);
 		assertAmbiguityFree(parser, test8);
-		assertAmbiguityFree(parser, test9);
 		assertAmbiguityFree(parser, test10);
 		
 	}

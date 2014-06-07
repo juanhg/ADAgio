@@ -1,27 +1,7 @@
 DEFINE RHYTHM singleNote Note1 0 to 1;
 DEFINE INSTRUMENT cello MONOPHONIC REGISTERS -1C TO 0C TIMBRE cello;
-DEFINE INSTRUMENT violinmono MONOPHONIC REGISTERS 1C TO 2C TIMBRE violin;
-DEFINE INSTRUMENT maleVoice MONOPHONIC REGISTERS 1C TO 4C TIMBRE flute;
-
-DEFINE RHYTHM introArpeggio
-  Note1 0 to 0.125
-  Note2 0.125 to 0.250
-  Note3 0.250 to 0.375
-  Note4 0.375 to 0.500
-  Note5 0.500 to 0.625
-  Note6 0.625 to 0.750
-  Note7 0.750 to 0.875
-  Note8 0.875 to 1;
-
-DEFINE RHYTHM pulsing
-  Note1 0 to 0.100
-  Note1 0.500 to 0.600;
-
-DEFINE RHYTHM pulsing4
-  Note1 0 to 0.100
-  Note1 0.250 to 0.350
-  Note1 0.500 to 0.600
-  Note1 0.750 to 0.850;
+DEFINE INSTRUMENT femaleVoice MONOPHONIC REGISTERS 1C TO 4C TIMBRE flute;
+DEFINE INSTRUMENT maleVoice MONOPHONIC REGISTERS 0C TO 3C TIMBRE sopranoSax;
 
 DEFINE CHORD dom7 NOTES P1 M3 P5 m7;
 
@@ -30,28 +10,161 @@ time 4/4;
 
 channel cello instrument=cello rhythm=singleNote volume=50;
 
-play | -2Am | F | C | G |;
-
-play | -2Am | F | C |;
-
-channel violin instrument=violin rhythm=introArpeggio volume=30;
-play | G |;
-channel violin instrument=violinmono rhythm=pulsing volume=50;
-channel guitar instrument=electricGuitar rhythm=rStrings4 volume=50;
-channel voz melody instrument=maleVoice;
-
-play       | Am            | F       | C             | G  |
-melody voz | A2 - C4. - B8 | A2 - F2 | E2 - F4. - E8 | D1 |;
-
-play       | Am            | F  | C         | G             |
-melody voz | A'2 - C4. - B8 | A1 | C2. - D4 | D2. - C8 - D8 |;
+// INTRODUCTION
 
 relative 2C;
-play       | Am                  | F             | C        | E  | 
-melody voz | E4. - A,8 - A4 - C4 | B8 - A8 - G2. | C2. - A4 | B1 |;
+play | Am | F | C | G |;
 
-channel guitar rhythm=rStrings4 volume=70;
-channel violin rhythm=pulsing4 volume=70;
-channel cello rhythm=singleNote volume=40;
+relative 2C;
+play | Am | F | C |;
 
-play       | Am                  | F             | C'        | E, | ;
+channel violin instrument=violin rhythm=rArpeggio3 volume=30;
+relative 2C;
+play | G |;
+
+// VERSE1
+
+channel violin instrument=violinmono rhythm=rPulsing1 volume=40;
+channel guitar instrument=electricGuitar rhythm=rStringS4 volume=50;
+channel voz melody instrument=femaleVoice;
+
+relative 2C;
+play       | Am            | F       | C             | G        |
+melody voz | A2 - C4. - B8 | A2 - F2 | E2 - F4. - E8 | D2. - S4 |;
+
+relative 1C;
+play       | Am             | F        | C        | G             |
+melody voz | A'2 - C4. - B8 | A2. - S4 | C'2. - D4 | D2. - C8 - D8 |;
+
+relative 2C;
+play       | Am                  | F             | C        | E        | 
+melody voz | E4. - A,8 - A4 - C4 | B8 - A8 - G2. | C2. - A4 | B2. - S4 |;
+
+channel guitar rhythm=rStringS4 volume=55;
+channel violin rhythm=rPulsing2 volume=50;
+channel cello rhythm=singleNote volume=20;
+channel voz2 melody instrument=maleVoice;
+
+// CHORUS
+
+relative 1C;
+play        | Am            | F        | 
+melody voz  | E2 - F4. - E8 | A2. - S4 |
+melody voz2 | C2 - D4. - A8 | F2. - S4 |;
+
+channel violin volume=60;
+channel guitar volume=47;
+
+relative 2C;
+play        | C'            | 
+melody voz  | E2 - F4. - E8 |
+melody voz2 | G2 - E4. - C8 |;
+
+channel violin volume=70;
+channel guitar volume=40;
+
+relative 2C;
+play        | E,       | 
+melody voz  | E2. - S4 |
+melody voz2 | B2. - S4 |;
+
+channel violin volume=50;
+channel guitar volume=55;
+
+relative 2C;
+play        | Am            | F            | 
+melody voz  | E'2 - D4 - C4 | A2 - B4 - C4 |
+melody voz2 | C2  - D4 - A4 | F2 - G4 - A4 |;
+
+channel violin volume=60;
+channel guitar volume=47;
+
+relative 2C;
+play        | C'                 | 
+melody voz  | G2 - E4 - E4       |
+melody voz2 | C2 - E4 - E8 - E8 |;
+
+channel violin volume=70;
+channel guitar volume=40;
+
+play        | E,        | 
+melody voz  | E2. - S4  |
+melody voz2 | B2. - S4  |;
+
+// VERSE2
+
+channel cello volume=50;
+channel violin rhythm=rPulsing1 volume=40;
+channel guitar rhythm=rStringS4 volume=50;
+channel voz2 disable;
+
+relative 2C;
+play       | Am            | F       | C             | G        |
+melody voz | A2 - C4. - B8 | A2 - F2 | E2 - F4. - E8 | D2. - S4 |;
+
+relative 1C;
+play       | Am             | F        | C         | G             |
+melody voz | A'2 - C4. - B8 | A2. - S4 | C'2. - D4 | D2. - C8 - D8 |;
+
+relative 2C;
+play       | Am                  | F             | C        | E        | 
+melody voz | E4. - A,8 - A4 - C4 | B8 - A8 - G2. | C2. - A4 | B2. - S4 |;
+
+// CHORUS
+channel guitar rhythm=rStringS4 volume=55;
+channel violin rhythm=rPulsing2 volume=50;
+channel cello rhythm=singleNote volume=20;
+channel voz2 melody instrument=maleVoice;
+
+relative 1C;
+play        | Am            | F        | 
+melody voz  | E2 - F4. - E8 | A2. - S4 |
+melody voz2 | C2 - D4. - A8 | F2. - S4 |;
+
+channel violin volume=60;
+channel guitar volume=47;
+
+relative 2C;
+play        | C'            | 
+melody voz  | E2 - F4. - E8 |
+melody voz2 | G2 - E4. - C8 |;
+
+channel violin volume=70;
+channel guitar volume=40;
+
+relative 2C;
+play        | E,       | 
+melody voz  | E2. - S4 |
+melody voz2 | B2. - S4 |;
+
+channel violin volume=50;
+channel guitar volume=55;
+
+relative 2C;
+play        | Am            | F             | 
+melody voz  | E'2 - D4 - C4 | A2 - B4 - C4 |
+melody voz2 | C2  - D4 - A4 | F2 - G4 - A4 |;
+
+channel violin volume=60;
+channel guitar volume=47;
+
+relative 2C;
+play        | C'                 | 
+melody voz  | G2 - E4 - E4       |
+melody voz2 | C2 - E4 - E8 - E8 |;
+
+channel violin volume=70;
+channel guitar volume=40;
+
+play        | E,        | 
+melody voz  | E2. - S4  |
+melody voz2 | B2. - S4  |;
+
+// OUTRO
+
+channel violin disable;
+channel guitar disable;
+channel voz2 disable;
+
+play        | A,        | 
+melody voz  | A2. - S4  |;

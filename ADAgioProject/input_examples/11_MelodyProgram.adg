@@ -9,7 +9,7 @@ PLAY 		  | S 					  | 0Em | S 					   | G  | S 					| D  | S 					 | C  |
 MELODY box    | 1B4 - 1G4 - 1A4 - 2D4 | S1 | 1B4 - 1G4 - 1A4 - 2D4 | S1 | 1B4 - 1G4 - 1A4 - 2D4 | S1 | 1B4 - 1G4 - 1A4 - 2D4 | S1 |; 
 
 CHANNEL flute VOLUME=50;
-CHANNEL guitarra2 RHYTHM=rArpe2;
+CHANNEL guitarra2 RHYTHM=rArpeggio2;
 
 REPEAT 2 TIMES{
 PLAY         | 0Em          | G        | D         | C
@@ -24,7 +24,7 @@ PLAY | 0Em | G | D | C;
 }
 
 CHANNEL guitarra DISABLE;
-CHANNEL guitarra2 RHYTHM=rArpe2;
+CHANNEL guitarra2 RHYTHM=rArpeggio2;
 TIME 4/4;
 REPEAT 2 TIMES {
 PLAY | 0Em | G | D | C

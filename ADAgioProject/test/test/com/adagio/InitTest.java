@@ -1,6 +1,11 @@
 package test.com.adagio;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Before;
+import org.modelcc.lexer.recognizer.PatternRecognizer;
+import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 
 import com.adagio.io.lilypond.LilyPondMusicPieceWriter;
 import com.adagio.language.bars.chords.Chord;
@@ -22,6 +27,8 @@ import com.adagio.structures.instruments.MonophonicInstrument;
 import com.adagio.structures.instruments.PolyphonicInstrument;
 
 public class InitTest {
+	
+	protected Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
 	
 	//Listener
 	public LilyPondMusicPieceWriter listener;
@@ -302,5 +309,8 @@ public class InitTest {
 		realPiano = new PolyphonicInstrument(new Timbre("piano"), realPianoR);
 		acousticGuitar = new LimitedPolyphonicInstrument(new Timbre("acousticguitar"), acousticGuitarR);
 		perfectInstrument = new PolyphonicInstrument(new Timbre(), perfectInstrumentR);
+		
+		ignore.add(new RegExpPatternRecognizer("//[^\n]*(\n|$)"));
+		ignore.add(new RegExpPatternRecognizer("( |\n|\t|\r)+"));
 	  }
 }
