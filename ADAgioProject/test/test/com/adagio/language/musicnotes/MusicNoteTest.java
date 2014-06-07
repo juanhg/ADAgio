@@ -36,7 +36,7 @@ public class MusicNoteTest {
     parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
   }
 
-  // Comprobamos que las siguientes notas son v·lidas y se leen sin ambig¸edades.
+  // Comprobamos que las siguientes notas son v√°lidas y se leen sin ambig√ºedades.
   @Test
   public void musicNoteValidTest() {
     assertAmbiguityFree(parser,"-2D");
@@ -64,11 +64,11 @@ public class MusicNoteTest {
     assertAmbiguityFree(parser,"_");
   }
 
-  // Comprobamos que las siguientes notas son inv·lidas (por la octava, restricciÛn custom con @Constraint).
+  // Comprobamos que las siguientes notas son inv√°lidas (por la octava, restricci√≥n custom con @Constraint).
   @Test
   public void musicNoteInvalidOctaveTest() {}
 
-  // Comprobamos que las siguientes notas son inv·lidas (por el nombre de las notas).
+  // Comprobamos que las siguientes notas son inv√°lidas (por el nombre de las notas).
   @Test
   public void musicNoteInvalidNoteTest() {
     assertInvalid(parser,"H");
@@ -78,7 +78,7 @@ public class MusicNoteTest {
     assertInvalid(parser,"L");
     assertInvalid(parser,"M");
     assertInvalid(parser,"N");
-    assertInvalid(parser,"—");
+    assertInvalid(parser,"√ë");
     assertInvalid(parser,"I");
     assertInvalid(parser,"J");
     assertInvalid(parser,"K");
@@ -110,11 +110,11 @@ public class MusicNoteTest {
     
   }  
 
-  // Comprobamos si la informaciÛn leÌda de una nota es correcta:
+  // Comprobamos si la informaci√≥n le√≠da de una nota es correcta:
   @Test
   public void musicNoteReadTest1() throws Exception {
     
-    assertAmbiguityFree(parser,"-2D"); // Nos garantiza que es v·lido y no hay ambig¸edades
+    assertAmbiguityFree(parser,"-2D"); // Nos garantiza que es v√°lido y no hay ambig√ºedades
     MusicNote note = parser.parse("-2D");
 
     assertTrue(note instanceof AbsoluteMusicNote);
@@ -125,13 +125,13 @@ public class MusicNoteTest {
     assertTrue(aNote.getMusicNoteName() instanceof BasicNoteName); //Idem, tienes que implementar getNoteName()
     BasicNoteName bNoteName = (BasicNoteName) aNote.getMusicNoteName();
 
-    assertEquals("D",bNoteName.getValue()); //Implementa ese getValue tambiÈn, asÌ es independiente del toString (que da la traducciÛn a lilypond y que podrÌa cambiar en un futuro).
+    assertEquals("D",bNoteName.getValue()); //Implementa ese getValue tambi√©n, as√≠ es independiente del toString (que da la traducci√≥n a lilypond y que podr√≠a cambiar en un futuro).
   }
   
   @Test
   public void musicNoteReadTest2() throws Exception {
     
-    assertAmbiguityFree(parser,"3Dx"); // Nos garantiza que es v·lido y no hay ambig¸edades
+    assertAmbiguityFree(parser,"3Dx"); // Nos garantiza que es v√°lido y no hay ambig√ºedades
     MusicNote note = parser.parse("3Dx");
 
     AbsoluteMusicNote aNote = (AbsoluteMusicNote)note;
@@ -142,7 +142,7 @@ public class MusicNoteTest {
     AlteredNoteName altNoteName = (AlteredNoteName) aNote.getMusicNoteName();
 
     BasicNoteName bNoteName = altNoteName.getBasicNoteName();
-    assertEquals("D",bNoteName.getValue()); //Implementa ese getValue tambiÈn, asÌ es independiente del toString (que da la traducciÛn a lilypond y que podrÌa cambiar en un futuro).
+    assertEquals("D",bNoteName.getValue()); //Implementa ese getValue tambi√©n, as√≠ es independiente del toString (que da la traducci√≥n a lilypond y que podr√≠a cambiar en un futuro).
     
     Alteration alteration = altNoteName.getAlteration();
     assertTrue(alteration instanceof DoubleSharpAlteration);
@@ -153,7 +153,7 @@ public class MusicNoteTest {
   @Test
   public void musicNoteReadTest3() throws Exception {
     
-    assertAmbiguityFree(parser,"2Ebb"); // Nos garantiza que es v·lido y no hay ambig¸edades
+    assertAmbiguityFree(parser,"2Ebb"); // Nos garantiza que es v√°lido y no hay ambig√ºedades
     MusicNote note = parser.parse("2Ebb");
 
     assertTrue(note instanceof AbsoluteMusicNote);
@@ -165,7 +165,7 @@ public class MusicNoteTest {
     AlteredNoteName altNoteName = (AlteredNoteName) aNote.getMusicNoteName();
 
     BasicNoteName bNoteName = altNoteName.getBasicNoteName();
-    assertEquals("E",bNoteName.getValue()); //Implementa ese getValue tambiÈn, asÌ es independiente del toString (que da la traducciÛn a lilypond y que podrÌa cambiar en un futuro).
+    assertEquals("E",bNoteName.getValue()); //Implementa ese getValue tambi√©n, as√≠ es independiente del toString (que da la traducci√≥n a lilypond y que podr√≠a cambiar en un futuro).
     
     Alteration alteration = altNoteName.getAlteration();
     assertTrue(alteration instanceof DoubleFlatAlteration);
@@ -176,7 +176,7 @@ public class MusicNoteTest {
   @Test
   public void musicNoteReadTest4() throws Exception {
     
-    assertAmbiguityFree(parser,"A#"); // Nos garantiza que es v·lido y no hay ambig¸edades
+    assertAmbiguityFree(parser,"A#"); // Nos garantiza que es v√°lido y no hay ambig√ºedades
     MusicNote note = parser.parse("A#");
 
     assertTrue(note instanceof RelativeMusicNote);
@@ -200,7 +200,7 @@ public class MusicNoteTest {
   @Test
   public void musicNoteReadTest5() throws Exception {
     
-    assertAmbiguityFree(parser,"A''"); // Nos garantiza que es v·lido y no hay ambig¸edades
+    assertAmbiguityFree(parser,"A''"); // Nos garantiza que es v√°lido y no hay ambig√ºedades
     MusicNote note = parser.parse("A''");
 
     assertTrue(note instanceof RelativeMusicNote);
@@ -223,7 +223,7 @@ public class MusicNoteTest {
   @Test
   public void musicNoteReadTest6() throws Exception {
     
-    assertAmbiguityFree(parser,"B,"); // Nos garantiza que es v·lido y no hay ambig¸edades
+    assertAmbiguityFree(parser,"B,"); // Nos garantiza que es v√°lido y no hay ambig√ºedades
     MusicNote note = parser.parse("B,");
 
     assertTrue(note instanceof RelativeMusicNote);
@@ -246,7 +246,7 @@ public class MusicNoteTest {
   @Test
   public void musicNoteReadTest7() throws Exception {
     
-    assertAmbiguityFree(parser,"G"); // Nos garantiza que es v·lido y no hay ambig¸edades
+    assertAmbiguityFree(parser,"G"); // Nos garantiza que es v√°lido y no hay ambig√ºedades
     MusicNote note = parser.parse("G");
 
     assertTrue(note instanceof RelativeMusicNote);

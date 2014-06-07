@@ -188,7 +188,7 @@ public class Rhythm {
 			aNotes = (List<AbsoluteMusicNote>) x.getValue();
 			if(aNotes.size() < smaller){
 				smaller = aNotes.size();
-				key = (int) x.getKey(); 
+				key = (Integer) x.getKey(); 
 			}
 		}
 		return key;

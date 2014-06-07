@@ -29,8 +29,8 @@ public class ChordDefinition extends Definition implements IModel {
 		
 		if(!identifier.getValue().equals("")){
 			if(this.beginWithAlteration()){
-				// Nunca llegará a ser informado. El patrón de ChorIdentifier no permite estos casos.
-				// Modificar el patrón de ChordIdentifier genera conflictos que no se pueden resolver con priority.
+				// Nunca llegarÃ¡ a ser informado. El patrÃ³n de ChorIdentifier no permite estos casos.
+				// Modificar el patrÃ³n de ChordIdentifier genera conflictos que no se pueden resolver con priority.
 				// TODO Solucionar esto
 
 				System.err.println("Error 2: \"" + identifier.getValue() +"\" --> The identifier can't begin with an Alteration");

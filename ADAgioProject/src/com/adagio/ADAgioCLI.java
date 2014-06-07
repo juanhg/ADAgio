@@ -19,13 +19,10 @@ import com.adagio.language.MusicPiece;
 public class ADAgioCLI {
 
 	public static void main(String [] args){
-		int i = 0;
-
 		try {
 			
-			System.out.println();
-			
 			if(args.length == 0){
+				System.out.println();
 				System.out.println(".adg file is required: ");
 				System.out.println("java -jar ADAgio.jar <file.adg>");
 				System.out.println("java -jar ADAgio.jar <file1.adg> ... <fileN.adg>");
@@ -53,16 +50,12 @@ public class ADAgioCLI {
 			}
 
 			for(String current: args){
-				if( i == 9){
-					System.out.println();
-				}
-				i++;
-				
-				System.out.println("Processing " +  relativePath(current) + "...");
-				
 				String [] preprocessedFiles = AdagioPreprocessor.preprocess("MusicTheory.mth", current);
 				String finalInput = AdagioLinker.link(preprocessedFiles[0], preprocessedFiles[1]);
-				String outFileName = current.replace(".adg", ".ly");
+				String outFileName = current.replaceAll("\\.adg$", ".ly");
+				if (outFileName.equals(current)) {
+					outFileName = current + ".ly";
+				}
 				
 				// Parse an input string.
 				MusicPiece result = parser.parse(finalInput);
@@ -71,27 +64,16 @@ public class ADAgioCLI {
 				LilyPondMusicPieceWriter.writeMusicPiece(result,out);
 				out.close();
 
-				System.out.println("Generated " + relativePath(outFileName) + "\n");
+				System.out.println(outFileName);
 				System.gc();
 			}	
 
 		} catch (Exception e) {
 			System.err.println("Syntax error");
 			e.printStackTrace();
+			System.exit(1);
 		}
 
 	}
 	
-	public static String relativePath(String path){
-		
-		if(path.lastIndexOf("\\") > -1 && path.lastIndexOf("\\") < path.length()){
-			return path.substring(path.lastIndexOf("\\")+1, path.length());
-		}
-		else if(path.lastIndexOf("/") > -1 && path.lastIndexOf("/") < path.length()){
-			return path.substring(path.lastIndexOf("/")+1, path.length());
-		}
-		
-		return path;
-	}
-
 }

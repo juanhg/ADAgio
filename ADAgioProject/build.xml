@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <project basedir="." default="build" name="ADAgio">
+    <property environment="env"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <property name="bootclasspath" value="${JAVA_HOME}/jre/lib/rt.jar"/>
+    <path id="JUnit 4.libraryclasspath">
+        <pathelement location="lib/junit.jar"/>
+        <pathelement location="lib/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
+    </path>
+    <path id="ModelCC.libraryclasspath">
+        <pathelement location="lib/ModelCC.jar"/>
+    </path>
+    <path id="ADAgio.classpath">
+        <pathelement location="bin"/>
+        <path refid="JUnit 4.libraryclasspath"/>
+        <path refid="ModelCC.libraryclasspath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="test">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+        <delete dir="dist"/>
+    </target>
+    <target depends="clean" name="cleanall">
+    </target>
+    <target depends="build-subprojects,build-project,create-run-jar" name="build"/>
+    <target name="build-subprojects">
+    </target>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}" bootclasspath="${bootclasspath}">
+            <src path="src"/>
+            <src path="test"/>
+            <classpath refid="ADAgio.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target depends="build" name="test">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <batchtest fork="yes" todir="${reports.tests}">
+              <fileset dir="test">
+                <include name="**/*Test.java"/>
+              </fileset>
+            </batchtest>
+            <classpath refid="ADAgio.classpath"/>
+        </junit>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+    <target depends="build-project" name="create-run-jar">
+        <jar destfile="dist/ADAgio.jar">
+            <manifest>
+                <attribute name="Main-Class" value="com.adagio.ADAgioCLI"/>
+                <attribute name="Class-Path" value=". lib/junit.jar lib/org.hamcrest.core_1.1.0.v20090501071000.jar lib/ModelCC.jar"/>
+            </manifest>
+            <fileset dir="bin">
+              <include name="com/"/>
+              <exclude name="test/"/>
+            </fileset>
+        </jar>
+        <delete dir="dist/lib"/>
+        <mkdir dir="dist/lib"/>
+        <copy file="lib/ModelCC.jar" todir="dist/lib"/>
+    </target>
+
+</project>
