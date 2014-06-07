@@ -26,7 +26,7 @@ public class ChordIdentifier implements IModel {
 	public ChordIdentifier(){}
 
 	public ChordIdentifier(String value){
-		//TODO No permitir asignación de valores erróneos
+		//TODO No permitir asignaciÃ³n de valores errÃ³neos
 		this.value = value;
 	}
 

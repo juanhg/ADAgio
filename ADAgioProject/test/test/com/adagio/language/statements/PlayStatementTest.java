@@ -159,7 +159,7 @@ public class PlayStatementTest extends InitTest {
 	
 	  @Test
 	  public void ChordReadTest1() throws Exception {
-	    assertAmbiguityFree(parser,"PLAY | G Cm |"); // Nos garantiza que es válido y no hay ambigüedades
+	    assertAmbiguityFree(parser,"PLAY | G Cm |"); // Nos garantiza que es vÃ¡lido y no hay ambigÃ¼edades
 	    assertAmbiguityFree(parser, "PLAY | G |");
 	    assertAmbiguityFree(parser, "PLAY | Gm |");
 	    assertAmbiguityFree(parser, "PLAY | Cm |");
