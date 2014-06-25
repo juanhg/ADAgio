@@ -6,9 +6,6 @@ import com.adagio.language.channels.ChannelIdentifier;
 
 public class ChannelIdentifierEvent extends EventObject{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private ChannelIdentifier id;
 

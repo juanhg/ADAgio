@@ -6,9 +6,6 @@ import com.adagio.language.musicnotes.MusicNoteName;
 
 public class MusicNoteNameEvent extends EventObject {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 722133536222690616L;
 	private MusicNoteName musicNoteName;
 

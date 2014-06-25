@@ -16,51 +16,50 @@ import com.adagio.language.musicnotes.notealterations.FlatAlteration;
 import com.adagio.language.musicnotes.notealterations.SharpAlteration;
 
 public class Interval implements IModel {
-	
+
 	IntervalQuality quality;
 	IntegerModel number;
-	
-	/**
-	 * Map<NumberOfInterval, Semitones>
-	 */
-	 private static final Map<Integer, Integer> mayorIntervals = new HashMap<Integer, Integer>();
-	    static {
-	        mayorIntervals.put(2, 2);
-	        mayorIntervals.put(3, 4);
-	        mayorIntervals.put(6, 9);
-	        mayorIntervals.put(7, 11);
-	        
-	        mayorIntervals.put(9, 14);
-	        mayorIntervals.put(10, 16);
-	        mayorIntervals.put(13, 21);
-	        mayorIntervals.put(14, 23);
-	    }
-	 
-	 /**
-	   * Map<NumberOfInterval, Semitones>
-	   */    
+
+
+	// Map<NumberOfInterval, Semitones>
+	private static final Map<Integer, Integer> mayorIntervals = new HashMap<Integer, Integer>();
+	static {
+		mayorIntervals.put(2, 2);
+		mayorIntervals.put(3, 4);
+		mayorIntervals.put(6, 9);
+		mayorIntervals.put(7, 11);
+
+		mayorIntervals.put(9, 14);
+		mayorIntervals.put(10, 16);
+		mayorIntervals.put(13, 21);
+		mayorIntervals.put(14, 23);
+	}
+
+
+	// Map<NumberOfInterval, Semitones>
+
 	private static final Map<Integer,Integer> perfectIntervals = new HashMap<Integer,Integer>();
-		static {
-			perfectIntervals.put(1,0);
-			perfectIntervals.put(4,5);
-			perfectIntervals.put(5,7);
-			
-			perfectIntervals.put(8,12);
-			perfectIntervals.put(11,17);
-			perfectIntervals.put(12,19);
-		}
-	
-	
+	static {
+		perfectIntervals.put(1,0);
+		perfectIntervals.put(4,5);
+		perfectIntervals.put(5,7);
+
+		perfectIntervals.put(8,12);
+		perfectIntervals.put(11,17);
+		perfectIntervals.put(12,19);
+	}
+
+
 	public Interval(String quality, int number){
 		this.quality = new IntervalQuality(quality);
 		this.number = new IntegerModel(number);
 	}
-	
+
 	public Interval(){
-		
+
 	}
-	
-	
+
+
 	/**
 	 * Calculate the interval's semitones
 	 * @return The number of semitones
@@ -68,7 +67,7 @@ public class Interval implements IModel {
 	public int semitones(){
 		int count = 0;
 		boolean mayor = false;
-		
+
 		if(getMayorintervals().containsKey(number.intValue())){
 			count = getMayorintervals().get(number.intValue());
 			mayor = true;
@@ -76,7 +75,7 @@ public class Interval implements IModel {
 		else{
 			count = getPerfectintervals().get(number.intValue());
 		}
-		
+
 		if(quality.getValue().equals("m")){
 			count--;
 		}
@@ -104,38 +103,35 @@ public class Interval implements IModel {
 		}
 		return count;
 	}
-	
+
 	/**
-	 * The increment in the octave value of MusicNote caused by the Interval
-	 * @param noteName
-	 * @param data
-	 * @return
+	 * Calculates the increment in the octave value of MusicNote caused by the Interval
+	 * @param noteName Name of the note
+	 * @return Integer that is the increment in the octave value of MusicNote caused by the Interval
 	 */
 	public int octaveAlterations(MusicNoteName noteName){
 		int increment = 0;
 		int noteIntValue =  BasicNoteName.nameToInt(noteName.getBaseNoteName());
-		
+
 		for(int i = 0; i < this.number.intValue()-1; i++){
 			noteIntValue = (noteIntValue + 1) % 7;
 			if(noteIntValue == 2){
 				increment++;
 			}
 		}
-				
+
 		return increment;
 	}
-		
-	//TODO Check if to display the chord, the relative notes are correct 
-	
+
 	/**
 	 * Applies the interval to the note
-	 * @param note
-	 * @param data
+	 * @param note The note to be modified
+	 * @param relative The relative note
 	 * @return And absolute note with the result of apply the interval to the note. Always is 
 	 * higher than the fundamental one
 	 */
 	public AbsoluteMusicNote apply(MusicNote note, AbsoluteMusicNote relative){
-		
+
 		AbsoluteMusicNote result = null;
 
 		//if is not a silence...
@@ -211,7 +207,7 @@ public class Interval implements IModel {
 
 		return result;
 	}
-	
+
 	public static Map<Integer, Integer> getMayorintervals() {
 		return mayorIntervals;
 	}

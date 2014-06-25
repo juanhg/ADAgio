@@ -8,7 +8,7 @@ public abstract class Statement implements IModel {
 
 	/**
 	 * Abstract method father of all statements in the language
-	 * @param data Structure needed to create the LilyPond file
+	 * @param listener Listener of the Music-events
 	 */
 	public abstract void run(MusicEventListener listener);
 

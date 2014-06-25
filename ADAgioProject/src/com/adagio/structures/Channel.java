@@ -4,9 +4,6 @@ import com.adagio.language.channels.channeloptions.VolumeModifier;
 import com.adagio.structures.instruments.Instrument;
 import com.adagio.structures.instruments.PolyphonicInstrument;
 
-/**
- * @author Wungo
- */
 public class Channel {
 	
 	private int volume;

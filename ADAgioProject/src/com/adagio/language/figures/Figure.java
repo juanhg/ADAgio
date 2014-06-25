@@ -132,7 +132,7 @@ public class Figure implements IModel {
 	
 	/**
 	 * Calculates the figure's duration (4 whole note, 2 half note, ...)
-	 * @return
+	 * @return A double that represents the figure's duration
 	 */
 	public double duration(){
 		double baseDuration = 4.0/this.shape.intValue();

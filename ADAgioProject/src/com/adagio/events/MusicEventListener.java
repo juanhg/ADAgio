@@ -20,7 +20,7 @@ import com.adagio.events.statements.UndefinedTempoStatementEvent;
 
 public interface MusicEventListener extends EventListener {
 		
-	/** ----- DEFINITIONS EVENTS ----- **/
+	// DEFINITIONS EVENTS
 	
 	public void chordDefinition(ChorDefinitionEvent e);
 	public void tempoDefinition(TempoDefinitionEvent e);
@@ -28,7 +28,7 @@ public interface MusicEventListener extends EventListener {
 	public void rhythmDefinition(RhythmDefinitionEvent e);
 	
 	
-	/** ----- STATEMENT EVENTS ----- **/
+	//STATEMENT EVENTS
 	public void setRelative(RelativeStatementEvent e);
 	public void harmonyPlay(MusicPlayStatementEvent e);
 	public void melodyPlay(MelodyLyricsEvent e);
@@ -38,7 +38,7 @@ public interface MusicEventListener extends EventListener {
 	public void setTempo(UndefinedTempoStatementEvent e);
 	
 
-	/** ----- CHANNEL EVENTS ----- **/
+	//CHANNEL EVENTS
 	public void createChannel(ChannelIdentifierEvent e);
 	public void destroyChannel(ChannelIdentifierEvent e);
 	public void enableChannel(ChannelIdentifierEvent e);
@@ -56,7 +56,7 @@ public interface MusicEventListener extends EventListener {
 	 */
 	public void recoverChannel(ChannelIdentifierEvent e);
 	
-	/** ----- CHORDS EVENTS ----- **/
+	//CHORDS EVENTS
 	
 	/**
 	 * Looks for chord in the Data base

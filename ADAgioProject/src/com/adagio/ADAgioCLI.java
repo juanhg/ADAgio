@@ -16,11 +16,16 @@ import org.modelcc.parser.ParserFactory;
 import com.adagio.io.lilypond.LilyPondMusicPieceWriter;
 import com.adagio.language.MusicPiece;
 
+/**
+ * The entry point of the translation process. 
+ */
+
 public class ADAgioCLI {
 
 	public static void main(String [] args){
 		try {
 			
+		
 			if(args.length == 0){
 				System.out.println();
 				System.out.println(".adg file is required: ");

@@ -5,9 +5,7 @@ import java.util.EventObject;
 import com.adagio.language.channels.ChannelIdentifier;
 
 public class ChannelVolumeEvent extends EventObject {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private ChannelIdentifier id;
 	private int volume;

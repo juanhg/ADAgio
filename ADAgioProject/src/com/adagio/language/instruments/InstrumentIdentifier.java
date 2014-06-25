@@ -50,8 +50,4 @@ public class InstrumentIdentifier implements IModel {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
 }

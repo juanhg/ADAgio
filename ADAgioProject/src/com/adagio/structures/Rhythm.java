@@ -229,9 +229,9 @@ public class Rhythm {
 	/**
 	 * Given a component and the number of chords that we have, select the index
 	 * of the chord associated with the component
-	 * @param component
-	 * @param numOfChords
-	 * @return
+	 * @param component Component to use
+	 * @param numOfChords Number of chords that we have
+	 * @return The index of the chords associated with the component
 	 */
 	private int selectChordIndex (RhythmComponent component, int numOfChords) {
 

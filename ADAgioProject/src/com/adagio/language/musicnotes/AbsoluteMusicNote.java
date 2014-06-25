@@ -12,15 +12,6 @@ import com.adagio.structures.Duration;
 public class AbsoluteMusicNote extends MusicNote implements IModel {
 	  
 	private IntegerModel octave;
-	
-//	@Constraint
-//    public boolean check() {
-//      if (octave.intValue() >=-5 && octave.intValue() <=5) {
-//        return true;
-//      }
-//      return false;
-//    }
-	
 	private MusicNoteName musicNoteName;
 	
 	

@@ -6,9 +6,7 @@ import com.adagio.language.channels.ChannelIdentifier;
 import com.adagio.language.rhythm.RhythmIdentifier;
 
 public class ChannelRhythmEvent extends EventObject {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -4433601089529804344L;
 	private ChannelIdentifier channelID;
 	private RhythmIdentifier rhythmID;

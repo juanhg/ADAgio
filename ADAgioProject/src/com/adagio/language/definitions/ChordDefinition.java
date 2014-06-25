@@ -7,7 +7,6 @@ import org.modelcc.Constraint;
 import org.modelcc.IModel;
 import org.modelcc.Multiplicity;
 import org.modelcc.Prefix;
-import org.modelcc.Suffix;
 
 import com.adagio.events.MusicEventListener;
 import com.adagio.events.definitions.ChorDefinitionEvent;
@@ -29,8 +28,8 @@ public class ChordDefinition extends Definition implements IModel {
 		
 		if(!identifier.getValue().equals("")){
 			if(this.beginWithAlteration()){
-				// Nunca llegará a ser informado. El patrón de ChorIdentifier no permite estos casos.
-				// Modificar el patrón de ChordIdentifier genera conflictos que no se pueden resolver con priority.
+				// Nunca llegara a ser informado. El patron de ChorIdentifier no permite estos casos.
+				// Modificar el patron de ChordIdentifier genera conflictos que no se pueden resolver con priority.
 				// TODO Solucionar esto
 
 				System.err.println("Error 2: \"" + identifier.getValue() +"\" --> The identifier can't begin with an Alteration");

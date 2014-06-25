@@ -9,8 +9,6 @@ import com.adagio.language.bars.Bar;
 public class MusicPlayStatementEvent extends EventObject {
 	
 	private static final long serialVersionUID = 1L;
-	
-	// Este evento se lanza cuando se ha generado música.
 	private  Bar [] bars;
 
 	public MusicPlayStatementEvent(Object source, Bar [] bars) {

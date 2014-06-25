@@ -41,7 +41,7 @@ public class ChannelsDataBase extends MusicDataBase<ChannelIdentifier, Channel> 
 
 	/**
 	 * @param id Channel identifier
-	 * @return True if channel has existed anytime & has been erased.
+	 * @return True if channel has existed any time and has been erased.
 	 */
 	public boolean isErased(ChannelIdentifier id) {
 		if (this.exists(id)) {
@@ -141,11 +141,9 @@ public class ChannelsDataBase extends MusicDataBase<ChannelIdentifier, Channel> 
 
 	/**
 	 * Add a music string to the channel, and increments the duration of the channel;
-	 * @param id
-	 * @param music
-	 * @param duration
-	 * @param clef
-	 * @param time
+	 * @param id Identifier of the channel
+	 * @param music Music that are going to be added
+	 * @param numBars Number of bars of the added music
 	 */
 	public void addMusic(ChannelIdentifier id, String music, int numBars){
 		String composition = "";
@@ -175,9 +173,8 @@ public class ChannelsDataBase extends MusicDataBase<ChannelIdentifier, Channel> 
 	/**
 	 * Adds the music string to the enabled channels. If there is no one active,
 	 * adds music to the default channel 
-	 * @param music
-	 * @param duration
-	 * @param data
+	 * @param music Music that is going to be added
+	 * @param numBars Number of bars of the added music
 	 */
 	@SuppressWarnings("rawtypes")
 	public void addMusicToEnabled(String music, int numBars){

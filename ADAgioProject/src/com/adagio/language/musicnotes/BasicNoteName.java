@@ -85,8 +85,8 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 	
 	/**
 	 * Return the int value of a BasicNoteName. -1 if is a silence
-	 * @param bName
-	 * @return
+	 * @param bName The internal basic note name
+	 * @return The correspondent internal number of the basic note name
 	 */
 	public static int nameToInt(BasicNoteName bName){
 		
@@ -118,8 +118,8 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 	
 	/**
 	 * Return a BasicNoteName 
-	 * @param number
-	 * @return
+	 * @param number Internal number of the note.
+	 * @return The correspondent basic note name.
 	 */
 	public static BasicNoteName intToName(int number){
 		BasicNoteName bName = new BasicNoteName();
@@ -222,8 +222,7 @@ public class BasicNoteName extends MusicNoteName implements IModel {
 	
 	/**
 	 * Calculate the shortest distance between two notes
-	 * @param note1 Previous note
-	 * @param note2 Next note
+	 * @param note2 The note of reference
 	 * @return Int value in the range [-3,3]. Or Integer.MAX_VALUE if
 	 * any note is a silence
 	 */

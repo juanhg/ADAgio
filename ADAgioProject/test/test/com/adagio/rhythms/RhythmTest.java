@@ -270,6 +270,8 @@ public class RhythmTest extends InitTest {
 		result = Rhythm.genLigaturedNotes(A1, 8);
 		result = Rhythm.genLigaturedNotes(A1, 16);
 		result = Rhythm.genLigaturedNotes(A1, 3.3);
+		
+		System.out.println(result);
 	}
 	
 		
@@ -285,6 +287,8 @@ public class RhythmTest extends InitTest {
 		
 		//[0C, 0E, 0G] --> Note1 (0C) Note2 (0E) Note3 (0G) Note4 (OC)
 		result = rhythm1.assignNotes(chordsAsLists2.get(0), perfectInstrument);
+		
+		System.out.println(result);
 	}
 	
 	@SuppressWarnings("serial")

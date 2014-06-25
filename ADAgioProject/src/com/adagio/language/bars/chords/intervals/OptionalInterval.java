@@ -18,14 +18,15 @@ public class OptionalInterval extends Interval implements IModel {
 		super();
 	}
 	
-	@Override
+
 	/**
 	 * Applies the interval to the note
-	 * @param note
-	 * @param data
+	 * @param note The note to be modified
+	 * @param relative The relative note
 	 * @return And absolute note with the result of apply the interval to the note. Always is 
 	 * higher than the fundamental one. The optional flat of the note is set to true
 	 */
+	@Override
 	public AbsoluteMusicNote apply(MusicNote note, AbsoluteMusicNote relative){
 		AbsoluteMusicNote result = super.apply(note, relative);
 		result.setOptional(true);

@@ -8,7 +8,7 @@ import com.adagio.language.statements.Statement;
 /**
  * Main Class. This Class constructs the lilypond code.
  * A MusicPiece is sequence of statements. (or 0)
- * @author Wungo
+ * @author Juan Hernández
  */
 public class MusicPiece implements IModel {
 	@Multiplicity(minimum = 0)

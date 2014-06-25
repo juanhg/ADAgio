@@ -79,7 +79,7 @@ DEFINE RHYTHM rBasic5 NOTE1 0 to 0.33 NOTE2 0.33 to 0.66 NOTE3 0.66 to 1;
 DEFINE RHYTHM rBasic6 NOTE1 0 to 1.00 NOTE2 0.50 to 0.75 NOTE3 0.75 to 1;
 DEFINE RHYTHM rBasic7 NOTE1 0 to 0.25 NOTE2 0.25 to 0.50 NOTE3 0.50 to 0.75 NOTE4 0.75 to 1;
 
-define RHYTHM rFull  NOTE1 0 to 1
+define RHYTHM rFill  NOTE1 0 to 1
 					 NOTE2 0 to 1
 					 NOTE3 0 to 1;
 

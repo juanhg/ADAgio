@@ -65,7 +65,7 @@ public abstract class Instrument{
 		
 	/**
 	 * Transport and AbsoluteMusicNote list that represent a chord to the register of the instrument
-	 * @pre The first note must be the lower note.
+	 * PRECONDITION: The first note must be the lower note.
 	 * @param aNotes List of AbsoluteMusicNote(s) to transport. 
 	 * @return A List of AbsoluteMusicNotes inside (or close, if is not posible inside) the registers of the instrument
 	 */

@@ -7,10 +7,16 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+/**
+ * Linker of Adagio. 
+ * The Linker recollects the definitions that are used in the input program, 
+ *  and includes them in the final program.
+ * @author Juan Hernández
+ */
 public class AdagioLinker {
 
 	static List<Map<String,String>> definitions;
-
 	static String library;
 	static String program;
 
@@ -28,6 +34,12 @@ public class AdagioLinker {
 
 
 
+	/**
+	 * Run the link process.
+	 * @param processedLibrary The library previously processed.
+	 * @param processedPath The proccesed program.
+	 * @return The result of the link process.
+	 */
 	public static String link(String processedLibrary, String processedPath){
 		//Initialization
 		library = processedLibrary;

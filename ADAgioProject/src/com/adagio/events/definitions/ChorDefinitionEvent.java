@@ -8,9 +8,6 @@ import com.adagio.language.bars.chords.intervals.Interval;
 
 public class ChorDefinitionEvent extends EventObject {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2227032302110950669L;
 	
 	ChordIdentifier id;

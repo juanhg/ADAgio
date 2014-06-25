@@ -6,9 +6,6 @@ import com.adagio.language.musicnotes.AbsoluteMusicNote;
 
 public class RelativeStatementEvent extends EventObject {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private AbsoluteMusicNote relativeNote;
 	

@@ -23,11 +23,12 @@ public class LimitedPolyphonicInstrument extends Instrument implements IModel {
 		super(timbre);
 	}
 	
-	@Override
+
 	/**
 	 * Assigns the lower note to the lower register. Later, assing the other notes 
 	 * to the other not-used-registers.
 	 */
+	@Override
 	public List<AbsoluteMusicNote> apply(List<AbsoluteMusicNote> aNotes) {
 		
 		List<AbsoluteMusicNote> aNotesCopy = new ArrayList<AbsoluteMusicNote>();

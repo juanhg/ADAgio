@@ -5,9 +5,10 @@ import org.modelcc.Pattern;
 import org.modelcc.Setup;
 import org.modelcc.Value;
 
-/**
- * If you add new instruments, upgrade "instrumentsTranslation" in the writer
- */
+
+ // IMPORTANT: 
+ // IF YOU ADD NEW INSTRUMENTS, upgrade "instrumentsTranslation" in the writer
+ 
 
 @Pattern(regExp = "(?i)(voice|piano|brightAcoustic|electricGrand|electricPiano|"
 		+ "harpsichord|celesta|glockenspiel|musicBox|vibraphone|marimba|xylophone|"

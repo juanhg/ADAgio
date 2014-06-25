@@ -11,7 +11,7 @@ public abstract class Definition implements IModel {
 
 	/**
 	 * Abstract method to define language's items
-	 * @param data Structure needed to create the LilyPond file
+	 * @param listener Listener of the Music-events
 	 */
 	public abstract void run(MusicEventListener listener);
 

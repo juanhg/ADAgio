@@ -23,11 +23,12 @@ public class MonophonicInstrument extends Instrument implements IModel {
 		super(timbre);
 	}
 	
-	@Override
+
 	/**
 	 * MonophonicInstrument can play ONLY ONE NOTE per time.
 	 * The note chosen (and transported to the register) is the lower
 	 */
+	@Override
 	public List<AbsoluteMusicNote> apply(List<AbsoluteMusicNote> aNotes) {
 		List<AbsoluteMusicNote> aNotesTransported = new ArrayList<AbsoluteMusicNote>();
 		int lowerNoteIndex = AbsoluteMusicNote.lowerNotePosition(aNotes);

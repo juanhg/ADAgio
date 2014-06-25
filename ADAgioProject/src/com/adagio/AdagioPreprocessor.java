@@ -10,15 +10,20 @@ import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Preprocessor of Adagio. 
+ * Makes Alterations in the input program to support the translation process.
+ * @author Juan Hernández 
+ */
 public class AdagioPreprocessor {
 	static String library;
 	static String program;
 	
 	/**
 	 * 
-	 * @param libraryPath path of the main library of the system. (MusicTheory.thm)
-	 * @param programPath
-	 * @return
+	 * @param libraryPath Path of the main library of the system. (MusicTheory.thm)
+	 * @param programPath Original input program path.
+	 * @return the input program processed.
 	 * @throws IOException
 	 */
 	public static String [] preprocess(String libraryPath, String programPath) throws IOException{

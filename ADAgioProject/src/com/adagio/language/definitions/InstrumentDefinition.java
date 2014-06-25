@@ -7,7 +7,6 @@ import org.modelcc.Optional;
 import org.modelcc.Position;
 import org.modelcc.Prefix;
 import org.modelcc.Separator;
-import org.modelcc.Suffix;
 
 import com.adagio.events.MusicEventListener;
 import com.adagio.events.definitions.InstrumentDefinitionEvent;

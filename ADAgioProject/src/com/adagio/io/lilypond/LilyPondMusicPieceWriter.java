@@ -177,8 +177,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 	}
 
 	/**
-	 * Translates all the main program
-	 * @return
+	 * Translates the main program
 	 */
 	@SuppressWarnings("rawtypes")
 	private String translate(){
@@ -414,6 +413,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 	}
 
 	/**
+	 * Returns the tail needed to create the midi file in the translation process
 	 * @return String-tail needed to create the midi file
 	 */
 	private String getMidiTail(){
@@ -474,7 +474,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		return "\\version \"2.16.2\"";
 	}
 
-	/** ----- EVENTS ----- **/
+	// ------ EVENTS -------
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -703,7 +703,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 
 	/**
 	 * Event that occurs when a channel is going to be created.
-	 * @post DISABLES the default channel.
+	 * POSTCONDITION: disables the default channel.
 	 */
 	@Override
 	public void createChannel(ChannelIdentifierEvent e) {
@@ -793,14 +793,6 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 		}
 	}
 
-
-	//	/**
-	//	 * Event that occurs when a translation to AbsoluteMusicNote is needed
-	//	 */
-	//	@Override
-	//	public AbsoluteMusicNote toAbsolute(MusicNoteToAbsoluteEvent e) {
-	//		return e.getNote().toAbsoluteMusicNote(this);
-	//	}
 
 	/**
 	 * Event that looks for a chord in chordsDB
@@ -1044,7 +1036,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 
 
 
-	/** ----- GETTERS & SETTERS  ----- **/
+	// ----- GETTERS & SETTERS  ----- 
 
 
 	public MusicDataBase<ChordIdentifier, List<Interval>> getChordsDB() {
@@ -1056,7 +1048,7 @@ public class LilyPondMusicPieceWriter extends MusicPieceWriter {
 	}
 
 
-	/** ----- OTHERS ----- **/
+	// ----- OTHERS ----- 
 
 	/**
 	 * Display the chord, applying all the intervals to the base note.

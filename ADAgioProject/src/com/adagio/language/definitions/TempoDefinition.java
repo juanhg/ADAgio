@@ -2,7 +2,6 @@ package com.adagio.language.definitions;
 
 import org.modelcc.IModel;
 import org.modelcc.Prefix;
-import org.modelcc.Suffix;
 
 import com.adagio.events.MusicEventListener;
 import com.adagio.events.definitions.TempoDefinitionEvent;
